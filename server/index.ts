@@ -4,12 +4,21 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 4000;
-
-app.get("/test", async(req: Request, res: Response) => {
-  res.json({ message: 'This is from express!' });
-})
 app.use(express.json());
 
+
+app.get("/test", async(req: Request, res: Response) => {
+  res.json({ message: 'Message from express!' });
+})
+
+app.get('/api/vinyls', (req: Request, res: Response) => {
+  const vinyls = [
+    { id: 1, title: 'Dark Side of the Moon', artist: 'Pink Floyd', price: 29.99 },
+    { id: 2, title: 'Abbey Road', artist: 'The Beatles', price: 34.99 }
+  ];
+  res.json(vinyls);
+});
+
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`); // Fixed HTTPS to HTTP
+  console.log(`[server] server is running at http://localhost:${port}`); // Fixed HTTPS to HTTP
 });
