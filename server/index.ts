@@ -22,3 +22,19 @@ app.get('/api/vinyls', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`[server] server is running at http://localhost:${port}`); // Fixed HTTPS to HTTP
 });
+/*
+
+{
+  vinyl_id: 1,
+  image: "",
+  href: "",
+  title: "",
+  artist: "",
+  price: "",
+  old_price: "",
+  sale_label: "",
+  low_stock: "",
+  genre: "",
+}
+
+*/
