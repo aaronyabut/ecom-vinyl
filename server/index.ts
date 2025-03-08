@@ -1,26 +1,30 @@
 import express, { Request, Response} from 'express';
-
 require('dotenv').config();
+const pool = require('../database/db');
 
 const app = express();
 const port = process.env.PORT || 4000;
+
 app.use(express.json());
 
-
-app.get("/test", async(req: Request, res: Response) => {
-  res.json({ message: 'Message from express!' });
-})
-
-app.get('/api/vinyls', (req: Request, res: Response) => {
-  const vinyls = [
-    { id: 1, title: 'Dark Side of the Moon', artist: 'Pink Floyd', price: 29.99 },
-    { id: 2, title: 'Abbey Road', artist: 'The Beatles', price: 34.99 }
-  ];
-  res.json(vinyls);
+// Test endpoint
+app.get('/test', async (req: Request, res: Response) => {
+  res.json({ message: 'Message from Express!' });
 });
 
+// RESTful API: Fetch vinyls from Postgres
+// app.get('/api/vinyls', async (req: Request, res: Response) => {
+//   try {
+//     const { rows } = await pool.query('SELECT * FROM vinyls');
+//     res.json(rows);
+//   } catch (error) {
+//     console.error('Error fetching vinyls:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
 app.listen(port, () => {
-  console.log(`[server] server is running at http://localhost:${port}`); // Fixed HTTPS to HTTP
+  console.log(`[server] Server is running at http://localhost:${port}`);
 });
 /*
 
