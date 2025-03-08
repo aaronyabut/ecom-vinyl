@@ -13,15 +13,15 @@ app.get('/test', async (req: Request, res: Response) => {
 });
 
 // RESTful API: Fetch vinyls from Postgres
-// app.get('/api/vinyls', async (req: Request, res: Response) => {
-//   try {
-//     const { rows } = await pool.query('SELECT * FROM vinyls');
-//     res.json(rows);
-//   } catch (error) {
-//     console.error('Error fetching vinyls:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
+app.get('/api/vinyls', async (req: Request, res: Response) => {
+  try {
+    const { rows } = await pool.query('SELECT * FROM vinyls');
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching vinyls:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 app.listen(port, () => {
   console.log(`[server] Server is running at http://localhost:${port}`);
