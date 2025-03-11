@@ -15,15 +15,16 @@ app.listen(port, () => {
 /*
 Table example
 {
-  vinyl_id: 1,
-  image: "",
-  href: "",
-  title: "",
-  artist: "",
+  product_id: 1,
+  vinyl_img: "",
+  product_href: "",
+  vinyl_title: "",
+  vinyl_artist: "",
   price: "",
   old_price: "",
   sale_label: "",
-  low_stock: "",
+  low_stock_label: "",
   genre: "",
+  vinyl_description: ""
 }
 */
