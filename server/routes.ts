@@ -3,7 +3,7 @@ const vinylController = require('./controller/controller');
 
 const router = express.Router();
 
-router.get('/api/test', vinylController.test);
-router.get('/api/vinyls', vinylController.getAllVinyls);
+router.get('/vinyls', vinylController.getAllVinyls);
+router.get('/test', vinylController.test);
 
 module.exports = router;
