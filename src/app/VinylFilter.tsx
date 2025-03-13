@@ -58,18 +58,16 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
           genres.map((currentGenre:string, i:number) => {
             let genreVal: string = currentGenre.toLowerCase();
             return (
-              <div key={i}>
-                <label htmlFor={genreVal}>
-                  <input
-                    type="checkbox"
-                    name={genreVal}
-                    id={genreVal}
-                    value={genreVal}
-                    onChange={handleCheckboxChange}
-                  />
-                  {currentGenre}
-                </label>
-              </div>
+              <label htmlFor={genreVal} key={i}>
+                <input
+                  type="checkbox"
+                  name={genreVal}
+                  id={genreVal}
+                  value={genreVal}
+                  onChange={handleCheckboxChange}
+                />
+                {currentGenre}
+              </label>
             );
           })
         }
@@ -84,9 +82,9 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
         {vinyls.length === 0 ? (
           <p>No vinyls available.</p>
         ) : (
-          <ul>
+          <div>
             {vinyls.map((vinyl) => (
-              <li key={vinyl.product_id}>
+              <ul key={vinyl.product_id}>
                 <strong>
                   {vinyl.genre.toUpperCase()}:: &nbsp;
                 </strong>
@@ -94,9 +92,9 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
                 {vinyl.old_price && <span> (Was ${vinyl.old_price})</span>}
                 {vinyl.sale_label && <span> - {vinyl.sale_label}</span>}
                 {vinyl.low_stock_label && <span> - {vinyl.low_stock_label}</span>}
-              </li>
+              </ul>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

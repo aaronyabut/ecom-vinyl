@@ -10,7 +10,7 @@
 
   display: grid;
   grid-template-rows: 20px 1fr 20px;
-  // place-items: center; // Shorthand for align-items and justify-items
+  justify-content: center;
   min-height: 100svh;
   padding: clamp(32px, 5vw, 80px); // Responsive padding
   gap: clamp(32px, 4vw, 64px); // Responsive gap
@@ -49,13 +49,13 @@
 
 
   // border-style: solid;
-  // border-radius: 2rem;
-  // border-color: rgb(177, 182, 26);
+  // border-width: .15rem;
+  // border-color: rgb(26, 182, 151);
 }
 
 .mainLayout {
   display: flex;
-  flex-direction: row
+  flex-direction: row;
 
 
 
@@ -67,19 +67,49 @@
 .filter {
   width: 20rem;
 
+  legend {
+    font-weight: bold;
+    font-size: x-large;
+  }
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
 
+  label {
+    padding-block: .8rem;
+    padding-inline: .5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: rgba(255, 253, 129, 0.781);
+      color: black;
+      transition: 0.2s ease-in;
+    }
+
+    // border-style: solid;
+    // border-width: .15rem;
+    // border-color: red;
+  }
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    // cursor: pointer;
+  }
 
   // border-style: solid;
   // border-width: .15rem;
-  // border-color: rgb(26, 114, 182);
+  border-color: transparent;
 }
 
 .products {
   width:55rem;
 
   // border-style: solid;
-  // border-width: .15rem;
-  // border-color: rgb(65, 178, 42);
+  border-width: .15rem;
+  border-color: rgb(65, 178, 42);
 }
 
 // .main ol {
