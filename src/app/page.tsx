@@ -4,8 +4,8 @@ import VinylFilter from './VinylFilter'; // New Client Component
 
 interface Vinyl {
   product_id: number;
-  vinyl_img: string | null;
-  product_href: string | null;
+  vinyl_img: string;
+  product_href: string;
   vinyl_title: string;
   vinyl_artist: string;
   price: number;
@@ -13,12 +13,12 @@ interface Vinyl {
   sale_label: string | null;
   low_stock_label: string | null;
   genre: string;
-  vinyl_description: string | null;
+  vinyl_description: string;
 }
 
 async function getVinyls(): Promise<Vinyl[]> {
   try {
-    const response = await axios.get('http://localhost:4000/vinyls');
+    const response = await axios.get('http://localhost:4000/vinyls'); // Updated
     return response.data;
   } catch (error) {
     console.error('Error fetching vinyls:', error);

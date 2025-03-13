@@ -6,7 +6,10 @@ const routes = require('./routes');
 const app = express();
 const port = process.env.PORT || 4000;
 
+// This enables for cross-origin requests
 app.use(cors());
+
+// This enables API to handle JSON data in POST/PUT requests
 app.use(express.json());
 app.use('/', routes);
 

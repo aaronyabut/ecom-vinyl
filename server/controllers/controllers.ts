@@ -4,7 +4,7 @@ const vinylModel = require('../models/models');
 module.exports = {
   getAllVinyls: async (req: Request, res: Response) => {
     try {
-      const genre = req.query.genre as string | undefined;
+      const genre = req.query.genre;
       const vinyls = await vinylModel.getAllVinyls(genre);
       res.json(vinyls);
     } catch (error) {
