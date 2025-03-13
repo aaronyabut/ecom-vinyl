@@ -51,7 +51,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
   }, [genre]); // Refetch when genre changes
 
   return (
-    <div>
+    <div className={styles.mainLayout}>
       <fieldset className={styles.filter}>
         <legend>Genre</legend>
         {
@@ -80,23 +80,25 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
       <button onClick={()=>console.log(`Current genre array: ${genre}`)}>
         CLICK TO CHECK
       </button> */}
-      {vinyls.length === 0 ? (
-        <p>No vinyls available.</p>
-      ) : (
-        <ul>
-          {vinyls.map((vinyl) => (
-            <li key={vinyl.product_id}>
-              <strong>
-                {vinyl.genre.toUpperCase()}:: &nbsp;
-              </strong>
-              <strong>{vinyl.vinyl_title}</strong> by {vinyl.vinyl_artist} - ${vinyl.price}
-              {vinyl.old_price && <span> (Was ${vinyl.old_price})</span>}
-              {vinyl.sale_label && <span> - {vinyl.sale_label}</span>}
-              {vinyl.low_stock_label && <span> - {vinyl.low_stock_label}</span>}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className={styles.products}>
+        {vinyls.length === 0 ? (
+          <p>No vinyls available.</p>
+        ) : (
+          <ul>
+            {vinyls.map((vinyl) => (
+              <li key={vinyl.product_id}>
+                <strong>
+                  {vinyl.genre.toUpperCase()}:: &nbsp;
+                </strong>
+                <strong>{vinyl.vinyl_title}</strong> by {vinyl.vinyl_artist} - ${vinyl.price}
+                {vinyl.old_price && <span> (Was ${vinyl.old_price})</span>}
+                {vinyl.sale_label && <span> - {vinyl.sale_label}</span>}
+                {vinyl.low_stock_label && <span> - {vinyl.low_stock_label}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
