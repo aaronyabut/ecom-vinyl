@@ -1,3 +1,10 @@
+@mixin border($color) {
+  border-style: solid;
+  border-width: .15rem;
+  border-color: $color;
+}
+
+
 .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
@@ -17,11 +24,10 @@
   font-family: var(--font-geist-sans);
 
 
-
-  // border-style: solid;
-  // border-radius: 2rem;
-  // border-color: rgb(177, 182, 26);
+  @include border(pink);
 }
+
+
 
 @media (prefers-color-scheme: dark) {
   .page {
@@ -40,149 +46,180 @@
   flex-direction: column;
   gap: 2rem; // Using rem for better scalability
   grid-row: 2 / 3; // More specific than grid-row-start
-  width: 100%;
-  max-width: 1200px; // Added max-width for better content control
-  // justify-content: center;
+  // max-width: 1500px; // Added max-width for better content control
+  max-width: 100%;
+  width: 1425px;
   align-items: center;
 
-
-
-
-  // border-style: solid;
-  // border-width: .15rem;
-  // border-color: rgb(26, 182, 151);
+  // @include border(blue);
 }
 
 .mainLayout {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  gap: 1.85rem;
 
-
-
-  // border-style: solid;
-  // border-width: .15rem;
-  // border-color: rgb(177, 182, 26);
+  // @include border(white);
 }
 
 .filter {
-  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  width: 14.5rem;
+  padding: 1rem;
+  background-color: #2222223b;
+
+  // @include border(blue);
+  // border-color: transparent;
 
   legend {
     font-weight: bold;
     font-size: x-large;
+    // @include border(blue);
   }
-  display: flex;
-  flex-direction: column;
-  // justify-content: center;
 
   label {
+    display: flex;
     padding-block: .8rem;
     padding-inline: .5rem;
     cursor: pointer;
-    display: flex;
-    align-items: center;
+    border-radius: 5px;
 
+    // @include border(blue);
     &:hover {
-      background-color: rgba(255, 253, 129, 0.781);
+      background-color: rgba(255, 209, 129, 0.781);
       color: black;
       transition: 0.2s ease-in;
     }
-
-    // border-style: solid;
-    // border-width: .15rem;
-    // border-color: red;
   }
+
   input[type="checkbox"] {
     width: 20px;
     height: 20px;
     margin-right: 12px;
-    // cursor: pointer;
+    cursor: pointer;
   }
+}
 
-  // border-style: solid;
-  // border-width: .15rem;
-  border-color: transparent;
+@mixin vinylTag ($color) {
+  position: absolute;
+  top: 8px;
+  right: 13px;
+  background-color: $color;
+  padding-inline: .6rem;
+  padding-block: .05rem;
+  border-radius: 30px;
+  color: black;
+  font-size: small;
+  font-weight: bolder;
+  filter: drop-shadow(3px 3px 6px #00000048);
+
+  display: flex;
+  align-items: center;
+  gap: .5rem;
 }
 
 .products {
   width:55rem;
 
-  // border-style: solid;
-  border-width: .15rem;
-  border-color: rgb(65, 178, 42);
+  // @include border(red);
+  .vinylContainer {
+    width: 100%;
+    // background-color: yellow;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 1.45rem; // Using rem for better scalability
+
+    // @include border(rgb(255, 217, 0));
+  }
+  .vinyl {
+    width: 17rem;
+    position: relative;
+
+    // @include border(rgb(0, 123, 255));
+    .image {
+      overflow: hidden;
+      object-fit: cover;
+
+      // @include border(red)
+    }
+
+    .title {
+      color: rgb(255, 255, 255);
+      font-weight: normal;
+      font-size: 25px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      // @include border(blue);
+    }
+    .title > span {
+      font-weight: normal;
+      color: rgb(255, 255, 255);
+      font-size: 20px;
+    }
+
+    .sale {
+      .saleLabel{
+        color: rgb(0, 204, 167);
+        font-size: 1.25rem;
+      }
+      @include vinylTag(rgb(229, 249, 247));
+    }
+
+    .lowStock {
+      // @include border(rgb(0, 123, 255));
+      .lowStockLabel{
+        color: #b63a39;
+        font-size: 1.25rem;
+      }
+      @include vinylTag(rgb(247, 235, 235))
+    }
+
+    .priceContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      // @include border(yellow);
+
+      .vinylLabel {
+        font-size: small;
+        border-style: solid;
+        border-width: .1rem;
+        border-color: white;
+        padding-block: .2rem;
+        padding-inline: .6rem;
+        border-radius: 30px;
+      };
+
+      .oldPrice {
+        font-family: 'EuroStyle', sans-serif;;
+        color: #a8a8a8;
+        font-size: 1.2rem;
+        // color: rgb(179, 174, 227);
+      };
+
+      .price {
+        font-family: 'Eurostile Extended', sans-serif;;
+        color: rgb(18, 180, 149);
+        font-weight: 700;
+        // color: rgb(179, 174, 227);
+      }
+    }
+  }
 }
 
-// .main ol {
-//   font-family: var(--font-geist-mono);
-//   padding: 0;
-//   margin: 0;
-//   font-size: 0.875rem; // Using rem
-//   line-height: 1.5; // Unitless line-height
-//   letter-spacing: -0.01em;
-//   list-style-position: inside;
-//   justify-content: center;
-//   align-items: center;
-//   border-style: solid;
-//   border-radius: 2rem;
-//   border-color: rgb(177, 182, 26);
-// }
-
-// .main li:not(:last-child) { // More standard pseudo-class
-//   margin-bottom: 0.5rem;
-// }
-
-// .main code {
-//   font-family: inherit;
-//   background: var(--gray-alpha-100);
-//   padding: 0.125rem 0.25rem;
-//   border-radius: 4px;
-//   font-weight: 600;
-//   border-style: solid;
-//   border-radius: 2rem;
-//   border-color: rgb(177, 182, 26);
-// }
-
-// .ctas {
-//   display: flex;
-//   gap: 1rem;
-//   flex-wrap: wrap; // Added for better responsiveness
-//   justify-content: center;
-// }
-
-// .ctas a {
-//   appearance: none;
-//   border-radius: 128px;
-//   height: 3rem;
-//   padding: 0 1.25rem;
-//   border: 1px solid transparent;
-//   transition: all 0.2s ease; // Simplified transition
-//   cursor: pointer;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 1rem;
-//   line-height: 1.25;
-//   font-weight: 500;
-//   text-decoration: none; // Added for consistency
-// }
-
-// a.primary {
-//   background: var(--foreground);
-//   color: var(--background);
-//   gap: 0.5rem;
-// }
-
-// a.secondary {
-//   border-color: var(--gray-alpha-200);
-//   min-width: 11.25rem;
-// }
 
 .footer {
   grid-row: 3 / 4;
   display: flex;
+  justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .footer a {

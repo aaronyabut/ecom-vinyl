@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './page.module.scss';
+import Image from 'next/image';
 
 interface Vinyl {
   product_id: number;
@@ -52,7 +53,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
 
   return (
     <div className={styles.mainLayout}>
-      <fieldset className={styles.filter}>
+      <div className={styles.filter}>
         <legend>Genre</legend>
         {
           genres.map((currentGenre:string, i:number) => {
@@ -71,7 +72,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
             );
           })
         }
-      </fieldset>
+      </div>
       {/* <button onClick={()=>setGenre([])}>
         RESET FILTER
       </button>
@@ -82,17 +83,40 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
         {vinyls.length === 0 ? (
           <p>No vinyls available.</p>
         ) : (
-          <div>
+          <div className={styles.vinylContainer}>
             {vinyls.map((vinyl) => (
-              <ul key={vinyl.product_id}>
-                <strong>
-                  {vinyl.genre.toUpperCase()}:: &nbsp;
-                </strong>
-                <strong>{vinyl.vinyl_title}</strong> by {vinyl.vinyl_artist} - ${vinyl.price}
-                {vinyl.old_price && <span> (Was ${vinyl.old_price})</span>}
-                {vinyl.sale_label && <span> - {vinyl.sale_label}</span>}
-                {vinyl.low_stock_label && <span> - {vinyl.low_stock_label}</span>}
-              </ul>
+              <div key={vinyl.product_id} className={styles.vinyl}>
+                <Image
+                  src={vinyl.vinyl_img}
+                  width={267}
+                  height={267}
+                  alt='Test'
+                  className={styles.image}
+                />
+                <p><strong>{vinyl.genre.toUpperCase()}</strong></p>
+                <p className={styles.title} ><span><strong>{vinyl.vinyl_title}</strong></span></p>
+                <p>{vinyl.vinyl_artist}</p>
+                <div className={styles.priceContainer}>
+                  {vinyl.old_price &&
+                    <span className={styles.oldPrice}><s>${vinyl.old_price}</s></span>}
+                  <span className={styles.price}>{" "}${vinyl.price}</span>
+                  <span className={styles.vinylLabel}>VINYL</span>
+                </div>
+                {
+                  vinyl.sale_label &&
+                  <span className={styles.sale}>
+                    <span className={styles.saleLabel}>&#x2022; </span>
+                    {vinyl.sale_label}
+                  </span>
+                }
+                {
+                  vinyl.low_stock_label &&
+                  <span className={styles.lowStock}>
+                    <span className={styles.lowStockLabel}>&#x2022; </span>
+                    {vinyl.low_stock_label}
+                  </span>
+                }
+              </div>
             ))}
           </div>
         )}
