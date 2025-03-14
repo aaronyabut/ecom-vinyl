@@ -25,16 +25,27 @@ const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop
 export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] }) {
   const [vinyls, setVinyls] = useState(initialVinyls);
   const [genre, setGenre] = useState<string[]>([]);
+  const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown
+
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev); // Toggle open/closed on click
+  };
 
   const handleCheckboxChange = (e:any) => {
     const value:any = e.target.value;
     const checked:any = e.target.checked;
+
+    console.log(checked)
 
     if (checked) {
       setGenre([...genre, value])
     } else {
       setGenre(genre.filter(item => item !== value))
     }
+  }
+
+  const handleFilterReset = (e:any) => {
+
   }
 
   useEffect(() => {
@@ -57,27 +68,27 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
     <div className={styles.mainLayout}>
       <div className={styles.filter}>
         <div className={styles.filterHeaders}>
-          <span>
-          Filter by
-          </span>
-          <span className={styles.resetAll}>
-            Reset all
-          </span>
+          <span>Filter by</span>
+          <span className={styles.resetAll}><button>Reset all</button></span>
         </div>
-        <div className={styles.legendWrapper}>
+        <div
+          className={`${styles.legendWrapper} ${isOpen ? styles.active : ''}`}
+          onClick={toggleDropdown}
+        >
           <legend>Genre</legend>
           <Image
             src={UpIcon}
             width={15}
             height={15}
-            alt='Up icon'
+            alt="arrow icon"
+            className={isOpen ? styles.rotateIcon : styles.rotateIcon2}
           />
         </div>
-        {
-          genres.map((currentGenre:string, i:number) => {
+        <div className={`${styles.genreList} ${isOpen ? styles.open : ''}`}>
+          {genres.map((currentGenre: string, i: number) => {
             let genreVal: string = currentGenre.toLowerCase();
             return (
-              <label htmlFor={genreVal} key={i}>
+              <div className={styles.checkboxWrapper} key={i}>
                 <input
                   type="checkbox"
                   name={genreVal}
@@ -85,16 +96,17 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
                   value={genreVal}
                   onChange={handleCheckboxChange}
                 />
-                {currentGenre}
-              </label>
+                <label htmlFor={genreVal}>{currentGenre}</label>
+              </div>
             );
-          })
-        }
+          })}
+        </div>
+        <div className={styles.stock}>Show only in stock</div>
       </div>
       {/* <button onClick={()=>setGenre([])}>
         RESET FILTER
-      </button>
-      <button onClick={()=>console.log(`Current genre array: ${genre}`)}>
+      </button> */}
+      {/* <button onClick={()=>console.log(`Current genre array: ${genre}`)}>
         CLICK TO CHECK
       </button> */}
       <div className={styles.products}>

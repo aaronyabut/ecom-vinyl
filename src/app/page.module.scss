@@ -77,18 +77,27 @@ $accent-color: rgb(0, 204, 167);
   display: flex;
   flex-direction: column;
   width: 17.9rem;
-  // background-color: rgb(45, 45, 45);
 
   .filterHeaders {
     display: flex;
     justify-content: space-between;
-    padding-bottom: .5rem;
+    padding-bottom: 0.5rem;
     background-color: transparent;
     font-size: large;
     color: rgb(168, 168, 168);
+
     .resetAll {
       color: $accent-color;
       cursor: pointer;
+      button, input[type="submit"], input[type="reset"] {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+      }
     }
   }
 
@@ -96,60 +105,114 @@ $accent-color: rgb(0, 204, 167);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(113, 113, 113);
-    padding: .5rem;
+    background-color: rgb(50, 50, 50);
+    padding: 0.5rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgb(80, 80, 80);
+    }
+
+    &.active {
+      background-color: rgb(113, 113, 113);
+      &:hover {
+        background-color: rgb(113, 113, 113);
+      }
+    }
 
     legend {
       font-size: large;
     }
-  }
 
-  label {
-    display: flex;
-    padding-block: 0.7rem;
-    padding-inline: 0.5rem;
-    cursor: pointer;
-    // border-radius: 5px;
-    background-color: rgb(45, 45, 45);
-    // @include border(blue);
-
-    &:hover {
-      color: $accent-color; // Label text changes on hover (already works)
+    .rotateIcon {
+      transform: rotate(0deg);
+      transition: transform 0.3s ease;
+    }
+    .rotateIcon2 {
+      transform: rotate(-180deg);
+      transition: transform 0.3s ease;
     }
   }
 
-  input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-    cursor: pointer;
-    appearance: none;
-    border: 2px solid #fff;
-    background-color: rgb(45, 45, 45);
-    position: relative;
-    //Change border to accent color
-    &:hover {
-      border-color: $accent-color;
+  .genreList {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+
+    &.open {
+      max-height: 500px;
     }
-    // Checkedbox styled when clicked
-    &:checked {
+
+    .checkboxWrapper {
+      display: flex;
+      padding-block: 0.7rem;
+      padding-inline: 0.5rem;
       background-color: rgb(45, 45, 45);
-      border-color: $accent-color;
-      // Add a custom checkmark using ::after
-      &::after {
-        content: '\2713';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: $accent-color;
-        font-size: 14px;
-        font-weight: bold;
+      cursor: pointer; // Make the whole wrapper clickable
+      // @include border(pink);
+      label {
+        cursor: pointer;
+        color: #fff; // Default color
+        transition: color 0.3s ease;
+        width: 100%; // Full width for click area
+      }
+
+      input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        cursor: pointer;
+        appearance: none;
+        border: 2px solid #fff;
+        background-color: rgb(45, 45, 45);
+        position: relative;
+        transition: border-color 0.3s ease, background-color 0.3s ease; // Smooth transitions
+
+        &:hover {
+          border-color: $accent-color;
+        }
+
+        &:checked {
+          background-color: rgb(45, 45, 45);
+          border-color: $accent-color;
+
+          &::after {
+            content: '\2713';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: $accent-color;
+            font-size: 14px;
+            font-weight: bold;
+          }
+
+          + label {
+            color: $accent-color;
+          }
+        }
+      }
+
+      &:hover {
+        label {
+          color: $accent-color; // Label text on hover
+        }
+        input[type="checkbox"] {
+          border-color: $accent-color; // Checkbox border on wrapper hover
+        }
       }
     }
   }
+
+  .stock {
+    background-color: rgb(50, 50, 50);
+    margin-top: 14px;
+    font-size: large;
+    padding: 0.5rem;
+  }
 }
+
 
 @mixin vinylTag ($color) {
   position: absolute;
