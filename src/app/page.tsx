@@ -32,7 +32,7 @@ export default async function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1>Vinyl Store</h1>
+        <div className={styles.mainTitle}>SHOP VINYL</div>
         <VinylFilter initialVinyls={initialVinyls} />
       </main>
     </div>

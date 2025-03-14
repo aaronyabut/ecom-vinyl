@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './page.module.scss';
 import Image from 'next/image';
+import WishlistIcon from '../../public/wishlist-heart.svg';
+import UpIcon from '../../public/up-icon.svg'
 
 interface Vinyl {
   product_id: number;
@@ -54,7 +56,23 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
   return (
     <div className={styles.mainLayout}>
       <div className={styles.filter}>
-        <legend>Genre</legend>
+        <div className={styles.filterHeaders}>
+          <span>
+          Filter by
+          </span>
+          <span className={styles.resetAll}>
+            Reset all
+          </span>
+        </div>
+        <div className={styles.legendWrapper}>
+          <legend>Genre</legend>
+          <Image
+            src={UpIcon}
+            width={15}
+            height={15}
+            alt='Up icon'
+          />
+        </div>
         {
           genres.map((currentGenre:string, i:number) => {
             let genreVal: string = currentGenre.toLowerCase();
@@ -86,20 +104,38 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
           <div className={styles.vinylContainer}>
             {vinyls.map((vinyl) => (
               <div key={vinyl.product_id} className={styles.vinyl}>
-                <Image
-                  src={vinyl.vinyl_img}
-                  width={267}
-                  height={267}
-                  alt='Test'
-                  className={styles.image}
-                />
-                <p><strong>{vinyl.genre.toUpperCase()}</strong></p>
+                <div className={styles.imageWrapper}>
+                  <div className={styles.wishlist}>
+                    <Image
+                      src={WishlistIcon}
+                      alt='test'
+                      width={25}
+                      height={25}
+                      className={styles.iconImage}
+                    />
+                  </div>
+                  <Image
+                    src={vinyl.vinyl_img}
+                    width={267}
+                    height={267}
+                    alt='Test'
+                    className={styles.image}
+                  />
+                  <div className={styles.toCart}>
+                    ADD TO CART
+                  </div>
+                </div>
+                {/* THIS IS FOR ME TO INDICATE FILTER WORKING */}
+                {/* <p><strong>{vinyl.genre.toUpperCase()}</strong></p> */}
                 <p className={styles.title} ><span><strong>{vinyl.vinyl_title}</strong></span></p>
                 <p>{vinyl.vinyl_artist}</p>
                 <div className={styles.priceContainer}>
-                  {vinyl.old_price &&
-                    <span className={styles.oldPrice}><s>${vinyl.old_price}</s></span>}
-                  <span className={styles.price}>{" "}${vinyl.price}</span>
+                  <div>
+                    {vinyl.old_price &&
+                      <span className={styles.oldPrice}><s>${vinyl.old_price}</s></span>
+                    }
+                    <span className={styles.price}>{" "}${vinyl.price}</span>
+                  </div>
                   <span className={styles.vinylLabel}>VINYL</span>
                 </div>
                 {
