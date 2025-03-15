@@ -44,9 +44,18 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
     }
   }
 
-  const handleFilterReset = (e:any) => {
+  const handleresetAll = () => {
+    genres.forEach((currentGenre: string) => {
+      const genreVal = currentGenre.toLowerCase();
+      const checkbox = document.getElementById(genreVal) as HTMLInputElement;
+      if (checkbox && checkbox.checked) {
+        checkbox.checked = false;
+        handleCheckboxChange({ target: checkbox }); // Trigger handler for each unchecked box
+      }
+    });
+    setGenre([])
+  };
 
-  }
 
   useEffect(() => {
     async function fetchFilteredVinyls() {
@@ -69,7 +78,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
       <div className={styles.filter}>
         <div className={styles.filterHeaders}>
           <span>Filter by</span>
-          <span className={styles.resetAll}><button>Reset all</button></span>
+          <span className={styles.resetAll}><button onClick={handleresetAll}>Reset all</button></span>
         </div>
         <div
           className={`${styles.legendWrapper} ${isOpen ? styles.active : ''}`}
@@ -102,6 +111,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
           })}
         </div>
         <div className={styles.stock}>Show only in stock</div>
+        <div className={styles.forChecking} onClick={()=>console.log(`Current genre array: ${genre}`)}>Check console</div>
       </div>
       {/* <button onClick={()=>setGenre([])}>
         RESET FILTER
