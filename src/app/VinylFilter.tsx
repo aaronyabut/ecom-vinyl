@@ -84,13 +84,16 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
           className={`${styles.legendWrapper} ${isOpen ? styles.active : ''}`}
           onClick={toggleDropdown}
         >
-          <legend>Genre</legend>
+          <legend className={`${genre.length && styles.contained2}`}>
+            Genre {`${genre.length ? `(${genre.length})`: ''}`}
+          </legend>
+
           <Image
             src={UpIcon}
             width={15}
             height={15}
             alt="arrow icon"
-            className={isOpen ? styles.rotateIcon : styles.rotateIcon2}
+            className={`${isOpen ? styles.rotateIcon : styles.rotateIcon2} ${genre.length && styles.contained}`}
           />
         </div>
         <div className={`${styles.genreList} ${isOpen ? styles.open : ''}`}>

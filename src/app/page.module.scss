@@ -123,15 +123,23 @@ $accent-color: rgb(0, 204, 167);
 
     legend {
       font-size: large;
+      // color:
     }
 
     .rotateIcon {
       transform: rotate(0deg);
       transition: transform 0.3s ease;
+      // filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
     }
     .rotateIcon2 {
       transform: rotate(-180deg);
       transition: transform 0.3s ease;
+    }
+    .contained {
+      filter: invert(70%) sepia(160%) saturate(1800%) hue-rotate(150deg) brightness(125%) contrast(110%);
+    }
+    .contained2 {
+      color:$accent-color;
     }
   }
 
