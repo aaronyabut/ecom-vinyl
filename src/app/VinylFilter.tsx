@@ -25,17 +25,22 @@ const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop
 export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] }) {
   const [vinyls, setVinyls] = useState(initialVinyls);
   const [genre, setGenre] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [stock, setStock] = useState<boolean>(true);
 
   const toggleDropdown = () => {
-    setIsOpen((prev) => !prev); // Toggle open/closed on click
+    setIsOpen((prev) => !prev);
   };
+
+  const handleCheckboxChange2 = (e:any) => {
+    setStock(!stock);
+  }
 
   const handleCheckboxChange = (e:any) => {
     const value:any = e.target.value;
     const checked:any = e.target.checked;
 
-    console.log(checked)
+    // console.log(checked)
 
     if (checked) {
       setGenre([...genre, value])
@@ -113,8 +118,25 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
             );
           })}
         </div>
-        <div className={styles.stock}>Show only in stock</div>
-        <div className={styles.forChecking} onClick={()=>console.log(`Current genre array: ${genre}`)}>Check console</div>
+        <div className={styles.stock}>
+          <div>
+            Show only in stock
+          </div>
+          <label className={`${styles.toggle} ${stock ? styles.checked : ''}`}>
+            <input
+              type="checkbox"
+              checked={stock}
+              onChange={handleCheckboxChange2}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
+        <div className={styles.forChecking}
+          // onClick={()=>alert(`Current genre array: [${genre}]`)}
+          onClick={()=>alert(`Current stock: ${stock}`)}
+        >
+          Check current
+        </div>
       </div>
       {/* <button onClick={()=>setGenre([])}>
         RESET FILTER
@@ -143,12 +165,26 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
                     src={vinyl.vinyl_img}
                     width={267}
                     height={267}
-                    alt='Test'
+                    alt={`${vinyl.vinyl_title} by ${vinyl.vinyl_artist}`}
                     className={styles.image}
                   />
                   <div className={styles.toCart}>
                     ADD TO CART
                   </div>
+                  {
+                    vinyl.sale_label &&
+                    <span className={styles.sale}>
+                      <span className={styles.saleLabel}>&#x2022; </span>
+                      {vinyl.sale_label}
+                    </span>
+                  }
+                  {
+                    vinyl.low_stock_label &&
+                    <span className={styles.lowStock}>
+                      <span className={styles.lowStockLabel}>&#x2022; </span>
+                      {vinyl.low_stock_label}
+                    </span>
+                  }
                 </div>
                 {/* THIS IS FOR ME TO INDICATE FILTER WORKING */}
                 {/* <p><strong>{vinyl.genre.toUpperCase()}</strong></p> */}
@@ -163,20 +199,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
                   </div>
                   <span className={styles.vinylLabel}>VINYL</span>
                 </div>
-                {
-                  vinyl.sale_label &&
-                  <span className={styles.sale}>
-                    <span className={styles.saleLabel}>&#x2022; </span>
-                    {vinyl.sale_label}
-                  </span>
-                }
-                {
-                  vinyl.low_stock_label &&
-                  <span className={styles.lowStock}>
-                    <span className={styles.lowStockLabel}>&#x2022; </span>
-                    {vinyl.low_stock_label}
-                  </span>
-                }
+
               </div>
             ))}
           </div>
