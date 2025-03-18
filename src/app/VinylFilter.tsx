@@ -4,7 +4,7 @@ import axios from 'axios';
 import styles from './page.module.scss';
 import Image from 'next/image';
 import WishlistIcon from '../../public/wishlist-heart.svg';
-import UpIcon from '../../public/up-icon.svg'
+import ArrowIcon from '../../public/arrow-icon.svg'
 
 interface Vinyl {
   product_id: number;
@@ -25,22 +25,26 @@ const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop
 export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] }) {
   const [vinyls, setVinyls] = useState(initialVinyls);
   const [genre, setGenre] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenGenre, setIsOpenGenre] = useState<boolean>(false);
+  const [isOpenArtist, setIsOpenArtist] = useState<boolean>(false);
+  const [isOpenPrice, setIsOpenPrice] = useState<boolean>(false);
   const [stock, setStock] = useState<boolean>(true);
+  const [sale, setSale] = useState<boolean>(false);
 
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
+  const toggleDropdown = (setState: any) => {
+    setState((prev:any) => !prev);
   };
 
-  const handleCheckboxChange2 = (e:any) => {
+  const handleCheckboxStock = (e:any) => {
     setStock(!stock);
+  }
+  const handleCheckboxSale = (e:any) => {
+    setSale(!sale);
   }
 
   const handleCheckboxChange = (e:any) => {
     const value:any = e.target.value;
     const checked:any = e.target.checked;
-
-    // console.log(checked)
 
     if (checked) {
       setGenre([...genre, value])
@@ -58,7 +62,9 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
         handleCheckboxChange({ target: checkbox }); // Trigger handler for each unchecked box
       }
     });
-    setGenre([])
+    setGenre([]);
+    setStock(true);
+    setSale(false);
   };
 
 
@@ -86,22 +92,22 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
           <span className={styles.resetAll}><button onClick={handleresetAll}>Reset all</button></span>
         </div>
         <div
-          className={`${styles.legendWrapper} ${isOpen ? styles.active : ''}`}
-          onClick={toggleDropdown}
+          className={`${styles.genreStyling} ${isOpenGenre ? styles.active : ''}`}
+          onClick={()=>toggleDropdown(setIsOpenGenre)}
         >
           <legend className={`${genre.length && styles.contained2}`}>
             Genre {`${genre.length ? `(${genre.length})`: ''}`}
           </legend>
 
           <Image
-            src={UpIcon}
+            src={ArrowIcon}
             width={15}
             height={15}
             alt="arrow icon"
-            className={`${isOpen ? styles.rotateIcon : styles.rotateIcon2} ${genre.length && styles.contained}`}
+            className={`${isOpenGenre ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
           />
         </div>
-        <div className={`${styles.genreList} ${isOpen ? styles.open : ''}`}>
+        <div className={`${styles.genreList} ${isOpenGenre && styles.open}`}>
           {genres.map((currentGenre: string, i: number) => {
             let genreVal: string = currentGenre.toLowerCase();
             return (
@@ -118,6 +124,48 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
             );
           })}
         </div>
+        <div
+          // className={`${styles.artistStyling}`}
+          className={`${styles.artistStyling} ${isOpenArtist && styles.active}`}
+          onClick={()=>toggleDropdown(setIsOpenArtist)}
+        >
+          <legend>
+            Artist
+          </legend>
+          <Image
+            src={ArrowIcon}
+            width={15}
+            height={15}
+            alt="arrow icon"
+            className={`${isOpenArtist ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
+          />
+        </div>
+        <div className={`${styles.artistInputContainer} ${isOpenArtist && styles.open}`}>
+          <div className={styles.artistInputWrapper}>
+            <input
+              type='text'
+              placeholder='Artist name'
+            />
+            <button className={styles.artistSearch}>
+              Search
+            </button>
+          </div>
+        </div>
+        <div
+          className={`${styles.priceStyling} ${isOpenPrice && styles.active}`}
+          onClick={()=>toggleDropdown(setIsOpenPrice)}
+        >
+          <legend>
+            Price
+          </legend>
+          <Image
+            src={ArrowIcon}
+            width={15}
+            height={15}
+            alt="arrow icon"
+            className={`${isOpenPrice ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
+          />
+        </div>
         <div className={styles.stock}>
           <div>
             Show only in stock
@@ -126,7 +174,20 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
             <input
               type="checkbox"
               checked={stock}
-              onChange={handleCheckboxChange2}
+              onChange={handleCheckboxStock}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
+        <div className={styles.stock}>
+          <div>
+            Show only on sale
+          </div>
+          <label className={`${styles.toggle} ${sale ? styles.checked : ''}`}>
+            <input
+              type="checkbox"
+              checked={sale}
+              onChange={handleCheckboxSale}
             />
             <span className={styles.slider}></span>
           </label>
