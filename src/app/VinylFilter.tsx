@@ -21,6 +21,11 @@ interface Vinyl {
   vinyl_description: string;
 }
 
+const checkCurrent: string = "sale"
+
+const MIN:number = 4;
+const MAX:number = 1000;
+
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop']
 
 export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] }) {
@@ -31,6 +36,11 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
   const [isOpenPrice, setIsOpenPrice] = useState<boolean>(false);
   const [stock, setStock] = useState<boolean>(true);
   const [sale, setSale] = useState<boolean>(false);
+
+
+
+  const [minValue, setMinValue] = useState<number>(MIN);
+  const [maxValue, setMaxValue] = useState<number>(MAX);
 
   const toggleDropdown = (setState: any) => {
     setState((prev:any) => !prev);
@@ -72,9 +82,12 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
   useEffect(() => {
     async function fetchFilteredVinyls() {
       try {
-        const url = genre.length
+        let url = genre.length
           ? `http://localhost:4000/vinyls?${genre.map(g => `genre=${g}`).join('&')}`
           : 'http://localhost:4000/vinyls';
+        // url = sale && url += "";
+
+        console.log(url);
         const response = await axios.get(url);
         setVinyls(response.data);
       } catch (error) {
@@ -83,7 +96,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
       }
     }
     fetchFilteredVinyls();
-  }, [genre]); // Refetch when genre changes
+  }, [genre, sale]); // Refetch when genre changes
 
   return (
     <div className={styles.mainLayout}>
@@ -168,21 +181,14 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
           />
         </div>
         <div className={`${styles.priceContainer} ${isOpenPrice && styles.open}`}>
-          {/* <div className={styles.priceInputWrapper}>
-            <input
-              type='text'
-            />
-            <div>To</div>
-            <input
-              type='text'
-              />
-          </div>
-          <div className={styles.priceRangeWrapper}>
-            <input
-              type='range'
-            />
-          </div> */}
-          <DualRangeSlider />
+          <DualRangeSlider
+            setMinValue={setMinValue}
+            setMaxValue={setMaxValue}
+            minValue={minValue}
+            maxValue={maxValue}
+            MIN={MIN}
+            MAX={MAX}
+          />
         </div>
         <div className={styles.stock}>
           <div>
@@ -211,18 +217,11 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
           </label>
         </div>
         <div className={styles.forChecking}
-          // onClick={()=>alert(`Current genre array: [${genre}]`)}
-          onClick={()=>alert(`Current stock: ${stock}`)}
+          onClick={()=>alert(`${checkCurrent.toUpperCase()}: ${sale}`)}
         >
-          Check current
+          Check current: [{checkCurrent.toUpperCase()}]
         </div>
       </div>
-      {/* <button onClick={()=>setGenre([])}>
-        RESET FILTER
-      </button> */}
-      {/* <button onClick={()=>console.log(`Current genre array: ${genre}`)}>
-        CLICK TO CHECK
-      </button> */}
       <div className={styles.products}>
         {vinyls.length === 0 ? (
           <p>No vinyls available.</p>
@@ -278,7 +277,6 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
                   </div>
                   <span className={styles.vinylLabel}>VINYL</span>
                 </div>
-
               </div>
             ))}
           </div>

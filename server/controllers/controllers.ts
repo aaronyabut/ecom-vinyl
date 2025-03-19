@@ -5,7 +5,6 @@ module.exports = {
   getAllVinyls: async (req: Request, res: Response) => {
     try {
       const genre = req.query.genre;
-      // console.log("contr", genre)
       const vinyls = await vinylModel.getAllVinyls(genre);
       res.json(vinyls);
     } catch (error) {

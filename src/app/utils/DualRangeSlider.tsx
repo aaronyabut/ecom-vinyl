@@ -1,14 +1,23 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './DualRangeSlider.module.scss';
 
-const DualRangeSlider = () => {
-  const MIN = 4;
-  const MAX = 1000;
+interface DualRangeSliderProps {
+  setMinValue:React.Dispatch<React.SetStateAction<number>>,
+  setMaxValue:React.Dispatch<React.SetStateAction<number>>,
+  minValue: number,
+  maxValue: number,
+  MAX: number,
+  MIN: number
+}
 
-  const [minValue, setMinValue] = useState(MIN);
-  const [maxValue, setMaxValue] = useState(MAX);
+const DualRangeSlider = ({setMinValue,setMaxValue,minValue,maxValue,MIN,MAX}: DualRangeSliderProps) => {
+  // const MIN = 4;
+  // const MAX = 1000;
+
+  // const [minValue, setMinValue] = useState(MIN);
+  // const [maxValue, setMaxValue] = useState(MAX);
 
   const rangeRef = useRef<HTMLDivElement>(null);
 
