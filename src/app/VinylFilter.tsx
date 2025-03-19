@@ -5,6 +5,7 @@ import styles from './page.module.scss';
 import Image from 'next/image';
 import WishlistIcon from '../../public/wishlist-heart.svg';
 import ArrowIcon from '../../public/arrow-icon.svg'
+import DualRangeSlider from './utils/DualRangeSlider';
 
 interface Vinyl {
   product_id: number;
@@ -146,7 +147,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
               type='text'
               placeholder='Artist name'
             />
-            <button className={styles.artistSearch}>
+            <button className={styles.artistSearchButton}>
               Search
             </button>
           </div>
@@ -165,6 +166,23 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
             alt="arrow icon"
             className={`${isOpenPrice ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
           />
+        </div>
+        <div className={`${styles.priceContainer} ${isOpenPrice && styles.open}`}>
+          {/* <div className={styles.priceInputWrapper}>
+            <input
+              type='text'
+            />
+            <div>To</div>
+            <input
+              type='text'
+              />
+          </div>
+          <div className={styles.priceRangeWrapper}>
+            <input
+              type='range'
+            />
+          </div> */}
+          <DualRangeSlider />
         </div>
         <div className={styles.stock}>
           <div>
