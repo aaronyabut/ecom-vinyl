@@ -1,9 +1,18 @@
 $accent-color: rgb(0, 204, 167);
 
+@mixin border($color) {
+  border-style: solid;
+  border-width: .15rem;
+  border-color: $color;
+}
+
 .sliderContainer {
   width: 100%;
   max-width: 500px;
-  padding: 20px;
+  padding-inline: 10px;
+  padding-top: 15px;
+
+  // @include border(red);
 }
 
 .inputContainer {
@@ -11,20 +20,22 @@ $accent-color: rgb(0, 204, 167);
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  // background-color: #ccc;
+  // @include border(red);
 
   .valueInput {
-    width: 80px;
+    width: 90px;
+    height: 40px;
     padding: 8px;
-    background-color: #ffffff;
+    background-color: rgb(58, 58, 58);
     border: 0px;
     border-radius: 5px;
     font-size: 16px;
-    color: black;
+
+    @include border(transparent);
 
     &:focus {
       outline: none;
-      // border-color: $accent-color;
+      @include border($accent-color);
     }
   }
 }
@@ -33,6 +44,7 @@ $accent-color: rgb(0, 204, 167);
   position: relative;
   height: 3px;
   margin: 20px 0;
+
 
   .track {
     position: absolute;
@@ -49,6 +61,7 @@ $accent-color: rgb(0, 204, 167);
     background: $accent-color;
     border-radius: 5px;
     z-index: 2;
+
   }
 
   .thumb {
@@ -70,7 +83,7 @@ $accent-color: rgb(0, 204, 167);
       appearance: none;
       pointer-events: auto;
       // border: 2px solid #fff;
-      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+      // box-shadow: 0 0 2px rgba(0,0,0,0.3);
     }
 
     &::-moz-range-thumb {
@@ -81,11 +94,12 @@ $accent-color: rgb(0, 204, 167);
       cursor: pointer;
       pointer-events: auto;
       border: none;
-      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+      // box-shadow: 0 0 2px rgba(0,0,0,0.3);
     }
 
     &:focus {
       outline: none;
+      // @include border(yellow);
     }
   }
 }
