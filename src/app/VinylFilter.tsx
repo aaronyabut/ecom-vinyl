@@ -97,17 +97,15 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         if (sale) conditions.push(`sale=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
 
-        // if (true) {
-          conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
-        // }
+        conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
 
         //combine all condition in for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
-        console.log("check: "+ url);
 
         const response = await axios.get(url);
 
         setVinyls(response.data);
+
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
         setVinyls([]);
@@ -135,34 +133,22 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
           // get the min and max price
           const minPrice = Math.min(...allVinyls.map((vinyl: any) => vinyl.price));
           const maxPrice = Math.max(...allVinyls.map((vinyl: any) => vinyl.price));
-          // set
+          // set min/max
           setMin(Math.floor(minPrice));
           setMax(Math.ceil(maxPrice));
+          setSelectedMin(Math.floor(minPrice));
+          setSelectedMax(Math.ceil(maxPrice));
           // Only update selectedMin/selectedMax if not user-adjusted
           // if (!isPriceRangeAdjusted) {
           //   setSelectedMin(Math.floor(minPrice));
           //   setSelectedMax(Math.ceil(maxPrice));
           // }
-          setSelectedMin(Math.floor(minPrice));
-          setSelectedMax(Math.ceil(maxPrice));
-        } else {
-          setMin(initialMin);
-          setMax(initialMax);
-
-          // if (!isPriceRangeAdjusted) {
-          //   setSelectedMin(initialMin);
-          //   setSelectedMax(initialMax);
-          // }
-          setSelectedMin(initialMin);
-          setSelectedMax(initialMax);
         }
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
       }
     }
     setMinMax()
-    console.log("selectedMin",selectedMin,"selectedMax",selectedMax);
-    // console.log("selectedMax",selectedMax);
   }, [genre, sale]);
 
   return (
