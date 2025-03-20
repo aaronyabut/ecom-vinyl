@@ -13,15 +13,8 @@ interface DualRangeSliderProps {
 }
 
 const DualRangeSlider = ({setMinValue,setMaxValue,minValue,maxValue,MIN,MAX}: DualRangeSliderProps) => {
-  // const MIN = 4;
-  // const MAX = 1000;
-
-  // const [minValue, setMinValue] = useState(MIN);
-  // const [maxValue, setMaxValue] = useState(MAX);
-
   const rangeRef = useRef<HTMLDivElement>(null);
 
-  // Update range fill
   useEffect(() => {
     if (rangeRef.current) {
       const minPercent = ((minValue - MIN) / (MAX - MIN)) * 100;

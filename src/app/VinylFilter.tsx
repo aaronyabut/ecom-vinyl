@@ -21,14 +21,14 @@ interface Vinyl {
   vinyl_description: string;
 }
 
-const checkCurrent: string = "sale"
 
-const MIN:number = 4;
-const MAX:number = 1000;
+
+// const MIN:number = 4;
+// const MAX:number = 1000;
 
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop']
 
-export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] }) {
+export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { initialVinyls: Vinyl[], initialMin:number,initialMax:number }) {
   const [vinyls, setVinyls] = useState(initialVinyls);
   const [genre, setGenre] = useState<string[]>([]);
   const [isOpenGenre, setIsOpenGenre] = useState<boolean>(false);
@@ -36,11 +36,20 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
   const [isOpenPrice, setIsOpenPrice] = useState<boolean>(false);
   const [stock, setStock] = useState<boolean>(true);
   const [sale, setSale] = useState<boolean>(false);
+  const [min, setMin] = useState<number>(initialMin);
+  const [max, setMax] = useState<number>(initialMax);
+  const [minValue, setMinValue] = useState<number>(min);
+  const [maxValue, setMaxValue] = useState<number>(max);
 
+  const checkCurrent = "vinyls";
+  const handleCheckCurrent = () => {
+    console.log(`[${checkCurrent.toUpperCase()}] min: ${min}, max ${max}`);
+    console.log(`[${checkCurrent.toUpperCase()}] minVal: ${minValue}, maxVal ${maxValue}`);
+    console.log(vinyls.length);
+    console.log(vinyls);
 
-
-  const [minValue, setMinValue] = useState<number>(MIN);
-  const [maxValue, setMaxValue] = useState<number>(MAX);
+    // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
+  }
 
   const toggleDropdown = (setState: any) => {
     setState((prev:any) => !prev);
@@ -82,13 +91,39 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
   useEffect(() => {
     async function fetchFilteredVinyls() {
       try {
-        let url = genre.length
-          ? `http://localhost:4000/vinyls?${genre.map(g => `genre=${g}`).join('&')}`
-          : 'http://localhost:4000/vinyls';
-        // url = sale && url += "";
+        let url = 'http://localhost:4000/vinyls';
+        let conditions = [];
 
-        console.log(url);
+        if (sale) conditions.push(`sale=${true}`);
+        if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
+
+        if (conditions.length > 0) url += "?" + conditions.join('&');
+
         const response = await axios.get(url);
+        const allVinyls = response.data;
+        let minPrice = Math.min(...allVinyls.map((vinyl:any) => vinyl.price));
+        // let minPrice = Math.min(...vinyls.map(vinyl => vinyl.price));
+
+        // console.log("ALL DATA" + response.data[0].price)
+        // console.log("ALL DATA" + allVinyls)
+        // console.log("VINYLS" + vinyls)
+        let maxPrice = Math.max(...allVinyls.map((vinyl:any) => vinyl.price));
+        // let maxPrice = Math.max(...vinyls.map(vinyl => vinyl.price));
+        let allPrice = [...vinyls.map(vinyl => vinyl.price)];
+        // setMin(minPrice);
+        // setMax(maxPrice);
+        if (vinyls.length < 1) {
+          setMin(1);
+          setMax(10);
+        } else {
+          setMinValue(Math.floor(minPrice));
+          setMaxValue(Math.ceil(maxPrice));
+        }
+
+        // console.log("MINIMUM PRICE" + minPrice)
+        // console.log("MAXIMUM PRICE" + maxPrice)
+        // console.log("ALL PRICE - [" + allPrice + ']');
+        // console.log("Current API url"+url);
         setVinyls(response.data);
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
@@ -96,7 +131,33 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
       }
     }
     fetchFilteredVinyls();
-  }, [genre, sale]); // Refetch when genre changes
+  }, [genre, sale]); // Refetch when theres changes
+
+  useEffect(() => {
+    async function setMinMax () {
+      try {
+        // let minPrice = Math.min(...vinyls.map(vinyl => vinyl.price));
+        // let maxPrice = Math.max(...vinyls.map(vinyl => vinyl.price));
+
+        // let allPrice = [...vinyls.map(vinyl => vinyl.price)];
+        setMin(Math.floor(minValue));
+        setMax(Math.ceil(maxValue));
+
+        if (vinyls.length < 1) {
+          setMin(1);
+          setMax(10);
+        }
+
+        // console.log("ALL PRICE - [" + allPrice + ']');
+        // alert("sale changes")
+      } catch (error) {
+        console.error('Error fetching filtered vinyls:', error);
+      }
+    }
+    setMinMax()
+    console.log("minValue",minValue,"maxValue",maxValue);
+    // console.log("maxValue",maxValue);
+  }, [genre, sale])
 
   return (
     <div className={styles.mainLayout}>
@@ -186,8 +247,8 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
             setMaxValue={setMaxValue}
             minValue={minValue}
             maxValue={maxValue}
-            MIN={MIN}
-            MAX={MAX}
+            MIN={min}
+            MAX={max}
           />
         </div>
         <div className={styles.stock}>
@@ -217,7 +278,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
           </label>
         </div>
         <div className={styles.forChecking}
-          onClick={()=>alert(`${checkCurrent.toUpperCase()}: ${sale}`)}
+          onClick={handleCheckCurrent}
         >
           Check current: [{checkCurrent.toUpperCase()}]
         </div>
@@ -265,7 +326,7 @@ export default function VinylFilter({ initialVinyls }: { initialVinyls: Vinyl[] 
                   }
                 </div>
                 {/* THIS IS FOR ME TO INDICATE FILTER WORKING */}
-                {/* <p><strong>{vinyl.genre.toUpperCase()}</strong></p> */}
+                <p><strong>{vinyl.genre.toUpperCase()}</strong></p>
                 <p className={styles.title} ><span><strong>{vinyl.vinyl_title}</strong></span></p>
                 <p>{vinyl.vinyl_artist}</p>
                 <div className={styles.priceContainer}>

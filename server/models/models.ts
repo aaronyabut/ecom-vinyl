@@ -1,24 +1,37 @@
 const pool = require('../../database/db');
 
 module.exports = {
-  getAllVinyls: async (genre?: string) => {
+  getAllVinyls: async (genre?: string, sale?: boolean) => {
     try {
       let query = 'SELECT * FROM vinyls';
-      const values:string[] = [];
-      // This filters by genre
+      const values: string[] = [];
+      let conditions: string[] = [];
+      let paramIndex = 1;
+
+      // Filter by genre
       if (genre) {
-        // If there are multiple genres
-        if(Array.isArray(genre)) {
-          const placeholders = genre.map((_, i) => `$${i + 1}`).join(', ');
-          query += ` WHERE genre IN (${placeholders})`;
+        if (Array.isArray(genre)) {
+          const placeholders = genre.map(() => `$${paramIndex++}`).join(', ');
+          conditions.push(`genre IN (${placeholders})`);
           values.push(...genre);
         } else {
-          query += ' WHERE genre = $1';
+          conditions.push(`genre = $${paramIndex++}`);
           values.push(genre);
         }
       }
-      console.log("QUERY", query)
-      console.log("VALUES", values)
+
+      // Filter by sale
+      if (sale) {
+        conditions.push('sale_label IS NOT NULL');
+      }
+
+      // Combine conditions with WHERE clause
+      if (conditions.length > 0) {
+        query += ' WHERE ' + conditions.join(' AND ');
+      }
+
+      // console.log("QUERY", query)
+      // console.log("VALUES", values)
       const { rows } = await pool.query(query, values);
       return rows;
     } catch (error) {
