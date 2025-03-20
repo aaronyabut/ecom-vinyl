@@ -38,15 +38,16 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [sale, setSale] = useState<boolean>(false);
   const [min, setMin] = useState<number>(initialMin);
   const [max, setMax] = useState<number>(initialMax);
-  const [minValue, setMinValue] = useState<number>(min);
-  const [maxValue, setMaxValue] = useState<number>(max);
+  const [selectedMin, setSelectedMin] = useState<number>(min);
+  const [selectedMax, setSelectedMax] = useState<number>(max);
+  // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
   const checkCurrent = "vinyls";
   const handleCheckCurrent = () => {
     console.log(`[${checkCurrent.toUpperCase()}] min: ${min}, max ${max}`);
-    console.log(`[${checkCurrent.toUpperCase()}] minVal: ${minValue}, maxVal ${maxValue}`);
-    console.log(vinyls.length);
-    console.log(vinyls);
+    console.log(`[${checkCurrent.toUpperCase()}] selectedMin: ${selectedMin}, selectedMax ${selectedMax}`);
+    // console.log(vinyls.length);
+    // console.log(vinyls);
 
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   }
@@ -87,9 +88,36 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     setSale(false);
   };
 
-
   useEffect(() => {
     async function fetchFilteredVinyls() {
+      try {
+        let url = 'http://localhost:4000/vinyls';
+        let conditions = [];
+
+        if (sale) conditions.push(`sale=${true}`);
+        if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
+
+        // if (true) {
+          conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
+        // }
+
+        //combine all condition in for API request URL
+        if (conditions.length > 0) url += "?" + conditions.join('&');
+        console.log("check: "+ url);
+
+        const response = await axios.get(url);
+
+        setVinyls(response.data);
+      } catch (error) {
+        console.error('Error fetching filtered vinyls:', error);
+        setVinyls([]);
+      }
+    }
+    fetchFilteredVinyls();
+  }, [genre, sale, selectedMin, selectedMax]); // Refetch when theres changes
+
+  useEffect(() => {
+    async function setMinMax () {
       try {
         let url = 'http://localhost:4000/vinyls';
         let conditions = [];
@@ -101,63 +129,41 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
         const response = await axios.get(url);
         const allVinyls = response.data;
-        let minPrice = Math.min(...allVinyls.map((vinyl:any) => vinyl.price));
-        // let minPrice = Math.min(...vinyls.map(vinyl => vinyl.price));
 
-        // console.log("ALL DATA" + response.data[0].price)
-        // console.log("ALL DATA" + allVinyls)
-        // console.log("VINYLS" + vinyls)
-        let maxPrice = Math.max(...allVinyls.map((vinyl:any) => vinyl.price));
-        // let maxPrice = Math.max(...vinyls.map(vinyl => vinyl.price));
-        let allPrice = [...vinyls.map(vinyl => vinyl.price)];
-        // setMin(minPrice);
-        // setMax(maxPrice);
-        if (vinyls.length < 1) {
-          setMin(1);
-          setMax(10);
+        // if theres data
+        if (allVinyls.length > 0) {
+          // get the min and max price
+          const minPrice = Math.min(...allVinyls.map((vinyl: any) => vinyl.price));
+          const maxPrice = Math.max(...allVinyls.map((vinyl: any) => vinyl.price));
+          // set
+          setMin(Math.floor(minPrice));
+          setMax(Math.ceil(maxPrice));
+          // Only update selectedMin/selectedMax if not user-adjusted
+          // if (!isPriceRangeAdjusted) {
+          //   setSelectedMin(Math.floor(minPrice));
+          //   setSelectedMax(Math.ceil(maxPrice));
+          // }
+          setSelectedMin(Math.floor(minPrice));
+          setSelectedMax(Math.ceil(maxPrice));
         } else {
-          setMinValue(Math.floor(minPrice));
-          setMaxValue(Math.ceil(maxPrice));
+          setMin(initialMin);
+          setMax(initialMax);
+
+          // if (!isPriceRangeAdjusted) {
+          //   setSelectedMin(initialMin);
+          //   setSelectedMax(initialMax);
+          // }
+          setSelectedMin(initialMin);
+          setSelectedMax(initialMax);
         }
-
-        // console.log("MINIMUM PRICE" + minPrice)
-        // console.log("MAXIMUM PRICE" + maxPrice)
-        // console.log("ALL PRICE - [" + allPrice + ']');
-        // console.log("Current API url"+url);
-        setVinyls(response.data);
-      } catch (error) {
-        console.error('Error fetching filtered vinyls:', error);
-        setVinyls([]);
-      }
-    }
-    fetchFilteredVinyls();
-  }, [genre, sale]); // Refetch when theres changes
-
-  useEffect(() => {
-    async function setMinMax () {
-      try {
-        // let minPrice = Math.min(...vinyls.map(vinyl => vinyl.price));
-        // let maxPrice = Math.max(...vinyls.map(vinyl => vinyl.price));
-
-        // let allPrice = [...vinyls.map(vinyl => vinyl.price)];
-        setMin(Math.floor(minValue));
-        setMax(Math.ceil(maxValue));
-
-        if (vinyls.length < 1) {
-          setMin(1);
-          setMax(10);
-        }
-
-        // console.log("ALL PRICE - [" + allPrice + ']');
-        // alert("sale changes")
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
       }
     }
     setMinMax()
-    console.log("minValue",minValue,"maxValue",maxValue);
-    // console.log("maxValue",maxValue);
-  }, [genre, sale])
+    console.log("selectedMin",selectedMin,"selectedMax",selectedMax);
+    // console.log("selectedMax",selectedMax);
+  }, [genre, sale]);
 
   return (
     <div className={styles.mainLayout}>
@@ -243,10 +249,10 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         </div>
         <div className={`${styles.priceContainer} ${isOpenPrice && styles.open}`}>
           <DualRangeSlider
-            setMinValue={setMinValue}
-            setMaxValue={setMaxValue}
-            minValue={minValue}
-            maxValue={maxValue}
+            setSelectedMin={setSelectedMin}
+            setSelectedMax={setSelectedMax}
+            selectedMin={selectedMin}
+            selectedMax={selectedMax}
             MIN={min}
             MAX={max}
           />

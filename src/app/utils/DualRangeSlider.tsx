@@ -4,49 +4,49 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './DualRangeSlider.module.scss';
 
 interface DualRangeSliderProps {
-  setMinValue:React.Dispatch<React.SetStateAction<number>>,
-  setMaxValue:React.Dispatch<React.SetStateAction<number>>,
-  minValue: number,
-  maxValue: number,
+  setSelectedMin:React.Dispatch<React.SetStateAction<number>>,
+  setSelectedMax:React.Dispatch<React.SetStateAction<number>>,
+  selectedMin: number,
+  selectedMax: number,
   MAX: number,
   MIN: number
 }
 
-const DualRangeSlider = ({setMinValue,setMaxValue,minValue,maxValue,MIN,MAX}: DualRangeSliderProps) => {
+const DualRangeSlider = ({setSelectedMin,setSelectedMax,selectedMin,selectedMax,MIN,MAX}: DualRangeSliderProps) => {
   const rangeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (rangeRef.current) {
-      const minPercent = ((minValue - MIN) / (MAX - MIN)) * 100;
-      const maxPercent = ((maxValue - MIN) / (MAX - MIN)) * 100;
+      const minPercent = ((selectedMin - MIN) / (MAX - MIN)) * 100;
+      const maxPercent = ((selectedMax - MIN) / (MAX - MIN)) * 100;
       rangeRef.current.style.left = `${minPercent}%`;
       rangeRef.current.style.width = `${maxPercent - minPercent}%`;
     }
-  }, [minValue, maxValue]);
+  }, [selectedMin, selectedMax]);
 
   // Handle slider changes
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.min(Number(e.target.value), maxValue - 1);
-    setMinValue(Math.max(value, MIN));
+    const value = Math.min(Number(e.target.value), selectedMax - 1);
+    setSelectedMin(Math.max(value, MIN));
   };
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(Number(e.target.value), minValue + 1);
-    setMaxValue(Math.min(value, MAX));
+    const value = Math.max(Number(e.target.value), selectedMin + 1);
+    setSelectedMax(Math.min(value, MAX));
   };
 
   // Handle input changes
   const handleMinInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
-    if (value >= MIN && value < maxValue) {
-      setMinValue(value);
+    if (value >= MIN && value < selectedMax) {
+      setSelectedMin(value);
     }
   };
 
   const handleMaxInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
-    if (value <= MAX && value > minValue) {
-      setMaxValue(value);
+    if (value <= MAX && value > selectedMin) {
+      setSelectedMax(value);
     }
   };
 
@@ -55,10 +55,10 @@ const DualRangeSlider = ({setMinValue,setMaxValue,minValue,maxValue,MIN,MAX}: Du
       <div className={styles.inputContainer}>
         <input
           type="number"
-          value={minValue}
+          value={selectedMin}
           onChange={handleMinInputChange}
           min={MIN}
-          max={maxValue - 1}
+          max={selectedMax - 1}
           className={styles.valueInput}
         />
         <div>
@@ -66,9 +66,9 @@ const DualRangeSlider = ({setMinValue,setMaxValue,minValue,maxValue,MIN,MAX}: Du
         </div>
         <input
           type="number"
-          value={maxValue}
+          value={selectedMax}
           onChange={handleMaxInputChange}
-          min={minValue + 1}
+          min={selectedMin + 1}
           max={MAX}
           className={styles.valueInput}
         />
@@ -81,7 +81,7 @@ const DualRangeSlider = ({setMinValue,setMaxValue,minValue,maxValue,MIN,MAX}: Du
           type="range"
           min={MIN}
           max={MAX}
-          value={minValue}
+          value={selectedMin}
           onChange={handleMinChange}
           className={styles.thumb}
         />
@@ -89,7 +89,7 @@ const DualRangeSlider = ({setMinValue,setMaxValue,minValue,maxValue,MIN,MAX}: Du
           type="range"
           min={MIN}
           max={MAX}
-          value={maxValue}
+          value={selectedMax}
           onChange={handleMaxChange}
           className={styles.thumb}
         />

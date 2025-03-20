@@ -6,8 +6,11 @@ module.exports = {
     try {
       const genre = req.query.genre;
       const sale = req.query.sale;
+
+      const selectedMin = req.query["min-price"];
+      const selectedMax = req.query["max-price"];
       // const sale = true;
-      const vinyls = await vinylModel.getAllVinyls(genre,sale);
+      const vinyls = await vinylModel.getAllVinyls(genre,sale,selectedMin,selectedMax);
 
       // console.log(`CONTROLLER: ${req.query.genre}`)
       res.json(vinyls);

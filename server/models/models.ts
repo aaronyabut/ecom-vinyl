@@ -1,7 +1,7 @@
 const pool = require('../../database/db');
 
 module.exports = {
-  getAllVinyls: async (genre?: string, sale?: boolean) => {
+  getAllVinyls: async (genre?: string, sale?: boolean, selectedMin?:number, selectedMax?:number) => {
     try {
       let query = 'SELECT * FROM vinyls';
       const values: string[] = [];
@@ -21,14 +21,11 @@ module.exports = {
       }
 
       // Filter by sale
-      if (sale) {
-        conditions.push('sale_label IS NOT NULL');
-      }
+      if (sale) conditions.push('sale_label IS NOT NULL');
+      if (selectedMin && selectedMax) conditions.push(`price BETWEEN ${selectedMin} AND ${selectedMax}`);
 
       // Combine conditions with WHERE clause
-      if (conditions.length > 0) {
-        query += ' WHERE ' + conditions.join(' AND ');
-      }
+      if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
 
       // console.log("QUERY", query)
       // console.log("VALUES", values)

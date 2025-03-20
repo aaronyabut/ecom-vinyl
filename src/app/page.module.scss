@@ -363,7 +363,7 @@ $inner-dropdown: rgb(45,45,45);
 
   .priceContainer {
     @include dropDownLogic();
-    // max-height: 500px;
+    max-height: 500px;
     background-color: $inner-dropdown;
     display: flex;
     flex-direction: column;
