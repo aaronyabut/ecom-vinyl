@@ -98,8 +98,6 @@ $inner-dropdown: rgb(45,45,45);
   // @include border(pink);
 }
 
-
-
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;
@@ -134,12 +132,111 @@ $inner-dropdown: rgb(45,45,45);
   // @include border(white);
 }
 
+.mainHeaders {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 18px;
+
+  // @include border(green);
+}
+
 .mainTitle {
+  display: flex;
+  align-items: center;
   font-family: 'Eurostile Extended', sans-serif;
   font-size: 0.7rem;
   font-size: 36px;
-  width: 100%;
+  width: fit;
+
   // @include border(white);
+}
+
+.sorting {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+  // @include border(red);
+
+  .sortDropdown {
+    // @include border(yellow);
+    display: flex;
+    flex-direction: column;
+
+  }
+  .sortStyling {
+    @include dropDownStyling($mid-comp:false);
+    height: 40px;
+    width: 235px;
+    // @include border(yellow);
+    position: relative;
+  }
+
+  .sortList {
+    @include dropDownLogic();
+    position: absolute;
+    width: 235px;
+    translate:0px 40px;
+    z-index: 51;
+    // @include border(blue);
+    .checkboxWrapper {
+      display: flex;
+      padding-block: 0.7rem;
+      padding-inline: 0.5rem;
+      background-color: $inner-dropdown;
+      cursor: pointer;
+
+      label {
+        cursor: pointer;
+        color: #fff;
+        transition: color 0.3s ease;
+        width: 100%; // Full width for click area
+      }
+      input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        cursor: pointer;
+        appearance: none;
+        border: 2px solid #fff;
+        background-color: $inner-dropdown;
+        position: relative;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+
+        &:checked {
+          border-color: $accent-color;
+
+          &::after {
+            content: '\2713';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: $accent-color;
+            font-size: 14px;
+            font-weight: bold;
+          }
+
+          + label {
+            color: $accent-color;
+          }
+        }
+      }
+
+      &:hover {
+        label {
+          color: $accent-color; // Label text on hover
+        }
+        input[type="checkbox"] {
+          border-color: $accent-color; // Checkbox border on wrapper hover
+        }
+      }
+    }
+    // @include border(blue);
+  }
 }
 
 

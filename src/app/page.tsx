@@ -34,7 +34,7 @@ export default async function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <div className={styles.mainTitle}>SHOP VINYL</div>
+        {/* <div className={styles.mainTitle}>SHOP VINYL</div> */}
         <VinylFilter
           initialVinyls={initialVinyls}
           initialMin={initialMin}

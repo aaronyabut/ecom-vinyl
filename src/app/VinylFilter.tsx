@@ -26,7 +26,35 @@ interface Vinyl {
 // const MIN:number = 4;
 // const MAX:number = 1000;
 
+type Sorting = {
+  type: string;
+
+}
+
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop']
+const sorts: Sorting[] = [
+  {
+    type: "Most popular",
+  },
+  {
+    type: "Price: Low to High",
+  },
+  {
+    type: "Price: High to Low",
+  },
+  {
+    type: "Artist: A-Z",
+  },
+  {
+    type: "Artist: Z-A",
+  },
+  {
+    type: "Album: A-Z",
+  },
+  {
+    type: "Album: Z-A",
+  },
+]
 
 export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { initialVinyls: Vinyl[], initialMin:number,initialMax:number }) {
   const [vinyls, setVinyls] = useState(initialVinyls);
@@ -34,6 +62,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [isOpenGenre, setIsOpenGenre] = useState<boolean>(false);
   const [isOpenArtist, setIsOpenArtist] = useState<boolean>(false);
   const [isOpenPrice, setIsOpenPrice] = useState<boolean>(false);
+  const [isOpenSort, setIsOpenSort] = useState<boolean>(false);
   const [stock, setStock] = useState<boolean>(true);
   const [sale, setSale] = useState<boolean>(false);
   const [min, setMin] = useState<number>(initialMin);
@@ -50,7 +79,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     // console.log(vinyls);
 
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
-  }
+  };
 
   const toggleDropdown = (setState: any) => {
     setState((prev:any) => !prev);
@@ -58,10 +87,10 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
   const handleCheckboxStock = (e:any) => {
     setStock(!stock);
-  }
+  };
   const handleCheckboxSale = (e:any) => {
     setSale(!sale);
-  }
+  };
 
   const handleCheckboxChange = (e:any) => {
     const value:any = e.target.value;
@@ -72,7 +101,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     } else {
       setGenre(genre.filter(item => item !== value))
     }
-  }
+  };
 
   const handleresetAll = () => {
     genres.forEach((currentGenre: string) => {
@@ -152,188 +181,228 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   }, [genre, sale]);
 
   return (
-    <div className={styles.mainLayout}>
-      <div className={styles.filter}>
-        <div className={styles.filterHeaders}>
-          <span>Filter by</span>
-          <span className={styles.resetAll}><button onClick={handleresetAll}>Reset all</button></span>
-        </div>
-        <div
-          className={`${styles.genreStyling} ${isOpenGenre ? styles.active : ''}`}
-          onClick={()=>toggleDropdown(setIsOpenGenre)}
-        >
-          <legend className={`${genre.length && styles.contained2}`}>
-            Genre {`${genre.length ? `(${genre.length})`: ''}`}
-          </legend>
-
-          <Image
-            src={ArrowIcon}
-            width={15}
-            height={15}
-            alt="arrow icon"
-            className={`${isOpenGenre ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
-          />
-        </div>
-        <div className={`${styles.genreList} ${isOpenGenre && styles.open}`}>
-          {genres.map((currentGenre: string, i: number) => {
-            let genreVal: string = currentGenre.toLowerCase();
-            return (
-              <div className={styles.checkboxWrapper} key={i}>
-                <input
-                  type="checkbox"
-                  name={genreVal}
-                  id={genreVal}
-                  value={genreVal}
-                  onChange={handleCheckboxChange}
+    <div>
+      <div className={styles.mainHeaders}>
+        <div className={styles.mainTitle}>SHOP VINYL</div>
+        <div className={styles.sorting}>
+          <div>Sort by</div>
+          <div className={styles.sortDropdown}>
+            <div>
+              <div
+                className={styles.sortStyling}
+                onClick={()=>toggleDropdown(setIsOpenSort)}
+                >
+                <div className={styles.sortHeader}> Most Popular</div>
+                <Image
+                  src={ArrowIcon}
+                  width={15}
+                  height={15}
+                  alt="arrow icon"
+                  className={`${isOpenSort ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
                 />
-                <label htmlFor={genreVal}>{currentGenre}</label>
               </div>
-            );
-          })}
-        </div>
-        <div
-          // className={`${styles.artistStyling}`}
-          className={`${styles.artistStyling} ${isOpenArtist && styles.active}`}
-          onClick={()=>toggleDropdown(setIsOpenArtist)}
-        >
-          <legend>
-            Artist
-          </legend>
-          <Image
-            src={ArrowIcon}
-            width={15}
-            height={15}
-            alt="arrow icon"
-            className={`${isOpenArtist ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
-          />
-        </div>
-        <div className={`${styles.artistInputContainer} ${isOpenArtist && styles.open}`}>
-          <div className={styles.artistInputWrapper}>
-            <input
-              type='text'
-              placeholder='Artist name'
-            />
-            <button className={styles.artistSearchButton}>
-              Search
-            </button>
+            </div>
+            <div className={`${styles.sortList} ${isOpenSort && styles.open}`}>
+              {sorts.map((sort:any, i:number)=> {
+                return (
+                  <div className={styles.checkboxWrapper} key={i}>
+                    <input
+                      type="checkbox"
+                      name={sort.type}
+                      id={sort.type}
+                      value={sort.type}
+                      // onChange={handleCheckboxChange}
+                    />
+                    <label htmlFor={sort.type}>{sort.type}</label>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </div>
-        <div
-          className={`${styles.priceStyling} ${isOpenPrice && styles.active}`}
-          onClick={()=>toggleDropdown(setIsOpenPrice)}
-        >
-          <legend>
-            Price
-          </legend>
-          <Image
-            src={ArrowIcon}
-            width={15}
-            height={15}
-            alt="arrow icon"
-            className={`${isOpenPrice ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
-          />
-        </div>
-        <div className={`${styles.priceContainer} ${isOpenPrice && styles.open}`}>
-          <DualRangeSlider
-            setSelectedMin={setSelectedMin}
-            setSelectedMax={setSelectedMax}
-            selectedMin={selectedMin}
-            selectedMax={selectedMax}
-            MIN={min}
-            MAX={max}
-          />
-        </div>
-        <div className={styles.stock}>
-          <div>
-            Show only in stock
-          </div>
-          <label className={`${styles.toggle} ${stock ? styles.checked : ''}`}>
-            <input
-              type="checkbox"
-              checked={stock}
-              onChange={handleCheckboxStock}
-            />
-            <span className={styles.slider}></span>
-          </label>
-        </div>
-        <div className={styles.stock}>
-          <div>
-            Show only on sale
-          </div>
-          <label className={`${styles.toggle} ${sale ? styles.checked : ''}`}>
-            <input
-              type="checkbox"
-              checked={sale}
-              onChange={handleCheckboxSale}
-            />
-            <span className={styles.slider}></span>
-          </label>
-        </div>
-        <div className={styles.forChecking}
-          onClick={handleCheckCurrent}
-        >
-          Check current: [{checkCurrent.toUpperCase()}]
         </div>
       </div>
-      <div className={styles.products}>
-        {vinyls.length === 0 ? (
-          <p>No vinyls available.</p>
-        ) : (
-          <div className={styles.vinylContainer}>
-            {vinyls.map((vinyl) => (
-              <div key={vinyl.product_id} className={styles.vinyl}>
-                <div className={styles.imageWrapper}>
-                  <div className={styles.wishlist}>
-                    <Image
-                      src={WishlistIcon}
-                      alt='test'
-                      width={25}
-                      height={25}
-                      className={styles.iconImage}
-                    />
-                  </div>
-                  <Image
-                    src={vinyl.vinyl_img}
-                    width={267}
-                    height={267}
-                    alt={`${vinyl.vinyl_title} by ${vinyl.vinyl_artist}`}
-                    className={styles.image}
-                  />
-                  <div className={styles.toCart}>
-                    ADD TO CART
-                  </div>
-                  {
-                    vinyl.sale_label &&
-                    <span className={styles.sale}>
-                      <span className={styles.saleLabel}>&#x2022; </span>
-                      {vinyl.sale_label}
-                    </span>
-                  }
-                  {
-                    vinyl.low_stock_label &&
-                    <span className={styles.lowStock}>
-                      <span className={styles.lowStockLabel}>&#x2022; </span>
-                      {vinyl.low_stock_label}
-                    </span>
-                  }
-                </div>
-                {/* THIS IS FOR ME TO INDICATE FILTER WORKING */}
-                <p><strong>{vinyl.genre.toUpperCase()}</strong></p>
-                <p className={styles.title} ><span><strong>{vinyl.vinyl_title}</strong></span></p>
-                <p>{vinyl.vinyl_artist}</p>
-                <div className={styles.priceContainer}>
-                  <div>
-                    {vinyl.old_price &&
-                      <span className={styles.oldPrice}><s>${vinyl.old_price}</s></span>
-                    }
-                    <span className={styles.price}>{" "}${vinyl.price}</span>
-                  </div>
-                  <span className={styles.vinylLabel}>VINYL</span>
-                </div>
-              </div>
-            ))}
+      <div className={styles.mainLayout}>
+        <div className={styles.filter}>
+          <div className={styles.filterHeaders}>
+            <span>Filter by</span>
+            <span className={styles.resetAll}><button onClick={handleresetAll}>Reset all</button></span>
           </div>
-        )}
+          <div
+            className={`${styles.genreStyling} ${isOpenGenre ? styles.active : ''}`}
+            onClick={()=>toggleDropdown(setIsOpenGenre)}
+          >
+            <legend className={`${genre.length && styles.contained2}`}>
+              Genre {`${genre.length ? `(${genre.length})`: ''}`}
+            </legend>
+
+            <Image
+              src={ArrowIcon}
+              width={15}
+              height={15}
+              alt="arrow icon"
+              className={`${isOpenGenre ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
+            />
+          </div>
+          <div className={`${styles.genreList} ${isOpenGenre && styles.open}`}>
+            {genres.map((currentGenre: string, i: number) => {
+              let genreVal: string = currentGenre.toLowerCase();
+              return (
+                <div className={styles.checkboxWrapper} key={i}>
+                  <input
+                    type="checkbox"
+                    name={genreVal}
+                    id={genreVal}
+                    value={genreVal}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label htmlFor={genreVal}>{currentGenre}</label>
+                </div>
+              );
+            })}
+          </div>
+          <div
+            className={`${styles.artistStyling} ${isOpenArtist && styles.active}`}
+            onClick={()=>toggleDropdown(setIsOpenArtist)}
+          >
+            <legend>
+              Artist
+            </legend>
+            <Image
+              src={ArrowIcon}
+              width={15}
+              height={15}
+              alt="arrow icon"
+              className={`${isOpenArtist ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
+            />
+          </div>
+          <div className={`${styles.artistInputContainer} ${isOpenArtist && styles.open}`}>
+            <div className={styles.artistInputWrapper}>
+              <input
+                type='text'
+                placeholder='Artist name'
+              />
+              <button className={styles.artistSearchButton}>
+                Search
+              </button>
+            </div>
+          </div>
+          <div
+            className={`${styles.priceStyling} ${isOpenPrice && styles.active}`}
+            onClick={()=>toggleDropdown(setIsOpenPrice)}
+          >
+            <legend>
+              Price
+            </legend>
+            <Image
+              src={ArrowIcon}
+              width={15}
+              height={15}
+              alt="arrow icon"
+              className={`${isOpenPrice ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
+            />
+          </div>
+          <div className={`${styles.priceContainer} ${isOpenPrice && styles.open}`}>
+            <DualRangeSlider
+              setSelectedMin={setSelectedMin}
+              setSelectedMax={setSelectedMax}
+              selectedMin={selectedMin}
+              selectedMax={selectedMax}
+              MIN={min}
+              MAX={max}
+            />
+          </div>
+          <div className={styles.stock}>
+            <div>
+              Show only in stock
+            </div>
+            <label className={`${styles.toggle} ${stock ? styles.checked : ''}`}>
+              <input
+                type="checkbox"
+                checked={stock}
+                onChange={handleCheckboxStock}
+              />
+              <span className={styles.slider}></span>
+            </label>
+          </div>
+          <div className={styles.stock}>
+            <div>
+              Show only on sale
+            </div>
+            <label className={`${styles.toggle} ${sale ? styles.checked : ''}`}>
+              <input
+                type="checkbox"
+                checked={sale}
+                onChange={handleCheckboxSale}
+              />
+              <span className={styles.slider}></span>
+            </label>
+          </div>
+          <div className={styles.forChecking}
+            onClick={handleCheckCurrent}
+          >
+            Check current: [{checkCurrent.toUpperCase()}]
+          </div>
+        </div>
+        <div className={styles.products}>
+          {vinyls.length === 0 ? (
+            <p>No vinyls available.</p>
+          ) : (
+            <div className={styles.vinylContainer}>
+              {vinyls.map((vinyl) => (
+                <div key={vinyl.product_id} className={styles.vinyl}>
+                  <div className={styles.imageWrapper}>
+                    <div className={styles.wishlist}>
+                      <Image
+                        src={WishlistIcon}
+                        alt='test'
+                        width={25}
+                        height={25}
+                        className={styles.iconImage}
+                      />
+                    </div>
+                    <Image
+                      src={vinyl.vinyl_img}
+                      width={267}
+                      height={267}
+                      alt={`${vinyl.vinyl_title} by ${vinyl.vinyl_artist}`}
+                      className={styles.image}
+                    />
+                    <div className={styles.toCart}>
+                      ADD TO CART
+                    </div>
+                    {
+                      vinyl.sale_label &&
+                      <span className={styles.sale}>
+                        <span className={styles.saleLabel}>&#x2022; </span>
+                        {vinyl.sale_label}
+                      </span>
+                    }
+                    {
+                      vinyl.low_stock_label &&
+                      <span className={styles.lowStock}>
+                        <span className={styles.lowStockLabel}>&#x2022; </span>
+                        {vinyl.low_stock_label}
+                      </span>
+                    }
+                  </div>
+                  {/* THIS IS FOR ME TO INDICATE FILTER WORKING */}
+                  <p><strong>{vinyl.genre.toUpperCase()}</strong></p>
+                  <p className={styles.title} ><span><strong>{vinyl.vinyl_title}</strong></span></p>
+                  <p>{vinyl.vinyl_artist}</p>
+                  <div className={styles.priceContainer}>
+                    <div>
+                      {vinyl.old_price &&
+                        <span className={styles.oldPrice}><s>${vinyl.old_price}</s></span>
+                      }
+                      <span className={styles.price}>{" "}${vinyl.price}</span>
+                    </div>
+                    <span className={styles.vinylLabel}>VINYL</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
