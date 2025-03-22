@@ -27,32 +27,32 @@ interface Vinyl {
 // const MAX:number = 1000;
 
 type Sorting = {
-  type: string;
+  variation: string;
 
 }
 
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop']
 const sorts: Sorting[] = [
   {
-    type: "Most popular",
+    variation: "Most popular",
   },
   {
-    type: "Price: Low to High",
+    variation: "Price: Low to High",
   },
   {
-    type: "Price: High to Low",
+    variation: "Price: High to Low",
   },
   {
-    type: "Artist: A-Z",
+    variation: "Artist: A-Z",
   },
   {
-    type: "Artist: Z-A",
+    variation: "Artist: Z-A",
   },
   {
-    type: "Album: A-Z",
+    variation: "Album: A-Z",
   },
   {
-    type: "Album: Z-A",
+    variation: "Album: Z-A",
   },
 ]
 
@@ -69,6 +69,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [max, setMax] = useState<number>(initialMax);
   const [selectedMin, setSelectedMin] = useState<number>(min);
   const [selectedMax, setSelectedMax] = useState<number>(max);
+  const [selectedSort, setSelectedSort] = useState<any>(sorts[0].variation)
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
   const checkCurrent = "vinyls";
@@ -91,6 +92,17 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const handleCheckboxSale = (e:any) => {
     setSale(!sale);
   };
+
+  const handleSortChange = (e:any) => {
+    // if (e.target.checked === true) {
+    //   e.target.checked === false;
+    // }
+    // console.log(e.target.value)
+    // console.log(e.target.checked)
+    setSelectedSort(e.target.value);
+    setIsOpenSort(false);
+    console.log(e.target.value)
+  }
 
   const handleCheckboxChange = (e:any) => {
     const value:any = e.target.value;
@@ -189,10 +201,10 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
           <div className={styles.sortDropdown}>
             <div>
               <div
-                className={styles.sortStyling}
+                className={`${styles.sortStyling} ${isOpenSort ? styles.active : ''}`}
                 onClick={()=>toggleDropdown(setIsOpenSort)}
                 >
-                <div className={styles.sortHeader}> Most Popular</div>
+                <div className={styles.sortHeader}>{selectedSort}</div>
                 <Image
                   src={ArrowIcon}
                   width={15}
@@ -207,13 +219,13 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
                 return (
                   <div className={styles.checkboxWrapper} key={i}>
                     <input
-                      type="checkbox"
-                      name={sort.type}
-                      id={sort.type}
-                      value={sort.type}
-                      // onChange={handleCheckboxChange}
+                      type="radio"
+                      name="option"
+                      id={sort.variation}
+                      value={sort.variation}
+                      onChange={handleSortChange}
                     />
-                    <label htmlFor={sort.type}>{sort.type}</label>
+                    <label htmlFor={sort.variation}>{sort.variation}</label>
                   </div>
                 )
               })}
