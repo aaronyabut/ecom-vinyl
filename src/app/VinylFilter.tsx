@@ -23,7 +23,7 @@ interface Vinyl {
 
 type Sorting = {
   variation: string;
-  cb: any;
+  cb: string;
 }
 
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
@@ -72,7 +72,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [selectedMin, setSelectedMin] = useState<number>(min);
   const [selectedMax, setSelectedMax] = useState<number>(max);
   // const [selectedSort, setSelectedSort] = useState<any>(sorts[0].variation)
-  const [selectedSort, setSelectedSort] = useState<any>(sorts[0].variation)
+  const [selectedSort, setSelectedSort] = useState<string>(sorts[0].variation)
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
   const checkCurrent = "vinyls";
@@ -85,24 +85,24 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   };
 
-  const toggleDropdown = (setState: any) => {
-    setState((prev:any) => !prev);
+  const toggleDropdown = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setState((prev:boolean) => !prev);
   };
 
-  const handleCheckboxStock = (e:any) => {
+  const handleCheckboxStock = () => {
     setStock(!stock);
   };
-  const handleCheckboxSale = (e:any) => {
+  const handleCheckboxSale = () => {
     setSale(!sale);
   };
 
-  const handleSortChange = (e:any) => {
+  const handleSortChange = (e:React.ChangeEvent<HTMLInputElement>) => {
 
-    let currentSelectedSort = e.target.value;
-    const currentSelectedSortObj = JSON.parse(currentSelectedSort)
+    const currentSelectedSort = e.target.value;
+    // const currentSelectedSortObj = JSON.parse(currentSelectedSort)
     // alert(currentSelectedSort);
-    // console.log(JSON.stringify(e.target));
-    console.log(currentSelectedSortObj);
+    console.log(JSON.stringify(e.target));
+    // console.log(currentSelectedSortObj);
     // let currentSelectedSort = e.target.value;
     setSelectedSort(currentSelectedSort);
     setIsOpenSort(false);
@@ -128,15 +128,16 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     // alert(currentSelectedSort);
   }
 
-  const handleCheckboxChange = (e:any) => {
-    const value:any = e.target.value;
-    const checked:any = e.target.checked;
-
+  const handleCheckboxChange = ({ value, checked }: { value: string; checked: boolean }) => {
     if (checked) {
-      setGenre([...genre, value])
+      setGenre([...genre, value]);
     } else {
-      setGenre(genre.filter(item => item !== value))
+      setGenre(genre.filter((item) => item !== value));
     }
+  };
+  const onCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    handleCheckboxChange({ value, checked });
   };
 
   const handleresetAll = () => {
@@ -145,7 +146,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
       const checkbox = document.getElementById(genreVal) as HTMLInputElement;
       if (checkbox && checkbox.checked) {
         checkbox.checked = false;
-        handleCheckboxChange({ target: checkbox }); // Trigger handler for each unchecked box
+        handleCheckboxChange({ value: checkbox.value, checked: false }); // Pass value and checked
       }
     });
     setGenre([]);
@@ -157,7 +158,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     async function fetchFilteredVinyls() {
       try {
         let url = 'http://localhost:4000/vinyls';
-        let conditions = [];
+        const conditions = [];
 
         if (sale) conditions.push(`sale=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
@@ -183,7 +184,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     async function setMinMax () {
       try {
         let url = 'http://localhost:4000/vinyls';
-        let conditions = [];
+        const conditions = [];
 
         if (sale) conditions.push(`sale=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
@@ -196,8 +197,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         // if theres data
         if (allVinyls.length > 0) {
           // get the min and max price
-          const minPrice = Math.min(...allVinyls.map((vinyl: any) => vinyl.price));
-          const maxPrice = Math.max(...allVinyls.map((vinyl: any) => vinyl.price));
+          const minPrice = Math.min(...allVinyls.map((vinyl: Vinyl) => vinyl.price));
+          const maxPrice = Math.max(...allVinyls.map((vinyl: Vinyl) => vinyl.price));
           // set min/max
           setMin(Math.floor(minPrice));
           setMax(Math.ceil(maxPrice));
@@ -239,7 +240,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
               </div>
             </div>
             <div className={`${styles.sortList} ${isOpenSort && styles.open}`}>
-              {sorts.map((sort:any, i:number)=> {
+              {sorts.map((sort:Sorting, i:number)=> {
                 return (
                   <div className={styles.checkboxWrapper} key={i}>
                     <input
@@ -282,7 +283,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
           </div>
           <div className={`${styles.genreList} ${isOpenGenre && styles.open}`}>
             {genres.map((currentGenre: string, i: number) => {
-              let genreVal: string = currentGenre.toLowerCase();
+              const genreVal: string = currentGenre.toLowerCase();
               return (
                 <div className={styles.checkboxWrapper} key={i}>
                   <input
@@ -290,7 +291,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
                     name={genreVal}
                     id={genreVal}
                     value={genreVal}
-                    onChange={handleCheckboxChange}
+                    onChange={onCheckboxChange}
                   />
                   <label htmlFor={genreVal}>{currentGenre}</label>
                 </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './DualRangeSlider.module.scss';
 
 interface DualRangeSliderProps {

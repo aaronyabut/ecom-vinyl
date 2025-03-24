@@ -1,9 +1,9 @@
-const express = require('express');
-const vinylController = require('./controllers/controllers');
+import express from 'express';
+import { getAllVinylsController, test } from './controllers/controllers';
 
 const router = express.Router();
 
-router.get('/vinyls', vinylController.getAllVinyls);
-router.get('/test', vinylController.test);
+router.get('/vinyls', getAllVinylsController);
+router.get('/test', test);
 
-module.exports = router;
+export default router;

@@ -1,8 +1,9 @@
 import express from 'express';
-const cors = require('cors');
-require('dotenv').config();
-const routes = require('./routes');
+import cors from 'cors';
+import dotenv from 'dotenv';
+import router from './routes';
 
+dotenv.config()
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -11,7 +12,7 @@ app.use(cors());
 
 // This enables API to handle JSON data in POST/PUT requests
 app.use(express.json());
-app.use('/', routes);
+app.use('/', router);
 
 app.listen(port, () => {
   console.log(`[server] Server is running at http://localhost:${port}`);

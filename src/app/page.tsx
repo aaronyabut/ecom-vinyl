@@ -28,8 +28,8 @@ async function getVinyls(): Promise<Vinyl[]> {
 
 export default async function Home() {
   const initialVinyls = await getVinyls();
-  const initialMin = Math.floor(Math.min(...initialVinyls.map((vinyl:any)=> vinyl.price)));
-  const initialMax = Math.ceil(Math.max(...initialVinyls.map((vinyl:any)=> vinyl.price)));
+  const initialMin = Math.floor(Math.min(...initialVinyls.map((vinyl:Vinyl)=> vinyl.price)));
+  const initialMax = Math.ceil(Math.max(...initialVinyls.map((vinyl:Vinyl)=> vinyl.price)));
 
   return (
     <div className={styles.page}>
