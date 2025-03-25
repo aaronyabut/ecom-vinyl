@@ -23,40 +23,42 @@ interface Vinyl {
 
 type Sorting = {
   variation: string;
-  cb: string;
+  cb:(vinyls: Vinyl[]) => Vinyl[];
 }
 
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
 const sorts: Sorting[] = [
   {
     variation: "Most popular",
-    cb: "",
+    // [...vinyls] creates a shallow copy to prevent mutation
+    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.product_id - b.product_id),
   },
   {
     variation: "Price: Low to High",
-    cb: "",
+    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.price - b.price),
   },
   {
     variation: "Price: High to Low",
-    cb: "",
+    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.price - a.price),
   },
   {
     variation: "Artist: A-Z",
-    cb: "",
+    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_artist.localeCompare(b.vinyl_artist)),
   },
   {
     variation: "Artist: Z-A",
-    cb: "",
+    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_artist.localeCompare(a.vinyl_artist)),
   },
   {
     variation: "Album: A-Z",
-    cb: "",
+    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_title.localeCompare(b.vinyl_title)),
   },
   {
     variation: "Album: Z-A",
-    cb: "",
+    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_title.localeCompare(a.vinyl_title)),
   },
 ];
+
 
 export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { initialVinyls: Vinyl[], initialMin:number,initialMax:number }) {
   const [vinyls, setVinyls] = useState(initialVinyls);
@@ -71,14 +73,15 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [max, setMax] = useState<number>(initialMax);
   const [selectedMin, setSelectedMin] = useState<number>(min);
   const [selectedMax, setSelectedMax] = useState<number>(max);
-  // const [selectedSort, setSelectedSort] = useState<any>(sorts[0].variation)
-  const [selectedSort, setSelectedSort] = useState<string>(sorts[0].variation)
+  const [selectedSort, setSelectedSort] = useState<string>("Most popular");
+  // const [selectedSort, setSelectedSort] = useState<string>(sorts[0].variation);
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
-  const checkCurrent = "vinyls";
+  const checkCurrent = "sort";
   const handleCheckCurrent = () => {
-    console.log(`[${checkCurrent.toUpperCase()}] min: ${min}, max ${max}`);
-    console.log(`[${checkCurrent.toUpperCase()}] selectedMin: ${selectedMin}, selectedMax ${selectedMax}`);
+    // console.log(`[${checkCurrent.toUpperCase()}] min: ${min}, max ${max}`);
+    // console.log(`[${checkCurrent.toUpperCase()}] selectedMin: ${selectedMin}, selectedMax ${selectedMax}`);
+    // console.log("Low to High " + JSON.stringify(sorts[1].cb));
     // console.log(vinyls.length);
     // console.log(vinyls);
 
@@ -89,43 +92,28 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     setState((prev:boolean) => !prev);
   };
 
-  const handleCheckboxStock = () => {
+  const handleCheckboxStock = (e:React.ChangeEvent<HTMLInputElement>) => {
     setStock(!stock);
   };
-  const handleCheckboxSale = () => {
+  const handleCheckboxSale = (e:React.ChangeEvent<HTMLInputElement>) => {
     setSale(!sale);
   };
 
   const handleSortChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-
     const currentSelectedSort = e.target.value;
-    // const currentSelectedSortObj = JSON.parse(currentSelectedSort)
-    // alert(currentSelectedSort);
-    console.log(JSON.stringify(e.target));
-    // console.log(currentSelectedSortObj);
-    // let currentSelectedSort = e.target.value;
-    setSelectedSort(currentSelectedSort);
+    const currentSelectedSortObj = JSON.parse(currentSelectedSort);
+
+    setSelectedSort(currentSelectedSortObj.variation);
     setIsOpenSort(false);
 
-    // /*
-    if (currentSelectedSort === "Price: Low to High") {
-      setVinyls(vinyls.sort((a,b)=> a.price - b.price));
-    } else if (currentSelectedSort === "Price: High to Low") {
-      setVinyls(vinyls.sort((a,b)=> b.price - a.price));
-    } else if (currentSelectedSort === "Artist: A-Z") {
-      setVinyls(vinyls.sort((a,b)=> a.vinyl_artist.localeCompare(b.vinyl_artist)));
-    } else if (currentSelectedSort === "Artist: Z-A") {
-      setVinyls(vinyls.sort((a,b)=> b.vinyl_artist.localeCompare(a.vinyl_artist)));
-    } else if (currentSelectedSort === "Album: A-Z") {
-      setVinyls(vinyls.sort((a,b)=> a.vinyl_title.localeCompare(b.vinyl_title)));
-    } else if (currentSelectedSort === "Album: Z-A") {
-      setVinyls(vinyls.sort((a,b)=> b.vinyl_title.localeCompare(a.vinyl_title)));
-    } else {
-      setVinyls(vinyls.sort((a,b)=> a.product_id - b.product_id))
-    };
-    // */
+    // Find the matching sort function
+    const sortFunction = sorts.find(sort => sort.variation === currentSelectedSortObj.variation)?.cb;
 
-    // alert(currentSelectedSort);
+    /*
+    If sort function is present, setVinyls by using a functional update
+    The prevVinyls parameter is the current value of that state
+    */
+    if (sortFunction) setVinyls((prevVinyls) => sortFunction(prevVinyls));
   }
 
   const handleCheckboxChange = ({ value, checked }: { value: string; checked: boolean }) => {
@@ -146,12 +134,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
       const checkbox = document.getElementById(genreVal) as HTMLInputElement;
       if (checkbox && checkbox.checked) {
         checkbox.checked = false;
-        handleCheckboxChange({ value: checkbox.value, checked: false }); // Pass value and checked
+        handleCheckboxChange({ value: checkbox.value, checked: false });
       }
     });
+
     setGenre([]);
     setStock(true);
     setSale(false);
+    setSelectedSort("Most Popular")
   };
 
   useEffect(() => {
@@ -162,10 +152,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
         if (sale) conditions.push(`sale=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
-
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
 
-        //combine all condition in for API request URL
+        //combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
         const response = await axios.get(url);
@@ -243,15 +232,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
               {sorts.map((sort:Sorting, i:number)=> {
                 return (
                   <div className={styles.checkboxWrapper} key={i}>
-                    <input
+                  <input
                       type="radio"
                       name="option"
                       id={sort.variation}
                       value={JSON.stringify(sort)}
                       onChange={handleSortChange}
                     />
-                    <label htmlFor={sort.variation}>{JSON.stringify(sort)}</label>
-                    {/* <label htmlFor={sort.variation}>{sort.variation}</label> */}
+                    <label htmlFor={sort.variation}>{sort.variation}</label>
                   </div>
                 )
               })}

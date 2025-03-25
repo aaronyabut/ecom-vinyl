@@ -1,6 +1,6 @@
 import { pool } from '../../database/db';
 
-export const getAllVinylsModel = async (genre?: string, sale?: boolean, selectedMin?:number, selectedMax?:number) => {
+export const getAllVinylsModel = async (genre?: string | object, sale?: string, selectedMin?:string, selectedMax?:string) => {
   try {
     let query = 'SELECT * FROM vinyls';
     const values: string[] = [];
@@ -10,10 +10,11 @@ export const getAllVinylsModel = async (genre?: string, sale?: boolean, selected
     // Filter by genre
     if (genre) {
       if (Array.isArray(genre)) {
+        console.log("Array.isArray(genre)", Array.isArray(genre))
         const placeholders = genre.map(() => `$${paramIndex++}`).join(', ');
         conditions.push(`genre IN (${placeholders})`);
         values.push(...genre);
-      } else {
+      } else if (typeof genre === 'string') {
         conditions.push(`genre = $${paramIndex++}`);
         values.push(genre);
       }
