@@ -159,7 +159,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
         const response = await axios.get(url);
 
-        setVinyls(response.data);
+        const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
+
+        if (sortFunction) {
+          setVinyls(sortFunction(response.data));
+        } else {
+          setVinyls(response.data);
+          setSelectedSort("Most Popular")
+        }
 
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);

@@ -10,7 +10,6 @@ export const getAllVinylsModel = async (genre?: string | object, sale?: string, 
     // Filter by genre
     if (genre) {
       if (Array.isArray(genre)) {
-        console.log("Array.isArray(genre)", Array.isArray(genre))
         const placeholders = genre.map(() => `$${paramIndex++}`).join(', ');
         conditions.push(`genre IN (${placeholders})`);
         values.push(...genre);
