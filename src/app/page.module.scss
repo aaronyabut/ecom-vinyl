@@ -322,8 +322,6 @@ $inner-dropdown: rgb(45,45,45);
 
   .artistInputContainer {
     display: flex;
-    // padding-inline: 5px;
-    padding-block: 5px;
     gap: 5px;
 
     flex-direction: column;
@@ -339,7 +337,7 @@ $inner-dropdown: rgb(45,45,45);
       display: flex;
       height: fit-content;
       width: fit-content;
-      margin: 5px 5px 0px;
+      margin: 10px 5px 0px;
       flex-direction: row;
       justify-content: space-between;
       // @include border(green);
@@ -383,7 +381,9 @@ $inner-dropdown: rgb(45,45,45);
     }
     .artistListContainer {
       background-color: rgb(58, 58, 58);
+      box-shadow:  0px 16px 24px 0px rgba(0, 0, 0, 0.8);
       margin-inline: 5px;
+      z-index: 50;
 
       height: fit-content;
       .artist {
@@ -398,9 +398,10 @@ $inner-dropdown: rgb(45,45,45);
     }
 
     .chosenArtistContainer {
+      z-index: 49;
       display: flex;
       flex-wrap: wrap;
-      margin: 3px 3px;
+      margin: 3px 3px 7px;
       .chosenArtist {
         display: flex;
         flex-direction: row;

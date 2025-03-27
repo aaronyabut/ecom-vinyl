@@ -61,10 +61,7 @@ export default function Artists ({toggleDropdown, isOpenArtist, setIsOpenArtist,
         />
       </div>
       {/* <div className={``}> */}
-        <div className={`${styles.artistInputContainer}
-          ${true && styles.open}
-        `}>
-          {/* ${isOpenArtist && styles.open} */}
+        <div className={`${styles.artistInputContainer} ${isOpenArtist && styles.open}`}>
           <div className={styles.artistInputWrapper}>
             <input
               type='text'
