@@ -1,6 +1,7 @@
 import styles from '../page.module.scss'
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import xIcon from '../../../public/x-icon.svg'
 
 interface ArtistsProps {
   toggleDropdown: (setState: React.Dispatch<React.SetStateAction<boolean>>)=> void;
@@ -59,8 +60,11 @@ export default function Artists ({toggleDropdown, isOpenArtist, setIsOpenArtist,
           className={`${isOpenArtist ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
         />
       </div>
-      <div >
-        <div className={`${styles.artistInputContainer} ${isOpenArtist && styles.open}`}>
+      {/* <div className={``}> */}
+        <div className={`${styles.artistInputContainer}
+          ${true && styles.open}
+        `}>
+          {/* ${isOpenArtist && styles.open} */}
           <div className={styles.artistInputWrapper}>
             <input
               type='text'
@@ -71,13 +75,32 @@ export default function Artists ({toggleDropdown, isOpenArtist, setIsOpenArtist,
               Search
             </button>
           </div>
-        </div>
-        {/* <div>
-          LIST OF ALL ARTISTS
-        </div>
-        <div>
-          CHOSEN ARTIST
-        </div> */}
+          <div className={styles.artistListContainer}>
+            {sampleArtist.map((artist:string,i:number) => {
+              return (
+                <div className={styles.artist} key={i}>
+                  {artist}
+                </div>
+              )
+            })}
+          </div>
+          <div className={styles.chosenArtistContainer}>
+            {sampleArtist.map((artist:string,i:number) => {
+              return (
+                <div className={styles.chosenArtist} key={i}>
+                  {artist}
+                  <Image
+                    src={xIcon}
+                    width={12}
+                    height={12}
+                    alt="arrow icon"
+                    className={styles.XIcon}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        {/* </div> */}
       </div>
     </div>
   )
