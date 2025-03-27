@@ -6,6 +6,7 @@ import Image from 'next/image';
 import WishlistIcon from '../../public/wishlist-heart.svg';
 import ArrowIcon from '../../public/arrow-icon.svg'
 import DualRangeSlider from './utils/DualRangeSlider';
+import Artists from './filters/Artists';
 
 interface Vinyl {
   product_id: number;
@@ -21,7 +22,7 @@ interface Vinyl {
   vinyl_description: string;
 }
 
-type Sorting = {
+interface Sorting {
   variation: string;
   cb:(vinyls: Vinyl[]) => Vinyl[];
 }
@@ -58,7 +59,6 @@ const sorts: Sorting[] = [
     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_title.localeCompare(a.vinyl_title)),
   },
 ];
-
 
 export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { initialVinyls: Vinyl[], initialMin:number,initialMax:number }) {
   const [vinyls, setVinyls] = useState(initialVinyls);
@@ -293,7 +293,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
               );
             })}
           </div>
-          <div
+
+          <Artists toggleDropdown={toggleDropdown} isOpenArtist={isOpenArtist} setIsOpenArtist={setIsOpenArtist} ArrowIcon={ArrowIcon} genre={genre}/>
+          {/* <div
             className={`${styles.artistStyling} ${isOpenArtist && styles.active}`}
             onClick={()=>toggleDropdown(setIsOpenArtist)}
           >
@@ -318,7 +320,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
                 Search
               </button>
             </div>
-          </div>
+          </div> */}
           <div
             className={`${styles.priceStyling} ${isOpenPrice && styles.active}`}
             onClick={()=>toggleDropdown(setIsOpenPrice)}
