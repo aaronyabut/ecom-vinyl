@@ -71,6 +71,19 @@ export default function Artists ({
     debouncedSetArtist(e.target.value);
   }
 
+  const handleOnClickArtist = (artist:string) => {
+    // console.log(artist);
+    setArtistFilter(prev => ({
+      ...prev,
+      selecting: ""
+    }))
+    setLocalSelectingArtist("");
+    setArtistFilter(prev => ({
+      ...prev,
+      selected: [...prev.selected, artist]
+    }))
+  }
+
   useEffect (() => {
 
   }, [])
@@ -110,7 +123,7 @@ export default function Artists ({
           <div className={styles.artistListContainer}>
             {artistFilter.selectingList.map((artist:string,i:number) => {
               return (
-                <div className={styles.artist} key={i}>
+                <div className={styles.artist} key={i} onClick={()=>handleOnClickArtist(artist)}>
                   {artist}
                 </div>
               )

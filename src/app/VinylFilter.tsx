@@ -84,9 +84,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [artistFilter, setArtistFilter] = useState<ArtistState>({
     selecting: "",
     selectingList:[],
-    // selected: ["as"],
     selected: [],
   })
+  // selected: ["as"],
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
   const checkCurrent = "Artist";
@@ -96,7 +96,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     // console.log("Low to High " + JSON.stringify(sorts[1].cb));
     // console.log(vinyls.length);
     // console.log(vinyls);
-    // console.log("selectingArtist: ", selectingArtist);
+    console.log("artistFilter: ", artistFilter.selecting);
 
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   };
