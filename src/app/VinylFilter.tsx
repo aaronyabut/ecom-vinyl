@@ -96,7 +96,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     // console.log("Low to High " + JSON.stringify(sorts[1].cb));
     // console.log(vinyls.length);
     // console.log(vinyls);
-    console.log("artistFilter: ", artistFilter.selecting);
+    // console.log("artistFilter: ", artistFilter.selecting);
 
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   };
@@ -238,9 +238,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         const artistNames = response.data;
 
         setArtistFilter(prev => ({...prev, selectingList: artistNames }))
-        // console.log("TEST", artistNames);
-        console.log(artistFilter.selectingList);
-        // Add your async logic here, e.g., fetching data
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
       }

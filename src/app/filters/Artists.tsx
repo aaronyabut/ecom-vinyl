@@ -72,17 +72,16 @@ export default function Artists ({
   }
 
   const handleOnClickArtist = (artist:string) => {
-    // console.log(artist);
-    setArtistFilter(prev => ({
-      ...prev,
-      selecting: ""
-    }))
+    // console.log(!artistFilter.selected.includes(artist))
+    if (!artistFilter.selected.includes(artist)) {
+      setArtistFilter(prev => ({ ...prev, selected: [...prev.selected, artist] }))
+    }
+    setArtistFilter(prev => ({ ...prev, selecting: ""}))
     setLocalSelectingArtist("");
-    setArtistFilter(prev => ({
-      ...prev,
-      selected: [...prev.selected, artist]
-    }))
   }
+
+  // remove on X click
+  // prevent duplicates from being added
 
   useEffect (() => {
 
