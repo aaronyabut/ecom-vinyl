@@ -86,7 +86,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     selectingList:[],
     selected: [],
   })
-  // selected: ["as"],
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
   const checkCurrent = "Artist";
@@ -155,6 +154,10 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     setStock(true);
     setSale(false);
     setSelectedSort("Most Popular")
+    setArtistFilter(prev => ({
+      ...prev,
+      selected: []
+    }))
   };
 
   // Fetches all the vinyl according to the filter
@@ -166,10 +169,16 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
         if (sale) conditions.push(`sale=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
+        // if (artistFilter.selected.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
+        if (artistFilter.selected.length) {
+          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
+        };
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
 
         //combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
+
+        console.log('conditions', conditions)
 
         const response = await axios.get(url);
 
@@ -179,7 +188,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
           setVinyls(sortFunction(response.data));
         } else {
           setVinyls(response.data);
-          setSelectedSort("Most Popular")
+          setSelectedSort('Most Popular')
         }
 
       } catch (error) {
@@ -188,7 +197,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
       }
     }
     fetchFilteredVinyls();
-  }, [genre, sale, selectedMin, selectedMax]);
+  }, [genre, sale, selectedMin, selectedMax, artistFilter.selected]);
 
   // Sets up the min and max price in the filter
   useEffect(() => {

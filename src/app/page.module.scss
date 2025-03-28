@@ -134,7 +134,8 @@ $inner-dropdown: rgb(45,45,45);
 }
 
 .mainLayout {
-  width: 100%;
+  // width: 100%;
+  width: 1440px;
   display: flex;
   flex-direction: row;
   gap: 1.85rem;
@@ -143,12 +144,13 @@ $inner-dropdown: rgb(45,45,45);
 }
 
 .mainHeaders {
+  width: 1440px;
   display: flex;
   flex-direction: row;
   margin-bottom: 30px;
   justify-content: space-between;
   align-items: center;
-  padding-right: 18px;
+  // padding-right: 5px;
 
   // @include border(green);
 }
@@ -510,14 +512,20 @@ $inner-dropdown: rgb(45,45,45);
     width: 100%;
     display: grid;
     grid-template-columns: auto auto auto auto;
-    gap: 1.45rem;
+    justify-content: start;
+    // gap: 1.45rem;
+
 
     // @include border(rgb(255, 217, 0));
   }
   .vinyl {
-    width: 17rem;
+    width: 16.95rem;
     position: relative;
+    margin-bottom: 20px;
+    margin-right: 22px;
 
+    // @include border(rgb(72, 255, 0));
+    @include border(transparent);
     .imageWrapper {
       position: relative;
       display: inline-block;
@@ -554,7 +562,6 @@ $inner-dropdown: rgb(45,45,45);
         }
         .wishlist {
           background-color: rgb(118, 118, 118, 0.6);
-          // background-color: rgb(118, 118, 118, 0.6);
         }
         .toCart {
           opacity: 1; // Fully visible on hover
