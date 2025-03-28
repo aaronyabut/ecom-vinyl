@@ -27,6 +27,12 @@ interface Sorting {
   cb:(vinyls: Vinyl[]) => Vinyl[];
 }
 
+interface ArtistState {
+  selecting: string;
+  selectingList: string[];
+  selected: string[];
+}
+
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
 const sorts: Sorting[] = [
   {
@@ -74,8 +80,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [selectedMin, setSelectedMin] = useState<number>(min);
   const [selectedMax, setSelectedMax] = useState<number>(max);
   const [selectedSort, setSelectedSort] = useState<string>("Most popular");
-  const [selectedArtist, setSelectedArtist] = useState<string>("");
-  // const [selectedSort, setSelectedSort] = useState<string>(sorts[0].variation);
+  // Trying out grouping useStates
+  const [artistFilter, setArtistFilter] = useState<ArtistState>({
+    selecting: "",
+    selectingList:[],
+    selected: [],
+  })
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
   const checkCurrent = "Artist";
@@ -85,7 +95,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     // console.log("Low to High " + JSON.stringify(sorts[1].cb));
     // console.log(vinyls.length);
     // console.log(vinyls);
-    console.log("selectedArtist: ", selectedArtist);
+    // console.log("selectingArtist: ", selectingArtist);
 
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   };
@@ -163,8 +173,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
         const response = await axios.get(url);
 
+        //ensures that the selected sort is still implemented when filtering new data
         const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
-
         if (sortFunction) {
           setVinyls(sortFunction(response.data));
         } else {
@@ -178,7 +188,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
       }
     }
     fetchFilteredVinyls();
-  }, [genre, sale, selectedMin, selectedMax]); // Refetch when theres changes
+  }, [genre, sale, selectedMin, selectedMax]);
 
   useEffect(() => {
     async function setMinMax () {
@@ -216,6 +226,20 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     }
     setMinMax()
   }, [genre, sale]);
+
+  useEffect(() => {
+    async function fetchArtists() {
+      try {
+        let url = 'http://localhost:4000/artists';
+        console.log(artistFilter.selecting);
+        // Add your async logic here, e.g., fetching data
+      } catch (error) {
+        console.error('Error fetching filtered vinyls:', error);
+      }
+    }
+
+    fetchArtists(); // Call the async function
+  }, [artistFilter.selecting]);
 
   return (
     <div>
@@ -304,8 +328,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
             setIsOpenArtist={setIsOpenArtist}
             ArrowIcon={ArrowIcon}
             genre={genre}
-            setSelectedArtist={setSelectedArtist}
-            selectedArtist={selectedArtist}
+            artistFilter={artistFilter}
+            setArtistFilter={setArtistFilter}
           />
           {/* <div
             className={`${styles.artistStyling} ${isOpenArtist && styles.active}`}

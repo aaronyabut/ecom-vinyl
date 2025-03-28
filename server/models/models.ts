@@ -26,7 +26,7 @@ export const getAllVinylsModel = async (genre?: string | object, sale?: string, 
     // Combine conditions with WHERE clause
     if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
 
-    // console.log("QUERY", query)
+    console.log("QUERY", query)
     // console.log("VALUES", values)
     const { rows } = await pool.query(query, values);
     return rows;
@@ -35,3 +35,27 @@ export const getAllVinylsModel = async (genre?: string | object, sale?: string, 
     throw new Error('Database error');
   }
 };
+
+export const getArtistsModel = async (artist?:string) => {
+  try {
+    let query = artist ? `
+      SELECT DISTINCT vinyl_artist
+      FROM vinyls
+      WHERE LOWER(vinyl_artist) LIKE LOWER($1)
+        OR LOWER(vinyl_artist) LIKE '% ' || LOWER($1)
+      ORDER BY vinyl_artist
+      LIMIT 10
+    ` : '';
+    const values = artist ? [`${artist}%`] : ['%'];
+
+    const { rows } = await pool.query(query, values);
+
+    console.log("QUERY", query)
+    console.log("VALUES", values)
+
+    return rows.map(row => row.vinyl_artist);
+  } catch (error) {
+    console.error('Error fetching artists:', error);
+    throw new Error('Database error');
+  }
+}

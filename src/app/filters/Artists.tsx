@@ -27,6 +27,12 @@ const sampleArtist: string[] = [
   // "Amy Winehouse",
 ];
 
+interface ArtistState {
+  selecting: string;
+  selectingList: string[];
+  selected: string[];
+}
+
 
 interface ArtistsProps {
   toggleDropdown: (setState: React.Dispatch<React.SetStateAction<boolean>>)=> void;
@@ -34,8 +40,8 @@ interface ArtistsProps {
   setIsOpenArtist: React.Dispatch<React.SetStateAction<boolean>>;
   ArrowIcon: string;
   genre: string[];
-  setSelectedArtist: React.Dispatch<React.SetStateAction<string>>;
-  selectedArtist: string;
+  artistFilter:ArtistState
+  setArtistFilter: React.Dispatch<React.SetStateAction<ArtistState>>;
 }
 
 
@@ -45,23 +51,23 @@ export default function Artists ({
   setIsOpenArtist,
   ArrowIcon,
   genre,
-  selectedArtist,
-  setSelectedArtist,
+  artistFilter,
+  setArtistFilter,
 } : ArtistsProps) {
-  const [localSelectedArtist, setLocalSelectedArtist] = useState<string>("")
+  const [localSelectingArtist, setLocalSelectingArtist] = useState<string>("")
 
   /*
-  Setting local state and debouncing selectedArtist gives immediate feedback
+  Setting local state and debouncing selectingArtist gives immediate feedback
   while keeping the global state in sync
   */
   const debouncedSetArtist = useCallback(
     debounce((value: string) => {
-      setSelectedArtist(value);
+      setArtistFilter(prev => ({ ...prev, selecting: value }))
     }, 300),
-    [setSelectedArtist]
+    []
   );
   const handleArtistSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
-    setLocalSelectedArtist(e.target.value);
+    setLocalSelectingArtist(e.target.value);
     debouncedSetArtist(e.target.value);
   }
 
@@ -91,12 +97,12 @@ export default function Artists ({
           <input
             type='text'
             placeholder='Artist name'
-            value={localSelectedArtist}
-            // value={selectedArtist}
+            value={localSelectingArtist}
+            // value={selectingArtist}
             onChange={handleArtistSearch}
             // onChange={(e)=> {
-            //   setSelectedArtist(e.target.value)
-            //   // setLocalSelectedArtist(e.target.value)
+            //   setSelectingArtist(e.target.value)
+            //   // setLocalSelectingArtist(e.target.value)
 
             // }}
           />
@@ -114,7 +120,7 @@ export default function Artists ({
           })}
         </div>
         <div className={styles.chosenArtistContainer}>
-          {sampleArtist.map((artist:string,i:number) => {
+          {artistFilter.selected.map((artist:string,i:number) => {
             return (
               <div className={styles.chosenArtist} key={i}>
                 {artist}
