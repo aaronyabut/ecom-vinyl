@@ -385,10 +385,13 @@ $inner-dropdown: rgb(45,45,45);
       margin-inline: 5px;
       z-index: 50;
 
+
+
       height: fit-content;
       .artist {
         padding: 10px;
         cursor: pointer;
+
         &:hover {
           background-color: rgb(86, 86, 86);
         }
@@ -397,11 +400,13 @@ $inner-dropdown: rgb(45,45,45);
       // @include border(rgb(0, 41, 128));
     }
 
+    .active {
+      margin: 0px 3px 7px;
+    }
     .chosenArtistContainer {
       z-index: 49;
       display: flex;
       flex-wrap: wrap;
-      margin: 3px 3px 7px;
       .chosenArtist {
         display: flex;
         flex-direction: row;

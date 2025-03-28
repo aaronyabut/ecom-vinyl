@@ -84,6 +84,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [artistFilter, setArtistFilter] = useState<ArtistState>({
     selecting: "",
     selectingList:[],
+    // selected: ["as"],
     selected: [],
   })
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);

@@ -92,42 +92,39 @@ export default function Artists ({
           className={`${isOpenArtist ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
         />
       </div>
-      <div className={`${styles.artistInputContainer} ${isOpenArtist && styles.open}`}>
+      <div className={`${styles.artistInputContainer}
+        ${isOpenArtist && styles.open}`
+        // ${true && styles.open}`
+      }>
         <div className={styles.artistInputWrapper}>
           <input
             type='text'
             placeholder='Artist name'
             value={localSelectingArtist}
-            // value={selectingArtist}
             onChange={handleArtistSearch}
-            // onChange={(e)=> {
-            //   setSelectingArtist(e.target.value)
-            //   // setLocalSelectingArtist(e.target.value)
-
-            // }}
           />
           <button className={styles.artistSearchButton}>
             Search
           </button>
         </div>
-        <div className={styles.artistListContainer}>
-          {artistFilter.selectingList.map((artist:string,i:number) => {
-            return (
-              <div className={styles.artist} key={i}>
-                {artist}
-              </div>
-            )
-          })}
-        </div>
-        <div className={styles.chosenArtistContainer}>
+          <div className={styles.artistListContainer}>
+            {artistFilter.selectingList.map((artist:string,i:number) => {
+              return (
+                <div className={styles.artist} key={i}>
+                  {artist}
+                </div>
+              )
+            })}
+          </div>
+        <div className={`${styles.chosenArtistContainer} ${artistFilter.selected.length > 0 && styles.active}`}>
           {artistFilter.selected.map((artist:string,i:number) => {
             return (
               <div className={styles.chosenArtist} key={i}>
                 {artist}
                 <Image
                   src={xIcon}
-                  width={12}
-                  height={12}
+                  width={11}
+                  height={11}
                   alt="arrow icon"
                   className={styles.XIcon}
                 />
