@@ -33,6 +33,15 @@ $inner-dropdown: rgb(45,45,45);
   }
 }
 
+@mixin contained {
+  .contained_icon {
+    filter: invert(70%) sepia(160%) saturate(1800%) hue-rotate(150deg) brightness(125%) contrast(110%);
+  }
+  .contained_header {
+    color:$accent-color;
+  }
+}
+
 @mixin dropDownStyling ($mid-comp:true) {
   @include filterLayout($mid-comp);
   cursor: pointer;
@@ -248,12 +257,7 @@ $inner-dropdown: rgb(45,45,45);
 
   .genreStyling {
     @include dropDownStyling($mid-comp:false);
-    .contained {
-      filter: invert(70%) sepia(160%) saturate(1800%) hue-rotate(150deg) brightness(125%) contrast(110%);
-    }
-    .contained2 {
-      color:$accent-color;
-    }
+    @include contained()
   }
 
   .genreList {
@@ -318,6 +322,7 @@ $inner-dropdown: rgb(45,45,45);
 
   .artistStyling, .priceStyling {
     @include dropDownStyling();
+    @include contained()
   }
 
   .artistInputContainer {

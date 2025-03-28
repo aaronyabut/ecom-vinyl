@@ -297,8 +297,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
             className={`${styles.genreStyling} ${isOpenGenre ? styles.active : ''}`}
             onClick={()=>toggleDropdown(setIsOpenGenre)}
           >
-            <legend className={`${genre.length && styles.contained2}`}>
-              Genre {`${genre.length ? `(${genre.length})`: ''}`}
+            <legend className={`${genre.length && styles.contained_header}`}>
+              Genre {genre.length ? `(${genre.length})`: ''}
             </legend>
 
             <Image
@@ -306,7 +306,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
               width={15}
               height={15}
               alt="arrow icon"
-              className={`${isOpenGenre ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
+              className={`${isOpenGenre ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained_icon}`}
             />
           </div>
           <div className={`${styles.genreList} ${isOpenGenre && styles.open}`}>

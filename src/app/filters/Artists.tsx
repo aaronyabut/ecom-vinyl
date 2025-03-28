@@ -80,6 +80,13 @@ export default function Artists ({
     setLocalSelectingArtist("");
   }
 
+  const handleRemoveArtist = (artist:string) => {
+    setArtistFilter(prev => ({
+      ...prev,
+      selected: prev.selected.filter(val => val !== artist)
+    }))
+  };
+
   // remove on X click
   // prevent duplicates from being added
 
@@ -93,15 +100,15 @@ export default function Artists ({
         className={`${styles.artistStyling} ${isOpenArtist && styles.active}`}
         onClick={()=>toggleDropdown(setIsOpenArtist)}
       >
-        <legend>
-          Artist
+        <legend className={`${artistFilter.selected.length ? styles.contained_header : ''}`}>
+          Artist {artistFilter.selected.length ? `(${artistFilter.selected.length})` : ''}
         </legend>
         <Image
           src={ArrowIcon}
           width={15}
           height={15}
           alt="arrow icon"
-          className={`${isOpenArtist ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
+          className={`${isOpenArtist ? styles.rotateIcon : styles.rotateIconReverse} ${artistFilter.selected.length ? styles.contained_icon : ''}`}
         />
       </div>
       <div className={`${styles.artistInputContainer}
@@ -139,6 +146,7 @@ export default function Artists ({
                   height={11}
                   alt="arrow icon"
                   className={styles.XIcon}
+                  onClick={()=>handleRemoveArtist(artist)}
                 />
               </div>
             )
