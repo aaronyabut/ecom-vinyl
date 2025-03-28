@@ -74,16 +74,18 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const [selectedMin, setSelectedMin] = useState<number>(min);
   const [selectedMax, setSelectedMax] = useState<number>(max);
   const [selectedSort, setSelectedSort] = useState<string>("Most popular");
+  const [selectedArtist, setSelectedArtist] = useState<string>("");
   // const [selectedSort, setSelectedSort] = useState<string>(sorts[0].variation);
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
-  const checkCurrent = "sort";
+  const checkCurrent = "Artist";
   const handleCheckCurrent = () => {
     // console.log(`[${checkCurrent.toUpperCase()}] min: ${min}, max ${max}`);
     // console.log(`[${checkCurrent.toUpperCase()}] selectedMin: ${selectedMin}, selectedMax ${selectedMax}`);
     // console.log("Low to High " + JSON.stringify(sorts[1].cb));
     // console.log(vinyls.length);
     // console.log(vinyls);
+    console.log("selectedArtist: ", selectedArtist);
 
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   };
@@ -91,6 +93,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const toggleDropdown = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
     setState((prev:boolean) => !prev);
   };
+
+
 
   const handleCheckboxStock = (e:React.ChangeEvent<HTMLInputElement>) => {
     setStock(!stock);
@@ -294,7 +298,15 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
             })}
           </div>
 
-          <Artists toggleDropdown={toggleDropdown} isOpenArtist={isOpenArtist} setIsOpenArtist={setIsOpenArtist} ArrowIcon={ArrowIcon} genre={genre}/>
+          <Artists
+            toggleDropdown={toggleDropdown}
+            isOpenArtist={isOpenArtist}
+            setIsOpenArtist={setIsOpenArtist}
+            ArrowIcon={ArrowIcon}
+            genre={genre}
+            setSelectedArtist={setSelectedArtist}
+            selectedArtist={selectedArtist}
+          />
           {/* <div
             className={`${styles.artistStyling} ${isOpenArtist && styles.active}`}
             onClick={()=>toggleDropdown(setIsOpenArtist)}
