@@ -169,7 +169,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
         if (sale) conditions.push(`sale=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
-        // if (artistFilter.selected.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
         if (artistFilter.selected.length) {
           conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
         };
@@ -208,6 +207,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
         if (sale) conditions.push(`sale=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
+        if (artistFilter.selected.length) {
+          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
+        };
 
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
@@ -235,7 +237,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
       }
     }
     setMinMax()
-  }, [genre, sale]);
+  }, [genre, sale, artistFilter.selected]);
 
   // Fetches artist name when filter for certain artists
   useEffect(() => {
