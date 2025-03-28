@@ -21,7 +21,6 @@ export const getAllVinylsController = async (req: Request, res: Response) => {
 export const getArtistsController = async (req: Request, res: Response) => {
   try {
     const artist = typeof req.query.artist === 'string' ? req.query.artist : undefined;
-
     const artistList = await getArtistsModel(artist);
 
     res.json(artistList);
@@ -31,6 +30,6 @@ export const getArtistsController = async (req: Request, res: Response) => {
   }
 }
 
-export const test = async (req: Request, res: Response) => {
-  res.json({ message: 'Message from Express!' });
-};
+// export const test = async (req: Request, res: Response) => {
+//   res.json({ message: 'Message from Express!' });
+// };

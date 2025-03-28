@@ -104,8 +104,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     setState((prev:boolean) => !prev);
   };
 
-
-
   const handleCheckboxStock = (e:React.ChangeEvent<HTMLInputElement>) => {
     setStock(!stock);
   };
@@ -231,7 +229,16 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     async function fetchArtists() {
       try {
         let url = 'http://localhost:4000/artists';
-        console.log(artistFilter.selecting);
+
+        if (artistFilter.selecting) url += `?artist=${artistFilter.selecting}`
+
+        const response = await axios.get(url);
+
+        const artistNames = response.data;
+
+        setArtistFilter(prev => ({...prev, selectingList: artistNames }))
+        // console.log("TEST", artistNames);
+        console.log(artistFilter.selectingList);
         // Add your async logic here, e.g., fetching data
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);

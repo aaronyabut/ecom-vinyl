@@ -111,7 +111,7 @@ export default function Artists ({
           </button>
         </div>
         <div className={styles.artistListContainer}>
-          {sampleArtist.map((artist:string,i:number) => {
+          {artistFilter.selectingList.map((artist:string,i:number) => {
             return (
               <div className={styles.artist} key={i}>
                 {artist}

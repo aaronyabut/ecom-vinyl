@@ -26,7 +26,7 @@ export const getAllVinylsModel = async (genre?: string | object, sale?: string, 
     // Combine conditions with WHERE clause
     if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
 
-    console.log("QUERY", query)
+    // console.log("QUERY", query)
     // console.log("VALUES", values)
     const { rows } = await pool.query(query, values);
     return rows;
@@ -50,8 +50,8 @@ export const getArtistsModel = async (artist?:string) => {
 
     const { rows } = await pool.query(query, values);
 
-    console.log("QUERY", query)
-    console.log("VALUES", values)
+    // console.log("QUERY", query)
+    // console.log("VALUES", values)
 
     return rows.map(row => row.vinyl_artist);
   } catch (error) {
