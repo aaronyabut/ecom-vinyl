@@ -1,6 +1,6 @@
 import { pool } from '../../database/db';
 
-export const getAllVinylsModel = async (genre?: string | object, sale?: string, selectedMin?:string, selectedMax?:string) => {
+export const getAllVinylsModel = async (genre?: string | object, sale?: string, selectedMin?:string, selectedMax?:string, artist?: string | object) => {
   try {
     let query = 'SELECT * FROM vinyls';
     const values: string[] = [];
@@ -13,9 +13,22 @@ export const getAllVinylsModel = async (genre?: string | object, sale?: string, 
         const placeholders = genre.map(() => `$${paramIndex++}`).join(', ');
         conditions.push(`genre IN (${placeholders})`);
         values.push(...genre);
+
       } else if (typeof genre === 'string') {
         conditions.push(`genre = $${paramIndex++}`);
         values.push(genre);
+      }
+    }
+
+    // Filter by genre
+    if (artist) {
+      if (Array.isArray(artist)) {
+        const placeholders = artist.map(() => `$${paramIndex++}`).join(', ');
+        conditions.push(`vinyl_artist IN (${placeholders})`);
+        values.push(...artist);
+      } else if (typeof artist === 'string') {
+        conditions.push(`vinyl_artist = $${paramIndex++}`);
+        values.push(artist);
       }
     }
 
@@ -29,6 +42,7 @@ export const getAllVinylsModel = async (genre?: string | object, sale?: string, 
     // console.log("QUERY", query)
     // console.log("VALUES", values)
     const { rows } = await pool.query(query, values);
+
     return rows;
   } catch (error) {
     console.error('Error fetching vinyls:', error);

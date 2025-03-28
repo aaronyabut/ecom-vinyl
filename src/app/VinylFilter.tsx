@@ -157,6 +157,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     setSelectedSort("Most Popular")
   };
 
+  // Fetches all the vinyl according to the filter
   useEffect(() => {
     async function fetchFilteredVinyls() {
       try {
@@ -189,6 +190,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     fetchFilteredVinyls();
   }, [genre, sale, selectedMin, selectedMax]);
 
+  // Sets up the min and max price in the filter
   useEffect(() => {
     async function setMinMax () {
       try {
@@ -226,6 +228,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     setMinMax()
   }, [genre, sale]);
 
+  // Fetches artist name when filter for certain artists
   useEffect(() => {
     async function fetchArtists() {
       try {
@@ -243,7 +246,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
       }
     }
 
-    fetchArtists(); // Call the async function
+    fetchArtists();
   }, [artistFilter.selecting]);
 
   return (

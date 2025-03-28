@@ -8,8 +8,9 @@ export const getAllVinylsController = async (req: Request, res: Response) => {
     const sale = typeof req.query.sale === 'string' ? req.query.sale : undefined;
     const selectedMin = typeof req.query['min-price'] === 'string' ? req.query['min-price'] : undefined;
     const selectedMax = typeof req.query['max-price'] === 'string' ? req.query['max-price'] : undefined;
+    const artist = typeof req.query.artist === 'string' || typeof req.query.artist === 'object' ? req.query.artist : undefined;
 
-    const vinyls = await getAllVinylsModel(genre,sale,selectedMin,selectedMax);
+    const vinyls = await getAllVinylsModel(genre,sale,selectedMin,selectedMax,artist);
 
     res.json(vinyls);
   } catch (error) {
