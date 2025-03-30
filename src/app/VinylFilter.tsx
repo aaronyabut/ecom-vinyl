@@ -176,7 +176,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     }))
   };
 
-  // Fetches all the vinyl according to the filter
+  // MAIN Fetches all the vinyl according to the filter
   useEffect(() => {
     async function fetchFilteredVinyls() {
       try {
@@ -206,6 +206,11 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
           setSelectedSort('Most Popular')
         }
 
+        setShowMore((prev) => ({
+          ...prev,
+          offsetValue: 0
+        }))
+
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
         setVinyls([]);
@@ -215,6 +220,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   }, [genre, sale, selectedMin, selectedMax, artistFilter.selected]);
 
   useEffect (() => {
+    /*
+    fetchMoreVinyl
+     * minMax logic needs to be updated
+     *** only gets the min-max of the vinyls shown not all
+     * Show more button to disappear when theres no more vinyls
+    */
     async function fetchMoreVinyl () {
       try {
         let url = 'http://localhost:4000/vinyls';
@@ -232,12 +243,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
         const response = await axios.get(url);
 
-        console.log("response.data.length", response.data)
+        // Adding if to prevent double inital fetch
         if (showMore.offsetValue>0) setVinyls((prev:Vinyl[]) => prev.concat(response.data))
-        // console.log(prev);
-
-        console.log(showMore.offsetValue);
-        console.log(url);
       } catch (error) {
         console.error('Error fetching more vinyls:', error);
       }
