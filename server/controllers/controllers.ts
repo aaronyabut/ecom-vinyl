@@ -9,8 +9,10 @@ export const getAllVinylsController = async (req: Request, res: Response) => {
     const selectedMin = typeof req.query['min-price'] === 'string' ? req.query['min-price'] : undefined;
     const selectedMax = typeof req.query['max-price'] === 'string' ? req.query['max-price'] : undefined;
     const artist = typeof req.query.artist === 'string' || typeof req.query.artist === 'object' ? req.query.artist : undefined;
+    const offset = typeof req.query.offset === 'string' ? req.query.offset : undefined;
 
-    const vinyls = await getAllVinylsModel(genre,sale,selectedMin,selectedMax,artist);
+    console.log(offset)
+    const vinyls = await getAllVinylsModel(genre,sale,selectedMin,selectedMax,artist,offset);
 
     res.json(vinyls);
   } catch (error) {

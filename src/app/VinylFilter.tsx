@@ -33,6 +33,10 @@ interface ArtistState {
   selected: string[];
 }
 
+interface ShowMoreState {
+  offsetValue: number;
+}
+
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
 const sorts: Sorting[] = [
   {
@@ -86,9 +90,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     selectingList:[],
     selected: [],
   })
+  const [showMore, setShowMore] = useState<ShowMoreState>({
+    offsetValue: 0,
+  })
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
-  const checkCurrent = "Artist";
+  const checkCurrent = "offset value";
   const handleCheckCurrent = () => {
     // console.log(`[${checkCurrent.toUpperCase()}] min: ${min}, max ${max}`);
     // console.log(`[${checkCurrent.toUpperCase()}] selectedMin: ${selectedMin}, selectedMax ${selectedMax}`);
@@ -96,6 +103,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     // console.log(vinyls.length);
     // console.log(vinyls);
     // console.log("artistFilter: ", artistFilter.selecting);
+    console.log("showMore.offsetValue: ", showMore.offsetValue);
 
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   };
@@ -103,6 +111,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   const toggleDropdown = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
     setState((prev:boolean) => !prev);
   };
+
+  const handleShowMore = () => {
+    setShowMore(prev => ({
+      ...prev,
+      offsetValue: prev.offsetValue+24
+    }))
+    console.log(showMore.offsetValue);
+  }
 
   const handleCheckboxStock = (e:React.ChangeEvent<HTMLInputElement>) => {
     setStock(!stock);
@@ -177,7 +193,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         //combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
-        console.log('conditions', conditions)
+        // console.log('conditions', conditions)
 
         const response = await axios.get(url);
 
@@ -198,6 +214,42 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     fetchFilteredVinyls();
   }, [genre, sale, selectedMin, selectedMax, artistFilter.selected]);
 
+  useEffect (() => {
+    async function fetchMoreVinyl () {
+      try {
+        let url = 'http://localhost:4000/vinyls';
+        const conditions = [];
+
+        if (sale) conditions.push(`sale=${true}`);
+        if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
+        if (artistFilter.selected.length) {
+          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
+        };
+
+        if (showMore.offsetValue > 0) conditions.push(`offset=${showMore.offsetValue}`)
+
+        if (conditions.length > 0) url += "?" + conditions.join('&');
+
+        const response = await axios.get(url);
+
+        console.log("response.data.length", response.data)
+        if (showMore.offsetValue>0) setVinyls((prev:Vinyl[]) => prev.concat(response.data))
+        // console.log(prev);
+
+        console.log(showMore.offsetValue);
+        console.log(url);
+      } catch (error) {
+        console.error('Error fetching more vinyls:', error);
+      }
+    }
+    fetchMoreVinyl()
+  }, [showMore.offsetValue])
+
+
+  /*
+  Will have to update minMax useEffect, current logic will only now
+  get what is currently fetched, wont get all
+  */
   // Sets up the min and max price in the filter
   useEffect(() => {
     async function setMinMax () {
@@ -340,7 +392,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
               );
             })}
           </div>
-
           <Artists
             toggleDropdown={toggleDropdown}
             isOpenArtist={isOpenArtist}
@@ -350,32 +401,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
             artistFilter={artistFilter}
             setArtistFilter={setArtistFilter}
           />
-          {/* <div
-            className={`${styles.artistStyling} ${isOpenArtist && styles.active}`}
-            onClick={()=>toggleDropdown(setIsOpenArtist)}
-          >
-            <legend>
-              Artist
-            </legend>
-            <Image
-              src={ArrowIcon}
-              width={15}
-              height={15}
-              alt="arrow icon"
-              className={`${isOpenArtist ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
-            />
-          </div>
-          <div className={`${styles.artistInputContainer} ${isOpenArtist && styles.open}`}>
-            <div className={styles.artistInputWrapper}>
-              <input
-                type='text'
-                placeholder='Artist name'
-              />
-              <button className={styles.artistSearchButton}>
-                Search
-              </button>
-            </div>
-          </div> */}
           <div
             className={`${styles.priceStyling} ${isOpenPrice && styles.active}`}
             onClick={()=>toggleDropdown(setIsOpenPrice)}
@@ -492,6 +517,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
               ))}
             </div>
           )}
+          <div className={styles.showMoreContainer}>
+            <div className={styles.showMore} onClick={handleShowMore}>
+                Show More
+                {/* Make reset only show when filter is empty */}
+            </div>
+          </div>
         </div>
       </div>
     </div>
