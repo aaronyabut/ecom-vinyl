@@ -19,7 +19,8 @@ interface Vinyl {
 async function getVinyls(): Promise<Vinyl[]> {
   try {
     const response = await axios.get('http://localhost:4000/vinyls'); // Updated
-    return response.data;
+    // console.log(JSON.stringify(response.data.all_vinyls));
+    return response.data.all_vinyls;
   } catch (error) {
     console.error('Error fetching vinyls:', error);
     return [];

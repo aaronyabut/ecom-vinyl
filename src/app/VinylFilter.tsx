@@ -1,3 +1,8 @@
+/*/[[Feature list]]
+ * Fix min-max, get all min-max not only those that are shown [on-going]
+ * Hide Show more button when there no more vinyls
+ * Fix sorting to be implemented through the backend
+/*/
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -8,12 +13,11 @@ import ArrowIcon from '../../public/arrow-icon.svg'
 import DualRangeSlider from './utils/DualRangeSlider';
 import Artists from './filters/Artists';
 
-/*/[[Feature list]]
- * Fix min-max, get all min-max not only those that are shown
+/*/[[TODO]]
+ * Fix min-max, only retrieves all the vinyls min max not filtered
  * Hide Show more button when there no more vinyls
- * Fix sorting to be implemented through the backend
- *
 /*/
+
 
 interface Vinyl {
   product_id: number;
@@ -234,13 +238,16 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         // console.log('conditions', conditions)
 
         const response = await axios.get(url);
+        const all_vinyls = response.data.all_vinyls;
+        const min_max = response.data.min_max[0];
+        console.log(JSON.stringify(min_max));
 
         //ensures that the selected sort is still implemented when filtering new data
         const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
         if (sortFunction) {
-          setVinyls(sortFunction(response.data));
+          setVinyls(sortFunction(all_vinyls));
         } else {
-          setVinyls(response.data);
+          setVinyls(all_vinyls);
           setSelectedSort('Most Popular')
         }
 
@@ -258,14 +265,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   }, [genre, sale, selectedMin, selectedMax, artistFilter.selected]);
 
   useEffect (() => {
-    /*
-    fetchMoreVinyl
-     * minMax logic needs to be updated
-     *** only gets the min-max of the vinyls shown not all
-     * Show more button to disappear when theres no more vinyls
-     *** finding the minMax may also lead you to achieving this
-    */
     async function fetchMoreVinyl () {
+      /*/
+      fetchMoreVinyl
+       * minMax logic needs to be updated
+       *** only gets the min-max of the vinyls shown not all
+       * Show more button to disappear when theres no more vinyls
+       *** finding the minMax may also lead you to achieving this
+      /*/
       try {
         let url = 'http://localhost:4000/vinyls';
         const conditions = [];
@@ -281,9 +288,10 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
         const response = await axios.get(url);
+        const more_vinyls = response.data.all_vinyls
 
         // Adding if to prevent double inital fetch
-        if (showMore.offsetValue>0) setVinyls((prev:Vinyl[]) => prev.concat(response.data))
+        if (showMore.offsetValue>0) setVinyls((prev:Vinyl[]) => prev.concat(more_vinyls))
       } catch (error) {
         console.error('Error fetching more vinyls:', error);
       }
@@ -296,75 +304,69 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
    * Will have to update minMax useEffect, current logic will only now
    * get what is currently fetched, wont get all
   /*/
+
   // Sets up the min and max price in the filter
-  // useEffect(() => {
-  //   async function setMinMax () {
-  //     try {
-  //       let url = 'http://localhost:4000/vinyls';
-  //       const conditions = [];
-
-  //       if (sale) conditions.push(`sale=${true}`);
-  //       if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
-  //       if (artistFilter.selected.length) {
-  //         conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
-  //       };
-
-  //       if (conditions.length > 0) url += "?" + conditions.join('&');
-
-  //       const response = await axios.get(url);
-  //       const allVinyls = response.data;
-
-  //       // if theres data
-  //       if (allVinyls.length > 0) {
-  //         // get the min and max price
-  //         const minPrice = Math.min(...allVinyls.map((vinyl: Vinyl) => vinyl.price));
-  //         const maxPrice = Math.max(...allVinyls.map((vinyl: Vinyl) => vinyl.price));
-  //         // set min/max
-  //         setMin(Math.floor(minPrice));
-  //         setMax(Math.ceil(maxPrice));
-  //         setSelectedMin(Math.floor(minPrice));
-  //         setSelectedMax(Math.ceil(maxPrice));
-  //         // Only update selectedMin/selectedMax if not user-adjusted
-  //         // if (!isPriceRangeAdjusted) {
-  //         //   setSelectedMin(Math.floor(minPrice));
-  //         //   setSelectedMax(Math.ceil(maxPrice));
-  //         // }
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching filtered vinyls:', error);
-  //     }
-  //   }
-  //   setMinMax()
-  // }, [genre, sale, artistFilter.selected]);
-
-  useEffect(()=> {
-    async function minMaxTest () {
+  useEffect(() => {
+    async function setMinMax () {
       try {
-        let url = 'http://localhost:4000/min_max';
+        let url = 'http://localhost:4000/vinyls';
+        const conditions = [];
+
+        if (sale) conditions.push(`sale=${true}`);
+        if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
+        if (artistFilter.selected.length) {
+          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
+        };
+
+        if (conditions.length > 0) url += "?" + conditions.join('&');
 
         const response = await axios.get(url);
+        const min_max = response.data.min_max[0];
+        const min_price = min_max.min_price;
+        const max_price = min_max.max_price;
 
-        const min_price = response.data.min_price
-        const max_price = response.data.max_price
-
-
-
-
+        // console.log("MIN", min_price)
+        // console.log("MAX", max_price)
+        // const allVinyls = response.data;
+        // set min/max
         setMin(Math.floor(min_price));
         setMax(Math.ceil(max_price));
         setSelectedMin(Math.floor(min_price));
         setSelectedMax(Math.ceil(max_price));
 
-        // console.log("Min", response.data.min_price);
-        // console.log("Max", response.data.max_price);
-        // console.log("minMaxTest", response.data);
-
       } catch (error) {
-        console.log(`Error ${error}`)
+        console.error('Error fetching filtered vinyls:', error);
       }
     }
-    minMaxTest()
+    setMinMax()
   }, [genre, sale, artistFilter.selected]);
+
+  // useEffect(()=> {
+  //   async function fetchMinMax () {
+  //     try {
+  //       let url = 'http://localhost:4000/min_max';
+
+  //       const response = await axios.get(url);
+
+  //       const min_price = response.data.min_price
+  //       const max_price = response.data.max_price
+
+  //       // setMin(Math.floor(min_price));
+  //       // setMax(Math.ceil(max_price));
+  //       // setSelectedMin(Math.floor(min_price));
+  //       // setSelectedMax(Math.ceil(max_price));
+
+  //       // console.log("Min", response.data.min_price);
+  //       // console.log("Max", response.data.max_price);
+  //       // console.log("minMaxTest", response.data);
+
+  //     } catch (error) {
+  //       console.log(`Error ${error}`)
+  //     }
+  //   }
+  //   fetchMinMax()
+  // }, [genre, sale, artistFilter.selected]);
+
 
   // Fetches artist name when filter for certain artists
   useEffect(() => {
@@ -491,7 +493,11 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
               className={`${isOpenPrice ? styles.rotateIcon : styles.rotateIconReverse} ${genre.length && styles.contained}`}
             />
           </div>
-          <div className={`${styles.priceContainer} ${isOpenPrice && styles.open}`}>
+          <div className={`${styles.priceContainer}
+          ${true && styles.open}
+          `}
+            // ${isOpenPrice && styles.open}
+          >
             <DualRangeSlider
               setSelectedMin={setSelectedMin}
               setSelectedMax={setSelectedMax}

@@ -10,6 +10,8 @@ export const getAllVinylsModel = async (
 ) => {
   try {
     let query = 'SELECT * FROM vinyls';
+    let min_max_query = 'SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM vinyls'
+    let total_count_query = 'SELECT COUNT(*)  FROM vinyls'
     const values: string[] = [];
     const conditions: string[] = [];
     let paramIndex = 1;
@@ -42,11 +44,24 @@ export const getAllVinylsModel = async (
     };
     // Filter by sale
     if (sale) conditions.push('sale_label IS NOT NULL');
+
+    if (conditions.length > 0) min_max_query += ' WHERE ' + conditions.join(' AND ');
+    const { rows: min_max} = await pool.query(min_max_query, values);
+
+
+    if (conditions.length > 0) total_count_query += ' WHERE ' + conditions.join(' AND ');
+    const { rows: total_count} = await pool.query(total_count_query, values);
+    // console.log("min_max::::", min_max)
+    console.log("total_count_query", total_count)
+
+
     //Filter by price range
     if (selectedMin && selectedMax) conditions.push(`price BETWEEN ${selectedMin} AND ${selectedMax}`);
 
     // Combine conditions with WHERE clause
     if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
+
+
 
     // Add LIMIT to query
     query += ` LIMIT ${vinylAmount}`;
@@ -55,29 +70,33 @@ export const getAllVinylsModel = async (
     // console.log("QUERY", query)
     // console.log("offset", offset)
     // console.log("VALUES", values)
-    const { rows } = await pool.query(query, values);
+    const { rows: all_vinyls } = await pool.query(query, values);
 
-    return rows;
+    // return rows;
+    return {
+      min_max: min_max,
+      all_vinyls: all_vinyls
+    };
   } catch (error) {
     console.error('Error fetching vinyls:', error);
     throw new Error('Database error');
   }
 };
 
-export const getMinMaxModel = async () => {
-  try {
-    let query = 'SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM vinyls;';
+// export const getMinMaxModel = async () => {
+//   try {
+//     let query = 'SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM vinyls;';
 
-    const {rows} = await pool.query(query);
-    return rows
-    // console.log(`new MIN MAX ${JSON.stringify(rows)}`);
+//     const {rows} = await pool.query(query);
+//     return rows
+//     // console.log(`new MIN MAX ${JSON.stringify(rows)}`);
 
 
-  } catch (error) {
-    console.error('Error fetching min-max:', error);
-    throw new Error('Database error');
-  }
-}
+//   } catch (error) {
+//     console.error('Error fetching min-max:', error);
+//     throw new Error('Database error');
+//   }
+// }
 
 export const getArtistsModel = async (artist?:string) => {
   try {
