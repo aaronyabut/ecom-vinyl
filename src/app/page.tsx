@@ -2,6 +2,14 @@ import axios from 'axios';
 import styles from './page.module.scss';
 import VinylFilter from './VinylFilter'; // New Client Component
 
+interface minMaxTypes {
+  min_price: number;
+  max_price: number;
+}
+interface totalCountTypes {
+  total_count: number;
+}
+
 interface Vinyl {
   product_id: number;
   vinyl_img: string;
@@ -16,30 +24,47 @@ interface Vinyl {
   vinyl_description: string;
 }
 
-async function getVinyls(): Promise<Vinyl[]> {
+interface getVinylsTypes {
+  all_vinyls: Vinyl[];
+  min_max: minMaxTypes[];
+  total_count: totalCountTypes[]
+
+}
+
+async function getVinyls(): Promise<getVinylsTypes> {
   try {
-    const response = await axios.get('http://localhost:4000/vinyls'); // Updated
-    // console.log(JSON.stringify(response.data.all_vinyls));
-    return response.data.all_vinyls;
+    const response = await axios.get('http://localhost:4000/vinyls');
+
+    return response.data;
   } catch (error) {
     console.error('Error fetching vinyls:', error);
-    return [];
+    return {
+      all_vinyls: [],
+      min_max: [],
+      total_count: [],
+    };
   }
 }
 
 export default async function Home() {
-  const initialVinyls = await getVinyls();
-  const initialMin = Math.floor(Math.min(...initialVinyls.map((vinyl:Vinyl)=> vinyl.price)));
-  const initialMax = Math.ceil(Math.max(...initialVinyls.map((vinyl:Vinyl)=> vinyl.price)));
+  const {
+    all_vinyls:initialVinyls,
+    min_max:[{min_price, max_price}],
+    total_count: [{total_count}]
+  } = await getVinyls();
+
+  const initialMin = Math.floor(Number(min_price));
+  const initialMax = Math.ceil(Number(max_price));
+  const initialTotalCount = Number(total_count);
 
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        {/* <div className={styles.mainTitle}>SHOP VINYL</div> */}
         <VinylFilter
           initialVinyls={initialVinyls}
           initialMin={initialMin}
           initialMax={initialMax}
+          initialTotalCount={initialTotalCount}
         />
       </main>
     </div>

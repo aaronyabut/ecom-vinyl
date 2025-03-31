@@ -11,7 +11,7 @@ export const getAllVinylsModel = async (
   try {
     let query = 'SELECT * FROM vinyls';
     let min_max_query = 'SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM vinyls'
-    let total_count_query = 'SELECT COUNT(*)  FROM vinyls'
+    let total_count_query = 'SELECT COUNT(*) AS total_count  FROM vinyls'
     const values: string[] = [];
     const conditions: string[] = [];
     let paramIndex = 1;
@@ -48,15 +48,15 @@ export const getAllVinylsModel = async (
     if (conditions.length > 0) min_max_query += ' WHERE ' + conditions.join(' AND ');
     const { rows: min_max} = await pool.query(min_max_query, values);
 
+    //Filter by price range
+    if (selectedMin && selectedMax) conditions.push(`price BETWEEN ${selectedMin} AND ${selectedMax}`);
 
     if (conditions.length > 0) total_count_query += ' WHERE ' + conditions.join(' AND ');
     const { rows: total_count} = await pool.query(total_count_query, values);
     // console.log("min_max::::", min_max)
-    console.log("total_count_query", total_count)
+    // console.log("total_count_query", total_count)
 
 
-    //Filter by price range
-    if (selectedMin && selectedMax) conditions.push(`price BETWEEN ${selectedMin} AND ${selectedMax}`);
 
     // Combine conditions with WHERE clause
     if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
@@ -67,14 +67,15 @@ export const getAllVinylsModel = async (
     query += ` LIMIT ${vinylAmount}`;
 
     if (offset) query += ` OFFSET ${offset}`;
-    // console.log("QUERY", query)
-    // console.log("offset", offset)
-    // console.log("VALUES", values)
     const { rows: all_vinyls } = await pool.query(query, values);
 
-    // return rows;
+    console.log("[QUERY] ", query)
+    // console.log("[offset] ", offset)
+    // console.log("[VALUES] ", values)
+
     return {
       min_max: min_max,
+      total_count: total_count,
       all_vinyls: all_vinyls
     };
   } catch (error) {

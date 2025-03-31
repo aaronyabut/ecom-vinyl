@@ -1,7 +1,8 @@
 /*/[[Feature list]]
- * Fix min-max, get all min-max not only those that are shown [on-going]
- * Hide Show more button when there no more vinyls
- * Fix sorting to be implemented through the backend
+ * Fix min-max, get all min-max not only those that are shown   [DONE]
+ * Hide Show more button when there no more vinyls              [on-going]
+ * Fix sorting to be implemented through the backend            [TBD]
+ * Make reset only show when filter is empty                     [TBD]
 /*/
 'use client';
 import { useState, useEffect } from 'react';
@@ -19,9 +20,17 @@ import Artists from './filters/Artists';
 /*/
 
 
+interface minMaxTypes {
+  min_price: string;
+  max_price: string;
+}
+interface totalCountTypes {
+  total_count: string;
+}
+
 interface Vinyl {
   product_id: number;
-  vinyl_img: string
+  vinyl_img: string;
   product_href: string;
   vinyl_title: string;
   vinyl_artist: string;
@@ -31,6 +40,13 @@ interface Vinyl {
   low_stock_label: string | null;
   genre: string;
   vinyl_description: string;
+}
+interface getVinylsTypes {
+  initialVinyls: Vinyl[];
+  initialMin: number;
+  initialMax: number;
+  initialTotalCount: number;
+
 }
 
 interface Sorting {
@@ -46,6 +62,8 @@ interface ArtistState {
 
 interface ShowMoreState {
   offsetValue: number;
+  totalVinyls: number;
+  toShow: boolean;
 }
 
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
@@ -112,7 +130,7 @@ const sorts: Sorting[] = [
   },
 ];
 
-export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { initialVinyls: Vinyl[], initialMin:number,initialMax:number }) {
+export default function VinylFilter({ initialVinyls,initialMin,initialMax,initialTotalCount }: getVinylsTypes) {
   const [vinyls, setVinyls] = useState(initialVinyls);
   const [genre, setGenre] = useState<string[]>([]);
   const [isOpenGenre, setIsOpenGenre] = useState<boolean>(false);
@@ -134,10 +152,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   })
   const [showMore, setShowMore] = useState<ShowMoreState>({
     offsetValue: 0,
+    totalVinyls: initialTotalCount,
+    toShow: initialTotalCount >= 24 ? true : false,
   })
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
-  const checkCurrent = "offset value";
+  const checkCurrent = "showMore totalVinyls ";
   const handleCheckCurrent = () => {
     // console.log(`[${checkCurrent.toUpperCase()}] min: ${min}, max ${max}`);
     // console.log(`[${checkCurrent.toUpperCase()}] selectedMin: ${selectedMin}, selectedMax ${selectedMax}`);
@@ -145,7 +165,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     // console.log(vinyls.length);
     // console.log(vinyls);
     // console.log("artistFilter: ", artistFilter.selecting);
-    console.log("showMore.offsetValue: ", showMore.offsetValue);
+    console.log("showMore.totalVinyls: ", showMore.totalVinyls);
 
     // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   };
@@ -231,16 +251,27 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
           conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
         };
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
-
         //combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
-        // console.log('conditions', conditions)
-
         const response = await axios.get(url);
         const all_vinyls = response.data.all_vinyls;
-        const min_max = response.data.min_max[0];
-        console.log(JSON.stringify(min_max));
+
+        const total_count = Number(response.data.total_count[0].total_count);
+
+        console.log("fetch ALL", url)
+        if (total_count <= showMore.offsetValue+24) {
+          setShowMore((prev) => ({
+            ...prev,
+            toShow: false
+          }))
+        } else {
+          setShowMore((prev) => ({
+            ...prev,
+            toShow: true
+          }))
+        }
+
 
         //ensures that the selected sort is still implemented when filtering new data
         const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
@@ -264,6 +295,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     fetchFilteredVinyls();
   }, [genre, sale, selectedMin, selectedMax, artistFilter.selected]);
 
+  // fetch more vinyls, SHOW MORE button
   useEffect (() => {
     async function fetchMoreVinyl () {
       /*/
@@ -283,12 +315,28 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
           conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
         };
 
+        conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
+
         if (showMore.offsetValue > 0) conditions.push(`offset=${showMore.offsetValue}`)
 
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
         const response = await axios.get(url);
         const more_vinyls = response.data.all_vinyls
+
+        const total_count = Number(response.data.total_count[0].total_count);
+
+        if (total_count <= showMore.offsetValue+24) {
+          setShowMore((prev) => ({
+            ...prev,
+            toShow: false
+          }))
+        } else {
+          setShowMore((prev) => ({
+            ...prev,
+            toShow: true
+          }))
+        }
 
         // Adding if to prevent double inital fetch
         if (showMore.offsetValue>0) setVinyls((prev:Vinyl[]) => prev.concat(more_vinyls))
@@ -307,7 +355,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
 
   // Sets up the min and max price in the filter
   useEffect(() => {
-    async function setMinMax () {
+    async function fetchMinMax () {
       try {
         let url = 'http://localhost:4000/vinyls';
         const conditions = [];
@@ -325,9 +373,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         const min_price = min_max.min_price;
         const max_price = min_max.max_price;
 
-        // console.log("MIN", min_price)
-        // console.log("MAX", max_price)
-        // const allVinyls = response.data;
         // set min/max
         setMin(Math.floor(min_price));
         setMax(Math.ceil(max_price));
@@ -338,7 +383,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
         console.error('Error fetching filtered vinyls:', error);
       }
     }
-    setMinMax()
+    fetchMinMax()
   }, [genre, sale, artistFilter.selected]);
 
   // useEffect(()=> {
@@ -494,9 +539,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
             />
           </div>
           <div className={`${styles.priceContainer}
-          ${true && styles.open}
+            ${isOpenPrice && styles.open}
           `}
-            // ${isOpenPrice && styles.open}
+          // ${true && styles.open}
           >
             <DualRangeSlider
               setSelectedMin={setSelectedMin}
@@ -582,7 +627,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
                     }
                   </div>
                   {/* THIS IS FOR ME TO INDICATE FILTER WORKING */}
-                  <p><strong>{vinyl.genre.toUpperCase()}</strong></p>
+                  <p><strong>[{vinyl.product_id}] {vinyl.genre.toUpperCase()}</strong></p>
                   <p className={styles.title} ><span><strong>{vinyl.vinyl_title}</strong></span></p>
                   <p>{vinyl.vinyl_artist}</p>
                   <div className={styles.priceContainer}>
@@ -598,12 +643,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
               ))}
             </div>
           )}
-          <div className={styles.showMoreContainer}>
-            <div className={styles.showMore} onClick={handleShowMore}>
-                Show More
-                {/* Make reset only show when filter is empty */}
+          {showMore.toShow &&
+            <div className={styles.showMoreContainer}>
+              <div className={styles.showMore} onClick={handleShowMore}>
+                  Show More
+
+              </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>
