@@ -1,5 +1,5 @@
 import { Request, Response} from 'express';
-import  { getAllVinylsModel, getArtistsModel } from '../models/models';
+import  { getAllVinylsModel, getArtistsModel, getMinMaxModel } from '../models/models';
 
 export const getAllVinylsController = async (req: Request, res: Response) => {
   try {
@@ -11,7 +11,7 @@ export const getAllVinylsController = async (req: Request, res: Response) => {
     const artist = typeof req.query.artist === 'string' || typeof req.query.artist === 'object' ? req.query.artist : undefined;
     const offset = typeof req.query.offset === 'string' ? req.query.offset : undefined;
 
-    console.log(offset)
+    // console.log(offset)
     const vinyls = await getAllVinylsModel(genre,sale,selectedMin,selectedMax,artist,offset);
 
     res.json(vinyls);
@@ -20,6 +20,19 @@ export const getAllVinylsController = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+
+export const getMinMaxController = async (req: Request, res: Response) => {
+  try {
+    // const minPrice = typeof req.quer
+    const min_max = await getMinMaxModel()
+    console.log("CONTROLLERMINMAX", min_max[0]);
+    res.json(min_max[0]);
+
+  } catch (error) {
+    res.status(500).json({ error: `Internal server error: ${error}` });
+    console.log(error);
+  }
+}
 
 export const getArtistsController = async (req: Request, res: Response) => {
   try {

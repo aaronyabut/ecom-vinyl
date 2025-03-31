@@ -8,6 +8,13 @@ import ArrowIcon from '../../public/arrow-icon.svg'
 import DualRangeSlider from './utils/DualRangeSlider';
 import Artists from './filters/Artists';
 
+/*/[[Feature list]]
+ * Fix min-max, get all min-max not only those that are shown
+ * Hide Show more button when there no more vinyls
+ * Fix sorting to be implemented through the backend
+ *
+/*/
+
 interface Vinyl {
   product_id: number;
   vinyl_img: string
@@ -38,6 +45,37 @@ interface ShowMoreState {
 }
 
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
+// const sorts: Sorting[] = [
+//   {
+//     variation: "Most popular",
+//     // [...vinyls] creates a shallow copy to prevent mutation
+//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.product_id - b.product_id),
+//   },
+//   {
+//     variation: "Price: Low to High",
+//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.price - b.price),
+//   },
+//   {
+//     variation: "Price: High to Low",
+//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.price - a.price),
+//   },
+//   {
+//     variation: "Artist: A-Z",
+//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_artist.localeCompare(b.vinyl_artist)),
+//   },
+//   {
+//     variation: "Artist: Z-A",
+//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_artist.localeCompare(a.vinyl_artist)),
+//   },
+//   {
+//     variation: "Album: A-Z",
+//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_title.localeCompare(b.vinyl_title)),
+//   },
+//   {
+//     variation: "Album: Z-A",
+//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_title.localeCompare(a.vinyl_title)),
+//   },
+// ];
 const sorts: Sorting[] = [
   {
     variation: "Most popular",
@@ -138,9 +176,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
     const sortFunction = sorts.find(sort => sort.variation === currentSelectedSortObj.variation)?.cb;
 
     /*
-    If sort function is present, setVinyls by using a functional update
-    The prevVinyls parameter is the current value of that state
-    */
+     * If sort function is present, setVinyls by using a functional update
+     * The prevVinyls parameter is the current value of that state
+     */
     if (sortFunction) setVinyls((prevVinyls) => sortFunction(prevVinyls));
   }
 
@@ -225,6 +263,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
      * minMax logic needs to be updated
      *** only gets the min-max of the vinyls shown not all
      * Show more button to disappear when theres no more vinyls
+     *** finding the minMax may also lead you to achieving this
     */
     async function fetchMoreVinyl () {
       try {
@@ -253,49 +292,78 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax }: { i
   }, [showMore.offsetValue])
 
 
-  /*
-  Will have to update minMax useEffect, current logic will only now
-  get what is currently fetched, wont get all
-  */
+  /*/
+   * Will have to update minMax useEffect, current logic will only now
+   * get what is currently fetched, wont get all
+  /*/
   // Sets up the min and max price in the filter
-  useEffect(() => {
-    async function setMinMax () {
+  // useEffect(() => {
+  //   async function setMinMax () {
+  //     try {
+  //       let url = 'http://localhost:4000/vinyls';
+  //       const conditions = [];
+
+  //       if (sale) conditions.push(`sale=${true}`);
+  //       if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
+  //       if (artistFilter.selected.length) {
+  //         conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
+  //       };
+
+  //       if (conditions.length > 0) url += "?" + conditions.join('&');
+
+  //       const response = await axios.get(url);
+  //       const allVinyls = response.data;
+
+  //       // if theres data
+  //       if (allVinyls.length > 0) {
+  //         // get the min and max price
+  //         const minPrice = Math.min(...allVinyls.map((vinyl: Vinyl) => vinyl.price));
+  //         const maxPrice = Math.max(...allVinyls.map((vinyl: Vinyl) => vinyl.price));
+  //         // set min/max
+  //         setMin(Math.floor(minPrice));
+  //         setMax(Math.ceil(maxPrice));
+  //         setSelectedMin(Math.floor(minPrice));
+  //         setSelectedMax(Math.ceil(maxPrice));
+  //         // Only update selectedMin/selectedMax if not user-adjusted
+  //         // if (!isPriceRangeAdjusted) {
+  //         //   setSelectedMin(Math.floor(minPrice));
+  //         //   setSelectedMax(Math.ceil(maxPrice));
+  //         // }
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching filtered vinyls:', error);
+  //     }
+  //   }
+  //   setMinMax()
+  // }, [genre, sale, artistFilter.selected]);
+
+  useEffect(()=> {
+    async function minMaxTest () {
       try {
-        let url = 'http://localhost:4000/vinyls';
-        const conditions = [];
-
-        if (sale) conditions.push(`sale=${true}`);
-        if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
-        if (artistFilter.selected.length) {
-          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
-        };
-
-        if (conditions.length > 0) url += "?" + conditions.join('&');
+        let url = 'http://localhost:4000/min_max';
 
         const response = await axios.get(url);
-        const allVinyls = response.data;
 
-        // if theres data
-        if (allVinyls.length > 0) {
-          // get the min and max price
-          const minPrice = Math.min(...allVinyls.map((vinyl: Vinyl) => vinyl.price));
-          const maxPrice = Math.max(...allVinyls.map((vinyl: Vinyl) => vinyl.price));
-          // set min/max
-          setMin(Math.floor(minPrice));
-          setMax(Math.ceil(maxPrice));
-          setSelectedMin(Math.floor(minPrice));
-          setSelectedMax(Math.ceil(maxPrice));
-          // Only update selectedMin/selectedMax if not user-adjusted
-          // if (!isPriceRangeAdjusted) {
-          //   setSelectedMin(Math.floor(minPrice));
-          //   setSelectedMax(Math.ceil(maxPrice));
-          // }
-        }
+        const min_price = response.data.min_price
+        const max_price = response.data.max_price
+
+
+
+
+        setMin(Math.floor(min_price));
+        setMax(Math.ceil(max_price));
+        setSelectedMin(Math.floor(min_price));
+        setSelectedMax(Math.ceil(max_price));
+
+        // console.log("Min", response.data.min_price);
+        // console.log("Max", response.data.max_price);
+        // console.log("minMaxTest", response.data);
+
       } catch (error) {
-        console.error('Error fetching filtered vinyls:', error);
+        console.log(`Error ${error}`)
       }
     }
-    setMinMax()
+    minMaxTest()
   }, [genre, sale, artistFilter.selected]);
 
   // Fetches artist name when filter for certain artists

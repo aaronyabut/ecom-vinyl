@@ -4,29 +4,6 @@ import { useEffect, useState, useCallback } from 'react';
 import xIcon from '../../../public/x-icon.svg'
 import debounce from 'lodash/debounce';
 
-const sampleArtist: string[] = [
-  "David Bowie",
-  "Nina Simone",
-  // "Jimi Hendrix",
-  // "Aretha Franklin",
-  // "Bob Dylan",
-  // "Tina Turner",
-  // "Miles Davis",
-  // "Patti Smith",
-  // "Prince",
-  // "Björk",
-  // "Freddie Mercury",
-  // "Stevie Wonder",
-  // "Janis Joplin",
-  // "Tom Waits",
-  // "Lauryn Hill",
-  // "Johnny Cash",
-  // "Ella Fitzgerald",
-  // "Radiohead",
-  // "Fela Kuti",
-  // "Amy Winehouse",
-];
-
 interface ArtistState {
   selecting: string;
   selectingList: string[];
@@ -57,9 +34,9 @@ export default function Artists ({
   const [localSelectingArtist, setLocalSelectingArtist] = useState<string>("")
 
   /*
-  Setting local state and debouncing selectingArtist gives immediate feedback
-  while keeping the global state in sync
-  */
+   * Setting local state and debouncing selectingArtist gives immediate feedback
+   * while keeping the global state in sync
+   */
   const debouncedSetArtist = useCallback(
     debounce((value: string) => {
       setArtistFilter(prev => ({ ...prev, selecting: value }))
@@ -86,9 +63,6 @@ export default function Artists ({
       selected: prev.selected.filter(val => val !== artist)
     }))
   };
-
-  // remove on X click
-  // prevent duplicates from being added
 
   useEffect (() => {
 
