@@ -22,20 +22,6 @@ export const getAllVinylsController = async (req: Request, res: Response) => {
   }
 };
 
-// export const getMinMaxController = async (req: Request, res: Response) => {
-//   try {
-//     // const minPrice = typeof req.quer
-//     const min_max = await getMinMaxModel()
-//     // console.log("CONTROLLERMINMAX", min_max[0]);
-//     res.json(min_max[0]);
-
-//   } catch (error) {
-//     res.status(500).json({ error: `Internal server error: ${error}` });
-//     console.log(error);
-//   }
-// }
-
-
 export const getArtistsController = async (req: Request, res: Response) => {
   try {
     const artist = typeof req.query.artist === 'string' ? req.query.artist : undefined;

@@ -62,7 +62,6 @@ interface ArtistState {
 
 interface ShowMoreState {
   offsetValue: number;
-  totalVinyls: number;
   toShow: boolean;
 }
 
@@ -152,22 +151,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   })
   const [showMore, setShowMore] = useState<ShowMoreState>({
     offsetValue: 0,
-    totalVinyls: initialTotalCount,
     toShow: initialTotalCount >= 24 ? true : false,
   })
+  const [showReset, setShowReset] = useState<boolean>(false);
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
-  const checkCurrent = "showMore totalVinyls ";
+  const checkCurrent = "showMore ";
   const handleCheckCurrent = () => {
-    // console.log(`[${checkCurrent.toUpperCase()}] min: ${min}, max ${max}`);
-    // console.log(`[${checkCurrent.toUpperCase()}] selectedMin: ${selectedMin}, selectedMax ${selectedMax}`);
-    // console.log("Low to High " + JSON.stringify(sorts[1].cb));
-    // console.log(vinyls.length);
     // console.log(vinyls);
-    // console.log("artistFilter: ", artistFilter.selecting);
-    console.log("showMore.totalVinyls: ", showMore.totalVinyls);
-
-    // console.log(`[${checkCurrent.toUpperCase()}] ${vinyls[0].price}`);
   };
 
   const toggleDropdown = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -199,10 +190,10 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     // Find the matching sort function
     const sortFunction = sorts.find(sort => sort.variation === currentSelectedSortObj.variation)?.cb;
 
-    /*
+    /*/
      * If sort function is present, setVinyls by using a functional update
      * The prevVinyls parameter is the current value of that state
-     */
+    /*/
     if (sortFunction) setVinyls((prevVinyls) => sortFunction(prevVinyls));
   }
 
@@ -218,7 +209,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     handleCheckboxChange({ value, checked });
   };
 
-  const handleresetAll = () => {
+  const handleResetAll = () => {
     genres.forEach((currentGenre: string) => {
       const genreVal = currentGenre.toLowerCase();
       const checkbox = document.getElementById(genreVal) as HTMLInputElement;
@@ -257,23 +248,28 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         const response = await axios.get(url);
         const all_vinyls = response.data.all_vinyls;
 
+        // If total vinyls is less/equal to 24 count
         const total_count = Number(response.data.total_count[0].total_count);
-
-        console.log("fetch ALL", url)
         if (total_count <= showMore.offsetValue+24) {
+          // Hide 'show more' button
           setShowMore((prev) => ({
             ...prev,
             toShow: false
           }))
         } else {
+          // Show 'show more' button
           setShowMore((prev) => ({
             ...prev,
             toShow: true
           }))
         }
+        // Reset show more offset count
+        setShowMore((prev) => ({
+          ...prev,
+          offsetValue: 0
+        }))
 
-
-        //ensures that the selected sort is still implemented when filtering new data
+        // Ensures that the selected sort is still implemented when filtering new data
         const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
         if (sortFunction) {
           setVinyls(sortFunction(all_vinyls));
@@ -281,11 +277,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
           setVinyls(all_vinyls);
           setSelectedSort('Most Popular')
         }
-
-        setShowMore((prev) => ({
-          ...prev,
-          offsetValue: 0
-        }))
 
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
@@ -298,13 +289,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   // fetch more vinyls, SHOW MORE button
   useEffect (() => {
     async function fetchMoreVinyl () {
-      /*/
-      fetchMoreVinyl
-       * minMax logic needs to be updated
-       *** only gets the min-max of the vinyls shown not all
-       * Show more button to disappear when theres no more vinyls
-       *** finding the minMax may also lead you to achieving this
-      /*/
       try {
         let url = 'http://localhost:4000/vinyls';
         const conditions = [];
@@ -347,12 +331,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     fetchMoreVinyl()
   }, [showMore.offsetValue])
 
-
-  /*/
-   * Will have to update minMax useEffect, current logic will only now
-   * get what is currently fetched, wont get all
-  /*/
-
   // Sets up the min and max price in the filter
   useEffect(() => {
     async function fetchMinMax () {
@@ -385,33 +363,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     }
     fetchMinMax()
   }, [genre, sale, artistFilter.selected]);
-
-  // useEffect(()=> {
-  //   async function fetchMinMax () {
-  //     try {
-  //       let url = 'http://localhost:4000/min_max';
-
-  //       const response = await axios.get(url);
-
-  //       const min_price = response.data.min_price
-  //       const max_price = response.data.max_price
-
-  //       // setMin(Math.floor(min_price));
-  //       // setMax(Math.ceil(max_price));
-  //       // setSelectedMin(Math.floor(min_price));
-  //       // setSelectedMax(Math.ceil(max_price));
-
-  //       // console.log("Min", response.data.min_price);
-  //       // console.log("Max", response.data.max_price);
-  //       // console.log("minMaxTest", response.data);
-
-  //     } catch (error) {
-  //       console.log(`Error ${error}`)
-  //     }
-  //   }
-  //   fetchMinMax()
-  // }, [genre, sale, artistFilter.selected]);
-
 
   // Fetches artist name when filter for certain artists
   useEffect(() => {
@@ -479,7 +430,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         <div className={styles.filter}>
           <div className={styles.filterHeaders}>
             <span>Filter by</span>
-            <span className={styles.resetAll}><button onClick={handleresetAll}>Reset all</button></span>
+            <span className={styles.resetAll}><button onClick={handleResetAll}>Reset all</button></span>
           </div>
           <div
             className={`${styles.genreStyling} ${isOpenGenre ? styles.active : ''}`}
@@ -647,7 +598,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
             <div className={styles.showMoreContainer}>
               <div className={styles.showMore} onClick={handleShowMore}>
                   Show More
-
               </div>
             </div>
           }

@@ -84,21 +84,6 @@ export const getAllVinylsModel = async (
   }
 };
 
-// export const getMinMaxModel = async () => {
-//   try {
-//     let query = 'SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM vinyls;';
-
-//     const {rows} = await pool.query(query);
-//     return rows
-//     // console.log(`new MIN MAX ${JSON.stringify(rows)}`);
-
-
-//   } catch (error) {
-//     console.error('Error fetching min-max:', error);
-//     throw new Error('Database error');
-//   }
-// }
-
 export const getArtistsModel = async (artist?:string) => {
   try {
     let query = artist ? `
