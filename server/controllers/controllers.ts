@@ -11,9 +11,8 @@ export const getAllVinylsController = async (req: Request, res: Response) => {
     const artist = typeof req.query.artist === 'string' || typeof req.query.artist === 'object' ? req.query.artist : undefined;
     const offset = typeof req.query.offset === 'string' ? req.query.offset : undefined;
 
-    // console.log(offset)
-    const vinyls = await getAllVinylsModel(genre,sale,selectedMin,selectedMax,artist,offset);
     // console.log("CONTROLLERS",vinyls)
+    const vinyls = await getAllVinylsModel(genre,sale,selectedMin,selectedMax,artist,offset);
 
     res.json(vinyls);
   } catch (error) {
@@ -33,7 +32,3 @@ export const getArtistsController = async (req: Request, res: Response) => {
     console.log(error);
   }
 }
-
-// export const test = async (req: Request, res: Response) => {
-//   res.json({ message: 'Message from Express!' });
-// };

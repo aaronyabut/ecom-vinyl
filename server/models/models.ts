@@ -45,32 +45,28 @@ export const getAllVinylsModel = async (
     // Filter by sale
     if (sale) conditions.push('sale_label IS NOT NULL');
 
+    // Combine conditions to find MIN and MAX price, before adding price range filter
     if (conditions.length > 0) min_max_query += ' WHERE ' + conditions.join(' AND ');
     const { rows: min_max} = await pool.query(min_max_query, values);
 
     //Filter by price range
     if (selectedMin && selectedMax) conditions.push(`price BETWEEN ${selectedMin} AND ${selectedMax}`);
 
+    // Combine conditions to find the total vinyl count, needs all filter included
     if (conditions.length > 0) total_count_query += ' WHERE ' + conditions.join(' AND ');
     const { rows: total_count} = await pool.query(total_count_query, values);
-    // console.log("min_max::::", min_max)
-    // console.log("total_count_query", total_count)
-
-
 
     // Combine conditions with WHERE clause
     if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
 
-
-
     // Add LIMIT to query
     query += ` LIMIT ${vinylAmount}`;
 
+    // Adds another 24 vinyls, and is offsetted by the num inputted
     if (offset) query += ` OFFSET ${offset}`;
     const { rows: all_vinyls } = await pool.query(query, values);
 
-    console.log("[QUERY] ", query)
-    // console.log("[offset] ", offset)
+    // console.log("[QUERY] ", query)
     // console.log("[VALUES] ", values)
 
     return {

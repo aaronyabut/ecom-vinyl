@@ -228,7 +228,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     }))
   };
 
-  // MAIN Fetches all the vinyl according to the filter
+  // MAIN Fetch all the vinyl according to the filter
   useEffect(() => {
     async function fetchFilteredVinyls() {
       try {
@@ -277,6 +277,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
           setSelectedSort('Most Popular')
         }
 
+        // If any of these values are false, is default state will be we false
         const isDefaultState = [
           artistFilter.selected.length === 0,
           genre.length === 0,
