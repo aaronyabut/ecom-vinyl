@@ -1,8 +1,8 @@
 /*/[[Feature list]]
  * Fix min-max, get all min-max not only those that are shown   [DONE]
- * Hide Show more button when there no more vinyls              [on-going]
- * Fix sorting to be implemented through the backend            [TBD]
- * Make reset only show when filter is empty                     [TBD]
+ * Hide Show more button when there no more vinyls              [DONE]
+ * Make reset only show when filter is empty                     [DONE]
+ * Fix sorting to be implemented through the backend            [next]
 /*/
 'use client';
 import { useState, useEffect } from 'react';
@@ -15,8 +15,7 @@ import DualRangeSlider from './utils/DualRangeSlider';
 import Artists from './filters/Artists';
 
 /*/[[TODO]]
- * Fix min-max, only retrieves all the vinyls min max not filtered
- * Hide Show more button when there no more vinyls
+ * Fix sorting to be implemented through the backend
 /*/
 
 
@@ -278,13 +277,24 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
           setSelectedSort('Most Popular')
         }
 
+        const isDefaultState = [
+          artistFilter.selected.length === 0,
+          genre.length === 0,
+          sale === false,
+          stock === true,
+          selectedMin === min,
+          selectedMax === max
+        ].every(Boolean);
+
+        setShowReset(!isDefaultState);
+
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
         setVinyls([]);
       }
     }
     fetchFilteredVinyls();
-  }, [genre, sale, selectedMin, selectedMax, artistFilter.selected]);
+  }, [genre, sale, selectedMin, selectedMax, artistFilter.selected, stock]);
 
   // fetch more vinyls, SHOW MORE button
   useEffect (() => {
@@ -430,7 +440,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         <div className={styles.filter}>
           <div className={styles.filterHeaders}>
             <span>Filter by</span>
-            <span className={styles.resetAll}><button onClick={handleResetAll}>Reset all</button></span>
+            <span className={styles.resetAll}><button onClick={handleResetAll}>{showReset ? 'Reset all' : ''}</button></span>
           </div>
           <div
             className={`${styles.genreStyling} ${isOpenGenre ? styles.active : ''}`}
