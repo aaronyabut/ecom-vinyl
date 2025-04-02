@@ -1,9 +1,3 @@
-/*/[[Feature list]]
- * Fix min-max, get all min-max not only those that are shown   [DONE]
- * Hide Show more button when there no more vinyls              [DONE]
- * Make reset only show when filter is empty                     [DONE]
- * Fix sorting to be implemented through the backend            [next]
-/*/
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -14,18 +8,17 @@ import ArrowIcon from '../../public/arrow-icon.svg'
 import DualRangeSlider from './utils/DualRangeSlider';
 import Artists from './filters/Artists';
 
+
+/*/[[Feature list]]
+ * Fix min-max, get all min-max not only those that are shown   [DONE]
+ * Hide Show more button when there no more vinyls              [DONE]
+ * Make reset only show when filter is empty                     [DONE]
+ * Fix sorting to be implemented through the backend            [next]
+/*/
+
 /*/[[TODO]]
  * Fix sorting to be implemented through the backend
 /*/
-
-
-interface minMaxTypes {
-  min_price: string;
-  max_price: string;
-}
-interface totalCountTypes {
-  total_count: string;
-}
 
 interface Vinyl {
   product_id: number;
