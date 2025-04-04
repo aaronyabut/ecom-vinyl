@@ -44,6 +44,7 @@ interface getVinylsTypes {
 interface Sorting {
   variation: string;
   cb:(vinyls: Vinyl[]) => Vinyl[];
+  query: string;
 }
 
 interface ArtistState {
@@ -94,30 +95,37 @@ const sorts: Sorting[] = [
     variation: "Most popular",
     // [...vinyls] creates a shallow copy to prevent mutation
     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.product_id - b.product_id),
+    query: "product_id ASC",
   },
   {
     variation: "Price: Low to High",
     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.price - b.price),
+    query: "price ASC",
   },
   {
     variation: "Price: High to Low",
     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.price - a.price),
+    query: "price DESC",
   },
   {
     variation: "Artist: A-Z",
     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_artist.localeCompare(b.vinyl_artist)),
+    query: "vinyl_artist ASC",
   },
   {
     variation: "Artist: Z-A",
     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_artist.localeCompare(a.vinyl_artist)),
+    query: "vinyl_artist DESC",
   },
   {
     variation: "Album: A-Z",
     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_title.localeCompare(b.vinyl_title)),
+    query: "vinyl_title ASC",
   },
   {
     variation: "Album: Z-A",
     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_title.localeCompare(a.vinyl_title)),
+    query: "vinyl_title DESC",
   },
 ];
 
@@ -255,6 +263,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
             toShow: true
           }))
         }
+
         // Reset show more offset count
         setShowMore((prev) => ({
           ...prev,
@@ -263,6 +272,11 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
         // Ensures that the selected sort is still implemented when filtering new data
         const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
+        const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
+        console.log(sortFunction)
+        console.log("sortQuery", sortQuery)
+        console.log("url", url)
+
         if (sortFunction) {
           setVinyls(sortFunction(all_vinyls));
         } else {
@@ -385,7 +399,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         console.error('Error fetching filtered vinyls:', error);
       }
     }
-
     fetchArtists();
   }, [artistFilter.selecting]);
 

@@ -6,7 +6,8 @@ export const getAllVinylsModel = async (
   selectedMin?:string,
   selectedMax?:string,
   artist?: string | object,
-  offset?: string
+  offset?: string,
+  sort?: string
 ) => {
   try {
     let query = 'SELECT * FROM vinyls';
@@ -30,8 +31,7 @@ export const getAllVinylsModel = async (
         values.push(genre);
       }
     };
-
-    // Filter by genre
+    // Filter by artist
     if (artist) {
       if (Array.isArray(artist)) {
         const placeholders = artist.map(() => `$${paramIndex++}`).join(', ');
@@ -59,14 +59,21 @@ export const getAllVinylsModel = async (
     // Combine conditions with WHERE clause
     if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
 
+    // Add Sort
+    if (sort) {
+      query += ` ORDER BY ${sort}`
+    }
+
     // Add LIMIT to query
     query += ` LIMIT ${vinylAmount}`;
+
+    // console.log("[sort]",`${query} ORDER BY ${sort}`)
 
     // Adds another 24 vinyls, and is offsetted by the num inputted
     if (offset) query += ` OFFSET ${offset}`;
     const { rows: all_vinyls } = await pool.query(query, values);
 
-    // console.log("[QUERY] ", query)
+    console.log("[QUERY] ", query)
     // console.log("[VALUES] ", values)
 
     return {
