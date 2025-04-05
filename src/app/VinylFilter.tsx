@@ -66,7 +66,7 @@ const sorts: Sorting[] = [
   },
   {
     variation: "Price: Low to High",
-    // Adding secondary sorting to prevent doubles
+    // Adding secondary sorting to prevent double entries
     query: "price ASC, product_id ASC",
   },
   {
@@ -173,7 +173,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     setGenre([]);
     setStock(true);
     setSale(false);
-    setSelectedSort("Most Popular")
+    setSelectedSort("Most popular")
     setArtistFilter(prev => ({
       ...prev,
       selected: []
@@ -235,7 +235,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
           sale === false,
           stock === true,
           selectedMin === min,
-          selectedMax === max
+          selectedMax === max,
+          selectedSort === "Most popular"
         ].every(Boolean);
 
         setShowReset(!isDefaultState);

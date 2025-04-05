@@ -60,20 +60,16 @@ export const getAllVinylsModel = async (
     if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
 
     // Add Sort
-    if (sort) {
-      query += ` ORDER BY ${sort}`
-    }
+    if (sort) query += ` ORDER BY ${sort}`;
 
     // Add LIMIT to query
     query += ` LIMIT ${vinylAmount}`;
-
-    // console.log("[sort]",`${query} ORDER BY ${sort}`)
 
     // Adds another 24 vinyls, and is offsetted by the num inputted
     if (offset) query += ` OFFSET ${offset}`;
     const { rows: all_vinyls } = await pool.query(query, values);
 
-    console.log("[QUERY] ", query)
+    // console.log("[QUERY] ", query)
     // console.log("[VALUES] ", values)
 
     return {
