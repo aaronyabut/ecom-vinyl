@@ -13,11 +13,11 @@ import Artists from './filters/Artists';
  * Fix min-max, get all min-max not only those that are shown   [DONE]
  * Hide Show more button when there no more vinyls              [DONE]
  * Make reset only show when filter is empty                     [DONE]
- * Fix sorting to be implemented through the backend            [next]
+ * Fix sorting to be implemented through the backend            [DONE]
 /*/
 
 /*/[[TODO]]
- * Fix sorting to be implemented through the backend
+ *
 /*/
 
 interface Vinyl {
@@ -136,12 +136,16 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     console.log(showMore.offsetValue);
   }
 
-  const handleCheckboxStock = (e:React.ChangeEvent<HTMLInputElement>) => {
-    setStock(!stock);
-  };
-  const handleCheckboxSale = (e:React.ChangeEvent<HTMLInputElement>) => {
-    setSale(!sale);
-  };
+  const handleCheckbox = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setState((prev:boolean) => !prev)
+  }
+
+  // const handleCheckboxStock = (e:React.ChangeEvent<HTMLInputElement>) => {
+  //   setStock(!stock);
+  // };
+  // const handleCheckboxSale = (e:React.ChangeEvent<HTMLInputElement>) => {
+  //   setSale(!sale);
+  // };
 
   const handleSortChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const currentSelectedSort = e.target.value;
@@ -517,7 +521,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
               <input
                 type="checkbox"
                 checked={stock}
-                onChange={handleCheckboxStock}
+                onChange={()=>handleCheckbox(setStock)}
               />
               <span className={styles.slider}></span>
             </label>
@@ -530,7 +534,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
               <input
                 type="checkbox"
                 checked={sale}
-                onChange={handleCheckboxSale}
+                onChange={()=>handleCheckbox(setSale)}
               />
               <span className={styles.slider}></span>
             </label>
