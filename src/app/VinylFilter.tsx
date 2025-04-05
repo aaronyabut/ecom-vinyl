@@ -43,7 +43,6 @@ interface getVinylsTypes {
 
 interface Sorting {
   variation: string;
-  cb:(vinyls: Vinyl[]) => Vinyl[];
   query: string;
 }
 
@@ -59,73 +58,36 @@ interface ShowMoreState {
 }
 
 const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
-// const sorts: Sorting[] = [
-//   {
-//     variation: "Most popular",
-//     // [...vinyls] creates a shallow copy to prevent mutation
-//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.product_id - b.product_id),
-//   },
-//   {
-//     variation: "Price: Low to High",
-//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.price - b.price),
-//   },
-//   {
-//     variation: "Price: High to Low",
-//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.price - a.price),
-//   },
-//   {
-//     variation: "Artist: A-Z",
-//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_artist.localeCompare(b.vinyl_artist)),
-//   },
-//   {
-//     variation: "Artist: Z-A",
-//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_artist.localeCompare(a.vinyl_artist)),
-//   },
-//   {
-//     variation: "Album: A-Z",
-//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_title.localeCompare(b.vinyl_title)),
-//   },
-//   {
-//     variation: "Album: Z-A",
-//     cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_title.localeCompare(a.vinyl_title)),
-//   },
-// ];
+
 const sorts: Sorting[] = [
   {
     variation: "Most popular",
-    // [...vinyls] creates a shallow copy to prevent mutation
-    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.product_id - b.product_id),
     query: "product_id ASC",
   },
   {
     variation: "Price: Low to High",
-    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.price - b.price),
-    query: "price ASC",
+    // Adding secondary sorting to prevent doubles
+    query: "price ASC, product_id ASC",
   },
   {
     variation: "Price: High to Low",
-    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.price - a.price),
-    query: "price DESC",
+    query: "price DESC, product_id ASC",
   },
   {
     variation: "Artist: A-Z",
-    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_artist.localeCompare(b.vinyl_artist)),
-    query: "vinyl_artist ASC",
+    query: "vinyl_artist ASC, product_id ASC",
   },
   {
     variation: "Artist: Z-A",
-    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_artist.localeCompare(a.vinyl_artist)),
-    query: "vinyl_artist DESC",
+    query: "vinyl_artist DESC, product_id ASC",
   },
   {
     variation: "Album: A-Z",
-    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => a.vinyl_title.localeCompare(b.vinyl_title)),
-    query: "vinyl_title ASC",
+    query: "vinyl_title ASC, product_id ASC",
   },
   {
     variation: "Album: Z-A",
-    cb: (vinyls: Vinyl[]) => [...vinyls].sort((a, b) => b.vinyl_title.localeCompare(a.vinyl_title)),
-    query: "vinyl_title DESC",
+    query: "vinyl_title DESC, product_id ASC",
   },
 ];
 
@@ -156,8 +118,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   const [showReset, setShowReset] = useState<boolean>(false);
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
-  const checkCurrent = "showMore ";
+  const checkCurrent = "sort ";
   const handleCheckCurrent = () => {
+    console.log(selectedSort);
     // console.log(vinyls);
   };
 
@@ -188,13 +151,13 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     setIsOpenSort(false);
 
     // Find the matching sort function
-    const sortFunction = sorts.find(sort => sort.variation === currentSelectedSortObj.variation)?.cb;
+    // const sortFunction = sorts.find(sort => sort.variation === currentSelectedSortObj.variation)?.cb;
 
     /*/
      * If sort function is present, setVinyls by using a functional update
      * The prevVinyls parameter is the current value of that state
     /*/
-    if (sortFunction) setVinyls((prevVinyls) => sortFunction(prevVinyls));
+    // if (sortFunction) setVinyls((prevVinyls) => sortFunction(prevVinyls));
   }
 
   const handleCheckboxChange = ({ value, checked }: { value: string; checked: boolean }) => {
@@ -242,11 +205,22 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
           conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
         };
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
+
+        const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
+        if (sortQuery) {
+          conditions.push(`sort=${sortQuery}`)
+        } else {
+          console.log("no sort")
+        }
+
+        console.log("sortQuery", sortQuery)
+
         //combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
-
+        console.log("[norm url]: ", url)
         const response = await axios.get(url);
         const all_vinyls = response.data.all_vinyls;
+
 
         // If total vinyls is less/equal to 24 count
         const total_count = Number(response.data.total_count[0].total_count);
@@ -271,18 +245,22 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         }))
 
         // Ensures that the selected sort is still implemented when filtering new data
-        const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
-        const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
-        console.log(sortFunction)
-        console.log("sortQuery", sortQuery)
-        console.log("url", url)
+        // const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
+        // const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
+        // console.log(sortFunction)
+        // console.log("sortQuery", sortQuery)
+        // console.log("url", url)
 
-        if (sortFunction) {
-          setVinyls(sortFunction(all_vinyls));
-        } else {
-          setVinyls(all_vinyls);
-          setSelectedSort('Most Popular')
-        }
+        // if (sortFunction) {
+          // setVinyls(sortFunction(all_vinyls));
+        // } else {
+          // setVinyls(all_vinyls);
+          // setSelectedSort('Most Popular')
+        // }
+
+        console.log(all_vinyls)
+
+        setVinyls(all_vinyls);
 
         // If any of these values are false, is default state will be we false
         const isDefaultState = [
@@ -302,9 +280,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
       }
     }
     fetchFilteredVinyls();
-  }, [genre, sale, selectedMin, selectedMax, artistFilter.selected, stock]);
+  }, [genre, sale, selectedMin, selectedMax, artistFilter.selected, stock, selectedSort]);
 
-  // fetch more vinyls, SHOW MORE button
+  // FETCH MORE vinyls, 'Show More' button
   useEffect (() => {
     async function fetchMoreVinyl () {
       try {
@@ -319,15 +297,26 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
 
+        const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
+        if (sortQuery) {
+          conditions.push(`sort=${sortQuery}`)
+        } else {
+          console.log("no sort FETCH MORE")
+        }
+
         if (showMore.offsetValue > 0) conditions.push(`offset=${showMore.offsetValue}`)
 
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
+        console.log("[fetch url]:", url)
         const response = await axios.get(url);
         const more_vinyls = response.data.all_vinyls
 
-        const total_count = Number(response.data.total_count[0].total_count);
+        console.log(more_vinyls)
 
+
+        // Show 'Show More' button
+        const total_count = Number(response.data.total_count[0].total_count);
         if (total_count <= showMore.offsetValue+24) {
           setShowMore((prev) => ({
             ...prev,
