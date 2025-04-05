@@ -140,28 +140,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     setState((prev:boolean) => !prev)
   }
 
-  // const handleCheckboxStock = (e:React.ChangeEvent<HTMLInputElement>) => {
-  //   setStock(!stock);
-  // };
-  // const handleCheckboxSale = (e:React.ChangeEvent<HTMLInputElement>) => {
-  //   setSale(!sale);
-  // };
-
   const handleSortChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const currentSelectedSort = e.target.value;
     const currentSelectedSortObj = JSON.parse(currentSelectedSort);
 
     setSelectedSort(currentSelectedSortObj.variation);
     setIsOpenSort(false);
-
-    // Find the matching sort function
-    // const sortFunction = sorts.find(sort => sort.variation === currentSelectedSortObj.variation)?.cb;
-
-    /*/
-     * If sort function is present, setVinyls by using a functional update
-     * The prevVinyls parameter is the current value of that state
-    /*/
-    // if (sortFunction) setVinyls((prevVinyls) => sortFunction(prevVinyls));
   }
 
   const handleCheckboxChange = ({ value, checked }: { value: string; checked: boolean }) => {
@@ -210,21 +194,15 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         };
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
 
+        // Add sorting
         const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
-        if (sortQuery) {
-          conditions.push(`sort=${sortQuery}`)
-        } else {
-          console.log("no sort")
-        }
+        if (sortQuery) conditions.push(`sort=${sortQuery}`)
 
-        console.log("sortQuery", sortQuery)
-
-        //combine all conditions for API request URL
+        // Combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
-        console.log("[norm url]: ", url)
+        // console.log("[norm url]: ", url)
         const response = await axios.get(url);
         const all_vinyls = response.data.all_vinyls;
-
 
         // If total vinyls is less/equal to 24 count
         const total_count = Number(response.data.total_count[0].total_count);
@@ -247,22 +225,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
           ...prev,
           offsetValue: 0
         }))
-
-        // Ensures that the selected sort is still implemented when filtering new data
-        // const sortFunction = sorts.find(sort => sort.variation === selectedSort)?.cb
-        // const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
-        // console.log(sortFunction)
-        // console.log("sortQuery", sortQuery)
-        // console.log("url", url)
-
-        // if (sortFunction) {
-          // setVinyls(sortFunction(all_vinyls));
-        // } else {
-          // setVinyls(all_vinyls);
-          // setSelectedSort('Most Popular')
-        // }
-
-        console.log(all_vinyls)
 
         setVinyls(all_vinyls);
 
@@ -301,23 +263,17 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
 
+        // Add sorting
         const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
-        if (sortQuery) {
-          conditions.push(`sort=${sortQuery}`)
-        } else {
-          console.log("no sort FETCH MORE")
-        }
+        if (sortQuery) conditions.push(`sort=${sortQuery}`)
 
         if (showMore.offsetValue > 0) conditions.push(`offset=${showMore.offsetValue}`)
 
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
-        console.log("[fetch url]:", url)
+        // console.log("[fetch url]:", url)
         const response = await axios.get(url);
         const more_vinyls = response.data.all_vinyls
-
-        console.log(more_vinyls)
-
 
         // Show 'Show More' button
         const total_count = Number(response.data.total_count[0].total_count);
@@ -376,6 +332,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   }, [genre, sale, artistFilter.selected]);
 
   // Fetches artist name when filter for certain artists
+
+  // List of artist dropdown
   useEffect(() => {
     async function fetchArtists() {
       try {
