@@ -7,7 +7,8 @@ export const getAllVinylsModel = async (
   selectedMax?:string,
   artist?: string | object,
   offset?: string,
-  sort?: string
+  sort?: string,
+  stock?: string
 ) => {
   try {
     let query = 'SELECT * FROM vinyls';
@@ -44,6 +45,8 @@ export const getAllVinylsModel = async (
     };
     // Filter by sale
     if (sale) conditions.push('sale_label IS NOT NULL');
+
+    if (stock) conditions.push('no_stock_label IS NULL')
 
     // Combine conditions to find MIN and MAX price, before adding price range filter
     if (conditions.length > 0) min_max_query += ' WHERE ' + conditions.join(' AND ');

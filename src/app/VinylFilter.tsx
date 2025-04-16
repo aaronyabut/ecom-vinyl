@@ -192,15 +192,16 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         const conditions = [];
 
         if (sale) conditions.push(`sale=${true}`);
+        if (stock) conditions.push(`stock=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
         if (artistFilter.selected.length) {
-          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
+          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'));
         };
-        conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
+        conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`);
 
         // Add sorting
-        const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
-        if (sortQuery) conditions.push(`sort=${sortQuery}`)
+        const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query;
+        if (sortQuery) conditions.push(`sort=${sortQuery}`);
 
         // Combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
@@ -261,24 +262,25 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         const conditions = [];
 
         if (sale) conditions.push(`sale=${true}`);
+        if (stock) conditions.push(`stock=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
         if (artistFilter.selected.length) {
-          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
+          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'));
         };
 
-        conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`)
+        conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`);
 
         // Add sorting
-        const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query
-        if (sortQuery) conditions.push(`sort=${sortQuery}`)
+        const sortQuery = sorts.find(sort => sort.variation === selectedSort)?.query;
+        if (sortQuery) conditions.push(`sort=${sortQuery}`);
 
-        if (showMore.offsetValue > 0) conditions.push(`offset=${showMore.offsetValue}`)
+        if (showMore.offsetValue > 0) conditions.push(`offset=${showMore.offsetValue}`);
 
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
         // console.log("[fetch url]:", url)
         const response = await axios.get(url);
-        const more_vinyls = response.data.all_vinyls
+        const more_vinyls = response.data.all_vinyls;
 
         // Show 'Show More' button
         const total_count = Number(response.data.total_count[0].total_count);
@@ -286,12 +288,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
           setShowMore((prev) => ({
             ...prev,
             toShow: false
-          }))
+          }));
         } else {
           setShowMore((prev) => ({
             ...prev,
             toShow: true
-          }))
+          }));
         }
 
         // Adding if to prevent double inital fetch
