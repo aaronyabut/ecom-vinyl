@@ -537,10 +537,18 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
                       alt={`${vinyl.vinyl_title} by ${vinyl.vinyl_artist}`}
                       className={styles.image}
                     />
-                    <div className={styles.toCartContainer}/>
-                    <div className={styles.toCart}>
-                      ADD TO CART
-                    </div>
+                    <div className={styles.btnContainer}/>
+                    {
+                      vinyl.no_stock_label ?
+                      <div className={styles.toCart}>
+                        NOTIFY
+                      </div>
+                      :
+                      <div className={styles.toCart}>
+                        ADD TO CART
+                      </div>
+                    }
+
                     {
                       vinyl.sale_label &&
                       <span className={styles.sale}>
