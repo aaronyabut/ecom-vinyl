@@ -32,6 +32,7 @@ interface Vinyl {
   old_price: number | null;
   sale_label: string | null;
   low_stock_label: string | null;
+  no_stock_label: string | null;
   genre: string;
   vinyl_description: string;
 }
@@ -156,6 +157,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
       if (value.includes("r&b/soul")) value = "r%26b%2Fsoul"
       setGenre([...genre, value]);
     } else {
+      if (value.includes("r&b/soul")) value = "r%26b%2Fsoul"
       setGenre(genre.filter((item) => item !== value));
     }
   };
@@ -313,6 +315,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         const conditions = [];
 
         if (sale) conditions.push(`sale=${true}`);
+        if (stock) conditions.push(`stock=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
         if (artistFilter.selected.length) {
           conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
@@ -534,13 +537,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
                       alt={`${vinyl.vinyl_title} by ${vinyl.vinyl_artist}`}
                       className={styles.image}
                     />
+                    <div className={styles.toCartContainer}/>
                     <div className={styles.toCart}>
                       ADD TO CART
                     </div>
                     {
                       vinyl.sale_label &&
                       <span className={styles.sale}>
-                        <span className={styles.saleLabel}>&#x2022; </span>
+                        {/* <span className={styles.saleLabel}>&#x2022; </span> */}
                         {vinyl.sale_label}
                       </span>
                     }
@@ -549,6 +553,13 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
                       <span className={styles.lowStock}>
                         <span className={styles.lowStockLabel}>&#x2022; </span>
                         {vinyl.low_stock_label}
+                      </span>
+                    }
+                    {
+                      vinyl.no_stock_label &&
+                      <span className={styles.noStock}>
+                        <span className={styles.noStockLabel}>&#x2022; </span>
+                        SOLD OUT
                       </span>
                     }
                   </div>
