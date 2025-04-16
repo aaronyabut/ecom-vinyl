@@ -17,7 +17,9 @@ import Artists from './filters/Artists';
 /*/
 
 /*/[[TODO]]
- *
+ * Fix r&b url api request
+ * Implement sold out filter
+ * Create product page
 /*/
 
 interface Vinyl {
@@ -57,7 +59,8 @@ interface ShowMoreState {
   toShow: boolean;
 }
 
-const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
+// const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
+const genres: string[] = ['Blues', 'Christmas', 'Country', 'Dance/EDM', 'Gospel', 'Jazz', 'Pop', 'Reggae', 'R&B/Soul', 'Rock'];
 
 const sorts: Sorting[] = [
   {
@@ -120,7 +123,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
   const checkCurrent = "sort ";
   const handleCheckCurrent = () => {
-    console.log(selectedSort);
+    // console.log(selectedSort);
     // console.log(vinyls);
   };
 
@@ -150,6 +153,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
   const handleCheckboxChange = ({ value, checked }: { value: string; checked: boolean }) => {
     if (checked) {
+      if (value.includes("r&b/soul")) value = "r%26b%2Fsoul"
       setGenre([...genre, value]);
     } else {
       setGenre(genre.filter((item) => item !== value));
@@ -439,7 +443,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
             isOpenArtist={isOpenArtist}
             setIsOpenArtist={setIsOpenArtist}
             ArrowIcon={ArrowIcon}
-            genre={genre}
+            // genre={genre}
             artistFilter={artistFilter}
             setArtistFilter={setArtistFilter}
           />

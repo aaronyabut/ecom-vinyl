@@ -16,7 +16,7 @@ export const getAllVinylsModel = async (
     const values: string[] = [];
     const conditions: string[] = [];
     let paramIndex = 1;
-    let vinylAmount = 24;
+    const vinylAmount = 24;
     // let vinylAmount = 180;
 
     // Filter by genre
@@ -85,7 +85,7 @@ export const getAllVinylsModel = async (
 
 export const getArtistsModel = async (artist?:string) => {
   try {
-    let query = artist ? `
+    const query = artist ? `
       SELECT DISTINCT vinyl_artist
       FROM vinyls
       WHERE LOWER(vinyl_artist) LIKE LOWER($1)

@@ -16,7 +16,7 @@ interface ArtistsProps {
   isOpenArtist: boolean;
   setIsOpenArtist: React.Dispatch<React.SetStateAction<boolean>>;
   ArrowIcon: string;
-  genre: string[];
+  // genre: string[];
   artistFilter:ArtistState
   setArtistFilter: React.Dispatch<React.SetStateAction<ArtistState>>;
 }
@@ -27,7 +27,7 @@ export default function Artists ({
   isOpenArtist,
   setIsOpenArtist,
   ArrowIcon,
-  genre,
+  // genre,
   artistFilter,
   setArtistFilter,
 } : ArtistsProps) {
