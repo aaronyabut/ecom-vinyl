@@ -215,7 +215,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         // Combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
-        console.log("[norm url]: ", url)
+        // console.log("[norm url]: ", url)
         const response = await axios.get(url);
         const all_vinyls = response.data.all_vinyls;
 
@@ -342,8 +342,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
           setMax(initialMax);
           setSelectedMin(initialMin);
           setSelectedMax(initialMax);
-          console.log(initialMin)
-          console.log(initialMax)
         } else {
           // set min/max
           setMin(Math.floor(min_price));
