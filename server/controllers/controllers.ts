@@ -11,10 +11,9 @@ export const getAllVinylsController = async (req: Request, res: Response) => {
     const artist = typeof req.query.artist === 'string' || typeof req.query.artist === 'object' ? req.query.artist : undefined;
     const offset = typeof req.query.offset === 'string' ? req.query.offset : undefined;
     const sort = typeof req.query.sort=== 'string' ? req.query.sort : undefined;
-    const stock = typeof req.query.stock === 'string' ? req.query.stock : undefined;;
+    const stock = typeof req.query.stock === 'string' ? req.query.stock : undefined;
 
     // console.log("CONTROLLERS",vinyls)
-    console.log("CONTROLLERS",stock)
     const vinyls = await getAllVinylsModel(
       genre,
       sale,

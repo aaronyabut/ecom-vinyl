@@ -1,6 +1,6 @@
 import styles from '../page.module.scss'
 import Image from 'next/image';
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import xIcon from '../../../public/x-icon.svg'
 import debounce from 'lodash/debounce';
 
@@ -50,6 +50,13 @@ export default function Artists ({
 
   const handleOnClickArtist = (artist:string) => {
     // console.log(!artistFilter.selected.includes(artist))
+    // if (artist.includes("&")) {
+    //   // console.log("includes")
+    //   artist = artist.replace("&", "%26")
+    //   console.log("includes:::", artist)
+    // }
+
+    // console.log("handleOnClickArtist: ", artist)
     if (!artistFilter.selected.includes(artist)) {
       setArtistFilter(prev => ({ ...prev, selected: [...prev.selected, artist] }))
     }
@@ -63,10 +70,6 @@ export default function Artists ({
       selected: prev.selected.filter(val => val !== artist)
     }))
   };
-
-  useEffect (() => {
-
-  }, [])
 
   return (
     <div>
@@ -101,12 +104,13 @@ export default function Artists ({
           </button>
         </div>
           <div className={styles.artistListContainer}>
-            {artistFilter.selectingList.map((artist:string,i:number) => {
-              return (
-                <div className={styles.artist} key={i} onClick={()=>handleOnClickArtist(artist)}>
-                  {artist}
-                </div>
-              )
+            {
+              artistFilter.selectingList.map((artist:string,i:number) => {
+                return (
+                  <div className={styles.artist} key={i} onClick={()=>handleOnClickArtist(artist)}>
+                    {artist}
+                  </div>
+                )
             })}
           </div>
         <div className={`${styles.chosenArtistContainer} ${artistFilter.selected.length > 0 && styles.active}`}>

@@ -53,10 +53,6 @@ $inner-dropdown: rgb(45,45,45);
 
   &.active {
     background-color: rgb(113, 113, 113);
-    // background-color: rgb(231, 12, 12);
-    // &:hover {
-    //   background-color: rgb(113, 113, 113);
-    // }
   }
   .rotateIcon {
     transform: rotate(0deg);
@@ -73,8 +69,7 @@ $inner-dropdown: rgb(45,45,45);
   top: 8px;
   right: 13px;
   background-color: $color;
-  padding-inline: .6rem;
-  padding-block: .05rem;
+  padding-inline: .4rem;
   border-radius: 30px;
   color: $font_color;
   font-size: small;
@@ -419,12 +414,14 @@ $inner-dropdown: rgb(45,45,45);
         display: flex;
         flex-direction: row;
         align-items: center;
+        text-align: center;
         border-radius: 30px;
         width: fit-content;
         margin: 2px 2px;
         padding: 5px 10px;
         background-color: rgb(86, 86, 86);
         gap: 6px;
+
         &:hover {
           color: $accent-color;
           cursor: pointer;
@@ -554,10 +551,10 @@ $inner-dropdown: rgb(45,45,45);
 
       .sale {
         transition: filter 0.2s ease;
-        font-size: 1.25rem;
+        font-size: 1rem;
         @include border(rgb(183, 61, 61));
         @include vinylTag(rgb(200, 64, 64), white);
-        padding-block: .25rem;
+        // padding-block: .25rem;
       }
 
       .lowStock {
@@ -565,7 +562,7 @@ $inner-dropdown: rgb(45,45,45);
         @include border(rgb(248, 235, 235));
         .lowStockLabel{
           color: rgb(255, 150, 97);
-          font-size: 1.25rem;
+          font-size: 1rem;
         }
         @include vinylTag(rgb(255, 250, 247), black)
       }
@@ -573,7 +570,7 @@ $inner-dropdown: rgb(45,45,45);
         transition: filter 0.2s ease;
         .noStockLabel{
           color: rgb(180, 180, 180);
-          font-size: 1.25rem;
+          font-size: 1rem;
         }
         @include vinylTag(rgb(255, 255, 255), rgb(180, 180, 180))
       }

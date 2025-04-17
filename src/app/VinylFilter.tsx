@@ -14,11 +14,13 @@ import Artists from './filters/Artists';
  * Hide Show more button when there no more vinyls              [DONE]
  * Make reset only show when filter is empty                     [DONE]
  * Fix sorting to be implemented through the backend            [DONE]
+ * Fix r&b url api request                                      [DONE]
+ * Implement sold out filter                                     [DONE]
 /*/
 
 /*/[[TODO]]
- * Fix r&b url api request
- * Implement sold out filter
+ * BUG: Any value with " & " in api url is causing issue
+ * Most recently released filter, use ending of vinyl_imag???
  * Create product page
 /*/
 
@@ -153,11 +155,11 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   }
 
   const handleCheckboxChange = ({ value, checked }: { value: string; checked: boolean }) => {
+    if (value.includes("&")) value = value.replace("&", "%26")
     if (checked) {
-      if (value.includes("r&b/soul")) value = "r%26b%2Fsoul"
       setGenre([...genre, value]);
     } else {
-      if (value.includes("r&b/soul")) value = "r%26b%2Fsoul"
+      // if (value.includes("&")) value = value.replace("&", "%26")
       setGenre(genre.filter((item) => item !== value));
     }
   };
@@ -197,7 +199,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         if (stock) conditions.push(`stock=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
         if (artistFilter.selected.length) {
-          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'));
+          conditions.push(artistFilter.selected.map(a => `artist=${encodeURIComponent(a)}`).join('&'));
         };
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`);
 
@@ -207,7 +209,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
         // Combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
-        // console.log("[norm url]: ", url)
+
+        console.log("[norm url]: ", url)
         const response = await axios.get(url);
         const all_vinyls = response.data.all_vinyls;
 
@@ -267,7 +270,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         if (stock) conditions.push(`stock=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
         if (artistFilter.selected.length) {
-          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'));
+          conditions.push(artistFilter.selected.map(a => `artist=${encodeURIComponent(a)}`).join('&'));
         };
 
         conditions.push(`min-price=${selectedMin}&max-price=${selectedMax}`);
@@ -318,11 +321,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         if (stock) conditions.push(`stock=${true}`);
         if (genre.length) conditions.push(genre.map(g => `genre=${g}`).join('&'));
         if (artistFilter.selected.length) {
-          conditions.push(artistFilter.selected.map(a => `artist=${a}`).join('&'))
+          conditions.push(artistFilter.selected.map(a => `artist=${encodeURIComponent(a)}`).join('&'));
         };
 
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
+        console.log("[fetMinMax]", url)
         const response = await axios.get(url);
         const min_max = response.data.min_max[0];
         const min_price = min_max.min_price;
@@ -339,7 +343,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
       }
     }
     fetchMinMax()
-  }, [genre, sale, artistFilter.selected]);
+  }, [genre, sale, stock, artistFilter.selected]);
 
   // Fetches artist name when filter for certain artists
 
@@ -351,6 +355,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
         if (artistFilter.selecting) url += `?artist=${artistFilter.selecting}`
 
+        // console.log(url)
         const response = await axios.get(url);
 
         const artistNames = response.data;
@@ -541,7 +546,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
                     {
                       vinyl.no_stock_label ?
                       <div className={styles.toCart}>
-                        NOTIFY
+                        NOTIFY ME
                       </div>
                       :
                       <div className={styles.toCart}>
