@@ -40,7 +40,7 @@ interface getVinylsTypes {
 
 async function getVinyls(): Promise<getVinylsTypes> {
   try {
-    const response = await axios.get('http://localhost:4000/vinyls');
+    const response = await axios.get('http://localhost:4000/vinyls?stock=true');
 
     return response.data;
   } catch (error) {
@@ -60,7 +60,7 @@ export default async function Home() {
     total_count: [{total_count}]
   } = await getVinyls();
 
-  console.log("HI DDERR", initialVinyls)
+  // console.log("HI DDERR", initialVinyls)
 
   const initialMin = Math.floor(Number(min_price));
   const initialMax = Math.ceil(Number(max_price));
