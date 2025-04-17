@@ -20,8 +20,15 @@ interface Vinyl {
   old_price: number | null;
   sale_label: string | null;
   low_stock_label: string | null;
+  no_stock_label: string | null;
   genre: string;
   vinyl_description: string;
+  vinyl_info: string;
+  playlist_name: string;
+  tracklist: string;
+  companies: string;
+  main_artists: string;
+  songwriters: string;
 }
 
 interface getVinylsTypes {
@@ -52,6 +59,8 @@ export default async function Home() {
     min_max:[{min_price, max_price}],
     total_count: [{total_count}]
   } = await getVinyls();
+
+  console.log("HI DDERR", initialVinyls)
 
   const initialMin = Math.floor(Number(min_price));
   const initialMax = Math.ceil(Number(max_price));

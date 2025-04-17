@@ -37,6 +37,12 @@ interface Vinyl {
   no_stock_label: string | null;
   genre: string;
   vinyl_description: string;
+  vinyl_info: string;
+  playlist_name: string;
+  tracklist: string;
+  companies: string;
+  main_artists: string;
+  songwriters: string;
 }
 interface getVinylsTypes {
   initialVinyls: Vinyl[];
@@ -155,11 +161,10 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   }
 
   const handleCheckboxChange = ({ value, checked }: { value: string; checked: boolean }) => {
-    if (value.includes("&")) value = value.replace("&", "%26")
+    value = encodeURIComponent(value)
     if (checked) {
       setGenre([...genre, value]);
     } else {
-      // if (value.includes("&")) value = value.replace("&", "%26")
       setGenre(genre.filter((item) => item !== value));
     }
   };
@@ -326,17 +331,27 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
-        console.log("[fetMinMax]", url)
         const response = await axios.get(url);
         const min_max = response.data.min_max[0];
         const min_price = min_max.min_price;
         const max_price = min_max.max_price;
 
-        // set min/max
-        setMin(Math.floor(min_price));
-        setMax(Math.ceil(max_price));
-        setSelectedMin(Math.floor(min_price));
-        setSelectedMax(Math.ceil(max_price));
+        // if theres no min and max
+        if (!min_price && !max_price) {
+          setMin(initialMin);
+          setMax(initialMax);
+          setSelectedMin(initialMin);
+          setSelectedMax(initialMax);
+          console.log(initialMin)
+          console.log(initialMax)
+        } else {
+          // set min/max
+          setMin(Math.floor(min_price));
+          setMax(Math.ceil(max_price));
+          setSelectedMin(Math.floor(min_price));
+          setSelectedMax(Math.ceil(max_price));
+        }
+
 
       } catch (error) {
         console.error('Error fetching filtered vinyls:', error);
