@@ -16,12 +16,12 @@ import Artists from './filters/Artists';
  * Fix sorting to be implemented through the backend            [DONE]
  * Fix r&b url api request                                      [DONE]
  * Implement sold out filter                                     [DONE]
+ * BUG: Any value with " & " in api url is causing issue        [DONE]
+ * Create product page                   [ON GOING]
 /*/
 
 /*/[[TODO]]
- * BUG: Any value with " & " in api url is causing issue
- * Most recently released filter, use ending of vinyl_imag???
- * Create product page
+ * Most recently released filter, use ending of vinyl_imag       [???]
 /*/
 
 interface Vinyl {
@@ -130,11 +130,11 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   const [showReset, setShowReset] = useState<boolean>(false);
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
-  const checkCurrent = "sort ";
-  const handleCheckCurrent = () => {
+  // const checkCurrent = "sort ";
+  // const handleCheckCurrent = () => {
     // console.log(selectedSort);
     // console.log(vinyls);
-  };
+  // };
 
   const toggleDropdown = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
     setState((prev:boolean) => !prev);
@@ -525,11 +525,11 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
               <span className={styles.slider}></span>
             </label>
           </div>
-          <div className={styles.forChecking}
+          {/* <div className={styles.forChecking}
             onClick={handleCheckCurrent}
           >
             Check current: [{checkCurrent.toUpperCase()}]
-          </div>
+          </div> */}
         </div>
         <div className={styles.products}>
           {vinyls.length === 0 ? (
@@ -590,7 +590,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
                     }
                   </div>
                   {/* THIS IS FOR ME TO INDICATE FILTER WORKING */}
-                  <p><strong>[{vinyl.product_id}] {vinyl.genre.toUpperCase()}</strong></p>
+                  {/* <p><strong>[{vinyl.product_id}] {vinyl.genre.toUpperCase()}</strong></p> */}
                   <p className={styles.title} ><span><strong>{vinyl.vinyl_title}</strong></span></p>
                   <p>{vinyl.vinyl_artist}</p>
                   <div className={styles.priceContainer}>

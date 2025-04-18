@@ -60,8 +60,6 @@ export default async function Home() {
     total_count: [{total_count}]
   } = await getVinyls();
 
-  // console.log("HI DDERR", initialVinyls)
-
   const initialMin = Math.floor(Number(min_price));
   const initialMax = Math.ceil(Number(max_price));
   const initialTotalCount = Number(total_count);

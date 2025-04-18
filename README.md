@@ -1,13 +1,13 @@
 This is full stack web application of an ecommerce site based on [vinyls.com](https://vinyl.com/pages/shop).
 # Product Catalog page
-This page lists all the vinyls in my data set. 
+This page lists all the vinyls in my data set.
 ## Able to filter through
 - Genre
 - Artist
 - Price
 - Out to stock items
 - Sale items
-## Able to also sort through: 
+## Able to also sort through:
 - Low to high price
 - High to low price
 - A to Z artist names
