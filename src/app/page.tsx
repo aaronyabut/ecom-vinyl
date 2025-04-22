@@ -1,6 +1,6 @@
 import axios from 'axios';
 import styles from './page.module.scss';
-import VinylFilter from './VinylFilter'; // New Client Component
+import VinylFilter from './products/VinylFilter'; // New Client Component
 
 interface minMaxTypes {
   min_price: number;

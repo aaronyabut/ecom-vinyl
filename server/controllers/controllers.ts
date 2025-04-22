@@ -1,5 +1,5 @@
 import { Request, Response} from 'express';
-import  { getAllVinylsModel, getArtistsModel } from '../models/models';
+import  { getAllVinylsModel, getArtistsModel, getVinylByIdModel } from '../models/models';
 
 export const getAllVinylsController = async (req: Request, res: Response) => {
   try {
@@ -43,3 +43,17 @@ export const getArtistsController = async (req: Request, res: Response) => {
     console.log(error);
   }
 }
+
+export const getVinylByIdController = async (req: Request, res: Response) => {
+  try {
+    const { product_id } = req.params; // Extract from URL
+    const vinyl = await getVinylByIdModel(product_id);
+    if (!vinyl) {
+      return res.status(404).json({ error: 'Vinyl not found' });
+    }
+    res.json(vinyl);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+    console.error(error);
+  }
+};

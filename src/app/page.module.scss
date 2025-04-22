@@ -590,6 +590,9 @@ $inner-dropdown: rgb(45,45,45);
         }
       }
     }
+    .productLink {
+      cursor: default;
+    }
     .btnContainer {
       background-color: rgb(0, 0, 0);
       position: absolute;
@@ -600,6 +603,7 @@ $inner-dropdown: rgb(45,45,45);
       color: rgb(0, 0, 0);
       z-index: 50;
       transition: opacity 0.2s ease;
+      // @include border(blue)
     }
 
     .toCart {

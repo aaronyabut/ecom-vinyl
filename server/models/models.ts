@@ -109,3 +109,15 @@ export const getArtistsModel = async (artist?:string) => {
     throw new Error('Database error');
   }
 }
+
+export const getVinylByIdModel = async (product_id: string) => {
+  try {
+    const query = 'SELECT * FROM vinyls WHERE product_id = $1';
+    const values = [product_id];
+    const { rows } = await pool.query(query, values);
+    return rows[0]; // Return single vinyl or undefined if not found
+  } catch (error) {
+    console.error('Error fetching vinyl by ID:', error);
+    throw new Error('Database error');
+  }
+};
