@@ -49,14 +49,6 @@ export default function Artists ({
   }
 
   const handleOnClickArtist = (artist:string) => {
-    // console.log(!artistFilter.selected.includes(artist))
-    // if (artist.includes("&")) {
-    //   // console.log("includes")
-    //   artist = artist.replace("&", "%26")
-    //   console.log("includes:::", artist)
-    // }
-
-    // console.log("handleOnClickArtist: ", artist)
     if (!artistFilter.selected.includes(artist)) {
       setArtistFilter(prev => ({ ...prev, selected: [...prev.selected, artist] }))
     }

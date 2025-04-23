@@ -1,8 +1,9 @@
 import axios from 'axios';
-import Image from 'next/image';
+// import Image from 'next/image';
 import styles from './page.module.scss';
-import WishlistIcon from '../../../../public/wishlist-heart.svg';
-import ShareIcon from '../../../../public/share.svg';
+// import WishlistIcon from '../../../../public/wishlist-heart.svg';
+// import ShareIcon from '../../../../public/share.svg';
+import ProductDetails from './ProductDetails';
 
 interface Vinyl {
   product_id: number;
@@ -64,91 +65,13 @@ export default async function ProductPage({
     );
   }
 
-
-  // console.log("CHECKCECHEKCKEHC",vinyl_info)
-
   return (
     // <div>
     <div className={styles.page}>
-      <main className={styles.main}>
-        <div className={styles.productImage}>
-          <Image
-            src={vinyl.vinyl_img}
-            alt={vinyl.vinyl_title}
-            width={650}
-            height={650}
-            priority
-          />
-        </div>
-        <div className={styles.productDetails}>
-          <h1 className={styles.header}>{vinyl.vinyl_title}</h1>
-          <p className={styles.artist}>{vinyl.vinyl_artist} Vinyl Records</p>
-          {/* <p className={styles.genre}>{vinyl.genre}</p> */}
-          <div className={styles.priceContainer}>
-            {vinyl.old_price && (
-              <span className={styles.oldPrice}>
-                <s>${vinyl.old_price}</s>
-              </span>
-            )}
-            <span className={styles.price}>${vinyl.price}</span>
-            {vinyl.sale_label && (
-              <span className={styles.saleTag}> {vinyl.old_price&&vinyl.price ? Math.round((vinyl.price/vinyl.old_price)*10) + "% OFF" : 0}</span>
-            )}
-            {/* {vinyl.low_stock_label && (
-              <span className={styles.lowStock}>{vinyl.low_stock_label}</span>
-            )} */}
-            {/* {vinyl.no_stock_label && (
-              <span className={styles.noStock}>SOLD OUT</span>
-            )} */}
-          </div>
-          {vinyl.no_stock_label ?
-            <div className={styles.notifyMe}>
-              NOTIFY ME
-            </div>
-            :
-            <div className={styles.addToCartContainer}>
-              <div className={styles.addToCart}>
-                ADD TO CART
-              </div>
-              <Image
-                src={ShareIcon}
-                width={35}
-                height={35}
-                alt="wishlist"
-                className={styles.shareIcon}
-              />
-            </div>
-          }
-          <div className={styles.shippingLabel}>
-            Free shipping on orders over $60
-          </div>
-          <div className={styles.wishlistLabelContainer}>
-            <Image
-              src={WishlistIcon}
-              alt="wishlist"
-              width={20}
-              height={20}
-            />
-            <div className={styles.wishlistLabel}>
-              Add to wishlist
-            </div>
-          </div>
-          <div className={styles.infoContainer}>
-            {vinyl_info.map((arr:string[], i:number ) => {
-              return(
-              <div key={i} className={styles.info}>
-                <div className={styles.key}>
-                  {arr[0]}
-                </div>
-                <div className={styles.value}>
-                  : {arr[1]}
-                </div>
-              </div>
-              )
-            })}
-          </div>
-        </div>
-      </main>
+      <ProductDetails
+        vinyl={vinyl}
+        vinyl_info={vinyl_info}
+      />
     </div>
   );
 }

@@ -61,8 +61,9 @@ $secondary-font-color: rgb(168, 168, 168);
 .productDetails {
   display: flex;
   flex-direction: column;
-  @include border(pink);
+  width: 705px;
 
+  @include border(pink);
 
   .header {
     font-size: 36px;
@@ -90,10 +91,10 @@ $secondary-font-color: rgb(168, 168, 168);
     .saleTag {
       font-family: Geist, "Geist Fallback";
       background-color: #b1443c;
-      @include border(#b1443c);
       border-radius: 30px;
       font-size: 14px;
       padding: 4px 8px;
+      @include border(#b1443c);
     }
     .oldPrice {
       color: $secondary-font-color;
@@ -161,6 +162,21 @@ $secondary-font-color: rgb(168, 168, 168);
       }
       .value {
         color: $secondary-font-color;
+      }
+    }
+  }
+
+  .description {
+    color: $secondary-font-color;;
+    font-size: 16px;
+    line-height: 20.8px;
+    .readMore {
+      margin-block: 5px;
+      text-decoration: underline;
+      text-underline-position: under;
+      &:hover {
+        color: $accent-color;
+        cursor: pointer;
       }
     }
   }
