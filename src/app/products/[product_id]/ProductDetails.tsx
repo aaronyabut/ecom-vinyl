@@ -6,6 +6,7 @@ import styles from './page.module.scss';
 import WishlistIcon from '../../../../public/wishlist-heart.svg';
 import ShareIcon from '../../../../public/share.svg';
 import { useState } from 'react';
+import ArrowIcon from '../../../../public/arrow-icon.svg'
 
 
 interface Vinyl {
@@ -32,6 +33,9 @@ interface Vinyl {
 interface ProductDetailsProps {
   vinyl: Vinyl,
   vinyl_info:string[][],
+  tracklist:string[][],
+  playlist_name:string
+
 }
 
 interface DropdownState {
@@ -39,7 +43,12 @@ interface DropdownState {
   description2: boolean;
 }
 
-export default function ProductDetails({vinyl, vinyl_info}:ProductDetailsProps){
+export default function ProductDetails({
+  vinyl,
+  vinyl_info,
+  tracklist,
+  playlist_name
+}:ProductDetailsProps){
   const [dropdown, setDropdown] = useState<DropdownState>({
     description: false,
     description2: false,
@@ -134,27 +143,71 @@ export default function ProductDetails({vinyl, vinyl_info}:ProductDetailsProps){
             )
           })}
         </div>
-        <div
-          className={styles.description}
-          onClick={() => handleToggle(setDropdown, 'description')}
-        >
-          <p>{dropdown.description ? vinyl.vinyl_description : vinyl.vinyl_description.slice(0, 250)+"..."}</p>
-          <div className={styles.readMore}>
-            {dropdown.description ? 'Show less' : 'Read more'}
+
+        {
+          vinyl.vinyl_description &&
+          <div
+            className={styles.description}
+            onClick={() => handleToggle(setDropdown, 'description')}
+          >
+            <p>{dropdown.description ? vinyl.vinyl_description : vinyl.vinyl_description.slice(0, 250)+"..."}</p>
+            <div className={styles.readMore}>
+              {dropdown.description ? 'Show less' : 'Read more'}
+            </div>
           </div>
-        </div>
-        {/* <div className={styles.tracklist}>
-          <h2>Tracklist</h2>
-          <p>{vinyl.tracklist}</p>
-        </div> */}
-        {/* <div className={styles.additionalInfo}>
-          <h2>Additional Info</h2>
-          <p><strong>Playlist:</strong> {vinyl.playlist_name}</p>
-          <p><strong>Companies:</strong> {vinyl.companies}</p>
-          <p><strong>Main Artists:</strong> {vinyl.main_artists}</p>
-          <p><strong>Songwriters:</strong> {vinyl.songwriters}</p>
-          <p><strong>Vinyl Info:</strong> {vinyl.vinyl_info}</p>
-        </div> */}
+        }
+        {
+          vinyl.tracklist &&
+          <div className={styles.tracklistContainer}>
+            <div className={styles.tracklistHeader}>
+              <h2>Album tracklist</h2>
+              <Image
+                src={ArrowIcon}
+                height={20}
+                width={20}
+                alt='arrow icon'
+              />
+            </div>
+            <div className={styles.tracklistMainInfoContainer}>
+              <Image
+                src={vinyl.vinyl_img}
+                alt={vinyl.vinyl_title}
+                width={110}
+                height={110}
+                priority
+              />
+              <div className={styles.albumInfo}>
+                <div>
+                  {playlist_name}
+                </div>
+                <div className={styles.artist}>
+                {/* <div> */}
+                  {vinyl.vinyl_artist} • {tracklist.length} songs
+                </div>
+              </div>
+            </div>
+            <div className={styles.tracklistSongs}>
+              {tracklist.map((arr:string[],i) => {
+                return (
+                  <div key={i} className={styles.songContainer}>
+                    <div className={styles.trackNumberAndTitle}>
+                      <div className={styles.trackNumber}>
+                        {arr[0]}
+                      </div>
+                      <div className={styles.songTitle}>
+                        {arr[1]}
+                      </div>
+                    </div>
+                    <div className={styles.songDuration}>
+                      {arr[2]}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            {/* <div>{vinyl.tracklist}</div> */}
+          </div>
+        }
       </div>
     </main>
   );

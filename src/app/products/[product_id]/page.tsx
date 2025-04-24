@@ -36,6 +36,10 @@ async function getVinylById(product_id: string): Promise<Vinyl | null> {
   }
 }
 
+const quoteUpdate = (string:string) => {
+  return string.replace(/'([^']+)'/g, '"$1"')
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -43,15 +47,19 @@ export default async function ProductPage({
 }) {
   const { product_id } = await params;
   const vinyl = await getVinylById(product_id);
-  const infoString = vinyl?.vinyl_info ?? '[]'; // Fallback to an empty array string
-  const validJsonString = infoString.replace(/'([^']+)'/g, '"$1"');
+  const infoString = vinyl?.vinyl_info ?? '[]';
+  const tracklistString = vinyl?.tracklist ?? '[]';
+  const playlistNameString = vinyl?.playlist_name ?? '';
+  // const validInfoString = infoString.replace(/'([^']+)'/g, '"$1"');
+  const validInfoString = quoteUpdate(infoString);
+  const validTracklistString = quoteUpdate(tracklistString);
   let vinyl_info = [];
-  try {
-    vinyl_info = JSON.parse(validJsonString);
-    console.log(vinyl_info);
-  } catch (error) {
-    console.error('Error parsing JSON:', error);
-  }
+  let tracklist = [];
+  vinyl_info = JSON.parse(validInfoString);
+  tracklist = JSON.parse(validTracklistString);
+
+  console.log(tracklist)
+
 
 
   if (!vinyl) {
@@ -71,6 +79,8 @@ export default async function ProductPage({
       <ProductDetails
         vinyl={vinyl}
         vinyl_info={vinyl_info}
+        tracklist={tracklist}
+        playlist_name={playlistNameString}
       />
     </div>
   );
