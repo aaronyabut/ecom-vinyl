@@ -1,4 +1,5 @@
-This is full stack web application of an ecommerce site based on [vinyls.com](https://vinyl.com/pages/shop).
+This is a full stack web application of an ecommerce site inspired by [vinyls.com](https://vinyl.com/pages/shop).
+
 # Product Catalog page
 This page lists all the vinyls in my data set.
 ## Able to filter through
@@ -21,11 +22,3 @@ This page lists all the vinyls in my data set.
 ![product_catalog_3](https://github.com/user-attachments/assets/16c2e378-6fc7-4898-a024-aa7de8404d48)
 
 This web application is currently on-going. More features will be added, such as the product page, add to cart, check out process, and wishlist.
-<!--
-## Getting Started
-First, run the development server:
-
-```bash
-
-```
--->
