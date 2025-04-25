@@ -1,14 +1,14 @@
 This is a full stack web application of an ecommerce site inspired by [vinyls.com](https://vinyl.com/pages/shop).
 
 # Product Catalog page
-This page lists all the vinyls in my data set.
-## Able to filter through
+This page lists all the vinyls in my data set. I've web scraped [vinyls.com](https://vinyl.com/pages/shop), using my script: [vinyl_webscrape](https://github.com/aaronyabut/scripts/tree/main/vinyl_ecom)
+## Filtering feature:
 - Genre
 - Artist
 - Price
 - Out to stock items
 - Sale items
-## Able to also sort through:
+## Sorting feature:
 - Low to high price
 - High to low price
 - A to Z artist names
