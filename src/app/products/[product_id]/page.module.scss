@@ -7,6 +7,39 @@ $secondary-font-color: rgb(168, 168, 168);
   border-color: $color;
 }
 
+@mixin dropDownLogic {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height .4s ease-in-out;
+
+  &.open {
+    transition: max-height .4s ease-in-out;
+    max-height: 5000px;
+  }
+}
+
+@mixin dropDownStyling ($mid-comp:true) {
+  // @include filterLayout($mid-comp);
+  cursor: pointer;
+  // transition: background-color 0.3s ease;
+
+  // &:hover {
+  //   background-color: rgb(80, 80, 80);
+  // }
+
+  &.active {
+    background-color: rgb(113, 113, 113);
+  }
+  .rotateIcon {
+    transform: rotate(0deg);
+    transition: transform 0.4s ease;
+  }
+  .rotateIconReverse {
+    transform: rotate(-180deg);
+    transition: transform 0.4s ease .2s;
+  }
+}
+
 .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
@@ -187,27 +220,6 @@ $secondary-font-color: rgb(168, 168, 168);
     }
   }
 
-  .tracklistMainInfoContainer {
-    display: flex;
-    flex-direction: row;
-    background-color: rgb(25, 25, 25);
-    padding: 10px;
-    gap: 20px;
-    // @include border(#62ff00);
-
-    .albumInfo{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      // @include border(rgb(0, 76, 255));
-
-      .artist {
-        color: $secondary-font-color;
-        font-size: 16px;
-        font-weight: 400;
-      }
-    }
-  }
 
   .tracklistContainer {
     display: flex;
@@ -215,6 +227,7 @@ $secondary-font-color: rgb(168, 168, 168);
     // @include border(rgb(98, 255, 0));
 
     .tracklistHeader {
+      @include dropDownStyling(-comp);
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -224,39 +237,66 @@ $secondary-font-color: rgb(168, 168, 168);
       // @include border(red);
     }
 
-    .tracklistSongs {
-      padding: 10px;
-      background-color: rgb(33, 33, 33);
-      // @include border(blue);
+    .tracklistDropdownContainer {
+      @include dropDownLogic();
+      // @include border(red);
 
-      .songContainer {
+      .tracklistMainInfoContainer {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        margin-block: 20px;
-        // @include border(#a38686);
+        background-color: rgb(25, 25, 25);
+        padding: 10px;
+        gap: 20px;
+        // @include border(rgb(76, 0, 255));
 
-        .trackNumberAndTitle {
+        .albumInfo{
           display: flex;
-          flex-direction: row;
-          gap: 15px;
-          // @include border(red);
+          flex-direction: column;
+          justify-content: center;
+          // @include border(rgb(0, 76, 255));
 
-          .trackNumber {
-            width: 32px;
-            text-align: right;
-            // @include border(red);
-          }
-
-          .songTitle {
-            width: 452.797px;
-            // @include border(red);
+          .artist {
+            color: $secondary-font-color;
+            font-size: 16px;
+            font-weight: 400;
           }
         }
+      }
+      .tracklistSongs {
 
-        .songDuration {
-          margin-right: 100px;
-          // @include border(red);
+        padding: 10px;
+        background-color: rgb(33, 33, 33);
+        // @include border(blue);
+
+        .songContainer {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-block: 20px;
+          // @include border(#a38686);
+
+          .trackNumberAndTitle {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            // @include border(red);
+
+            .trackNumber {
+              width: 32px;
+              text-align: right;
+              // @include border(red);
+            }
+
+            .songTitle {
+              width: 452.797px;
+              // @include border(red);
+            }
+          }
+
+          .songDuration {
+            margin-right: 100px;
+            // @include border(red);
+          }
         }
       }
     }

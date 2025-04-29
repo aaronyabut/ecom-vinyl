@@ -7,6 +7,7 @@ import WishlistIcon from '../../../../public/wishlist-heart.svg';
 import ShareIcon from '../../../../public/share.svg';
 import { useState } from 'react';
 import ArrowIcon from '../../../../public/arrow-icon.svg'
+// import { drop } from 'lodash';
 
 
 interface Vinyl {
@@ -40,7 +41,7 @@ interface ProductDetailsProps {
 
 interface DropdownState {
   description: boolean;
-  description2: boolean;
+  tracklist: boolean;
 }
 
 export default function ProductDetails({
@@ -51,7 +52,7 @@ export default function ProductDetails({
 }:ProductDetailsProps){
   const [dropdown, setDropdown] = useState<DropdownState>({
     description: false,
-    description2: false,
+    tracklist: false,
   });
 
   const handleToggle = (
@@ -63,6 +64,7 @@ export default function ProductDetails({
       [key]: !prev[key],
     }));
     console.log("Toggled:", key);
+    console.log("VALUE:", dropdown.tracklist);
   };
 
   return (
@@ -159,51 +161,61 @@ export default function ProductDetails({
         {
           vinyl.tracklist &&
           <div className={styles.tracklistContainer}>
-            <div className={styles.tracklistHeader}>
+            <div
+              className={styles.tracklistHeader}
+              onClick={() => handleToggle(setDropdown, 'tracklist')}
+            >
               <h2>Album tracklist</h2>
               <Image
                 src={ArrowIcon}
                 height={20}
                 width={20}
                 alt='arrow icon'
+                className={`${dropdown.tracklist ? styles.rotateIcon : styles.rotateIconReverse}`}
               />
             </div>
-            <div className={styles.tracklistMainInfoContainer}>
-              <Image
-                src={vinyl.vinyl_img}
-                alt={vinyl.vinyl_title}
-                width={110}
-                height={110}
-                priority
-              />
-              <div className={styles.albumInfo}>
-                <div>
-                  {playlist_name}
-                </div>
-                <div className={styles.artist}>
-                {/* <div> */}
-                  {vinyl.vinyl_artist} • {tracklist.length} songs
+
+            <div
+              className={`${styles.tracklistDropdownContainer} ${dropdown.tracklist && styles.open}`}
+            >
+
+              <div className={styles.tracklistMainInfoContainer}>
+                <Image
+                  src={vinyl.vinyl_img}
+                  alt={vinyl.vinyl_title}
+                  width={110}
+                  height={110}
+                  priority
+                />
+                <div className={styles.albumInfo}>
+                  <div>
+                    {playlist_name}
+                  </div>
+                  <div className={styles.artist}>
+                  {/* <div> */}
+                    {vinyl.vinyl_artist} • {tracklist.length} songs
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className={styles.tracklistSongs}>
-              {tracklist.map((arr:string[],i) => {
-                return (
-                  <div key={i} className={styles.songContainer}>
-                    <div className={styles.trackNumberAndTitle}>
-                      <div className={styles.trackNumber}>
-                        {arr[0]}
+              <div className={`${styles.tracklistSongs}`}>
+                {tracklist.map((arr:string[],i) => {
+                  return (
+                    <div key={i} className={styles.songContainer}>
+                      <div className={styles.trackNumberAndTitle}>
+                        <div className={styles.trackNumber}>
+                          {arr[0]}
+                        </div>
+                        <div className={styles.songTitle}>
+                          {arr[1]}
+                        </div>
                       </div>
-                      <div className={styles.songTitle}>
-                        {arr[1]}
+                      <div className={styles.songDuration}>
+                        {arr[2]}
                       </div>
                     </div>
-                    <div className={styles.songDuration}>
-                      {arr[2]}
-                    </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
             {/* <div>{vinyl.tracklist}</div> */}
           </div>
