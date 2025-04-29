@@ -40,27 +40,23 @@ const quoteUpdate = (string:string) => {
   return string.replace(/'([^']+)'/g, '"$1"')
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ product_id: string }>;
-}) {
-  const { product_id } = await params;
+// function parseJSON(input:string|undefined|null, defaultValue: string = '[]') {
+function parseJSON(input:string|undefined|null) {
+  const validString = quoteUpdate(input ?? '[]');
+  return JSON.parse(validString);
+}
+
+export default async function ProductPage({params}:{params:Promise<{ product_id: string}>}){
+  const {product_id} = await params;
   const vinyl = await getVinylById(product_id);
-  const infoString = vinyl?.vinyl_info ?? '[]';
-  const tracklistString = vinyl?.tracklist ?? '[]';
+
   const playlistNameString = vinyl?.playlist_name ?? '';
-  // const validInfoString = infoString.replace(/'([^']+)'/g, '"$1"');
-  const validInfoString = quoteUpdate(infoString);
-  const validTracklistString = quoteUpdate(tracklistString);
-  let vinyl_info = [];
-  let tracklist = [];
-  vinyl_info = JSON.parse(validInfoString);
-  tracklist = JSON.parse(validTracklistString);
 
-  console.log(tracklist)
-
-
+  const vinyl_info = parseJSON(vinyl?.vinyl_info);
+  const tracklist = parseJSON(vinyl?.tracklist);
+  const companies = parseJSON(vinyl?.companies);
+  const artists = parseJSON(vinyl?.main_artists);
+  const songwriters = parseJSON(vinyl?.songwriters);
 
   if (!vinyl) {
     return (
@@ -74,13 +70,15 @@ export default async function ProductPage({
   }
 
   return (
-    // <div>
     <div className={styles.page}>
       <ProductDetails
         vinyl={vinyl}
         vinyl_info={vinyl_info}
         tracklist={tracklist}
         playlist_name={playlistNameString}
+        companies={companies}
+        artists={artists}
+        songwriters={songwriters}
       />
     </div>
   );

@@ -10,10 +10,10 @@ $secondary-font-color: rgb(168, 168, 168);
 @mixin dropDownLogic {
   max-height: 0px;
   overflow: hidden;
-  transition: max-height .4s ease-in-out;
+  transition: max-height .6s ease-in-out;
 
   &.open {
-    transition: max-height .4s ease-in-out;
+    transition: max-height .6s ease-in-out;
     max-height: 5000px;
   }
 }
@@ -21,11 +21,11 @@ $secondary-font-color: rgb(168, 168, 168);
 @mixin dropDownStyling ($mid-comp:true) {
   // @include filterLayout($mid-comp);
   cursor: pointer;
-  // transition: background-color 0.3s ease;
-
-  // &:hover {
-  //   background-color: rgb(80, 80, 80);
-  // }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-block: 20px;
 
   &.active {
     background-color: rgb(113, 113, 113);
@@ -224,16 +224,10 @@ $secondary-font-color: rgb(168, 168, 168);
   .tracklistContainer {
     display: flex;
     flex-direction: column;
-    // @include border(rgb(98, 255, 0));
+    // @include border(green);
 
     .tracklistHeader {
       @include dropDownStyling(-comp);
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-block: 30px;
       // @include border(red);
     }
 
@@ -299,6 +293,20 @@ $secondary-font-color: rgb(168, 168, 168);
           }
         }
       }
+    }
+  }
+
+  .creditsContainer {
+    display: flex;
+    flex-direction: column;
+    // @include border(green);
+    .creditsHeader {
+      @include dropDownStyling(-comp);
+      // @include border(red);
+    }
+    .categoryContainer {
+      @include dropDownLogic();
+      // @include border(red);
     }
   }
 }

@@ -35,24 +35,33 @@ interface ProductDetailsProps {
   vinyl: Vinyl,
   vinyl_info:string[][],
   tracklist:string[][],
-  playlist_name:string
+  playlist_name:string,
+  companies:string[][],
+  artists:string[][],
+  songwriters:string[][]
 
 }
 
 interface DropdownState {
   description: boolean;
   tracklist: boolean;
+  credits: boolean;
 }
 
 export default function ProductDetails({
   vinyl,
   vinyl_info,
   tracklist,
-  playlist_name
+  playlist_name,
+  companies,
+  artists,
+  songwriters
+
 }:ProductDetailsProps){
   const [dropdown, setDropdown] = useState<DropdownState>({
     description: false,
     tracklist: false,
+    credits: false,
   });
 
   const handleToggle = (
@@ -63,9 +72,14 @@ export default function ProductDetails({
       ...prev,
       [key]: !prev[key],
     }));
-    console.log("Toggled:", key);
-    console.log("VALUE:", dropdown.tracklist);
+    console.log("tracklist", typeof tracklist)
+    // console.log("Toggled:", key);
+    // console.log("VALUE:", dropdown.tracklist);
   };
+
+  console.log("companies",companies)
+  console.log("artists",artists)
+  console.log("songwriters",songwriters)
 
   return (
     <main className={styles.main}>
@@ -145,9 +159,9 @@ export default function ProductDetails({
             )
           })}
         </div>
-
+        {/* Description */}
         {
-          vinyl.vinyl_description &&
+          vinyl.vinyl_description ?
           <div
             className={styles.description}
             onClick={() => handleToggle(setDropdown, 'description')}
@@ -157,14 +171,16 @@ export default function ProductDetails({
               {dropdown.description ? 'Show less' : 'Read more'}
             </div>
           </div>
+          : null
         }
+        {/* Tracklist */}
         {
-          vinyl.tracklist &&
+          tracklist.length ?
           <div className={styles.tracklistContainer}>
             <div
               className={styles.tracklistHeader}
               onClick={() => handleToggle(setDropdown, 'tracklist')}
-            >
+              >
               <h2>Album tracklist</h2>
               <Image
                 src={ArrowIcon}
@@ -174,11 +190,7 @@ export default function ProductDetails({
                 className={`${dropdown.tracklist ? styles.rotateIcon : styles.rotateIconReverse}`}
               />
             </div>
-
-            <div
-              className={`${styles.tracklistDropdownContainer} ${dropdown.tracklist && styles.open}`}
-            >
-
+            <div className={`${styles.tracklistDropdownContainer} ${dropdown.tracklist && styles.open}`}>
               <div className={styles.tracklistMainInfoContainer}>
                 <Image
                   src={vinyl.vinyl_img}
@@ -217,8 +229,33 @@ export default function ProductDetails({
                 })}
               </div>
             </div>
-            {/* <div>{vinyl.tracklist}</div> */}
           </div>
+          : null
+        }
+        {/* Credits */}
+        {
+          companies.length || artists.length || songwriters.length ?
+          <div className={styles.creditsContainer}>
+            <div
+              className={styles.creditsHeader}
+              onClick={() => handleToggle(setDropdown, 'credits')}
+              >
+              <h2>Credits</h2>
+              <Image
+                src={ArrowIcon}
+                height={20}
+                width={20}
+                alt='arrow icon'
+                className={`${dropdown.credits ? styles.rotateIcon : styles.rotateIconReverse}`}
+              />
+            </div>
+            <div className={`${styles.categoryContainer} ${dropdown.credits && styles.open}`} >
+              {/* <div>{artists}</div> */}
+              {/* <div>{companies}</div>
+              <div>{songwriters}</div> */}
+            </div>
+          </div>
+          : null
         }
       </div>
     </main>
