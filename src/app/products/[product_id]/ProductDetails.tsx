@@ -194,10 +194,12 @@ export default function ProductDetails({
           vinyl.vinyl_description ?
           <div
             className={styles.description}
-            onClick={() => handleToggle(setDropdown, 'description')}
-          >
+            >
             <p>{dropdown.description ? vinyl.vinyl_description : vinyl.vinyl_description.slice(0, 250)+"..."}</p>
-            <div className={styles.readMore}>
+            <div
+              className={styles.readMore}
+              onClick={() => handleToggle(setDropdown, 'description')}
+            >
               {dropdown.description ? 'Show less' : 'Read more'}
             </div>
           </div>

@@ -262,6 +262,8 @@ $secondary-font-color: rgb(168, 168, 168);
       margin-block: 5px;
       text-decoration: underline;
       text-underline-position: under;
+      width: fit-content;
+      // @include border(green);
       &:hover {
         color: $accent-color;
         cursor: pointer;
