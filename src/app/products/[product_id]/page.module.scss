@@ -25,7 +25,7 @@ $secondary-font-color: rgb(168, 168, 168);
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-block: 20px;
+  margin-block: 15px;
 
   &.active {
     background-color: rgb(113, 113, 113);
@@ -107,7 +107,7 @@ $secondary-font-color: rgb(168, 168, 168);
   gap: clamp(32px, 4vw, 64px); // Responsive gap
   font-family: var(--font-geist-sans);
 
-  @include border(pink);
+  // @include border(pink);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -184,7 +184,8 @@ $secondary-font-color: rgb(168, 168, 168);
     }
   }
 
-  .addToCartContainer {
+
+  .CTAContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -194,26 +195,73 @@ $secondary-font-color: rgb(168, 168, 168);
 
     .shareIcon {
       transform: translate( 0px, -3px);
+      cursor: pointer;
+
+      &:hover {
+        filter: invert(70%) sepia(160%) saturate(1800%) hue-rotate(150deg) brightness(125%) contrast(110%);
+      // color: $accent-color;
+      }
       // @include border(rgb(9, 7, 7));
     }
 
-
-    .addToCart {
-      background-color: $accent-color;
+    @mixin CTAStyling ($bgColor, $hoverColor) {
       width: fit-content;
       font-family: 'Eurostile Extended', sans-serif;
       font-size: 16px;
       color: #000000;
       padding: 15px 20px;
-      margin-block: 10px;
+      margin-top: 10px;
+      background-color: $bgColor;
+      cursor: pointer;
+
+      // @include border(red);
+
+      &:hover {
+        background-color: $hoverColor;
+      }
+    }
+
+    .addToCart {
+      @include CTAStyling($accent-color, rgb(65, 154, 129));
+    }
+    .notifyMe {
+      @include CTAStyling(rgb(255, 255, 255),rgb(212, 212, 212));
     }
   }
 
-  .shippingLabel {
-    margin-block: 10px;
-    color: $secondary-font-color;
+  .noStock {
+    color: rgb(255, 150, 92);
+    margin-top: 12px;
+    // @include border(red);
+  }
+
+  .productBenefits {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    margin-top: 12px;
     font-size: 14px;
-    margin-block: 5px;
+    // @include border(red);
+
+    .benefitItem {
+      display: flex;
+      flex-direction: row;
+      column-gap: 5px;
+      // @include border(red);
+
+      .benefitTitle {
+        font-weight: 700;
+      }
+      .benefitDetail {
+      }
+    }
+    // @include border(red);
+  }
+  .divider {
+    margin-block: 25px;
+    border-top-color: rgb(50, 50, 50);
+    border-top-style: solid;
+    border-top-width: 1px;
   }
   .wishlistLabelContainer {
     display: flex;
@@ -231,7 +279,7 @@ $secondary-font-color: rgb(168, 168, 168);
   }
 
   .infoContainer {
-    margin-block: 28px;
+    margin-top: 28px;
     // @include border(green);
 
     .info {
@@ -357,10 +405,9 @@ $secondary-font-color: rgb(168, 168, 168);
     }
     .creditsDropdownContainer {
       @include dropDownLogic();
-
-      // @include border(rgb(0, 255, 47)(117, 41, 41));
+      margin-block: 10px;
+      // @include border(rgb(204, 90, 187));
       .categoryContainer {
-        // padding-bottom: 45px;
 
         // @include border(red);
         .headerContainer {

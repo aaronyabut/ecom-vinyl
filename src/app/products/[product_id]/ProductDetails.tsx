@@ -143,27 +143,50 @@ export default function ProductDetails({
             <span className={styles.saleTag}> {vinyl.old_price&&vinyl.price ? Math.round((vinyl.price/vinyl.old_price)*10) + "% OFF" : 0}</span>
           )}
         </div>
-        {vinyl.no_stock_label ?
-          <div className={styles.notifyMe}>
-            NOTIFY ME
-          </div>
-          :
-          <div className={styles.addToCartContainer}>
+        <div className={styles.CTAContainer}>
+          {
+            vinyl.no_stock_label ?
+            <div className={styles.notifyMe}>
+              NOTIFY ME
+            </div>
+            :
             <div className={styles.addToCart}>
               ADD TO CART
             </div>
-            <Image
-              src={ShareIcon}
-              width={35}
-              height={35}
-              alt="wishlist"
-              className={styles.shareIcon}
-            />
+          }
+          <Image
+            src={ShareIcon}
+            width={35}
+            height={35}
+            alt="wishlist"
+            className={styles.shareIcon}
+          />
+        </div>
+        {
+          vinyl.no_stock_label &&
+          <div className={styles.noStock}>
+            Out of stock. Get notified when available.
           </div>
         }
-        <div className={styles.shippingLabel}>
-          Free shipping on orders over $60
+        {/* Product Benefits */}
+        <div className={styles.productBenefits}>
+          <div className={styles.benefitItem}>
+            <span className={styles.benefitTitle}>Free Shipping</span>
+            <span className={styles.benefitDetail}>on orders over $60</span>
+          </div>
+          <div className={styles.benefitItem}>
+            <span className={styles.benefitTitle}>Fast Delivery</span>
+            <span className={styles.benefitDetail}>arriving</span>
+          </div>
+          <div className={styles.benefitItem}>
+            <span className={styles.benefitTitle}>East Returns</span>
+            <span className={styles.benefitDetail}>30-day return policy</span>
+          </div>
         </div>
+
+        <div className={styles.divider} />
+
+        {/* Wishlist */}
         <div className={styles.wishlistLabelContainer}>
           <Image
             src={WishlistIcon}
@@ -175,20 +198,9 @@ export default function ProductDetails({
             Add to wishlist
           </div>
         </div>
-        <div className={styles.infoContainer}>
-          {vinyl_info.map((arr:string[], i:number ) => {
-            return(
-            <div key={i} className={styles.info}>
-              <div className={styles.key}>
-                {arr[0]}
-              </div>
-              <div className={styles.value}>
-                : {arr[1]}
-              </div>
-            </div>
-            )
-          })}
-        </div>
+
+        <div className={styles.divider} />
+
         {/* Description */}
         {
           vinyl.vinyl_description ?
@@ -205,6 +217,24 @@ export default function ProductDetails({
           </div>
           : null
         }
+        {/* Info Container */}
+        <div className={styles.infoContainer}>
+          {vinyl_info.map((arr:string[], i:number ) => {
+            return(
+            <div key={i} className={styles.info}>
+              <div className={styles.key}>
+                {arr[0]}
+              </div>
+              <div className={styles.value}>
+                : {arr[1]}
+              </div>
+            </div>
+            )
+          })}
+        </div>
+
+        <div className={styles.divider} />
+
         {/* Tracklist */}
         {
           tracklist.length ?
@@ -264,6 +294,9 @@ export default function ProductDetails({
           </div>
           : null
         }
+
+        <div className={styles.divider} />
+
         {/* Credits */}
         {
           companies.length || artists.length || songwriters.length ?
