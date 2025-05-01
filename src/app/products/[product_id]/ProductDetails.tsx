@@ -7,7 +7,9 @@ import WishlistIcon from '../../../../public/wishlist-heart.svg';
 import ShareIcon from '../../../../public/share.svg';
 import { useState } from 'react';
 import ArrowIcon from '../../../../public/arrow-icon.svg'
-// import { drop } from 'lodash';
+import VerifiedIcon from '../../../../public/product_page_svg/verified.svg'
+import LightningIcon from '../../../../public/product_page_svg/lightning.svg'
+import SmileIcon from '../../../../public/product_page_svg/smile.svg'
 
 
 interface Vinyl {
@@ -55,6 +57,63 @@ interface CreditsArrayType {
   label: keyof ChosenCreditsState;
   data: string[][]
 }
+interface InfoIconType {
+  [key: string]: string;
+}
+
+const infoIcon:InfoIconType = {
+  UPC: "https://vinyl.com/cdn/shop/t/59/assets/world-green.svg",
+  Color: "https://vinyl.com/cdn/shop/t/59/assets/cookie-green.svg",
+  Format: "https://vinyl.com/cdn/shop/t/59/assets/disc-green.svg",
+  Weight: "https://vinyl.com/cdn/shop/t/59/assets/weight-green.svg",
+  "Release date": "https://vinyl.com/cdn/shop/t/59/assets/release-date-green.svg",
+  "First released": "https://vinyl.com/cdn/shop/t/59/assets/first-released-green.svg",
+}
+
+interface ProductBenefitsType {
+  [key: string]: string;
+}
+
+function getDateRange() {
+  const today = new Date();
+
+  //3 days from now
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() + 3);
+
+  //7 days from now
+  const endDate = new Date(today);
+  endDate.setDate(today.getDate() + 7);
+
+  const startMonth = startDate.toLocaleString('en-US', { month: 'short' });
+  const endMonth = endDate.toLocaleString('en-US', { month: 'short' });
+  const startDay = startDate.getDate();
+  const endDay = endDate.getDate();
+
+  if (startMonth === endMonth) {
+    return `${startMonth} ${startDay} - ${endDay}`;
+  } else {
+    return `${startMonth} ${startDay} - ${endMonth} ${endDay}`;
+  }
+}
+
+const productBenefits:ProductBenefitsType[] = [
+  {
+    svg: VerifiedIcon,
+    title: "Free Shipping",
+    detail: "on orders over $60"
+  },
+  {
+    svg: LightningIcon,
+    title: "Fast Delivery",
+    detail: `arriving ${getDateRange()}`
+  },
+  {
+    svg: SmileIcon,
+    title: "Easy Returns",
+    detail: "30-day return policy"
+  },
+]
 
 export default function ProductDetails({
   vinyl,
@@ -68,8 +127,8 @@ export default function ProductDetails({
 }:ProductDetailsProps){
   const [dropdown, setDropdown] = useState<DropdownState>({
     description: false,
-    tracklist: false,
-    credits: true,
+    tracklist: true,
+    credits: false,
   });
   const [chosenCredits, setChosenCredits] = useState<ChosenCreditsState>({
     "Main Artist": true,
@@ -162,6 +221,7 @@ export default function ProductDetails({
             className={styles.shareIcon}
           />
         </div>
+        {/* Out of stock */}
         {
           vinyl.no_stock_label &&
           <div className={styles.noStock}>
@@ -170,18 +230,23 @@ export default function ProductDetails({
         }
         {/* Product Benefits */}
         <div className={styles.productBenefits}>
-          <div className={styles.benefitItem}>
-            <span className={styles.benefitTitle}>Free Shipping</span>
-            <span className={styles.benefitDetail}>on orders over $60</span>
-          </div>
-          <div className={styles.benefitItem}>
-            <span className={styles.benefitTitle}>Fast Delivery</span>
-            <span className={styles.benefitDetail}>arriving</span>
-          </div>
-          <div className={styles.benefitItem}>
-            <span className={styles.benefitTitle}>East Returns</span>
-            <span className={styles.benefitDetail}>30-day return policy</span>
-          </div>
+          {
+            productBenefits.map((benefit, i) => (
+              <div className={styles.benefitItem} key={i}>
+                <span className={styles.benefitTitle}>
+                  <Image
+                    src={benefit.svg}
+                    height={18}
+                    width={18}
+                    alt={`${benefit.title} icon`}
+                  />
+                </span>
+                <span className={styles.benefitTitle}>{benefit.title}</span>
+                <span className={styles.benefitDetail}>{benefit.detail}</span>
+              </div>
+
+            ))
+          }
         </div>
 
         <div className={styles.divider} />
@@ -222,6 +287,15 @@ export default function ProductDetails({
           {vinyl_info.map((arr:string[], i:number ) => {
             return(
             <div key={i} className={styles.info}>
+              {/* <div className={styles.key}> */}
+                <Image
+                  src={infoIcon[arr[0]]}
+                  height={18}
+                  width={18}
+                  alt="Earth icon"
+                  className={styles.svg}
+                />
+              {/* </div> */}
               <div className={styles.key}>
                 {arr[0]}
               </div>

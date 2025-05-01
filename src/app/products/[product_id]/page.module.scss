@@ -1,4 +1,4 @@
-$accent-color: rgb(0, 204, 167);
+$accent-color: #00cca7;
 $secondary-font-color: rgb(168, 168, 168);
 
 @mixin border($color) {
@@ -289,6 +289,10 @@ $secondary-font-color: rgb(168, 168, 168);
       padding-block: 3px;
       font-size: 16px;
       // @include border(rgb(201, 203, 201));
+
+      .svg {
+        margin-right: 8px;
+      }
 
       .key {
         font-weight: 700;
