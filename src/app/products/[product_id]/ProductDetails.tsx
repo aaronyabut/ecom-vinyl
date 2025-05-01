@@ -28,7 +28,7 @@ interface Vinyl {
   tracklist: string;
   companies: string;
   main_artists: string;
-  songwriters: string;
+  // songwriters: string;
 }
 
 interface ProductDetailsProps {
@@ -47,6 +47,14 @@ interface DropdownState {
   tracklist: boolean;
   credits: boolean;
 }
+interface ChosenCreditsState {
+  "Main Artist": boolean;
+  "Songwriters": boolean;
+}
+interface CreditsArrayType {
+  label: keyof ChosenCreditsState;
+  data: string[][]
+}
 
 export default function ProductDetails({
   vinyl,
@@ -61,8 +69,36 @@ export default function ProductDetails({
   const [dropdown, setDropdown] = useState<DropdownState>({
     description: false,
     tracklist: false,
-    credits: false,
+    credits: true,
   });
+  const [chosenCredits, setChosenCredits] = useState<ChosenCreditsState>({
+    "Main Artist": true,
+    "Songwriters":false,
+  })
+
+
+  const creditsArray:CreditsArrayType[] = [
+    {
+      label: "Main Artist",
+      data: artists,
+    },
+    {
+      label: "Songwriters",
+      data: songwriters,
+    },
+  ]
+
+  const handleChoosingCredits = (key: keyof ChosenCreditsState) => {
+    setChosenCredits(() => {
+      const newState = {
+        "Main Artist": false,
+        "Songwriters": false
+      };
+      newState[key] = true;
+      console.log(key)
+      return newState;
+    })
+  }
 
   const handleToggle = (
     setState: React.Dispatch<React.SetStateAction<DropdownState>>,
@@ -72,14 +108,14 @@ export default function ProductDetails({
       ...prev,
       [key]: !prev[key],
     }));
-    console.log("tracklist", typeof tracklist)
+    // console.log("tracklist", typeof tracklist)
     // console.log("Toggled:", key);
     // console.log("VALUE:", dropdown.tracklist);
   };
 
-  console.log("companies",companies)
-  console.log("artists",artists)
-  console.log("songwriters",songwriters)
+  // console.log("companies",companies)
+  // console.log("artists",artists)
+  // console.log("songwriters",songwriters)
 
   return (
     <main className={styles.main}>
@@ -106,12 +142,6 @@ export default function ProductDetails({
           {vinyl.sale_label && (
             <span className={styles.saleTag}> {vinyl.old_price&&vinyl.price ? Math.round((vinyl.price/vinyl.old_price)*10) + "% OFF" : 0}</span>
           )}
-          {/* {vinyl.low_stock_label && (
-            <span className={styles.lowStock}>{vinyl.low_stock_label}</span>
-          )} */}
-          {/* {vinyl.no_stock_label && (
-            <span className={styles.noStock}>SOLD OUT</span>
-          )} */}
         </div>
         {vinyl.no_stock_label ?
           <div className={styles.notifyMe}>
@@ -210,7 +240,7 @@ export default function ProductDetails({
                 </div>
               </div>
               <div className={`${styles.tracklistSongs}`}>
-                {tracklist.map((arr:string[],i) => {
+                {tracklist.map((arr:string[],i:number) => {
                   return (
                     <div key={i} className={styles.songContainer}>
                       <div className={styles.trackNumberAndTitle}>
@@ -249,10 +279,116 @@ export default function ProductDetails({
                 className={`${dropdown.credits ? styles.rotateIcon : styles.rotateIconReverse}`}
               />
             </div>
-            <div className={`${styles.categoryContainer} ${dropdown.credits && styles.open}`} >
-              {/* <div>{artists}</div> */}
-              {/* <div>{companies}</div>
-              <div>{songwriters}</div> */}
+            <div className={`${styles.creditsDropdownContainer} ${dropdown.credits && styles.open}`} >
+              <div className={`${styles.categoryContainer}`} >
+                <div className={styles.headerContainer}>
+                  {
+                    creditsArray.map((category, i) => (
+                      category.data.length !== 0 ?
+                      <div
+                        key={i}
+                        className={`${styles.headers} ${chosenCredits[category.label] ? styles.chosenCredits:styles.notChosenCredits }`}
+                        onClick={()=> handleChoosingCredits(category.label)}
+                      >
+                        {category.label}
+                        <span>
+                          {category.data.length}
+                        </span>
+                      </div>
+                      :
+                      null
+                    ))
+                  }
+                </div>
+                {
+                  chosenCredits["Main Artist"] &&
+                  <div className={styles.artistContainer}>
+                    {artists.map((artist,i) => (
+                      <div key={i} className={styles.card}>
+                        <Image
+                          src={
+                            artist[0].includes('null') ?
+                            "https://cdn.shopify.com/s/files/1/0704/2026/7313/files/company-fallback-2.png?v=1696923241":
+                            artist[0]
+                          }
+                          width={88}
+                          height={88}
+                          alt={artist[1]}
+                          className={styles.cardImage}
+                        />
+                        <div className={styles.cardInfo}>
+                          <div className={styles.cardName}>
+                            {artist[1]}
+                          </div>
+                          <div className={styles.cardTitle}>
+                            {artist[2]}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                }
+                {
+                  chosenCredits["Songwriters"] &&
+                  <div className={styles.songwritersContainer}>
+                    {songwriters.map((songwriter,i) => (
+                      <div key={i} className={styles.card}>
+                        <Image
+                          src={
+                            songwriter[0].includes('null') ?
+                            "https://cdn.shopify.com/s/files/1/0704/2026/7313/files/company-fallback-2.png?v=1696923241":
+                            songwriter[0]
+                          }
+                          width={88}
+                          height={88}
+                          alt={songwriter[1]}
+                          className={styles.cardImage}
+                        />
+                        <div className={styles.cardInfo}>
+                          <div className={styles.cardName}>
+                            {songwriter[1]}
+                          </div>
+                          <div className={styles.cardTitle}>
+                            {songwriter[2]}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                }
+              </div>
+              <div className={styles.companies}>
+                <h3>
+                  Companies
+                </h3>
+                <div className={styles.companiesContainer}>
+                  {/* {companies} */}
+                  {companies.map((company,i) => (
+                    <div key={i} className={styles.card}>
+                      <Image
+                        src={
+                          company[0].includes('null') ?
+                          "https://cdn.shopify.com/s/files/1/0704/2026/7313/files/company-fallback-2.png?v=1696923241":
+                          company[0]
+                        }
+                        width={88}
+                        height={88}
+                        alt={company[1]}
+                        className={styles.cardImageCompanies}
+                        />
+
+                      <div className={styles.cardInfo}>
+                        <div className={styles.cardName}>
+                          {company[1]}
+                        </div>
+                        <div className={styles.cardTitle}>
+                          {company[2]}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
           : null

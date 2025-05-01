@@ -36,13 +36,31 @@ async function getVinylById(product_id: string): Promise<Vinyl | null> {
   }
 }
 
-const quoteUpdate = (string:string) => {
-  return string.replace(/'([^']+)'/g, '"$1"')
-}
+const quoteUpdate = (string: string): string => {
+  // Step 1: Store double-quoted strings and replace with placeholders
+  const doubleQuoted: string[] = [];
+  const placeholderPrefix = '__DOUBLE_QUOTE_';
+  let index = 0;
+
+  const withPlaceholders = string.replace(/"((?:[^"\\]|\\.)*?)"/g, (match) => {
+    doubleQuoted.push(match);
+    return `${placeholderPrefix}${index++}`;
+  });
+
+  // Step 2: Replace single quote delimiters with double quotes
+  const singleQuoteReplaced = withPlaceholders.replace(/'((?:[^'\\]|\\.)*?)'/g, '"$1"');
+
+  // Step 3: Restore double-quoted strings
+  return singleQuoteReplaced.replace(
+    new RegExp(`${placeholderPrefix}\\d+`, 'g'),
+    () => doubleQuoted.shift() || ''
+  );
+};
 
 // function parseJSON(input:string|undefined|null, defaultValue: string = '[]') {
 function parseJSON(input:string|undefined|null) {
   const validString = quoteUpdate(input ?? '[]');
+  // console.log(validString);
   return JSON.parse(validString);
 }
 
@@ -57,6 +75,8 @@ export default async function ProductPage({params}:{params:Promise<{ product_id:
   const companies = parseJSON(vinyl?.companies);
   const artists = parseJSON(vinyl?.main_artists);
   const songwriters = parseJSON(vinyl?.songwriters);
+
+  // console.log(tracklist)
 
   if (!vinyl) {
     return (

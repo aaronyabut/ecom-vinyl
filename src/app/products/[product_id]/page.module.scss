@@ -40,6 +40,54 @@ $secondary-font-color: rgb(168, 168, 168);
   }
 }
 
+@mixin cardStyling () {
+  .card {
+    display: flex;
+    flex-direction: row;
+    width: 305.5px;
+    margin-bottom: 30px;
+
+    // @include border(yellow);
+    .cardImage {
+      margin-right: 20px;
+
+      @include border(rgb(255, 196, 77));
+      border-width: 3px;
+    }
+    .cardImageCompanies {
+      margin-right: 20px;
+
+      // @include border(pink);
+    }
+    .cardInfo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      // @include border(rgb(19, 216, 124));
+      .cardName {
+        color: white;
+        font-weight:700;
+
+        // @include border(rgb(190, 216, 19));
+      }
+      .cardTitle {
+        color: white;
+        font-weight:400;
+
+        // @include border(rgb(88, 216, 19));
+      }
+    }
+  }
+}
+
+@mixin creditContainerStyling {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 641px;
+}
+
 .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
@@ -95,7 +143,8 @@ $secondary-font-color: rgb(168, 168, 168);
 .productDetails {
   display: flex;
   flex-direction: column;
-  width: 705px;
+  // width: 705px;
+  width: 641px;
 
   // @include border(pink);
 
@@ -302,11 +351,88 @@ $secondary-font-color: rgb(168, 168, 168);
     // @include border(green);
     .creditsHeader {
       @include dropDownStyling(-comp);
-      // @include border(red);
+      // @include border(rgb(244, 229, 229));
     }
-    .categoryContainer {
+    .creditsDropdownContainer {
       @include dropDownLogic();
-      // @include border(red);
+
+      // @include border(rgb(0, 255, 47)(117, 41, 41));
+      .categoryContainer {
+        // padding-bottom: 45px;
+
+        // @include border(red);
+        .headerContainer {
+          display: flex;
+          flex-direction: row;
+          margin-bottom: 30px;
+
+          // @include border(rgb(0, 21, 255));
+          .headers {
+            display: flex;
+            background-color: rgb(50, 50, 50);
+            margin-right: 10px;
+            padding: 10px;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color .2s ease-in-out;
+
+            // @include border(red);
+            &.notChosenCredits {
+              &:hover{
+                background-color: rgb(81, 81, 81);
+              }
+            }
+
+            &.chosenCredits {
+              background-color: rgb(255, 255, 255);
+              color: #000000;
+            }
+
+            span {
+              background-color: rgb(212, 212, 212);
+              margin-left: 5px;
+              padding-inline: 4px;
+              padding-block: 3px;
+              border-radius: 30px;
+              text-align: center;
+              color: black;
+              font-size: 10px;
+
+              // @include border(red);
+            }
+          }
+        }
+
+        .artistContainer {
+          @include cardStyling();
+          @include creditContainerStyling();
+
+          // @include border(rgb(105, 105, 233));
+        }
+        .songwritersContainer{
+          @include cardStyling();
+          @include creditContainerStyling();
+
+          // @include border(rgb(105, 105, 233));
+        };
+      }
+
+      .companies {
+
+        // @include border(red);
+        h3 {
+          font-size: 22px;
+          margin-bottom: 10px;
+        }
+
+        .companiesContainer {
+          @include cardStyling();
+          @include creditContainerStyling();
+
+          // @include border(rgb(105, 105, 233));
+        }
+      }
     }
   }
 }
