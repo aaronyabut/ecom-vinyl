@@ -99,15 +99,12 @@ $secondary-font-color: rgb(168, 168, 168);
   --background: #ffffff;
 
   color: white;
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
-  justify-content: center;
-  min-height: 100svh;
-  padding: clamp(32px, 5vw, 70px); // Responsive padding
-  gap: clamp(32px, 4vw, 64px); // Responsive gap
+
+  height: fit-content;
+  gap: clamp(32px, 4vw, 64px);
   font-family: var(--font-geist-sans);
 
-  // @include border(pink);
+  // @include border(rgb(255, 247, 0));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -122,13 +119,22 @@ $secondary-font-color: rgb(168, 168, 168);
   }
 }
 
-.main {
+.mainSection {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 20px 1fr 20px;
+  justify-content: center;
+  width: 100%;
+  padding-top: 150px;
+
+  // @include border(red);
+}
+
+.productSection {
   display: flex;
   flex-direction: row;
-  gap: 4rem; // Using rem for better scalability
-  grid-row: 2 / 3; // More specific than grid-row-start
-  // max-width: 1500px; // Added max-width for better content control
-  max-width: 100%;
+  gap: 4rem;
+  grid-row: 2 / 3;
   width: 1440px;
 
   // @include border(blue);
@@ -137,8 +143,6 @@ $secondary-font-color: rgb(168, 168, 168);
 .productImage {
   display: flex;
   flex-direction: row;
-  // margin-top: 20px;
-  // @include border(pink);
 }
 .productDetails {
   display: flex;
@@ -486,6 +490,41 @@ $secondary-font-color: rgb(168, 168, 168);
           // @include border(rgb(105, 105, 233));
         }
       }
+    }
+  }
+}
+
+.faq {
+  background-color: rgb(23, 23, 23);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  // padding-top: 150px;
+
+  // @include border(red);
+
+  .faqContainer {
+    width: 1440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    margin-bottom:150px;
+
+    @include border(blue);
+    .faqHeader{
+      width: 700px;
+      padding: 64px 24px 48px;
+      font-size: 36px;
+      font-weight: 700;
+
+      // @include border(rgb(0, 255, 0));
+    }
+
+    .faqBody{
+      width: 700px;
+
+      @include border(rgb(0, 255, 0));
     }
   }
 }
