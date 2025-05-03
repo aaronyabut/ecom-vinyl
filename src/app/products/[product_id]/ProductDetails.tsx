@@ -127,7 +127,7 @@ export default function ProductDetails({
 }:ProductDetailsProps){
   const [dropdown, setDropdown] = useState<DropdownState>({
     description: false,
-    tracklist: true,
+    tracklist: false,
     credits: false,
   });
   const [chosenCredits, setChosenCredits] = useState<ChosenCreditsState>({
@@ -485,7 +485,7 @@ export default function ProductDetails({
                           height={88}
                           alt={company[1]}
                           className={styles.cardImageCompanies}
-                          />
+                        />
 
                         <div className={styles.cardInfo}>
                           <div className={styles.cardName}>

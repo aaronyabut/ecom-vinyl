@@ -261,12 +261,7 @@ $secondary-font-color: rgb(168, 168, 168);
     }
     // @include border(red);
   }
-  .divider {
-    margin-block: 25px;
-    border-top-color: rgb(50, 50, 50);
-    border-top-style: solid;
-    border-top-width: 1px;
-  }
+
   .wishlistLabelContainer {
     display: flex;
     flex-direction: row;
@@ -494,6 +489,13 @@ $secondary-font-color: rgb(168, 168, 168);
   }
 }
 
+.divider {
+  margin-block: 25px;
+  border-top-color: rgb(50, 50, 50);
+  border-top-style: solid;
+  border-top-width: 1px;
+}
+
 .faq {
   background-color: rgb(23, 23, 23);
   display: flex;
@@ -511,7 +513,7 @@ $secondary-font-color: rgb(168, 168, 168);
     height: fit-content;
     margin-bottom:150px;
 
-    @include border(blue);
+    // @include border(blue);
     .faqHeader{
       width: 700px;
       padding: 64px 24px 48px;
@@ -524,7 +526,37 @@ $secondary-font-color: rgb(168, 168, 168);
     .faqBody{
       width: 700px;
 
-      @include border(rgb(0, 255, 0));
+      // @include border(rgb(0, 255, 0));
+      .questionAndAnswers {
+
+        // @include border(rgb(255, 0, 0));
+        .questionContainer {
+          @include dropDownStyling(-comp);
+
+          // @include border(rgb(81, 0, 255));
+          .question {
+            font-size: 16px;
+            font-weight: 700;
+
+            // @include border(rgb(246, 255, 0));
+          }
+        }
+        .answerContainer {
+          @include dropDownLogic();
+          display: flex;
+          flex-direction: column;
+          row-gap: 15px;
+
+
+          // @include border(rgb(81, 0, 255));
+          .answer {
+            font-size: 16px;
+            font-weight: 400;
+
+            // @include border(rgb(246, 255, 0));
+          }
+        }
+      }
     }
   }
 }
