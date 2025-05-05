@@ -383,7 +383,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   }, [artistFilter.selecting]);
 
   return (
-    <div>
+    <div className={styles.mainContainer}>
       <div className={styles.mainHeaders}>
         <div className={styles.mainTitle}>SHOP VINYL</div>
         <div className={styles.sorting}>
