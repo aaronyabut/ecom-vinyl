@@ -1,6 +1,6 @@
 import axios from 'axios';
 import styles from './page.module.scss';
-import VinylFilter from './products/VinylFilter';
+import VinylFilter from './Components/VinylFilter';
 import BenefitsBanner from './Components/BenefitBanner';
 // import Image from 'next/image';
 
