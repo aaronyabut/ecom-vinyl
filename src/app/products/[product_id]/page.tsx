@@ -1,13 +1,10 @@
 import axios from 'axios';
-// import Image from 'next/image';
 import styles from './page.module.scss';
-// import WishlistIcon from '../../../../public/wishlist-heart.svg';
-// import ShareIcon from '../../../../public/share.svg';
 import ProductDetails from './ProductDetails';
 import FAQ from './Components/FAQ';
 import Recommendations from './Components/Recommendations';
 
-interface Vinyl {
+export interface Vinyl {
   product_id: number;
   vinyl_img: string;
   product_href: string;
@@ -32,6 +29,15 @@ async function getVinylById(product_id: string): Promise<Vinyl | null> {
   try {
     const response = await axios.get(`http://localhost:4000/vinyls/${product_id}`);
     return response.data;
+  } catch (error) {
+    console.error('Error fetching vinyl:', error);
+    return null;
+  }
+}
+async function getRecommendedVinyls(genre: string | undefined): Promise<Vinyl[] | null> {
+  try {
+    const response = await axios.get(`http://localhost:4000/vinyls?genre=${genre}`);
+    return response.data.all_vinyls;
   } catch (error) {
     console.error('Error fetching vinyl:', error);
     return null;
@@ -69,6 +75,7 @@ function parseJSON(input:string|undefined|null) {
 export default async function ProductPage({params}:{params:Promise<{ product_id: string}>}){
   const {product_id} = await params;
   const vinyl = await getVinylById(product_id);
+  const recommendedVinyls = await getRecommendedVinyls(vinyl?.genre);
 
   const playlistNameString = vinyl?.playlist_name ?? '';
 
@@ -77,8 +84,6 @@ export default async function ProductPage({params}:{params:Promise<{ product_id:
   const companies = parseJSON(vinyl?.companies);
   const artists = parseJSON(vinyl?.main_artists);
   const songwriters = parseJSON(vinyl?.songwriters);
-
-  // console.log(tracklist)
 
   if (!vinyl) {
     return (
@@ -103,7 +108,7 @@ export default async function ProductPage({params}:{params:Promise<{ product_id:
         songwriters={songwriters}
       />
       <FAQ />
-      <Recommendations />
+      <Recommendations recommendedVinyls={recommendedVinyls}/>
     </div>
   );
 }

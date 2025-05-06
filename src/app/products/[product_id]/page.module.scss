@@ -566,11 +566,11 @@ $secondary-font-color: rgb(168, 168, 168);
   align-items: center;
   justify-items: right;
   padding: 80px 0px;
-  @include border(red);
+  // @include border(red);
 
   .container {
     width: 85%;
-    @include border(blue);
+    // @include border(blue);
 
     .headerWrapper {
       // width: 1440px;
