@@ -560,3 +560,45 @@ $secondary-font-color: rgb(168, 168, 168);
     }
   }
 }
+
+.recommendations {
+  background-color: rgb(44,44,44);
+  align-items: center;
+  justify-items: right;
+  padding: 80px 0px;
+  @include border(red);
+
+  .container {
+    width: 85%;
+    @include border(blue);
+
+    .headerWrapper {
+      // width: 1440px;
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      @include border(yellow);
+      .header {
+        font-family: 'Eurostile Extended', sans-serif;
+        font-size: 28px;
+        @include border(green);
+      }
+      .arrows {
+        display: flex;
+        flex-direction: row;
+        @include border(green);
+
+        div {
+          @include border(rgb(255, 0, 191))
+        }
+      }
+    }
+
+    .vinyls {
+
+      @include border(yellow);
+    }
+  }
+}

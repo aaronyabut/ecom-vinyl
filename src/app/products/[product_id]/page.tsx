@@ -5,6 +5,7 @@ import styles from './page.module.scss';
 // import ShareIcon from '../../../../public/share.svg';
 import ProductDetails from './ProductDetails';
 import FAQ from './Components/FAQ';
+import Recommendations from './Components/Recommendations';
 
 interface Vinyl {
   product_id: number;
@@ -102,6 +103,7 @@ export default async function ProductPage({params}:{params:Promise<{ product_id:
         songwriters={songwriters}
       />
       <FAQ />
+      <Recommendations />
     </div>
   );
 }
