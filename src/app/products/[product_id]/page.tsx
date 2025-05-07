@@ -34,10 +34,13 @@ async function getVinylById(product_id: string): Promise<Vinyl | null> {
     return null;
   }
 }
-async function getRecommendedVinyls(genre: string | undefined): Promise<Vinyl[] | null> {
+async function getRecommendedVinyls(genre: string | undefined, product_id: string): Promise<Vinyl[] | null> {
   try {
     const response = await axios.get(`http://localhost:4000/vinyls?genre=${genre}&stock=true&sale=true&sale=false`);
-    return response.data.all_vinyls;
+    const all_vinyls = response.data.all_vinyls;
+    const removedCurrent = all_vinyls.filter((vinyl:Vinyl) => vinyl.product_id !== Number(product_id));
+
+    return removedCurrent;
   } catch (error) {
     console.error('Error fetching vinyl:', error);
     return null;
@@ -65,7 +68,6 @@ const quoteUpdate = (string: string): string => {
   );
 };
 
-// function parseJSON(input:string|undefined|null, defaultValue: string = '[]') {
 function parseJSON(input:string|undefined|null) {
   const validString = quoteUpdate(input ?? '[]');
   // console.log(validString);
@@ -75,7 +77,7 @@ function parseJSON(input:string|undefined|null) {
 export default async function ProductPage({params}:{params:Promise<{ product_id: string}>}){
   const {product_id} = await params;
   const vinyl = await getVinylById(product_id);
-  const recommendedVinyls = await getRecommendedVinyls(vinyl?.genre);
+  const recommendedVinyls = await getRecommendedVinyls(vinyl?.genre, product_id);
 
   const playlistNameString = vinyl?.playlist_name ?? '';
 

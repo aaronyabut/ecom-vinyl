@@ -18,7 +18,7 @@ import Link from 'next/link';
  * Fix r&b url api request                                      [DONE]
  * Implement sold out filter                                     [DONE]
  * BUG: Any value with " & " in api url is causing issue        [DONE]
- * Create product page                   [ON GOING]
+ * Create product page                                 [ON GOING]
 /*/
 
 /*/[[TODO]]
@@ -216,7 +216,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         // Combine all conditions for API request URL
         if (conditions.length > 0) url += "?" + conditions.join('&');
 
-        console.log("[norm url]: ", url)
+        // console.log("[norm url]: ", url)
         const response = await axios.get(url);
         const all_vinyls = response.data.all_vinyls;
 
