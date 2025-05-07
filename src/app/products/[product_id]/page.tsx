@@ -36,7 +36,7 @@ async function getVinylById(product_id: string): Promise<Vinyl | null> {
 }
 async function getRecommendedVinyls(genre: string | undefined): Promise<Vinyl[] | null> {
   try {
-    const response = await axios.get(`http://localhost:4000/vinyls?genre=${genre}`);
+    const response = await axios.get(`http://localhost:4000/vinyls?genre=${genre}&stock=true&sale=true&sale=false`);
     return response.data.all_vinyls;
   } catch (error) {
     console.error('Error fetching vinyl:', error);

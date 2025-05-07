@@ -3,6 +3,9 @@
 import { useRef } from 'react';
 import styles from '../page.module.scss';
 import { Vinyl } from '../page';
+import Image from 'next/image';
+import Link from 'next/link';
+import WishlistIcon from '../../../../../public/wishlist-heart.svg';
 
 const recommendationsHeader = "YOU'LL DIG THESE...";
 
@@ -25,8 +28,6 @@ export default function Recommendations({ recommendedVinyls }: RecommendationsPr
     }
   };
 
-
-
   return (
     <section className={styles.recommendations}>
       <div className={styles.container}>
@@ -43,10 +44,72 @@ export default function Recommendations({ recommendedVinyls }: RecommendationsPr
         </div>
         <div className={styles.carouselWrapper}>
           <div className={styles.vinyls} ref={carouselRef}>
-            {recommendedVinyls?.map((vinyl, i) => (
-              <div key={`vinyl-${i}`} className={styles.vinyl}>
-                {vinyl.vinyl_title}
+            {recommendedVinyls?.map((vinyl) => (
+              <div key={vinyl.product_id} className={styles.vinyl}>
+              <div className={styles.imageWrapper}>
+                <div className={styles.wishlist}>
+                  <Image
+                    src={WishlistIcon}
+                    alt="wishlist"
+                    width={25}
+                    height={25}
+                    className={styles.iconImage}
+                  />
+                </div>
+                <Link
+                  href={`/products/${vinyl.product_id}`}
+                  className={styles.productLink}
+                >
+                  <Image
+                    src={vinyl.vinyl_img}
+                    width={267}
+                    height={267}
+                    alt={`${vinyl.vinyl_title} by ${vinyl.vinyl_artist}`}
+                    className={styles.image}
+                  />
+                  <div className={styles.btnContainer} />
+                </Link>
+                {vinyl.no_stock_label ? (
+                  <div className={styles.toCart}>NOTIFY ME</div>
+                ) : (
+                  <div className={styles.toCart}>ADD TO CART</div>
+                )}
+                {vinyl.sale_label && (
+                  <span className={styles.sale}>{vinyl.sale_label}</span>
+                )}
+                {vinyl.low_stock_label && (
+                  <span className={styles.lowStock}>
+                    <span className={styles.lowStockLabel}>• </span>
+                    {vinyl.low_stock_label}
+                  </span>
+                )}
+                {vinyl.no_stock_label && (
+                  <span className={styles.noStock}>
+                    <span className={styles.noStockLabel}>• </span>
+                    SOLD OUT
+                  </span>
+                )}
               </div>
+              <Link href={`/products/${vinyl.product_id}`}>
+                <p className={styles.title}>
+                  <span>
+                    <strong>{vinyl.vinyl_title}</strong>
+                  </span>
+                </p>
+                <p>{vinyl.vinyl_artist}</p>
+              </Link>
+              <div className={styles.priceContainer}>
+                <div>
+                  {vinyl.old_price && (
+                    <span className={styles.oldPrice}>
+                      <s>${vinyl.old_price}</s>
+                    </span>
+                  )}
+                  <span className={styles.price}> ${vinyl.price}</span>
+                </div>
+                <span className={styles.vinylLabel}>VINYL</span>
+              </div>
+            </div>
             ))}
           </div>
         </div>
