@@ -562,43 +562,83 @@ $secondary-font-color: rgb(168, 168, 168);
 }
 
 .recommendations {
-  background-color: rgb(44,44,44);
-  align-items: center;
-  justify-items: right;
-  padding: 80px 0px;
-  // @include border(red);
+  background-color: rgb(44, 44, 44);
+  padding: 80px 0;
+  display: flex;
+  justify-content: center;
 
   .container {
     width: 85%;
-    // @include border(blue);
+    max-width: 1440px;
 
     .headerWrapper {
-      // width: 1440px;
-      width: 80%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
 
-      @include border(yellow);
       .header {
         font-family: 'Eurostile Extended', sans-serif;
         font-size: 28px;
-        @include border(green);
+        color: white;
       }
+
       .arrows {
         display: flex;
-        flex-direction: row;
-        @include border(green);
+        gap: 10px;
 
-        div {
-          @include border(rgb(255, 0, 191))
+        .arrowButton {
+          background: none;
+          border: 1px solid white;
+          color: white;
+          font-size: 20px;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+          }
         }
       }
     }
 
-    .vinyls {
+    .carouselWrapper {
+      overflow: hidden; /* Hide scrollbar for cleaner look */
+    }
 
-      @include border(yellow);
+    .vinyls {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari */
+      }
+
+      .vinyl {
+        flex: 0 0 auto;
+        width: 200px; /* Fixed width for each vinyl */
+        margin-right: 20px; /* Spacing between vinyls */
+        padding: 10px;
+        background: rgb(60, 60, 60);
+        color: white;
+        text-align: center;
+        scroll-snap-align: start;
+        border: 1px solid rgb(80, 80, 80);
+      }
+
+      .vinyl:last-child {
+        margin-right: 0;
+      }
     }
   }
 }

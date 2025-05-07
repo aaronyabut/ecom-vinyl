@@ -1,56 +1,56 @@
-import styles from '../page.module.scss'
-import { Vinyl } from '../page'
-const recommendationsHeader = "YOU'LL DIG THESE...";
+'use client';
 
-// interface Vinyl {
-//   product_id: number;
-//   vinyl_img: string;
-//   product_href: string;
-//   vinyl_title: string;
-//   vinyl_artist: string;
-//   price: number;
-//   old_price: number | null;
-//   sale_label: string | null;
-//   low_stock_label: string | null;
-//   no_stock_label: string | null;
-//   genre: string;
-//   vinyl_description: string;
-//   vinyl_info: string;
-//   playlist_name: string;
-//   tracklist: string;
-//   companies: string;
-//   main_artists: string;
-//   songwriters: string;
-// }
+import { useRef } from 'react';
+import styles from '../page.module.scss';
+import { Vinyl } from '../page';
+
+const recommendationsHeader = "YOU'LL DIG THESE...";
 
 interface RecommendationsProps {
   recommendedVinyls: Vinyl[] | null;
 }
 
-export default function Recommendations ({ recommendedVinyls }: RecommendationsProps) {
+export default function Recommendations({ recommendedVinyls }: RecommendationsProps) {
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const isScrolling = useRef(false); // Prevent recursive scroll events
 
-  // console.log("AFTER",recommendedVinyls)
+  // Handle arrow button clicks and scroll
+  const scroll = (direction: 'left' | 'right') => {
+    if (carouselRef.current && !isScrolling.current) {
+      const scrollAmount = carouselRef.current.offsetWidth; // Scroll by one viewport width
+      carouselRef.current.scrollBy({
+        left: direction === 'right' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+
 
   return (
     <section className={styles.recommendations}>
       <div className={styles.container}>
         <div className={styles.headerWrapper}>
-          <h2 className={styles.header}>
-            {recommendationsHeader}
-          </h2>
+          <h2 className={styles.header}>{recommendationsHeader}</h2>
           <div className={styles.arrows}>
-            <div>left arrow</div>
-            <div>right arrow</div>
+            <button onClick={() => scroll('left')} className={styles.arrowButton}>
+              ←
+            </button>
+            <button onClick={() => scroll('right')} className={styles.arrowButton}>
+              →
+            </button>
           </div>
         </div>
-        <div className={styles.vinyls}>
-          {recommendedVinyls?.map((vinyl, i) => (
-            <div key={i}>
-              {vinyl.vinyl_title}
-            </div>
-          ))}
+        <div className={styles.carouselWrapper}>
+          <div className={styles.vinyls} ref={carouselRef}>
+            {recommendedVinyls?.map((vinyl, i) => (
+              <div key={`vinyl-${i}`} className={styles.vinyl}>
+                {vinyl.vinyl_title}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
