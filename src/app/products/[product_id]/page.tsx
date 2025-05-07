@@ -25,6 +25,14 @@ export interface Vinyl {
   songwriters: string;
 }
 
+function shuffle(array:Vinyl[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
+  return array;
+}
+
 async function getVinylById(product_id: string): Promise<Vinyl | null> {
   try {
     const response = await axios.get(`http://localhost:4000/vinyls/${product_id}`);
@@ -40,7 +48,7 @@ async function getRecommendedVinyls(genre: string | undefined, product_id: strin
     const all_vinyls = response.data.all_vinyls;
     const removedCurrent = all_vinyls.filter((vinyl:Vinyl) => vinyl.product_id !== Number(product_id));
 
-    return removedCurrent;
+    return shuffle([...removedCurrent]);
   } catch (error) {
     console.error('Error fetching vinyl:', error);
     return null;
@@ -73,6 +81,8 @@ function parseJSON(input:string|undefined|null) {
   // console.log(validString);
   return JSON.parse(validString);
 }
+
+
 
 export default async function ProductPage({params}:{params:Promise<{ product_id: string}>}){
   const {product_id} = await params;
