@@ -42,6 +42,7 @@ async function getVinylById(product_id: string): Promise<Vinyl | null> {
     return null;
   }
 }
+
 async function getRecommendedVinyls(genre: string | undefined, product_id: string): Promise<Vinyl[] | null> {
   try {
     const response = await axios.get(`http://localhost:4000/vinyls?genre=${genre}&stock=true&sale=true&sale=false`);
@@ -81,8 +82,6 @@ function parseJSON(input:string|undefined|null) {
   // console.log(validString);
   return JSON.parse(validString);
 }
-
-
 
 export default async function ProductPage({params}:{params:Promise<{ product_id: string}>}){
   const {product_id} = await params;

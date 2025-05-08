@@ -6,6 +6,7 @@ import { Vinyl } from '../page';
 import Image from 'next/image';
 import Link from 'next/link';
 import WishlistIcon from '../../../../../public/wishlist-heart.svg';
+import ArrowIcon from '../../../../../public/arrow-icon.svg';
 
 const recommendationsHeader = "YOU'LL DIG THESE...";
 
@@ -35,10 +36,22 @@ export default function Recommendations({ recommendedVinyls }: RecommendationsPr
           <h2 className={styles.header}>{recommendationsHeader}</h2>
           <div className={styles.arrows}>
             <button onClick={() => scroll('left')} className={styles.arrowButton}>
-              ←
+              <Image
+                src={ArrowIcon}
+                height={20}
+                width={20}
+                alt='arrow icon'
+                className={`${styles.leftArrowButton}`}
+              />
             </button>
             <button onClick={() => scroll('right')} className={styles.arrowButton}>
-              →
+              <Image
+                src={ArrowIcon}
+                height={20}
+                width={20}
+                alt='arrow icon'
+                className={`${styles.rightArrowButton}`}
+              />
             </button>
           </div>
         </div>
