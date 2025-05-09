@@ -2,6 +2,7 @@
 
 // import axios from 'axios';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './page.module.scss';
 import WishlistIcon from '../../../../public/wishlist-heart.svg';
 import ShareIcon from '../../../../public/share.svg';
@@ -398,32 +399,36 @@ export default function ProductDetails({
                     <div key={i} className={styles.vinyl}>
                       <div className={styles.info}>
                         <div className={styles.image}>
-                        <Image
-                          src={obj.vinyl_img}
-                          alt={obj.vinyl_title}
-                          width={60}
-                          height={60}
-                          priority
-                        />
+                        <Link href={`/products/${obj.product_id}`}>
+                          <Image
+                            src={obj.vinyl_img}
+                            alt={obj.vinyl_title}
+                            width={60}
+                            height={60}
+                            priority
+                          />
+                        </Link>
                         </div>
-                        <div className={styles.titleWrapper}>
-                          <div className={styles.songTitle}>
-                            {obj.vinyl_title}
+                        <Link href={`/products/${obj.product_id}`} className={styles.titleLink}>
+                          <div className={styles.titleWrapper}>
+                              <div className={styles.songTitle}>
+                                {obj.vinyl_title}
+                              </div>
+                              <div className={styles.priceWrapper}>
+                                {obj.old_price &&
+                                  <span className={styles.oldPrice}>
+                                    ${obj.old_price}
+                                  </span>
+                                }
+                                <span className={styles.price}>
+                                  ${obj.price}
+                                </span>
+                                <span className={styles.vinylLabel}>
+                                  VINYL
+                                </span>
+                              </div>
                           </div>
-                          <div className={styles.priceWrapper}>
-                            {obj.old_price &&
-                              <span className={styles.oldPrice}>
-                                ${obj.old_price}
-                              </span>
-                            }
-                            <span className={styles.price}>
-                              ${obj.price}
-                            </span>
-                            <span className={styles.vinylLabel}>
-                              VINYL
-                            </span>
-                          </div>
-                        </div>
+                        </Link>
                       </div>
 
                       <div className={styles.toCart}>

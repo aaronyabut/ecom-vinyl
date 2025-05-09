@@ -467,7 +467,10 @@ $secondary-font-color: rgb(168, 168, 168);
             cursor: pointer;
             // @include border(rgb(0, 58, 128));
           }
-
+          .titleLink {
+            width: 100%;
+            // @include border(rgb(65, 130, 209));
+          }
           .titleWrapper {
             display: flex;
             flex-direction: column;
