@@ -415,6 +415,121 @@ $secondary-font-color: rgb(168, 168, 168);
     }
   }
 
+  .pairingsContainer {
+    display: flex;
+    flex-direction: column;
+    // @include border(red);
+    .pairingsHeader {
+      @include dropDownStyling(-comp);
+      // @include border(red);
+    }
+    .pairingsDropdownContainer {
+      @include dropDownLogic();
+      // @include border(red);
+
+      .vinyl:last-child {
+        border-bottom: solid;
+        border-bottom-color: rgba(56, 56, 56);
+        // background-color: #00cca7;
+      }
+      .vinyl {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 12px;
+        background-color: rgb(32, 32, 32);
+        border-left: solid;
+        border-right: solid;
+        border-top: solid;
+        border-left: solid;
+        border-width: .15rem;
+        border-left-color: rgb(56, 56, 56);
+        border-right-color: rgb(56, 56, 56);
+        border-top-color: rgb(56, 56, 56);
+        border-bottom-color: rgba(56, 56, 56, 0);
+        align-items: center;
+
+
+        .info {
+          display: flex;
+          flex-direction: row;
+          row-gap: 1rem;
+          width: 500px;
+
+          // @include border(rgb(9, 128, 0));
+
+          .image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: fit-content;
+            margin-right: 14px;
+            cursor: pointer;
+            // @include border(rgb(0, 58, 128));
+          }
+
+          .titleWrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            row-gap: 10px;
+            // @include border(rgb(65, 130, 209));
+
+            .songTitle {
+              cursor: pointer;
+              font-size: 18px;
+              width: fit-content;
+              // @include border(rgb(117, 128, 0));
+            }
+
+            .priceWrapper {
+              align-items: center;
+              display: flex;
+              flex-direction: row;
+              column-gap: 10px;
+              font-size: 16px;
+              cursor: pointer;
+              width: fit-content;
+              // @include border(rgb(245, 255, 131));
+
+              .oldPrice {
+                text-decoration: line-through;
+              }
+              .price {
+                font-size: 16px;
+                font-weight: 700;
+              }
+              .vinylLabel {
+                font-size: small;
+                border-style: solid;
+                border-width: .1rem;
+                border-color: white;
+                padding-block: .1rem;
+                padding-inline: .6rem;
+                border-radius: 30px;
+              };
+
+            }
+          }
+        }
+        .toCart {
+          display: flex;
+          color: $accent-color;
+          font-size: 14px;
+          font-weight: 700;
+          width: fit-content;
+          height: fit-content;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+          // @include border(rgb(169, 185, 97));
+        }
+      }
+    }
+  }
+
   .creditsContainer {
     display: flex;
     flex-direction: column;

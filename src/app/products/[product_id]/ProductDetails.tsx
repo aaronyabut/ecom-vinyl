@@ -40,13 +40,14 @@ interface ProductDetailsProps {
   playlist_name:string,
   companies:string[][],
   artists:string[][],
-  songwriters:string[][]
-
+  songwriters:string[][],
+  pairings: Vinyl[]
 }
 
 interface DropdownState {
   description: boolean;
   tracklist: boolean;
+  pairings: boolean;
   credits: boolean;
 }
 interface ChosenCreditsState {
@@ -122,12 +123,13 @@ export default function ProductDetails({
   playlist_name,
   companies,
   artists,
-  songwriters
-
+  songwriters,
+  pairings,
 }:ProductDetailsProps){
   const [dropdown, setDropdown] = useState<DropdownState>({
     description: false,
     tracklist: false,
+    pairings: true,
     credits: false,
   });
   const [chosenCredits, setChosenCredits] = useState<ChosenCreditsState>({
@@ -365,6 +367,71 @@ export default function ProductDetails({
                     )
                   })}
                 </div>
+              </div>
+            </div>
+            : null
+          }
+
+          <div className={styles.divider} />
+
+          {/* Pairings */}
+
+          {
+            pairings.length ?
+            <div className={styles.pairingsContainer}>
+              <div
+                className={styles.pairingsHeader}
+                onClick={() => handleToggle(setDropdown, 'pairings')}
+              >
+                <h2>Perfect Pairings</h2>
+                <Image
+                  src={ArrowIcon}
+                  height={20}
+                  width={20}
+                  alt='arrow icon'
+                  className={`${dropdown.pairings ? styles.rotateIcon : styles.rotateIconReverse}`}
+                />
+              </div>
+              <div className={`${styles.pairingsDropdownContainer} ${dropdown.pairings && styles.open}`}>
+                {pairings.map((obj:Vinyl,i:number) => {
+                  return (
+                    <div key={i} className={styles.vinyl}>
+                      <div className={styles.info}>
+                        <div className={styles.image}>
+                        <Image
+                          src={obj.vinyl_img}
+                          alt={obj.vinyl_title}
+                          width={60}
+                          height={60}
+                          priority
+                        />
+                        </div>
+                        <div className={styles.titleWrapper}>
+                          <div className={styles.songTitle}>
+                            {obj.vinyl_title}
+                          </div>
+                          <div className={styles.priceWrapper}>
+                            {obj.old_price &&
+                              <span className={styles.oldPrice}>
+                                ${obj.old_price}
+                              </span>
+                            }
+                            <span className={styles.price}>
+                              ${obj.price}
+                            </span>
+                            <span className={styles.vinylLabel}>
+                              VINYL
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={styles.toCart}>
+                        ADD TO CART
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
             : null

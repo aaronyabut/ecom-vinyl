@@ -83,10 +83,37 @@ function parseJSON(input:string|undefined|null) {
   return JSON.parse(validString);
 }
 
+function getThreeUniqueVinyls(vinyls: Vinyl[] | null) {
+  // Return null if vinyls is null or has fewer than 3 items
+  if (!vinyls || vinyls.length < 3) {
+    console.warn('Insufficient or invalid vinyls array:', vinyls);
+    return null;
+  }
+
+  // Generate 3 unique random indices
+  const numbers: Set<number> = new Set();
+  while (numbers.size < 3) {
+    const randomNum = Math.floor(Math.random() * vinyls.length); // Use vinyls.length to avoid out-of-bounds
+    numbers.add(randomNum);
+  }
+
+  // Convert Set to array of indices
+  const indices: number[] = [...numbers];
+
+  // Map indices to corresponding vinyls
+  const selectedVinyls: Vinyl[] = indices.map((index) => vinyls[index]);
+
+  return selectedVinyls;
+}
+
 export default async function ProductPage({params}:{params:Promise<{ product_id: string}>}){
   const {product_id} = await params;
   const vinyl = await getVinylById(product_id);
   const recommendedVinyls = await getRecommendedVinyls(vinyl?.genre, product_id);
+  const pairings = getThreeUniqueVinyls(recommendedVinyls) || [];
+
+  // console.log(recommendedVinyls)
+  // console.log(pairings)
 
   const playlistNameString = vinyl?.playlist_name ?? '';
 
@@ -117,6 +144,7 @@ export default async function ProductPage({params}:{params:Promise<{ product_id:
         companies={companies}
         artists={artists}
         songwriters={songwriters}
+        pairings={pairings}
       />
       <FAQ />
       <Recommendations recommendedVinyls={recommendedVinyls}/>
