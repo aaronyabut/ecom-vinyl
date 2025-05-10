@@ -1,4 +1,7 @@
-$accent-color: #00cca7;
+$accent-color: #02cda8;
+
+// $accent-color: #00cca7;
+
 $secondary-font-color: rgb(168, 168, 168);
 
 @mixin border($color) {
@@ -160,6 +163,7 @@ $secondary-font-color: rgb(168, 168, 168);
 .productImage {
   display: flex;
   flex-direction: row;
+  // @include border(red);
 }
 .productDetails {
   display: flex;
@@ -273,8 +277,8 @@ $secondary-font-color: rgb(168, 168, 168);
       .benefitTitle {
         font-weight: 700;
       }
-      .benefitDetail {
-      }
+      // .benefitDetail {
+      // }
     }
     // @include border(red);
   }
@@ -430,6 +434,7 @@ $secondary-font-color: rgb(168, 168, 168);
       .vinyl:last-child {
         border-bottom: solid;
         border-bottom-color: rgba(56, 56, 56);
+        border-width: .15rem;
         // background-color: #00cca7;
       }
       .vinyl {
@@ -448,7 +453,6 @@ $secondary-font-color: rgb(168, 168, 168);
         border-top-color: rgb(56, 56, 56);
         border-bottom-color: rgba(56, 56, 56, 0);
         align-items: center;
-
 
         .info {
           display: flex;
@@ -646,7 +650,7 @@ $secondary-font-color: rgb(168, 168, 168);
     flex-direction: column;
     align-items: center;
     height: fit-content;
-    margin-bottom:150px;
+    // margin-bottom:150px;
 
     // @include border(blue);
     .faqHeader{
@@ -700,11 +704,14 @@ $secondary-font-color: rgb(168, 168, 168);
   background-color: rgb(44, 44, 44);
   padding: 80px 0;
   display: flex;
-  justify-content: center;
+  justify-content: right;
+  // @include border(rgb(255, 255, 255));
+
 
   .container {
     width: 85%;
-    max-width: 1440px;
+    // max-width: 1440px;
+    // @include border(red);
 
     .headerWrapper {
       display: flex;
@@ -712,11 +719,14 @@ $secondary-font-color: rgb(168, 168, 168);
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      width: 80%;
+      // max-width: 720px;
+      // @include border(blue);
 
       .header {
         font-family: 'Eurostile Extended', sans-serif;
         font-size: 28px;
-        color: white;
+        // color: white;
       }
 
       .arrows {

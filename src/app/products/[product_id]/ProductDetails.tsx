@@ -31,7 +31,6 @@ interface Vinyl {
   tracklist: string;
   companies: string;
   main_artists: string;
-  // songwriters: string;
 }
 
 interface ProductDetailsProps {
@@ -129,7 +128,7 @@ export default function ProductDetails({
 }:ProductDetailsProps){
   const [dropdown, setDropdown] = useState<DropdownState>({
     description: false,
-    tracklist: false,
+    tracklist: true,
     pairings: true,
     credits: false,
   });
@@ -157,7 +156,6 @@ export default function ProductDetails({
         "Songwriters": false
       };
       newState[key] = true;
-      console.log(key)
       return newState;
     })
   }
