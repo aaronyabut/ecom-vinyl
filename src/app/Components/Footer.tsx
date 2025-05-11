@@ -1,5 +1,10 @@
 import styles from './navfooter.module.scss'
 import Image from 'next/image'
+import XLogo from '../../../public/socials/x-logo.svg'
+import Facebook from '../../../public/socials/facebook-logo.svg'
+import Tiktok from '../../../public/socials/tiktok-logo.svg'
+import YouTube from '../../../public/socials/youtube-logo.svg'
+import Instagram from '../../../public/socials/instagram-logo.svg'
 
 const pages:string[] = [
   'About Us',
@@ -10,6 +15,45 @@ const pages:string[] = [
   'Shipping Policy',
 ]
 
+interface socialsType {
+  title: string;
+  icon: string;
+  height: number;
+  width: number;
+}
+
+const socials:socialsType[] = [
+  {
+    title: 'X',
+    icon: XLogo,
+    height: 18,
+    width: 70,
+  },
+  {
+    title: 'Instagram',
+    icon: Instagram,
+    height: 26,
+    width: 70,
+  },
+  {
+    title: 'Facebook',
+    icon: Facebook,
+    height: 23,
+    width: 70,
+  },
+  {
+    title: 'Tiktok',
+    icon: Tiktok,
+    height: 25,
+    width: 70,
+  },
+  {
+    title: 'YouTube',
+    icon: YouTube,
+    height: 30,
+    width: 70,
+  },
+]
 
 
 export default function Footer () {
@@ -36,7 +80,19 @@ export default function Footer () {
             }
           </div>
           <div className={styles.socials}>
-            Socials
+            {
+              socials.map((social, i) => (
+                <Image
+                  src={social.icon}
+                  alt='Social Logo'
+                  width={social.width}
+                  height={social.height}
+                  key={i}
+                  className={styles.social}
+                  priority
+                />
+              ))
+            }
           </div>
         </div>
         <div className={styles.divider}/>
@@ -57,6 +113,13 @@ export default function Footer () {
               © 2025 Vinyl, Inc. All Rights Reserved
             </div>
           </div>
+          {/* <Image
+            src={XLogo}
+            alt='Vinyl Logo'
+            width={70}
+            height={16}
+            priority
+          /> */}
 
           <div className={styles.powered}>
             <div className={styles.name}>
