@@ -701,8 +701,9 @@ $secondary-font-color: rgb(168, 168, 168);
 }
 
 .recommendations {
-  background-color: rgb(44, 44, 44);
-  padding: 80px 0;
+  background-color: #323232;
+  padding-top: 45px;
+  padding-bottom: 45px;
   display: flex;
   justify-content: right;
   // @include border(rgb(255, 255, 255));
