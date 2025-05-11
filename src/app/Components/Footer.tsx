@@ -26,7 +26,7 @@ const socials:socialsType[] = [
   {
     title: 'X',
     icon: XLogo,
-    height: 18,
+    height: 16,
     width: 70,
   },
   {
@@ -44,13 +44,13 @@ const socials:socialsType[] = [
   {
     title: 'Tiktok',
     icon: Tiktok,
-    height: 25,
+    height: 24,
     width: 70,
   },
   {
     title: 'YouTube',
     icon: YouTube,
-    height: 30,
+    height: 31,
     width: 70,
   },
 ]

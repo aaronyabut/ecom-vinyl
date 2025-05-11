@@ -6,6 +6,55 @@ $accent-color: #00cca7;
   border-color: $color;
 }
 
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;;
+  // background-color: cadetblue;
+
+  @include border(red);
+  .container {
+    display: flex;
+    flex-direction: row;
+    width: 1440px;
+    justify-content: space-between;
+    align-items: center;
+    @include border(blue);
+    .logoWrapper {
+      display: flex;
+      align-items: center;
+      height: fit-content;
+
+      @include border(yellow);
+      .logo {
+        cursor: pointer;
+        height: fit-content;
+        @include border(hotpink);
+      }
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+
+      @include border(yellow);
+
+      .pages {
+        @include border(hotpink);
+      }
+      .input {
+        @include border(hotpink);
+      }
+      .account {
+        @include border(hotpink);
+      }
+      .cart {
+        @include border(hotpink);
+      }
+    }
+  }
+}
+
 .footer {
   background-color: #323232;
   padding-top: 56px;
