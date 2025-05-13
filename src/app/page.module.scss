@@ -164,8 +164,9 @@ $inner-dropdown: rgb(45,45,45);
 .mainContainer {
   max-width: 100%;
   width: 1440px;
+  margin-top: 110px;
+  grid-row: 1 / 3;
 
-  grid-row: 2 / 3;
   // @include border(blue);
 }
 
@@ -186,7 +187,6 @@ $inner-dropdown: rgb(45,45,45);
   margin-bottom: 30px;
   justify-content: space-between;
   align-items: center;
-  // padding-right: 5px;
 
   // @include border(green);
 }
@@ -195,8 +195,7 @@ $inner-dropdown: rgb(45,45,45);
   display: flex;
   align-items: center;
   font-family: 'Eurostile Extended', sans-serif;
-  font-size: 0.7rem;
-  font-size: 36px;
+  font-size: 40px;
   width: fit;
 
   // @include border(white);

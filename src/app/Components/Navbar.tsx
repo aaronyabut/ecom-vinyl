@@ -27,7 +27,7 @@ export default function Navbar () {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY && currentScrollY > 120) {
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
         // Scrolling down and past 80px
         setIsVisible(false);
       } else if (currentScrollY < lastScrollY) {
