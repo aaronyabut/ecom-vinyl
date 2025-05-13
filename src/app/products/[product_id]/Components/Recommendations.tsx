@@ -21,7 +21,7 @@ export default function Recommendations({ recommendedVinyls }: RecommendationsPr
   // Handle arrow button clicks and scroll
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current && !isScrolling.current) {
-      const scrollAmount = carouselRef.current.offsetWidth; // Scroll by one viewport width
+      const scrollAmount = 292; // Scroll by one vinyl card
       carouselRef.current.scrollBy({
         left: direction === 'right' ? scrollAmount : -scrollAmount,
         behavior: 'smooth',

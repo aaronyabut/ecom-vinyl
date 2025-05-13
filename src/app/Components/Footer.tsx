@@ -113,17 +113,9 @@ export default function Footer () {
               © 2025 Vinyl, Inc. All Rights Reserved
             </div>
           </div>
-          {/* <Image
-            src={XLogo}
-            alt='Vinyl Logo'
-            width={70}
-            height={16}
-            priority
-          /> */}
-
           <div className={styles.powered}>
             <div className={styles.name}>
-              <span>Powered by</span>
+              <span>Cloned by</span>
               <span>Aaron Yabut</span>
             </div>
             <div className={styles.region}>

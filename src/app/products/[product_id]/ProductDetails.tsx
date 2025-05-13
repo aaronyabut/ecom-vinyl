@@ -188,6 +188,7 @@ export default function ProductDetails({
             height={650}
             priority
           />
+          <div className={styles.label}>VINYL</div>
         </div>
         <div className={styles.productDetails}>
           <h1 className={styles.header}>{vinyl.vinyl_title} Vinyl</h1>
