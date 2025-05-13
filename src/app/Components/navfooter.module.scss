@@ -7,49 +7,157 @@ $accent-color: #00cca7;
 }
 
 .navbar {
+  position: fixed;
+  top: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 80px;;
-  // background-color: cadetblue;
+  width: 100%;
+  z-index: 51;
+  background-color: #0a0a0a;
+  transition: transform 0.2s ease-in;
 
-  @include border(red);
+  &.visible {
+    transform: translateY(0);
+  }
+
+  &.hidden {
+    transform: translateY(-200%);
+  }
+
+  // @include border(red);
   .container {
     display: flex;
     flex-direction: row;
     width: 1440px;
     justify-content: space-between;
     align-items: center;
-    @include border(blue);
+    // @include border(blue);
     .logoWrapper {
       display: flex;
       align-items: center;
       height: fit-content;
 
-      @include border(yellow);
+      // @include border(yellow);
       .logo {
         cursor: pointer;
         height: fit-content;
-        @include border(hotpink);
+        // @include border(hotpink);
       }
     }
     .wrapper {
       display: flex;
       flex-direction: row;
+      column-gap: 10px;
 
-      @include border(yellow);
+      // @include border(yellow);
 
       .pages {
-        @include border(hotpink);
+        display: flex;
+        flex-direction: row;
+        // column-gap: 15px;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 700;
+        margin-right: 15px;
+        // @include border(hotpink);
+
+
+
+        .page {
+          padding: 10px;
+          height: fit-content;
+          align-items: center;
+          &:hover {
+            cursor: pointer;
+            color: $accent-color;
+            .icon {
+              filter: invert(70%) sepia(160%) saturate(1800%) hue-rotate(150deg) brightness(125%) contrast(110%);
+            }
+          }
+          // @include border(white);
+
+          .icon {
+            transform: rotate(180deg);
+            margin-left: 4px;
+            translate:0px 1.5px;
+            // @include border(rgb(255, 255, 255));
+          }
+        }
       }
       .input {
-        @include border(hotpink);
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+        // @include border(hotpink);
+
+        .inputWrapper {
+          position: relative;
+          display: flex;
+          height: fit-content;
+          width: fit-content;
+          flex-direction: row;
+          justify-content: space-between;
+          // @include border(green);
+
+          input[type="text"] {
+            appearance: none;
+            background-color: rgb(58, 58, 58);
+            display: inline-block;
+            height: 38px;
+            padding-left: 10px;
+            padding-right: 72px;
+            font-size: 16px;
+            width: 400px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            @include border(transparent);;
+
+            &:focus {
+              outline: none;
+              @include border($accent-color);
+            }
+          }
+
+          .searchButton {
+            display: block;
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            height: 24px;
+            text-align: center;
+            appearance: none;
+            background-color: transparent;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            color: $accent-color;
+            // @include border(blue);
+            @include border(transparent);
+          }
+        }
       }
       .account {
-        @include border(hotpink);
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: $accent-color;
+        margin-right: 15px;
+        cursor: pointer;
+        // @include border(hotpink);
+
+        .icon {
+          margin-right: 6px;
+        }
       }
       .cart {
-        @include border(hotpink);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        // @include border(hotpink);
       }
     }
   }

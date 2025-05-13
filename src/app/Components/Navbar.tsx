@@ -1,11 +1,52 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './navfooter.module.scss'
+import { useState, useEffect } from 'react';
+import Magnifier from '../../../public/magnifier.svg'
+import ArrowIcon from '../../../public/arrow-icon.svg'
 
+const navLinks:string[] = [
+  "Collection",
+  "Vinyl",
+  "Gift Cards",
+  "CDs",
+]
 
 export default function Navbar () {
+  const [selecting, setSelecting] = useState<string>("")
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [lastScrollY, setLastScrollY] = useState<number>(0);
+
+  const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+    setSelecting(e.target.value);
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 120) {
+        // Scrolling down and past 80px
+        setIsVisible(false);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
+
   return (
-    <div className={styles.navbar}>
+    <div className={`${styles.navbar} ${isVisible ? styles.visible : styles.hidden}`}>
       <div className={styles.container}>
         <Link href={`/`} className={styles.logoWrapper}>
           <Image
@@ -19,16 +60,62 @@ export default function Navbar () {
         </Link>
         <div className={styles.wrapper}>
           <div className={styles.pages}>
-            pages
+            {
+              navLinks.map((page, i) => (
+                <div key={i} className={styles.page}>
+                  {page.toUpperCase()}
+                  {page === "Vinyl" &&
+                    <span>
+                      <Image
+                        src={ArrowIcon}
+                        width={16}
+                        height={16}
+                        alt="Arrow icon"
+                        className={styles.icon}
+                      />
+                    </span>
+                  }
+                </div>
+              ))
+            }
           </div>
           <div className={styles.input}>
-            input
+            <div className={styles.inputWrapper}>
+              <input
+                type='text'
+                placeholder='Search by artist, album, UPC'
+                value={selecting}
+                onChange={handleSearch}
+              />
+              <button className={styles.searchButton}>
+                <Image
+                  src={Magnifier}
+                  width={20}
+                  height={20}
+                  alt="Magnifier"
+                />
+              </button>
+            </div>
           </div>
           <div className={styles.account}>
-            account
+            <Image
+              src="https://vinyl.com/cdn/shop/t/59/assets/account-28.svg"
+              width={28}
+              height={28}
+              alt="Account icon"
+              className={styles.icon}
+            />
+            <span>
+              Account
+            </span>
           </div>
           <div className={styles.cart}>
-            cart
+            <Image
+              src="https://vinyl.com/cdn/shop/t/59/assets/bag-icon-28.svg"
+              width={28}
+              height={28}
+              alt="Account icon"
+            />
           </div>
         </div>
       </div>
