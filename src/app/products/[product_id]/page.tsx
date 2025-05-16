@@ -57,29 +57,40 @@ async function getRecommendedVinyls(genre: string | undefined, product_id: strin
 }
 
 const quoteUpdate = (string: string): string => {
-  // Step 1: Store double-quoted strings and replace with placeholders
+  // console.log("input STRING", string);
+  // Step 1: Store double-quoted string content and replace with placeholders
   const doubleQuoted: string[] = [];
-  const placeholderPrefix = '__DOUBLE_QUOTE_';
+  const placeholderPrefix = "__DOUBLE_QUOTE_";
   let index = 0;
-
-  const withPlaceholders = string.replace(/"((?:[^"\\]|\\.)*?)"/g, (match) => {
-    doubleQuoted.push(match);
+  // console.log("1");
+  const withPlaceholders = string.replace(/"((?:[^"\\]|\\.)*?)"/g, (match, content) => {
+    // console.log("content test", content.replace(/"/g, '\\"'))
+    doubleQuoted.push(content); // Store content without quotes
     return `${placeholderPrefix}${index++}`;
   });
 
-  // Step 2: Replace single quote delimiters with double quotes
-  const singleQuoteReplaced = withPlaceholders.replace(/'((?:[^'\\]|\\.)*?)'/g, '"$1"');
+  // Step 2: Replace single-quoted strings with double-quoted strings, preserving commas
+  const singleQuoteReplaced = withPlaceholders.replace(/'((?:[^'\\]|\\.)*?)'/g, (match, content) => {
+    // Escape any internal double quotes and preserve the content
+    // console.log("3 -- content",content);
+    const escapedContent = content.replace(/"/g, '\\"');
+    return `"${escapedContent}"`;
+  });
 
   // Step 3: Restore double-quoted strings
-  return singleQuoteReplaced.replace(
+  const value = singleQuoteReplaced.replace(
     new RegExp(`${placeholderPrefix}\\d+`, 'g'),
-    () => doubleQuoted.shift() || ''
+    () => {
+      const content = doubleQuoted.shift() || '';
+      // console.log("4",doubleQuoted);
+      return `"${content}"`; // Wrap restored content in double quotes
+    }
   );
+  return value
 };
 
-function parseJSON(input:string|undefined|null) {
+function parseJSON(input: string | undefined | null) {
   const validString = quoteUpdate(input ?? '[]');
-  // console.log(validString);
   return JSON.parse(validString);
 }
 
@@ -117,11 +128,21 @@ export default async function ProductPage({params}:{params:Promise<{ product_id:
 
   const playlistNameString = vinyl?.playlist_name ?? '';
 
-  const vinyl_info = parseJSON(vinyl?.vinyl_info);
-  const tracklist = parseJSON(vinyl?.tracklist);
-  const companies = parseJSON(vinyl?.companies);
-  const artists = parseJSON(vinyl?.main_artists);
+  console.log("BEFOREsongwriters",vinyl?.songwriters);
+  console.log("-----------------------------");
   const songwriters = parseJSON(vinyl?.songwriters);
+  console.log("songwriters",songwriters);
+
+  console.log("=============================");
+  const vinyl_info = parseJSON(vinyl?.vinyl_info);
+  console.log("vinyl_info",vinyl_info);
+  const tracklist = parseJSON(vinyl?.tracklist);
+  console.log("tracklist",tracklist);
+  const companies = parseJSON(vinyl?.companies);
+  console.log("companies",companies);
+  const artists = parseJSON(vinyl?.main_artists);
+  console.log("artists",artists);
+  // const songwriters = parseJSON(vinyl?.main_artists);
 
   if (!vinyl) {
     return (
