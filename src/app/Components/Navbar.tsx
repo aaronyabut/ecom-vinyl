@@ -2,10 +2,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './navfooter.module.scss'
+import styles from './navfooter.module.scss';
 import { useState, useEffect } from 'react';
-import Magnifier from '../../../public/magnifier.svg'
-import ArrowIcon from '../../../public/arrow-icon.svg'
+import Magnifier from '../../../public/magnifier.svg';
+import ArrowIcon from '../../../public/arrow-icon.svg';
+import Cart from './Cart';
+
 
 const navLinks:string[] = [
   "Collection",
@@ -18,10 +20,14 @@ export default function Navbar () {
   const [selecting, setSelecting] = useState<string>("")
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
+  const [toCart, setToCart] = useState<boolean>(false);
 
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
     setSelecting(e.target.value);
   }
+  const handleToggle = () => {
+    setToCart(!toCart)
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -115,10 +121,12 @@ export default function Navbar () {
               width={28}
               height={28}
               alt="Account icon"
+              onClick={()=> handleToggle()}
             />
           </div>
         </div>
       </div>
+      {toCart ? <Cart setToCart={setToCart}/> : null}
     </div>
   )
 }
