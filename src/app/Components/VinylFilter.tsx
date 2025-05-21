@@ -467,7 +467,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
             isOpenArtist={isOpenArtist}
             setIsOpenArtist={setIsOpenArtist}
             ArrowIcon={ArrowIcon}
-            // genre={genre}
             artistFilter={artistFilter}
             setArtistFilter={setArtistFilter}
           />

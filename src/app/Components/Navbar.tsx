@@ -126,7 +126,9 @@ export default function Navbar () {
           </div>
         </div>
       </div>
-      {toCart ? <Cart setToCart={setToCart}/> : null}
+      {/* <div className={`${toCart ? styles.showCart : styles.hideCart}`}> */}
+      <Cart setToCart={setToCart} toCart={toCart}/>
+      {/* </div> */}
     </div>
   )
 }
