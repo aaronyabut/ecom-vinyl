@@ -8,7 +8,7 @@
   top: 0;
   height: 100vh;
   width: 100vw;
-  transition: opacity 0.5s ease, visibility 0.5s ease; // Fade for container
+  transition: opacity 0.3s ease, visibility 0.3s ease; // Fade for container
   // @include border(rgb(0, 255, 94)); // Uncomment if needed for debugging
 
   &.showCart {
@@ -25,7 +25,7 @@
     background-color: rgba(0, 0, 0, 0.561); // Red-tinted background
     height: 100vh;
     width: 100vw;
-    transition: opacity 0.5s ease; // Fade effect
+    transition: opacity 0.3s ease; // Fade effect
     opacity: 0; // Start hidden
     // @include border(rgb(0, 102, 255)); // Uncomment if needed for debugging
     &.visible {
@@ -35,19 +35,59 @@
 
   .cart {
     position: absolute;
-    width: 600px;
+    width: 482px;
     height: 100vh;
     top: 0;
     right: 0;
     background-color: white;
-    color: hotpink;
-    transition: transform 0.5s ease, opacity 0.5s ease; // Slide + fade
+    color: rgb(0, 0, 0);
+    transition: transform 0.3s ease, opacity 0.3s ease; // Slide + fade
     transform: translateY(-30%); // Start off-screen (top)
     opacity: 0; // Start hidden
     // @include border(rgb(217, 255, 0)); // Uncomment if needed for debugging
     &.visible {
       transform: translateY(0); // Slide to original position
       opacity: 1; // Fade in
+    }
+    .topWrapper {
+      @include border(red);
+      padding-top: 30px;
+      padding-inline: 30px;
+      .headerWrapper {
+        @include border(blue);
+        .header {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          @include border(yellow);
+          .title {
+            width: fit-content;
+            font-family:  'Eurostile Extended', sans-serif;
+            font-size: 22px;
+            // @include border(rgb(255, 0, 128));
+          }
+          .icon {
+            width: fit-content;
+            filter: invert(48%);
+            &:hover {
+              filter: invert(71%);
+              cursor: pointer;
+
+            }
+            // @include border(rgb(255, 0, 128));
+          }
+        }
+        .totalProducts {
+          @include border(yellow);
+        }
+        .shipping {
+          @include border(yellow);
+        }
+
+      }
+      .vinylsWrapper {
+        @include border(blue);
+      }
     }
   }
 }
