@@ -8,6 +8,7 @@ import ArrowIcon from '../../../public/arrow-icon.svg'
 import DualRangeSlider from '../utils/DualRangeSlider';
 import Artists from '../filters/Artists';
 import Link from 'next/link';
+import { shoppingCart } from './Cart';
 
 
 /*/[[Feature list]]
@@ -25,7 +26,7 @@ import Link from 'next/link';
  * Most recently released filter, use ending of vinyl_imag       [???]
 /*/
 
-interface Vinyl {
+export interface Vinyl {
   product_id: number;
   vinyl_img: string;
   product_href: string;
@@ -564,7 +565,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
                     {vinyl.no_stock_label ? (
                       <div className={styles.toCart}>NOTIFY ME</div>
                     ) : (
-                      <div className={styles.toCart}>ADD TO CART</div>
+                      <div
+                        className={styles.toCart}
+                        onClick={()=>shoppingCart.push(vinyl)}
+                      >
+                        ADD TO CART
+                      </div>
                     )}
                     {vinyl.sale_label && (
                       <span className={styles.sale}>{vinyl.sale_label}</span>

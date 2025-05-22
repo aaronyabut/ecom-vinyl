@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import Magnifier from '../../../public/magnifier.svg';
 import ArrowIcon from '../../../public/arrow-icon.svg';
 import Cart from './Cart';
+import { shoppingCart } from './Cart';
 
 
 const navLinks:string[] = [
@@ -123,6 +124,14 @@ export default function Navbar () {
               alt="Account icon"
               onClick={()=> handleToggle()}
             />
+            <span className={`${styles.cartCount}
+              ${shoppingCart.length < 10 && styles.single}
+              ${shoppingCart.length >= 10 && styles.double}
+              ${shoppingCart.length >= 10 && styles.triple}
+              `}
+            >
+              {shoppingCart.length > 0 && `${shoppingCart.length}`}
+            </span>
           </div>
         </div>
       </div>

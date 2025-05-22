@@ -1,12 +1,13 @@
 import styles from './cart.module.scss';
 import XIcon from './../../../public/x-icon.svg';
 import Image from 'next/image';
+import { Vinyl } from './VinylFilter';
 
 interface CartProps {
   setToCart: React.Dispatch<React.SetStateAction<boolean>>;
   toCart: boolean;
 }
-export const shoppingCart = [];
+export const shoppingCart: Vinyl[] = [];
 
 export default function Cart ({
   setToCart,

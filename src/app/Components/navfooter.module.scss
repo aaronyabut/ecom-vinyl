@@ -157,6 +157,26 @@ $accent-color: #00cca7;
         display: flex;
         align-items: center;
         cursor: pointer;
+        position: relative;
+        .cartCount {
+          font-size: 9px;
+          position: absolute;
+          // left: 11.25px;
+          // left: 32%;
+          top: 17px;
+          color: $accent-color;
+          width: fit-content;
+          // @include border(hotpink);
+          &.single {
+            left: 41%;
+          }
+          &.double {
+            left: 32%;
+          }
+          &.triple {
+            left: 22%;
+          }
+        }
         // @include border(hotpink);
       }
     }
