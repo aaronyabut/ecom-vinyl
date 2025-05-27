@@ -9,7 +9,7 @@ interface CartProps {
   setToCart: React.Dispatch<React.SetStateAction<boolean>>;
   toCart: boolean;
 }
-export const shoppingCart: Vinyl[] = [1];
+export const shoppingCart: Vinyl[] = [];
 
 export default function Cart ({
   setToCart,
