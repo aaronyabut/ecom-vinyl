@@ -406,7 +406,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
               </div>
             </div>
             <div className={`${styles.sortList} ${isOpenSort && styles.open}`}>
-              {sorts.map((sort:Sorting, i:number)=> {
+              {sorts.map((sort:Sorting, i:number) => {
                 return (
                   <div className={styles.checkboxWrapper} key={i}>
                   <input

@@ -1,3 +1,5 @@
+$accent-color: #00cca7;
+
 @mixin border($color) {
   border-style: solid;
   border-width: .15rem;
@@ -44,22 +46,28 @@
     transition: transform 0.3s ease, opacity 0.3s ease; // Slide + fade
     transform: translateY(-30%); // Start off-screen (top)
     opacity: 0; // Start hidden
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     // @include border(rgb(217, 255, 0)); // Uncomment if needed for debugging
     &.visible {
       transform: translateY(0); // Slide to original position
       opacity: 1; // Fade in
     }
     .topWrapper {
-      @include border(red);
+      height: 100%;
       padding-top: 30px;
       padding-inline: 30px;
+      // @include border(red);
+
       .headerWrapper {
-        @include border(blue);
+        // @include border(blue);
         .header {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          @include border(yellow);
+          // @include border(yellow);
           .title {
             width: fit-content;
             font-family: 'Eurostile Extended', sans-serif;
@@ -77,16 +85,83 @@
             // @include border(rgb(255, 0, 128));
           }
         }
+        .divider {
+          margin-block: 5px;
+          border-top-color: rgb(86, 86, 86);
+          border-top-style: solid;
+          border-top-width: 1px;
+        }
         .totalProducts {
-          @include border(yellow);
+          color: rgb(86, 86, 86);
+          font-size: 14px;
+          // @include border(yellow);
         }
         .shipping {
-          @include border(yellow);
+          // @include border(yellow);
         }
 
       }
       .vinylsWrapper {
-        @include border(blue);
+
+        // @include border(blue);
+      }
+    }
+    .totalWrapper {
+      background-color: rgb(248, 248, 248);
+      // height: 207px;
+      // height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 30px 24px;
+
+      // @include border(pink);
+      .subTotal {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        line-height: 23px;
+        // @include border(blue);
+      }
+      .orderTotal {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-top: 16px;
+        margin-top: 16px;
+        font-size: 18px;
+        font-weight: 700;
+        background: transparent url(https://vinyl.com/cdn/shop/t/59/assets/dashed-line.svg) repeat-x 0 0;
+        // @include border(blue);
+      }
+      .checkout {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // background-color: #02CBA4;
+        background-color: $accent-color;
+        padding: 11px 14px;
+        font-size: 18px;
+        font-weight: 700;
+        margin-top: 16px;
+        opacity: .65;
+        // @include border(blue);
+        &.active {
+          opacity: 1;
+          background-color: $accent-color;
+          // @include border(blue);
+          cursor: pointer;
+
+        }
+
+      }
+      .shippingAndTaxes {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        color: rgb(86, 86, 86);
+        margin-top: 10px;
+        // @include border(blue);
       }
     }
   }
