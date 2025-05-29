@@ -7,8 +7,7 @@ import { useState, useEffect } from 'react';
 import Magnifier from '../../../public/magnifier.svg';
 import ArrowIcon from '../../../public/arrow-icon.svg';
 import Cart from './Cart';
-// import { shoppingCart } from './Cart';
-import { Vinyl } from '../page';
+import { useShoppingCart } from '../ClientLayout';
 
 
 const navLinks:string[] = [
@@ -18,14 +17,13 @@ const navLinks:string[] = [
   "CDs",
 ]
 
-export const shoppingCart: Vinyl[] = [];
-
 export default function Navbar () {
   const [selecting, setSelecting] = useState<string>("")
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [toCart, setToCart] = useState<boolean>(false);
-  const [cartCount, setCartCount] = useState<number>(0)
+  const [cartCount, setCartCount] = useState<number>(0);
+  const {shoppingCart} = useShoppingCart();
 
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
     setSelecting(e.target.value);
@@ -58,7 +56,7 @@ export default function Navbar () {
 
   useEffect(()=> {
     const updateCartCount = () => {
-      alert("Works");
+      // alert("Works");
       setCartCount(shoppingCart.length)
     };
     updateCartCount()
@@ -137,21 +135,20 @@ export default function Navbar () {
               onClick={()=> handleToggle()}
             />
             <span className={`${styles.cartCount}
-              ${shoppingCart.length < 10 && styles.single}
-              ${shoppingCart.length >= 10 && styles.double}
-              ${shoppingCart.length >= 10 && styles.triple}
+              ${cartCount < 10 && styles.single}
+              ${cartCount >= 10 && styles.double}
+              ${cartCount >= 100 && styles.triple}
               `}
             >
-              {/* {shoppingCart.length > 0 && `${shoppingCart.length}`} */}
-              {cartCount}
+              {cartCount > 0 && `${cartCount}`}
+              {/* {cartCount} */}
             </span>
           </div>
         </div>
       </div>
       {/* <div className={`${toCart ? styles.showCart : styles.hideCart}`}> */}
-      <Cart setToCart={setToCart} toCart={toCart} shoppingCart={shoppingCart}/>
+      <Cart toCart={toCart} setToCart={setToCart}/>
       {/* </div> */}
-      <div onClick={()=>console.log(shoppingCart)}>Check</div>
     </div>
   )
 }

@@ -2,23 +2,23 @@
 import styles from './cart.module.scss';
 import XIcon from './../../../public/x-icon.svg';
 import Image from 'next/image';
-import { Vinyl } from '../page';
+// import { Vinyl } from '../page';
 import { useEffect, useState } from 'react';
+import { useShoppingCart } from '../ClientLayout';
 
 interface CartProps {
-  setToCart: React.Dispatch<React.SetStateAction<boolean>>;
   toCart: boolean;
-  shoppingCart: Vinyl[]
+  setToCart: React.Dispatch<React.SetStateAction<boolean>>;
 }
-// export const shoppingCart: Vinyl[] = [];
 
 export default function Cart ({
-  setToCart,
   toCart,
-  shoppingCart
+  setToCart,
 } : CartProps) {
   const [shipping, setShipping] = useState<number>(4.99);
   const [freeShipping, setFreeShipping] = useState<number>(60);
+  const {shoppingCart} = useShoppingCart();
+
   let subTotal:number = 0;
 
   useEffect(()=> {

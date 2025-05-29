@@ -8,8 +8,9 @@ import ArrowIcon from '../../../public/arrow-icon.svg'
 import DualRangeSlider from '../utils/DualRangeSlider';
 import Artists from '../filters/Artists';
 import Link from 'next/link';
-import { shoppingCart } from './Navbar';
+// import { shoppingCart } from './Navbar';
 import { Vinyl } from '../page';
+import { useShoppingCart } from '../ClientLayout';
 
 
 /*/[[Feature list]]
@@ -110,6 +111,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     toShow: initialTotalCount >= 24 ? true : false,
   })
   const [showReset, setShowReset] = useState<boolean>(false);
+  const {shoppingCart, setShoppingCart} = useShoppingCart();
+
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
   // const checkCurrent = "sort ";
@@ -117,6 +120,14 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     // console.log(selectedSort);
     // console.log(vinyls);
   // };
+
+  const addingToCart = (vinyl:Vinyl) => {
+    // alert("Working NOW");
+    // console.log("vinyl", vinyl);
+    setShoppingCart([...shoppingCart,vinyl]);
+
+    console.log("shoppingCart", shoppingCart);
+  }
 
   const toggleDropdown = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
     setState((prev:boolean) => !prev);
@@ -547,7 +558,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
                     ) : (
                       <div
                         className={styles.toCart}
-                        onClick={()=>shoppingCart.push(vinyl)}
+                        onClick={()=>addingToCart(vinyl)}
                       >
                         ADD TO CART
                       </div>
