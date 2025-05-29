@@ -8,7 +8,8 @@ import ArrowIcon from '../../../public/arrow-icon.svg'
 import DualRangeSlider from '../utils/DualRangeSlider';
 import Artists from '../filters/Artists';
 import Link from 'next/link';
-import { shoppingCart } from './Cart';
+import { shoppingCart } from './Navbar';
+import { Vinyl } from '../page';
 
 
 /*/[[Feature list]]
@@ -19,39 +20,18 @@ import { shoppingCart } from './Cart';
  * Fix r&b url api request                                      [DONE]
  * Implement sold out filter                                     [DONE]
  * BUG: Any value with " & " in api url is causing issue        [DONE]
- * Create product page                                 [ON GOING]
+ * Create product page                                          [DONE]
 /*/
 
 /*/[[TODO]]
  * Most recently released filter, use ending of vinyl_imag       [???]
 /*/
 
-export interface Vinyl {
-  product_id: number;
-  vinyl_img: string;
-  product_href: string;
-  vinyl_title: string;
-  vinyl_artist: string;
-  price: number;
-  old_price: number | null;
-  sale_label: string | null;
-  low_stock_label: string | null;
-  no_stock_label: string | null;
-  genre: string;
-  vinyl_description: string;
-  vinyl_info: string;
-  playlist_name: string;
-  tracklist: string;
-  companies: string;
-  main_artists: string;
-  songwriters: string;
-}
 interface getVinylsTypes {
   initialVinyls: Vinyl[];
   initialMin: number;
   initialMax: number;
   initialTotalCount: number;
-
 }
 
 interface Sorting {

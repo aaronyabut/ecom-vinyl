@@ -7,7 +7,8 @@ import { useState, useEffect } from 'react';
 import Magnifier from '../../../public/magnifier.svg';
 import ArrowIcon from '../../../public/arrow-icon.svg';
 import Cart from './Cart';
-import { shoppingCart } from './Cart';
+// import { shoppingCart } from './Cart';
+import { Vinyl } from '../page';
 
 
 const navLinks:string[] = [
@@ -17,11 +18,14 @@ const navLinks:string[] = [
   "CDs",
 ]
 
+export const shoppingCart: Vinyl[] = [];
+
 export default function Navbar () {
   const [selecting, setSelecting] = useState<string>("")
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [toCart, setToCart] = useState<boolean>(false);
+  const [cartCount, setCartCount] = useState<number>(0)
 
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
     setSelecting(e.target.value);
@@ -51,6 +55,14 @@ export default function Navbar () {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [lastScrollY]);
+
+  useEffect(()=> {
+    const updateCartCount = () => {
+      alert("Works");
+      setCartCount(shoppingCart.length)
+    };
+    updateCartCount()
+  }, [shoppingCart])
 
   return (
     <div className={`${styles.navbar} ${isVisible ? styles.visible : styles.hidden}`}>
@@ -130,14 +142,16 @@ export default function Navbar () {
               ${shoppingCart.length >= 10 && styles.triple}
               `}
             >
-              {shoppingCart.length > 0 && `${shoppingCart.length}`}
+              {/* {shoppingCart.length > 0 && `${shoppingCart.length}`} */}
+              {cartCount}
             </span>
           </div>
         </div>
       </div>
       {/* <div className={`${toCart ? styles.showCart : styles.hideCart}`}> */}
-      <Cart setToCart={setToCart} toCart={toCart}/>
+      <Cart setToCart={setToCart} toCart={toCart} shoppingCart={shoppingCart}/>
       {/* </div> */}
+      <div onClick={()=>console.log(shoppingCart)}>Check</div>
     </div>
   )
 }

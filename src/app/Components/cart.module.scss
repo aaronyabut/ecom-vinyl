@@ -97,6 +97,10 @@ $accent-color: #00cca7;
           margin-block: 12px;
           // @include border(yellow);
         }
+        .shippingWrapper {
+
+          @include border(yellow);
+        }
         .shipping {
           // @include border(yellow);
         }

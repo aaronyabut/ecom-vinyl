@@ -2,20 +2,23 @@
 import styles from './cart.module.scss';
 import XIcon from './../../../public/x-icon.svg';
 import Image from 'next/image';
-import { Vinyl } from './VinylFilter';
+import { Vinyl } from '../page';
 import { useEffect, useState } from 'react';
 
 interface CartProps {
   setToCart: React.Dispatch<React.SetStateAction<boolean>>;
   toCart: boolean;
+  shoppingCart: Vinyl[]
 }
-export const shoppingCart: Vinyl[] = [];
+// export const shoppingCart: Vinyl[] = [];
 
 export default function Cart ({
   setToCart,
-  toCart
+  toCart,
+  shoppingCart
 } : CartProps) {
-  const [shipping, setShipping] = useState<number>(4.99)
+  const [shipping, setShipping] = useState<number>(4.99);
+  const [freeShipping, setFreeShipping] = useState<number>(60);
   let subTotal:number = 0;
 
   useEffect(()=> {
@@ -26,6 +29,7 @@ export default function Cart ({
         } else {
           setShipping(4.99);
         }
+        setFreeShipping(Math.round((freeShipping-subTotal)*100)/100);
       } catch (error) {
         console.error('Error within shopping cart:', error);
       }
@@ -66,9 +70,9 @@ export default function Cart ({
                 <div>PROGRESS BAR</div>
                 {
                   subTotal < 60 ?
-                  <div>Just $s more for FREE shipping. </div>
+                  <div>Just ${freeShipping} more for FREE shipping. </div>
                   :
-                  <div>CALC Shipping</div>
+                  <div>FREE SHIPPING</div>
                 }
               </div>
               :

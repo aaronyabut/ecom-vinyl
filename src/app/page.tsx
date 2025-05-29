@@ -2,7 +2,6 @@ import axios from 'axios';
 import styles from './page.module.scss';
 import VinylFilter from './Components/VinylFilter';
 import BenefitsBanner from './Components/BenefitBanner';
-// import Image from 'next/image';
 
 interface minMaxTypes {
   min_price: number;
@@ -12,7 +11,7 @@ interface totalCountTypes {
   total_count: number;
 }
 
-interface Vinyl {
+export interface Vinyl {
   product_id: number;
   vinyl_img: string;
   product_href: string;
