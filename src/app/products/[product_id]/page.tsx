@@ -128,20 +128,20 @@ export default async function ProductPage({params}:{params:Promise<{ product_id:
 
   const playlistNameString = vinyl?.playlist_name ?? '';
 
-  console.log("BEFOREsongwriters",vinyl?.songwriters);
-  console.log("-----------------------------");
+  // console.log("BEFOREsongwriters",vinyl?.songwriters);
+  // console.log("-----------------------------");
   const songwriters = parseJSON(vinyl?.songwriters);
-  console.log("songwriters",songwriters);
+  // console.log("songwriters",songwriters);
 
-  console.log("=============================");
+  // console.log("=============================");
   const vinyl_info = parseJSON(vinyl?.vinyl_info);
-  console.log("vinyl_info",vinyl_info);
+  // console.log("vinyl_info",vinyl_info);
   const tracklist = parseJSON(vinyl?.tracklist);
-  console.log("tracklist",tracklist);
+  // console.log("tracklist",tracklist);
   const companies = parseJSON(vinyl?.companies);
-  console.log("companies",companies);
+  // console.log("companies",companies);
   const artists = parseJSON(vinyl?.main_artists);
-  console.log("artists",artists);
+  // console.log("artists",artists);
   // const songwriters = parseJSON(vinyl?.main_artists);
 
   if (!vinyl) {

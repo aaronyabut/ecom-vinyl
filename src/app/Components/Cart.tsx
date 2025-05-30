@@ -17,25 +17,34 @@ export default function Cart ({
 } : CartProps) {
   const [shipping, setShipping] = useState<number>(4.99);
   const [freeShipping, setFreeShipping] = useState<number>(60);
+  const [subTotal, setSubTotal] = useState<number>(0);
   const {shoppingCart} = useShoppingCart();
 
-  let subTotal:number = 0;
+  // let subTotal:number = 0;
 
   useEffect(()=> {
     async function shoppingCartUpdates () {
       try {
+        const sumSubtotal = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.price), 0)
+        if (shoppingCart.length>0) {
+          setSubTotal(Math.round(sumSubtotal*100)/100)
+        } else {
+          setSubTotal(0)
+        }
+
         if (shoppingCart.length>1) {
           setShipping(5.99);
         } else {
           setShipping(4.99);
         }
-        setFreeShipping(Math.round((freeShipping-subTotal)*100)/100);
+        setFreeShipping(Math.round((freeShipping-sumSubtotal)*100)/100);
+
       } catch (error) {
         console.error('Error within shopping cart:', error);
       }
     }
     shoppingCartUpdates()
-  }, [shoppingCart.length])
+  }, [shoppingCart])
 
   return (
     <div className={`${styles.cartContainer} ${toCart ? styles.showCart : styles.hideCart}`}>
@@ -70,7 +79,7 @@ export default function Cart ({
                 <div>PROGRESS BAR</div>
                 {
                   subTotal < 60 ?
-                  <div>Just ${freeShipping} more for FREE shipping. </div>
+                  <div>Just ${freeShipping} more for FREE shipping.</div>
                   :
                   <div>FREE SHIPPING</div>
                 }
@@ -83,7 +92,7 @@ export default function Cart ({
           <div className={styles.vinylsWrapper}>
             {
               shoppingCart.map((vinyl,i) => {
-                subTotal += Number(vinyl.price);
+                // subTotal += Number(vinyl.price);
                 return (
                   <div key={i}>
                     {vinyl.vinyl_title}

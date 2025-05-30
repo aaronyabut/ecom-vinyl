@@ -39,8 +39,7 @@ export default function Artists ({
   const debouncedSetArtist = useCallback(
     debounce((value: string) => {
       setArtistFilter(prev => ({ ...prev, selecting: value }))
-    }, 300),
-    []
+    }, 300), []
   );
   const handleArtistSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
     setLocalSelectingArtist(e.target.value);
