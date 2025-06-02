@@ -61,8 +61,7 @@ $accent-color: #00cca7;
     }
     .topWrapper {
       height: fit-content;
-      padding-top: 30px;
-      padding-inline: 30px;
+      padding: 30px 30px 0px;
       // @include border(red);
 
       .headerWrapper {
@@ -94,6 +93,7 @@ $accent-color: #00cca7;
           border-top-color: rgb(86, 86, 86);
           border-top-style: solid;
           border-top-width: 1px;
+          margin-top: 12px;
         }
         .totalProducts {
           color: rgb(86, 86, 86);
@@ -131,15 +131,18 @@ $accent-color: #00cca7;
             background-color: #e6faf6;
             padding: 10px 6px;
 
+
             // @include border(black);
 
             .shipIcon {
+              margin-right: 5px;
 
               // @include border(green);
             }
             .freeShip {
               width: fit-content;
               color: #0aa88b;
+              font-size: 14px;
               // @include border(green);
             }
           }
@@ -153,8 +156,77 @@ $accent-color: #00cca7;
       overflow-y: scroll;
       // @include border(rgb(0, 255, 26));
       .vinyl {
-        height: 150px;
-        // @include border(hotpink);
+        height: 120px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+
+        @include border(orange);
+
+        .vinylImage {
+
+          @include border(hotpink);
+        }
+        .vinylInfoWrapper {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          justify-content: space-between;
+          @include border(hotpink);
+
+          .vinylInfo {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            @include border(green);
+            .vinylDetails {
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+
+              @include border(red);
+              .vinylType {
+
+                @include border(pink);
+              }
+              .vinylTitle {
+
+                @include border(pink);
+              }
+              .vinylArtist {
+
+                @include border(pink);
+              }
+            }
+            .vinylDelete {
+              width: fit-content;
+              filter: invert(48%);
+              height: fit-content;
+              &:hover {
+                filter: invert(71%);
+                cursor: pointer;
+
+              }
+              // @include border(red);
+
+            }
+          }
+          .vinylAmount {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            @include border(green);
+            .vinylQuantity {
+
+            }
+            .vinylPrice {
+
+            }
+          }
+
+        }
       }
     }
     .modalFooter {

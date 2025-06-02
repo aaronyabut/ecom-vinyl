@@ -107,14 +107,54 @@ export default function Cart (
             <div className={styles.divider}></div>
           </div>
         </div>
-        {/* -------------------- */}
         <div className={styles.vinylsWrapper}>
           {
             shoppingCart.map((vinyl,i) => {
               // subTotal += Number(vinyl.price);
               return (
                 <div key={i} className={styles.vinyl}>
-                  {vinyl.vinyl_title}
+                  {/* <div className={styles.vinylImage}>
+                    Image
+                  </div> */}
+                  <Image
+                    width={120}
+                    height={120}
+                    src={vinyl.vinyl_img}
+                    alt='Vinyl image'
+                    className={styles.vinylImage}
+                  />
+                  <div className={styles.vinylInfoWrapper}>
+                    <div className={styles.vinylInfo}>
+                      <div className={styles.vinylDetails}>
+                        <div className={styles.vinylType}>
+                          Vinyl
+                        </div>
+                        <div className={styles.vinylTitle}>
+                          {vinyl.vinyl_title}
+                        </div>
+                        <div className={styles.vinylArtist}>
+                          {vinyl.vinyl_artist}
+                        </div>
+                      </div>
+                      <div className={styles.vinylDelete}>
+                        <Image
+                          src={XIcon}
+                          width={12}
+                          height={12}
+                          alt="check icon"
+                          // className={styles.vinylDelete}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.vinylAmount}>
+                      <div className={styles.vinylQuantity}>
+                        Quantity
+                      </div>
+                      <div className={styles.vinylPrice}>
+                        price
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )
             })
