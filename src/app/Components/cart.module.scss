@@ -5,13 +5,17 @@ $accent-color: #00cca7;
   border-width: .15rem;
   border-color: $color;
 }
+
+
+
 .cartContainer {
-  position: absolute;
+  position: fixed;
   top: 0;
   height: 100vh;
   width: 100vw;
   transition: opacity 0.3s ease, visibility 0.3s ease; // Fade for container
   // @include border(rgb(0, 255, 94)); // Uncomment if needed for debugging
+  z-index: 52;
 
   &.showCart {
     opacity: 1;
@@ -38,7 +42,7 @@ $accent-color: #00cca7;
   .cart {
     position: absolute;
     width: 482px;
-    height: 100vh;
+    height: 100%;
     top: 0;
     right: 0;
     background-color: white;
@@ -56,7 +60,7 @@ $accent-color: #00cca7;
       opacity: 1; // Fade in
     }
     .topWrapper {
-      height: 100%;
+      height: fit-content;
       padding-top: 30px;
       padding-inline: 30px;
       // @include border(red);
@@ -98,18 +102,60 @@ $accent-color: #00cca7;
           // @include border(yellow);
         }
         .shippingWrapper {
-
-          @include border(yellow);
-        }
-        // .shipping {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           // @include border(yellow);
-        // }
+          .progressWrapper {
+            width: 100%;
+            align-items: center;
+            justify-items: center;
 
+            // @include border(black);
+            .progressBar {
+              // @include border(green);
+
+            }
+            .calculation {
+              width: fit-content;
+              font-size: 14px;
+              padding: 12px 12px 0px;
+              // @include border(green);
+            }
+          }
+          .freeShipWrapper {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            align-items: center;
+            background-color: #e6faf6;
+            padding: 10px 6px;
+
+            // @include border(black);
+
+            .shipIcon {
+
+              // @include border(green);
+            }
+            .freeShip {
+              width: fit-content;
+              color: #0aa88b;
+              // @include border(green);
+            }
+          }
+        }
       }
-      // .vinylsWrapper {
 
-        // @include border(blue);
-      // }
+    }
+    .vinylsWrapper {
+      height: 100%;
+      padding-inline: 30px;
+      overflow-y: scroll;
+      // @include border(rgb(0, 255, 26));
+      .vinyl {
+        height: 150px;
+        // @include border(hotpink);
+      }
     }
     .modalFooter {
       padding: 14px 30px 24px;

@@ -6,19 +6,21 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useShoppingCart } from '../ClientLayout';
 
-interface CartProps {
-  toCart: boolean;
-  setToCart: React.Dispatch<React.SetStateAction<boolean>>;
-}
+// interface CartProps {
+//   toCart: boolean;
+//   setToCart: React.Dispatch<React.SetStateAction<boolean>>;
+// }
 
-export default function Cart ({
-  toCart,
-  setToCart,
-} : CartProps) {
+export default function Cart (
+  // {
+  // toCart,
+  // setToCart,
+// } : CartProps
+) {
   const [shipping, setShipping] = useState<number>(4.99);
   const [freeShipping, setFreeShipping] = useState<number>(60);
   const [subTotal, setSubTotal] = useState<number>(0);
-  const {shoppingCart} = useShoppingCart();
+  const {shoppingCart, openCart, setOpenCart} = useShoppingCart();
 
   // let subTotal:number = 0;
 
@@ -37,7 +39,7 @@ export default function Cart ({
         } else {
           setShipping(4.99);
         }
-        setFreeShipping(Math.round((freeShipping-sumSubtotal)*100)/100);
+        setFreeShipping(Math.round((60-sumSubtotal)*100)/100);
 
       } catch (error) {
         console.error('Error within shopping cart:', error);
@@ -47,13 +49,13 @@ export default function Cart ({
   }, [shoppingCart])
 
   return (
-    <div className={`${styles.cartContainer} ${toCart ? styles.showCart : styles.hideCart}`}>
+    <div className={`${styles.cartContainer} ${openCart ? styles.showCart : styles.hideCart} ${openCart && styles.noScroll}`}>
       <div
-        className={`${styles.bg} ${toCart ? styles.visible : ''}`}
-        onClick={() => setToCart(false)}
+        className={`${styles.bg} ${openCart ? styles.visible : ''}`}
+        onClick={() => setOpenCart(false)}
       >
       </div>
-      <div className={`${styles.cart} ${toCart ? styles.visible : ''}`}>
+      <div className={`${styles.cart} ${openCart ? styles.visible : ''}`}>
         <div className={styles.topWrapper}>
           <div className={styles.headerWrapper}>
             <div className={styles.header}>
@@ -64,7 +66,7 @@ export default function Cart ({
                   height={20}
                   width={20}
                   alt="x icon"
-                  onClick={() => setToCart(false)}
+                  onClick={() => setOpenCart(false)}
                 />
               </div>
             </div>
@@ -76,12 +78,27 @@ export default function Cart ({
             {
               shoppingCart.length ?
               <div className={styles.shippingWrapper}>
-                <div>PROGRESS BAR</div>
                 {
                   subTotal < 60 ?
-                  <div>Just ${freeShipping} more for FREE shipping.</div>
+                  <div className={styles.progressWrapper}>
+                    <div className={styles.progressBar}>PROGRESS BAR</div>
+                    <div className={styles.calculation}>
+                      Just ${freeShipping} more for FREE shipping.
+                    </div>
+                  </div>
                   :
-                  <div>FREE SHIPPING</div>
+                  <div className={styles.freeShipWrapper}>
+                    <Image
+                      src="https://vinyl.com/cdn/shop/t/59/assets/check-circle-1.svg"
+                      width={18}
+                      height={18}
+                      alt="check icon"
+                      className={styles.shipIcon}
+                    />
+                    <div className={styles.freeShip}>
+                      Congratulations! You’ve unlocked free shipping.
+                    </div>
+                  </div>
                 }
               </div>
               :
@@ -89,18 +106,19 @@ export default function Cart ({
             }
             <div className={styles.divider}></div>
           </div>
-          <div className={styles.vinylsWrapper}>
-            {
-              shoppingCart.map((vinyl,i) => {
-                // subTotal += Number(vinyl.price);
-                return (
-                  <div key={i}>
-                    {vinyl.vinyl_title}
-                  </div>
-                )
-              })
-            }
-          </div>
+        </div>
+        {/* -------------------- */}
+        <div className={styles.vinylsWrapper}>
+          {
+            shoppingCart.map((vinyl,i) => {
+              // subTotal += Number(vinyl.price);
+              return (
+                <div key={i} className={styles.vinyl}>
+                  {vinyl.vinyl_title}
+                </div>
+              )
+            })
+          }
         </div>
         <div className={styles.modalFooter}>
           <div className={styles.totalWrapper}>
@@ -120,7 +138,7 @@ export default function Cart ({
               <div className={styles.subTotal}>
                 <span>Estimate shipping costs</span>
                 {
-                  subTotal >= 60 ?
+                  subTotal > 60 ?
                   <span>FREE</span>
                   :
                   <span>${shipping}</span>

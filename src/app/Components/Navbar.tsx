@@ -6,7 +6,7 @@ import styles from './navfooter.module.scss';
 import { useState, useEffect } from 'react';
 import Magnifier from '../../../public/magnifier.svg';
 import ArrowIcon from '../../../public/arrow-icon.svg';
-import Cart from './Cart';
+// import Cart from './Cart';
 import { useShoppingCart } from '../ClientLayout';
 
 
@@ -21,15 +21,15 @@ export default function Navbar () {
   const [selecting, setSelecting] = useState<string>("")
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
-  const [toCart, setToCart] = useState<boolean>(false);
+  // const [toCart, setToCart] = useState<boolean>(false);
   const [cartCount, setCartCount] = useState<number>(0);
-  const {shoppingCart} = useShoppingCart();
+  const {shoppingCart, openCart, setOpenCart} = useShoppingCart();
 
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
     setSelecting(e.target.value);
   }
   const handleToggle = () => {
-    setToCart(!toCart)
+    setOpenCart(!openCart)
   };
 
   useEffect(() => {
@@ -147,7 +147,7 @@ export default function Navbar () {
         </div>
       </div>
       {/* <div className={`${toCart ? styles.showCart : styles.hideCart}`}> */}
-      <Cart toCart={toCart} setToCart={setToCart}/>
+      {/* <Cart toCart={toCart} setToCart={setToCart}/> */}
       {/* </div> */}
     </div>
   )

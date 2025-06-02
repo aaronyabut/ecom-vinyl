@@ -161,6 +161,12 @@ $inner-dropdown: rgb(45,45,45);
   // @include border(rgb(255, 0, 0));
 }
 
+.noScroll {
+  height: 100vh;
+  overflow: hidden;
+  @include border(rgb(21, 255, 0));
+}
+
 .mainContainer {
   max-width: 100%;
   width: 1440px;

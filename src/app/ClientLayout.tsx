@@ -4,11 +4,15 @@ import { createContext, useContext, useState } from 'react';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import { Vinyl } from './page'; // Adjust path as needed
+import Cart from './Components/Cart';
+import styles from './page.module.scss'
 
 // Define the context type
 interface CartContextType {
   shoppingCart: Vinyl[];
   setShoppingCart: React.Dispatch<React.SetStateAction<Vinyl[]>>;
+  openCart: boolean;
+  setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // Create the context
@@ -29,12 +33,16 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   const [shoppingCart, setShoppingCart] = useState<Vinyl[]>([]);
+  const [openCart, setOpenCart] = useState<boolean>(false);
 
   return (
-    <CartContext.Provider value={{ shoppingCart, setShoppingCart }}>
-      <Navbar />
-      {children}
-      <Footer />
-    </CartContext.Provider>
+    <div className={`${openCart && styles.noScroll}`}>
+      <CartContext.Provider value={{ shoppingCart, setShoppingCart, openCart, setOpenCart }}>
+        <Navbar />
+        {children}
+        <Footer />
+        <Cart />
+      </CartContext.Provider>
+    </div>
   );
 }
