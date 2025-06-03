@@ -122,8 +122,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   // };
 
   const addingToCart = (vinyl:Vinyl) => {
-    // alert("Working NOW");
-    // console.log("vinyl", vinyl);
+
     setShoppingCart([...shoppingCart,vinyl]);
 
     console.log("shoppingCart", shoppingCart);

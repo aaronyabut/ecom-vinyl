@@ -127,7 +127,7 @@ export default function Cart (
                     <div className={styles.vinylInfo}>
                       <div className={styles.vinylDetails}>
                         <div className={styles.vinylType}>
-                          Vinyl
+                          VINYL
                         </div>
                         <div className={styles.vinylTitle}>
                           {vinyl.vinyl_title}
@@ -147,11 +147,15 @@ export default function Cart (
                       </div>
                     </div>
                     <div className={styles.vinylAmount}>
-                      <div className={styles.vinylQuantity}>
-                        Quantity
+                      <div className={styles.vinylQuantityWrapper}>
+                        <div>-</div>
+                        <div>
+                          Quantity
+                        </div>
+                        <div>+</div>
                       </div>
                       <div className={styles.vinylPrice}>
-                        price
+                        ${vinyl.price}
                       </div>
                     </div>
                   </div>

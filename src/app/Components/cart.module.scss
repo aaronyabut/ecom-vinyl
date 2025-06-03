@@ -155,48 +155,67 @@ $accent-color: #00cca7;
       padding-inline: 30px;
       overflow-y: scroll;
       // @include border(rgb(0, 255, 26));
+      & > *:not(:first-child) {
+
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top-color: rgb(212, 212, 212);
+        padding-top: 10px;
+        // border-top: 10px;
+      }
       .vinyl {
         height: 120px;
         display: flex;
         flex-direction: row;
         width: 100%;
+        margin-top: 16px;
+        justify-content: space-between;
+        // @include border(orange);
 
-        @include border(orange);
 
         .vinylImage {
 
-          @include border(hotpink);
+          // @include border(hotpink);
         }
         .vinylInfoWrapper {
           display: flex;
           flex-direction: column;
-          width: 100%;
+          width: 286px;
           justify-content: space-between;
-          @include border(hotpink);
+          // @include border(rgb(105, 208, 255));
 
           .vinylInfo {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
 
-            @include border(green);
+            // @include border(green);
             .vinylDetails {
               display: flex;
               flex-direction: column;
               width: 100%;
 
-              @include border(red);
+              // @include border(red);
               .vinylType {
-
-                @include border(pink);
+                font-size: 12px;
+                font-weight: 600;
+                color: rgb(107, 107, 107);
+                line-height: 22px;
+                // @include border(pink);
               }
               .vinylTitle {
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 22px;
 
-                @include border(pink);
+                // @include border(pink);
               }
               .vinylArtist {
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 22px;
 
-                @include border(pink);
+                // @include border(pink);
               }
             }
             .vinylDelete {
@@ -217,12 +236,17 @@ $accent-color: #00cca7;
             flex-direction: row;
             justify-content: space-between;
 
-            @include border(green);
-            .vinylQuantity {
+            // @include border(green);
+            .vinylQuantityWrapper {
+              display: flex;
+              flex-direction: row;
+              @include border(green);
 
             }
             .vinylPrice {
-
+              font-size: 16px;
+              font-weight: 700;
+              line-height: 34px;
             }
           }
 
