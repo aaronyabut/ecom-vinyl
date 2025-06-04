@@ -150,12 +150,12 @@ export default function Cart (
                       <div className={styles.vinylQuantityWrapper}>
                         <div>-</div>
                         <div>
-                          Quantity
+                          {vinyl.quantity}
                         </div>
                         <div>+</div>
                       </div>
                       <div className={styles.vinylPrice}>
-                        ${vinyl.price}
+                        ${vinyl.quantity*vinyl.price}
                       </div>
                     </div>
                   </div>

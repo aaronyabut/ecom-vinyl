@@ -36,6 +36,7 @@ export interface Vinyl {
   companies: string;
   main_artists: string;
   songwriters: string;
+  quantity: number;
 }
 
 interface getVinylsTypes {
