@@ -111,7 +111,10 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     toShow: initialTotalCount >= 24 ? true : false,
   })
   const [showReset, setShowReset] = useState<boolean>(false);
-  const {shoppingCart, setShoppingCart} = useShoppingCart();
+  const {
+    // shoppingCart,
+     setShoppingCart
+    } = useShoppingCart();
 
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
@@ -123,17 +126,31 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
   const addingToCart = (vinyl:Vinyl) => {
 
-    const existingItem = shoppingCart.find(cartItem => cartItem.product_id === vinyl.product_id)
-    console.log("existingItem", existingItem);
+    // const existingItem = shoppingCart.find(cartItem => cartItem.product_id === vinyl.product_id)
+    // console.log("existingItem", existingItem);
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      vinyl.quantity = 1;
-      setShoppingCart([...shoppingCart,vinyl]);
-    }
+    // if (existingItem) {
+    //   existingItem.quantity += 1;
+    // } else {
+    //   vinyl.quantity = 1;
+    //   setShoppingCart([...shoppingCart,vinyl]);
+    // }
 
-    console.log("shoppingCart", shoppingCart);
+    // console.log("shoppingCart", shoppingCart);
+
+    setShoppingCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.product_id === vinyl.product_id);
+      if (existingItem) {
+        // Update quantity immutably
+        return prevCart.map((cartItem) =>
+          cartItem.product_id === vinyl.product_id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      }
+      // Add new item with quantity 1
+      return [...prevCart, { ...vinyl, quantity: 1 }];
+    });
   }
 
   const toggleDropdown = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {

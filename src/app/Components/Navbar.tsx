@@ -54,13 +54,15 @@ export default function Navbar () {
     };
   }, [lastScrollY]);
 
-  useEffect(()=> {
+  useEffect(() => {
     const updateCartCount = () => {
-      // alert("Works");
-      setCartCount(shoppingCart.length)
+      const sumQuantity = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.quantity || 0), 0);
+      console.log("CHECKING", sumQuantity);
+      console.log("sumQuantity", sumQuantity);
+      setCartCount(sumQuantity);
     };
-    updateCartCount()
-  }, [shoppingCart])
+    updateCartCount();
+  }, [shoppingCart.map(item => item.quantity).join(",")]);
 
   return (
     <div className={`${styles.navbar} ${isVisible ? styles.visible : styles.hidden}`}>
@@ -126,13 +128,12 @@ export default function Navbar () {
               Account
             </span>
           </div>
-          <div className={styles.cart}>
+          <div className={styles.cart} onClick={()=> handleToggle()}>
             <Image
               src="https://vinyl.com/cdn/shop/t/59/assets/bag-icon-28.svg"
               width={28}
               height={28}
               alt="Account icon"
-              onClick={()=> handleToggle()}
             />
             <span className={`${styles.cartCount}
               ${cartCount < 10 && styles.single}

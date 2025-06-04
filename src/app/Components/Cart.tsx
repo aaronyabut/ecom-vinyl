@@ -21,13 +21,17 @@ export default function Cart (
   const [freeShipping, setFreeShipping] = useState<number>(60);
   const [subTotal, setSubTotal] = useState<number>(0);
   const {shoppingCart, openCart, setOpenCart} = useShoppingCart();
+  const [cartCount, setCartCount] = useState<number>(0);
 
   // let subTotal:number = 0;
 
   useEffect(()=> {
     async function shoppingCartUpdates () {
       try {
-        const sumSubtotal = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.price), 0)
+        const sumSubtotal = shoppingCart.reduce((sum, vinyl) => Number(sum) + (Number(vinyl.price) * Number(vinyl.quantity)), 0)
+        const sumQuantity = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.quantity || 0), 0);
+        setCartCount(sumQuantity);
+        // console.log("sumSubtotal",sumSubtotal)
         if (shoppingCart.length>0) {
           setSubTotal(Math.round(sumSubtotal*100)/100)
         } else {
@@ -46,7 +50,7 @@ export default function Cart (
       }
     }
     shoppingCartUpdates()
-  }, [shoppingCart])
+  }, [shoppingCart.map(item => item.quantity).join(",")])
 
   return (
     <div className={`${styles.cartContainer} ${openCart ? styles.showCart : styles.hideCart} ${openCart && styles.noScroll}`}>
@@ -71,8 +75,8 @@ export default function Cart (
               </div>
             </div>
             <div className={styles.totalProducts}>
-              {shoppingCart.length === 1 ? `${shoppingCart.length} Product` :
-              `${shoppingCart.length} Products`
+              {cartCount === 1 ? `${cartCount} Product` :
+              `${cartCount} Products`
               }
             </div>
             {

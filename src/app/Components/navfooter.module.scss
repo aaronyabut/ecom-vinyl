@@ -160,9 +160,8 @@ $accent-color: #00cca7;
         position: relative;
         .cartCount {
           font-size: 9px;
+          font-weight: 700;
           position: absolute;
-          // left: 11.25px;
-          // left: 32%;
           top: 17px;
           color: $accent-color;
           width: fit-content;
