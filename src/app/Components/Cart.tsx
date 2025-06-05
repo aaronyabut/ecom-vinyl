@@ -1,6 +1,9 @@
 'use client';
 import styles from './cart.module.scss';
 import XIcon from './../../../public/x-icon.svg';
+import PlusIcon from './../../../public/cart_svg/plus.svg';
+import MinusIcon from './../../../public/cart_svg/minus.svg';
+// import XIcon from './../../../public/x-icon.svg';
 import Image from 'next/image';
 // import { Vinyl } from '../page';
 import { useEffect, useState } from 'react';
@@ -181,7 +184,12 @@ export default function Cart (
                           })
                         }
                       >
-                          -
+                        <Image
+                          src={MinusIcon}
+                          height={18}
+                          width={18}
+                          alt="minus icon"
+                        />
                         </div>
                         <div className={styles.quantity}>
                           {vinyl.quantity}
@@ -197,11 +205,19 @@ export default function Cart (
                             );
                           })}
                         >
-                          +
+
+                          <Image
+                            src={PlusIcon}
+                            height={18}
+                            width={18}
+                            alt="plus icon"
+                          />
                         </div>
                       </div>
                       <div className={styles.vinylPrice}>
-                        ${vinyl.quantity*vinyl.price}
+                        {/* ${vinyl.quantity*vinyl.price} */}
+                        ${(Math.round((vinyl.quantity*vinyl.price)*100)/100).toFixed(2)}
+                        {/* Math.round((vinyl.quantity*vinyl.price)*100)/100 */}
                       </div>
                     </div>
                   </div>
@@ -219,7 +235,7 @@ export default function Cart (
                   !subTotal ?
                   <span>0.00</span>
                   :
-                  <span>{subTotal}</span>
+                  <span>{subTotal.toFixed(2)}</span>
                 }
               </span>
             </div>
@@ -244,11 +260,11 @@ export default function Cart (
                     {
                       subTotal > 60 ?
                       <span>
-                        {subTotal}
+                        {subTotal.toFixed(2)}
                       </span>
                       :
                       <span>
-                        {subTotal + shipping}
+                        {(subTotal + shipping).toFixed(2)}
                       </span>
                     }
                   </span>

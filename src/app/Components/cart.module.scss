@@ -181,7 +181,7 @@ $accent-color: #00cca7;
           display: flex;
           flex-direction: column;
           width: 286px;
-          justify-content: space-between;
+          // justify-content: space-between;
           // @include border(rgb(105, 208, 255));
 
           .vinylInfo {
@@ -227,7 +227,7 @@ $accent-color: #00cca7;
                 cursor: pointer;
 
               }
-              @include border(red);
+              // @include border(red);
 
             }
           }
@@ -240,25 +240,28 @@ $accent-color: #00cca7;
             .vinylQuantityWrapper {
               display: flex;
               flex-direction: row;
-              gap: 5px;
-              font-size: 18px;
+              // gap: 2px;
+              font-size: 12px;
+              font-weight: 700;
               align-items: center;
               // @include border(green);
               .decreaseQuantity {
-                padding-inline: 8px;
+                // padding-inline: 6px;
                 cursor: pointer;
-
-                @include border(rgb(182, 90, 252));
+                display: flex;
+                align-items: center;
+                // @include border(rgb(182, 90, 252));
               }
               .quantity {
-
+                padding: 1px 6px;
                 // @include border(rgb(182, 90, 252));
               }
               .increaseQuantity {
-                padding-inline: 8px;
+                // padding-inline: 6px;
                 cursor: pointer;
-
-                @include border(rgb(182, 90, 252));
+                display: flex;
+                align-items: center;
+                // @include border(rgb(182, 90, 252));
               }
 
             }
