@@ -155,14 +155,15 @@ $accent-color: #00cca7;
       padding-inline: 30px;
       overflow-y: scroll;
       // @include border(rgb(0, 255, 26));
-      & > *:not(:first-child) {
 
+      & > *:not(:first-child) {
         border-top-style: solid;
         border-top-width: 1px;
         border-top-color: rgb(212, 212, 212);
         padding-top: 10px;
-        // border-top: 10px;
+
       }
+
       .vinyl {
         height: 120px;
         display: flex;
@@ -171,7 +172,6 @@ $accent-color: #00cca7;
         margin-top: 16px;
         justify-content: space-between;
         // @include border(orange);
-
 
         .vinylImage {
 
@@ -227,7 +227,7 @@ $accent-color: #00cca7;
                 cursor: pointer;
 
               }
-              // @include border(red);
+              @include border(red);
 
             }
           }
@@ -240,7 +240,26 @@ $accent-color: #00cca7;
             .vinylQuantityWrapper {
               display: flex;
               flex-direction: row;
-              @include border(green);
+              gap: 5px;
+              font-size: 18px;
+              align-items: center;
+              // @include border(green);
+              .decreaseQuantity {
+                padding-inline: 8px;
+                cursor: pointer;
+
+                @include border(rgb(182, 90, 252));
+              }
+              .quantity {
+
+                // @include border(rgb(182, 90, 252));
+              }
+              .increaseQuantity {
+                padding-inline: 8px;
+                cursor: pointer;
+
+                @include border(rgb(182, 90, 252));
+              }
 
             }
             .vinylPrice {

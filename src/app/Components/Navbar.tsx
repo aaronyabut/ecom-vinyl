@@ -57,8 +57,8 @@ export default function Navbar () {
   useEffect(() => {
     const updateCartCount = () => {
       const sumQuantity = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.quantity || 0), 0);
-      console.log("CHECKING", sumQuantity);
-      console.log("sumQuantity", sumQuantity);
+      // console.log("CHECKING", sumQuantity);
+      // console.log("sumQuantity", sumQuantity);
       setCartCount(sumQuantity);
     };
     updateCartCount();

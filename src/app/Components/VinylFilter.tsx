@@ -126,18 +126,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
 
   const addingToCart = (vinyl:Vinyl) => {
 
-    // const existingItem = shoppingCart.find(cartItem => cartItem.product_id === vinyl.product_id)
-    // console.log("existingItem", existingItem);
-
-    // if (existingItem) {
-    //   existingItem.quantity += 1;
-    // } else {
-    //   vinyl.quantity = 1;
-    //   setShoppingCart([...shoppingCart,vinyl]);
-    // }
-
-    // console.log("shoppingCart", shoppingCart);
-
     setShoppingCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.product_id === vinyl.product_id);
       if (existingItem) {

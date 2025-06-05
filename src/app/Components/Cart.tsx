@@ -20,7 +20,7 @@ export default function Cart (
   const [shipping, setShipping] = useState<number>(4.99);
   const [freeShipping, setFreeShipping] = useState<number>(60);
   const [subTotal, setSubTotal] = useState<number>(0);
-  const {shoppingCart, openCart, setOpenCart} = useShoppingCart();
+  const {shoppingCart, setShoppingCart, openCart, setOpenCart} = useShoppingCart();
   const [cartCount, setCartCount] = useState<number>(0);
 
   // let subTotal:number = 0;
@@ -31,18 +31,24 @@ export default function Cart (
         const sumSubtotal = shoppingCart.reduce((sum, vinyl) => Number(sum) + (Number(vinyl.price) * Number(vinyl.quantity)), 0)
         const sumQuantity = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.quantity || 0), 0);
         setCartCount(sumQuantity);
-        // console.log("sumSubtotal",sumSubtotal)
-        if (shoppingCart.length>0) {
-          setSubTotal(Math.round(sumSubtotal*100)/100)
-        } else {
-          setSubTotal(0)
+        // const removeVinyl = shoppingCart.find((vinyl) => {
+        //   return vinyl.quantity === 0 ? vinyl : null;
+        // })
+
+        // if (removeVinyl) {
+        //   setShoppingCart
+        // }
+        const updatedCart = shoppingCart.filter((vinyl) => vinyl.quantity > 0);
+        if (updatedCart.length !== shoppingCart.length) {
+          setShoppingCart(updatedCart);
         }
 
-        if (shoppingCart.length>1) {
-          setShipping(5.99);
-        } else {
-          setShipping(4.99);
-        }
+        // console.log("removeVinyl", removeVinyl)
+
+        setSubTotal(shoppingCart.length > 0 ? Math.round(sumSubtotal*100)/100 : 0)
+
+        setShipping(shoppingCart.length > 1 ? 5.99 : 4.99);
+
         setFreeShipping(Math.round((60-sumSubtotal)*100)/100);
 
       } catch (error) {
@@ -152,11 +158,47 @@ export default function Cart (
                     </div>
                     <div className={styles.vinylAmount}>
                       <div className={styles.vinylQuantityWrapper}>
-                        <div>-</div>
-                        <div>
+                      <div
+                        className={styles.decreaseQuantity}
+                        onClick={() =>
+                          setShoppingCart((prevCart) => {
+                            // Check if the item exists and its quantity will become 0
+                            const targetItem = prevCart.find(
+                              (cartItem) => cartItem.product_id === vinyl.product_id
+                            );
+                            if (targetItem && targetItem.quantity === 1) {
+                              // Remove the item if quantity will become 0
+                              return prevCart.filter(
+                                (cartItem) => cartItem.product_id !== vinyl.product_id
+                              );
+                            }
+                            // Otherwise, decrease quantity
+                            return prevCart.map((cartItem) =>
+                              cartItem.product_id === vinyl.product_id
+                                ? { ...cartItem, quantity: cartItem.quantity - 1 }
+                                : cartItem
+                            );
+                          })
+                        }
+                      >
+                          -
+                        </div>
+                        <div className={styles.quantity}>
                           {vinyl.quantity}
                         </div>
-                        <div>+</div>
+                        <div
+                          className={styles.increaseQuantity}
+                          onClick={()=> setShoppingCart((prevCart) => {
+                            console.log(prevCart)
+                            return prevCart.map((cartItem) =>
+                              cartItem.product_id === vinyl.product_id
+                                ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                                : cartItem
+                            );
+                          })}
+                        >
+                          +
+                        </div>
                       </div>
                       <div className={styles.vinylPrice}>
                         ${vinyl.quantity*vinyl.price}

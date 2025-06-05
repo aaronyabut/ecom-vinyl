@@ -164,7 +164,7 @@ $inner-dropdown: rgb(45,45,45);
 .noScroll {
   height: 100vh;
   overflow: hidden;
-  @include border(rgb(21, 255, 0));
+  // @include border(rgb(21, 255, 0));
 }
 
 .mainContainer {
