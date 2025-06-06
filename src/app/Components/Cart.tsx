@@ -153,9 +153,7 @@ export default function Cart (
                         className={styles.vinylDelete}
                         onClick={()=>
                           setShoppingCart((prevCart) => {
-                            // console.log("Hi", vinyl.product_id)
                             const removed = prevCart.filter((cartItem) => cartItem.product_id !== vinyl.product_id)
-                            console.log("Hi", removed)
                             return removed
                           })
                         }

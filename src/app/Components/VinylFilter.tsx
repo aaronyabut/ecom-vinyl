@@ -8,7 +8,6 @@ import ArrowIcon from '../../../public/arrow-icon.svg'
 import DualRangeSlider from '../utils/DualRangeSlider';
 import Artists from '../filters/Artists';
 import Link from 'next/link';
-// import { shoppingCart } from './Navbar';
 import { Vinyl } from '../page';
 import { useShoppingCart } from '../ClientLayout';
 
@@ -111,10 +110,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     toShow: initialTotalCount >= 24 ? true : false,
   })
   const [showReset, setShowReset] = useState<boolean>(false);
-  const {
-    // shoppingCart,
-     setShoppingCart
-    } = useShoppingCart();
+  const { setShoppingCart } = useShoppingCart();
 
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
@@ -125,7 +121,6 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
   // };
 
   const addingToCart = (vinyl:Vinyl) => {
-
     setShoppingCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.product_id === vinyl.product_id);
       if (existingItem) {

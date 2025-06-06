@@ -11,27 +11,29 @@ import ArrowIcon from '../../../../public/arrow-icon.svg'
 import VerifiedIcon from '../../../../public/product_page_svg/verified.svg'
 import LightningIcon from '../../../../public/product_page_svg/lightning.svg'
 import SmileIcon from '../../../../public/product_page_svg/smile.svg'
+import { Vinyl } from '../../page'
+import { useShoppingCart } from '../../ClientLayout';
 
 
-interface Vinyl {
-  product_id: number;
-  vinyl_img: string;
-  product_href: string;
-  vinyl_title: string;
-  vinyl_artist: string;
-  price: number;
-  old_price: number | null;
-  sale_label: string | null;
-  low_stock_label: string | null;
-  no_stock_label: string | null;
-  genre: string;
-  vinyl_description: string;
-  vinyl_info: string;
-  playlist_name: string;
-  tracklist: string;
-  companies: string;
-  main_artists: string;
-}
+// interface Vinyl {
+//   product_id: number;
+//   vinyl_img: string;
+//   product_href: string;
+//   vinyl_title: string;
+//   vinyl_artist: string;
+//   price: number;
+//   old_price: number | null;
+//   sale_label: string | null;
+//   low_stock_label: string | null;
+//   no_stock_label: string | null;
+//   genre: string;
+//   vinyl_description: string;
+//   vinyl_info: string;
+//   playlist_name: string;
+//   tracklist: string;
+//   companies: string;
+//   main_artists: string;
+// }
 
 interface ProductDetailsProps {
   vinyl: Vinyl,
@@ -136,6 +138,23 @@ export default function ProductDetails({
     "Main Artist": true,
     "Songwriters":false,
   })
+  const { setShoppingCart } = useShoppingCart();
+
+  const addingToCart = (vinyl:Vinyl) => {
+      setShoppingCart((prevCart) => {
+        const existingItem = prevCart.find((cartItem) => cartItem.product_id === vinyl.product_id);
+        if (existingItem) {
+          // Update quantity immutably
+          return prevCart.map((cartItem) =>
+            cartItem.product_id === vinyl.product_id
+              ? { ...cartItem, quantity: cartItem.quantity + 1 }
+              : cartItem
+          );
+        }
+        // Add new item with quantity 1
+        return [...prevCart, { ...vinyl, quantity: 1 }];
+      });
+    }
 
 
   const creditsArray:CreditsArrayType[] = [
@@ -212,7 +231,10 @@ export default function ProductDetails({
                 NOTIFY ME
               </div>
               :
-              <div className={styles.addToCart}>
+              <div
+                className={styles.addToCart}
+                onClick={()=>addingToCart(vinyl)}
+              >
                 ADD TO CART
               </div>
             }
