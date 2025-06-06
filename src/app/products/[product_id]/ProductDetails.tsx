@@ -342,7 +342,7 @@ export default function ProductDetails({
                 className={styles.tracklistHeader}
                 onClick={() => handleToggle(setDropdown, 'tracklist')}
                 >
-                <h2>Album tracklist</h2>
+                <h2>Tracklist</h2>
                 <Image
                   src={ArrowIcon}
                   height={20}
@@ -452,7 +452,10 @@ export default function ProductDetails({
                         </Link>
                       </div>
 
-                      <div className={styles.toCart}>
+                      <div
+                        className={styles.toCart}
+                        onClick={()=> addingToCart(obj)}
+                      >
                         ADD TO CART
                       </div>
                     </div>
