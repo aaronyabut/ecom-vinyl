@@ -149,7 +149,17 @@ export default function Cart (
                           {vinyl.vinyl_artist}
                         </div>
                       </div>
-                      <div className={styles.vinylDelete}>
+                      <div
+                        className={styles.vinylDelete}
+                        onClick={()=>
+                          setShoppingCart((prevCart) => {
+                            // console.log("Hi", vinyl.product_id)
+                            const removed = prevCart.filter((cartItem) => cartItem.product_id !== vinyl.product_id)
+                            console.log("Hi", removed)
+                            return removed
+                          })
+                        }
+                      >
                         <Image
                           src={XIcon}
                           width={12}
