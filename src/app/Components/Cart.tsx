@@ -76,7 +76,7 @@ export default function Cart () {
                   <div className={styles.progressWrapper}>
                     <div className={styles.progressBar}>
                       <div className={styles.background}></div>
-                      <div className={styles.progress} style={{width: `${((freeShipping/60)*100).toFixed(2)}%`}}></div>
+                      <div className={styles.progress} style={{width: `${((subTotal/60)*100).toFixed(2)}%`}}></div>
                     </div>
                     <div className={styles.calculation}>
                       Just ${freeShipping} more for FREE shipping.
