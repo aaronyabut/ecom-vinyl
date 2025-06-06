@@ -113,8 +113,25 @@ $accent-color: #00cca7;
 
             // @include border(black);
             .progressBar {
+              height: 10px;
+              width: 100%;
+              position: relative;
               // @include border(green);
-
+              .background {
+                background-color:rgb(237, 237, 237);
+                height: 10px;
+                width: 100%;
+                border-radius: 8px;
+                position: absolute;
+                // @include border(green);
+              }
+              .progress {
+                position: absolute;
+                height: 10px;
+                border-radius: 8px;
+                background-color:$accent-color;
+                // width: 30px;
+              }
             }
             .calculation {
               width: fit-content;

@@ -3,50 +3,30 @@ import styles from './cart.module.scss';
 import XIcon from './../../../public/x-icon.svg';
 import PlusIcon from './../../../public/cart_svg/plus.svg';
 import MinusIcon from './../../../public/cart_svg/minus.svg';
-// import XIcon from './../../../public/x-icon.svg';
 import Image from 'next/image';
-// import { Vinyl } from '../page';
 import { useEffect, useState } from 'react';
 import { useShoppingCart } from '../ClientLayout';
 
-// interface CartProps {
-//   toCart: boolean;
-//   setToCart: React.Dispatch<React.SetStateAction<boolean>>;
-// }
-
-export default function Cart (
-  // {
-  // toCart,
-  // setToCart,
-// } : CartProps
-) {
+export default function Cart () {
   const [shipping, setShipping] = useState<number>(4.99);
   const [freeShipping, setFreeShipping] = useState<number>(60);
   const [subTotal, setSubTotal] = useState<number>(0);
   const {shoppingCart, setShoppingCart, openCart, setOpenCart} = useShoppingCart();
   const [cartCount, setCartCount] = useState<number>(0);
 
-  // let subTotal:number = 0;
 
   useEffect(()=> {
     async function shoppingCartUpdates () {
       try {
         const sumSubtotal = shoppingCart.reduce((sum, vinyl) => Number(sum) + (Number(vinyl.price) * Number(vinyl.quantity)), 0)
         const sumQuantity = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.quantity || 0), 0);
-        setCartCount(sumQuantity);
-        // const removeVinyl = shoppingCart.find((vinyl) => {
-        //   return vinyl.quantity === 0 ? vinyl : null;
-        // })
 
-        // if (removeVinyl) {
-        //   setShoppingCart
-        // }
         const updatedCart = shoppingCart.filter((vinyl) => vinyl.quantity > 0);
         if (updatedCart.length !== shoppingCart.length) {
           setShoppingCart(updatedCart);
         }
 
-        // console.log("removeVinyl", removeVinyl)
+        setCartCount(sumQuantity);
 
         setSubTotal(shoppingCart.length > 0 ? Math.round(sumSubtotal*100)/100 : 0)
 
@@ -94,7 +74,10 @@ export default function Cart (
                 {
                   subTotal < 60 ?
                   <div className={styles.progressWrapper}>
-                    <div className={styles.progressBar}>PROGRESS BAR</div>
+                    <div className={styles.progressBar}>
+                      <div className={styles.background}></div>
+                      <div className={styles.progress} style={{width: `${((freeShipping/60)*100).toFixed(2)}%`}}></div>
+                    </div>
                     <div className={styles.calculation}>
                       Just ${freeShipping} more for FREE shipping.
                     </div>
@@ -123,12 +106,8 @@ export default function Cart (
         <div className={styles.vinylsWrapper}>
           {
             shoppingCart.map((vinyl,i) => {
-              // subTotal += Number(vinyl.price);
               return (
                 <div key={i} className={styles.vinyl}>
-                  {/* <div className={styles.vinylImage}>
-                    Image
-                  </div> */}
                   <Image
                     width={120}
                     height={120}
@@ -163,7 +142,6 @@ export default function Cart (
                           width={12}
                           height={12}
                           alt="check icon"
-                          // className={styles.vinylDelete}
                         />
                       </div>
                     </div>
@@ -223,9 +201,7 @@ export default function Cart (
                         </div>
                       </div>
                       <div className={styles.vinylPrice}>
-                        {/* ${vinyl.quantity*vinyl.price} */}
                         ${(Math.round((vinyl.quantity*vinyl.price)*100)/100).toFixed(2)}
-                        {/* Math.round((vinyl.quantity*vinyl.price)*100)/100 */}
                       </div>
                     </div>
                   </div>
