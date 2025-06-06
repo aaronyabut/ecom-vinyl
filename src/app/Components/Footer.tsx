@@ -116,7 +116,11 @@ export default function Footer () {
           <div className={styles.powered}>
             <div className={styles.name}>
               <span>Cloned by</span>
-              <span>Aaron Yabut</span>
+              <span>
+                <a href='https://www.aaronyabut.com' target="_blank">
+                  Aaron Yabut
+                </a>
+              </span>
             </div>
             <div className={styles.region}>
               <span>Region:</span>

@@ -3,27 +3,8 @@ import styles from './page.module.scss';
 import ProductDetails from './ProductDetails';
 import FAQ from './Components/FAQ';
 import Recommendations from './Components/Recommendations';
+import { Vinyl } from '../../page';
 
-export interface Vinyl {
-  product_id: number;
-  vinyl_img: string;
-  product_href: string;
-  vinyl_title: string;
-  vinyl_artist: string;
-  price: number;
-  old_price: number | null;
-  sale_label: string | null;
-  low_stock_label: string | null;
-  no_stock_label: string | null;
-  genre: string;
-  vinyl_description: string;
-  vinyl_info: string;
-  playlist_name: string;
-  tracklist: string;
-  companies: string;
-  main_artists: string;
-  songwriters: string;
-}
 
 function shuffle(array:Vinyl[]) {
   for (let i = array.length - 1; i > 0; i--) {

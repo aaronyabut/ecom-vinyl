@@ -2,11 +2,12 @@
 
 import { useRef } from 'react';
 import styles from '../page.module.scss';
-import { Vinyl } from '../page';
+import { Vinyl } from '../../../page';
 import Image from 'next/image';
 import Link from 'next/link';
 import WishlistIcon from '../../../../../public/wishlist-heart.svg';
 import ArrowIcon from '../../../../../public/arrow-icon.svg';
+import { useShoppingCart } from '../../../ClientLayout';
 
 const recommendationsHeader = "YOU'LL DIG THESE...";
 
@@ -17,6 +18,23 @@ interface RecommendationsProps {
 export default function Recommendations({ recommendedVinyls }: RecommendationsProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const isScrolling = useRef(false); // Prevent recursive scroll events
+  const { setShoppingCart } = useShoppingCart();
+
+  const addingToCart = (vinyl:Vinyl) => {
+    setShoppingCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.product_id === vinyl.product_id);
+      if (existingItem) {
+        // Update quantity immutably
+        return prevCart.map((cartItem) =>
+          cartItem.product_id === vinyl.product_id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      }
+      // Add new item with quantity 1
+      return [...prevCart, { ...vinyl, quantity: 1 }];
+    });
+  }
 
   // Handle arrow button clicks and scroll
   const scroll = (direction: 'left' | 'right') => {
@@ -85,7 +103,12 @@ export default function Recommendations({ recommendedVinyls }: RecommendationsPr
                 {vinyl.no_stock_label ? (
                   <div className={styles.toCart}>NOTIFY ME</div>
                 ) : (
-                  <div className={styles.toCart}>ADD TO CART</div>
+                  <div
+                    className={styles.toCart}
+                    onClick={()=>addingToCart(vinyl)}
+                  >
+                    ADD TO CART
+                  </div>
                 )}
                 {vinyl.sale_label && (
                   <span className={styles.sale}>{vinyl.sale_label}</span>
