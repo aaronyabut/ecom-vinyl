@@ -327,10 +327,13 @@ $accent-color: #00cca7;
       .shippingProtection {
         display: flex;
         flex-direction: row;
+        align-items: center;
         cursor: pointer;
+        // @include border(red);
         .shippingIcon {
           filter: grayscale(100%);
           transition: filter .25s ease;
+          margin-right: 5px;
           // @include border(red);
         }
         .checked{
@@ -360,13 +363,13 @@ $accent-color: #00cca7;
             bottom: 0px;
             border-radius: 30px;
             background-color: #ffffff;
-            transform: translate(-2px, 3px);
+            transform: translate(-2px, 2px);
             box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 5px;
             z-index: 48;
             transition: transform 0.4s ease;
           }
           .checked {
-            transform: translate(24px, 3px);
+            transform: translate(19px, 2px);
             // @include border(green);
           }
         }

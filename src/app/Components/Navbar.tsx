@@ -11,7 +11,7 @@ import { useShoppingCart } from '../ClientLayout';
 
 
 const navLinks:string[] = [
-  "Collection",
+  "Collections",
   "Vinyl",
   "Gift Cards",
   "CDs",

@@ -283,6 +283,7 @@ export default function ProductDetails({
               alt="wishlist"
               width={20}
               height={20}
+              className={styles.wishlistIcon}
             />
             <div className={styles.wishlistLabel}>
               Add to wishlist
@@ -600,6 +601,9 @@ export default function ProductDetails({
             : null
           }
         </div>
+      </div>
+      <div className={styles.scrollCart}>
+        Add to CART SCROLL
       </div>
     </section>
   );

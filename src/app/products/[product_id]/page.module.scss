@@ -161,6 +161,16 @@ $secondary-font-color: rgb(168, 168, 168);
   // @include border(blue);
 }
 
+.scrollCart {
+  height: 30px;
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  color: black;
+  background-color: whitesmoke;
+  // @include border(blue);
+}
+
 .productImage {
   display: flex;
   flex-direction: row;
@@ -302,9 +312,22 @@ $secondary-font-color: rgb(168, 168, 168);
     display: flex;
     flex-direction: row;
     margin-block: 5px;
+    cursor: pointer;
     // @include border(rgb(81, 220, 57));
+    .wishlistIcon {
+      border-radius: 30px;
+      padding: 4px;
+      width:  26px;
+      height: 26px;
+      // @include border(rgb(81, 220, 57));
+      &:hover{
+        background-color: hsla(169, 98%, 41%, 0.241);
+      }
+
+      // @include border(pink);
+    }
     .wishlistLabel {
-      margin-left: 7px;
+      margin-left: 5px;
       display: flex;
       align-items: center;
       font-size: 18px;
