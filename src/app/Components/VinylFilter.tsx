@@ -110,7 +110,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     toShow: initialTotalCount >= 24 ? true : false,
   })
   const [showReset, setShowReset] = useState<boolean>(false);
-  const { setShoppingCart } = useShoppingCart();
+  const { setShoppingCart, setOpenCart } = useShoppingCart();
 
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
@@ -134,6 +134,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
       // Add new item with quantity 1
       return [...prevCart, { ...vinyl, quantity: 1 }];
     });
+    setTimeout(()=> setOpenCart(true), 750);
   }
 
   const toggleDropdown = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
