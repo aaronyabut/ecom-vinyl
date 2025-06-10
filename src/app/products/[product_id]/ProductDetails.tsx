@@ -6,7 +6,7 @@ import Link from 'next/link';
 import styles from './page.module.scss';
 import WishlistIcon from '../../../../public/wishlist-heart.svg';
 import ShareIcon from '../../../../public/share.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ArrowIcon from '../../../../public/arrow-icon.svg'
 import VerifiedIcon from '../../../../public/product_page_svg/verified.svg'
 import LightningIcon from '../../../../public/product_page_svg/lightning.svg'
@@ -138,7 +138,35 @@ export default function ProductDetails({
     "Main Artist": true,
     "Songwriters":false,
   })
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [lastScrollY, setLastScrollY] = useState<number>(0);
   const { setShoppingCart } = useShoppingCart();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const maxScrollY = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+      ) - window.innerHeight;
+
+      if (currentScrollY > maxScrollY-70) {
+        setIsVisible(false);
+      } else if (currentScrollY < 70) {
+        setIsVisible(false);
+      } else if (currentScrollY > 70) {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+    console.log("lastScrollY: ", lastScrollY)
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
 
   const addingToCart = (vinyl:Vinyl) => {
       setShoppingCart((prevCart) => {
@@ -602,8 +630,39 @@ export default function ProductDetails({
           }
         </div>
       </div>
-      <div className={styles.scrollCart}>
-        Add to CART SCROLL
+      <div className={`${styles.scrollCart} ${isVisible ? styles.visible : styles.hidden}`}>
+        <div className={styles.vinylDetails}>
+          <Image
+            src={vinyl.vinyl_img}
+            alt={vinyl.vinyl_title}
+            width={66}
+            height={66}
+            priority
+            className={styles.image}
+          />
+          <div className={styles.title}>{vinyl.vinyl_artist} - {vinyl.vinyl_title}</div>
+        </div>
+        <div className={styles.pricingWrapper}>
+          <div className={styles.pricing}>
+            {vinyl.old_price&&
+              <div className={styles.oldPrice}>
+                {vinyl.price && `$${vinyl.old_price}`}
+              </div>
+            }
+            <div className={styles.price}>${vinyl.price}</div>
+            {vinyl.old_price &&
+              <div className={styles.salePrice}>
+                {vinyl.price && Math.round((vinyl.price/vinyl.old_price)*10) + "% OFF"}
+              </div>
+            }
+          </div>
+          <div
+            className={styles.cart}
+            onClick={()=>addingToCart(vinyl)}
+          >
+            ADD TO CART
+          </div>
+        </div>
       </div>
     </section>
   );

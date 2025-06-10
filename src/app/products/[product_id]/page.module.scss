@@ -162,13 +162,105 @@ $secondary-font-color: rgb(168, 168, 168);
 }
 
 .scrollCart {
-  height: 30px;
+  display: flex;
+  height: 96px;
+  padding: 15px 80px;
   width: 100%;
   position: fixed;
   bottom: 0px;
-  color: black;
-  background-color: whitesmoke;
+  color: white;
+  background-color: rgba(37, 37, 37, 0.6);
+  backdrop-filter: blur(50px);
+  z-index: 51;
+  transition: transform 0.2s ease-in;
+  align-items: center;
+  justify-content: space-between;
+
   // @include border(blue);
+
+  &.visible {
+    transform: translateY(0);
+  }
+
+  &.hidden {
+    transform: translateY(200%);
+  }
+
+  .vinylDetails {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .image {
+      margin-right: 16px;
+      // @include border(green);
+    }
+    .title {
+      font-size: 16px;
+      font-weight: 700;
+      width: 300px;
+      // @include border(green);
+    }
+    // @include border(red);
+  }
+  .pricingWrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .pricing {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-right: 16px;
+      .oldPrice {
+        font-family: 'EuroStyle', sans-serif;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        text-decoration: line-through;
+        margin-right: 10px;
+        // @include border(green)
+      }
+      .price {
+        font-family: 'Eurostile Extended', sans-serif;
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+        font-size: 16px;
+        // @include border(green)
+      }
+      .salePrice {
+        display: flex;
+        align-items: center;
+        font-family: Geist, "Geist Fallback";
+        background-color: #b1443c;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 4px 8px;
+        height: fit-content;
+        @include border(#b1443c);
+
+        // @include border(green)
+      }
+    }
+
+    .cart {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      font-family: 'Eurostile Extended', sans-serif;
+      font-weight: 700;
+      background-color: $accent-color;
+      color: #000000;
+      cursor: pointer;
+      // @include border(rgb(33, 33, 33))
+    }
+
+
+    // @include border(red);
+  }
+
 }
 
 .productImage {
