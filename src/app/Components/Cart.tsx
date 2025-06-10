@@ -13,6 +13,7 @@ export default function Cart () {
   const [subTotal, setSubTotal] = useState<number>(0);
   const {shoppingCart, setShoppingCart, openCart, setOpenCart} = useShoppingCart();
   const [cartCount, setCartCount] = useState<number>(0);
+  const [shippingProtection, setShippingProtection] = useState<boolean>(true);
 
 
   useEffect(()=> {
@@ -266,12 +267,18 @@ export default function Cart () {
                 height={30}
                 width={30}
                 alt='shipping icon'
+                className={`${styles.shippingIcon} ${!shippingProtection && styles.checked}`}
               />
               <div className={styles.details}>
                 <div className={styles.header}>Shipping Protection $4.99</div>
-                <div className={styles.info}>Select to protect your order from damage, loss or theft during transit.</div>
+                <div className={styles.info}>{shippingProtection ? "Select to protect your order from damage, loss or theft during transit." : "Your order is now protected against damage, loss or theft during transit."}</div>
               </div>
-              <div>Toggle</div>
+              <div
+                onClick={()=>setShippingProtection((prev:boolean) => !prev)}
+                className={`${styles.toggleWrapper} ${shippingProtection ? styles.uncheckedToggle : styles.checkedToggle}`}
+              >
+                <span className={`${styles.slider} ${!shippingProtection && styles.checked}`}></span>
+              </div>
             </div>
           }
           <div className={`${styles.checkout} ${shoppingCart.length && styles.active}`}>Proceed to Checkout</div>

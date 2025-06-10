@@ -327,6 +327,49 @@ $accent-color: #00cca7;
       .shippingProtection {
         display: flex;
         flex-direction: row;
+        cursor: pointer;
+        .shippingIcon {
+          filter: grayscale(100%);
+          transition: filter .25s ease;
+          // @include border(red);
+        }
+        .checked{
+          filter: grayscale(0%);
+          transition: filter .25s ease;
+          // @include border(green);
+        }
+        .uncheckedToggle {
+          // filter: grayscale(100%);
+          background-color: rgb(128, 128, 128);
+          transition: background-color .25s ease;
+        }
+        .checkedToggle {
+          background-color: rgb(104, 211, 145);
+          transition: background-color .25s ease;
+        }
+        .toggleWrapper {
+          width: 40px;
+          height: 15px;
+          position: relative;
+          border-radius: 7.5px;
+          // @include border(rgb(62, 189, 170));
+          .slider {
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            bottom: 0px;
+            border-radius: 30px;
+            background-color: #ffffff;
+            transform: translate(-2px, 3px);
+            box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 5px;
+            z-index: 48;
+            transition: transform 0.4s ease;
+          }
+          .checked {
+            transform: translate(24px, 3px);
+            // @include border(green);
+          }
+        }
 
 
         // @include border(blue);
