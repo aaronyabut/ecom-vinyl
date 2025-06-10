@@ -140,7 +140,7 @@ export default function ProductDetails({
   })
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
-  const { setShoppingCart } = useShoppingCart();
+  const { setShoppingCart, setOpenCart } = useShoppingCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -182,6 +182,7 @@ export default function ProductDetails({
         // Add new item with quantity 1
         return [...prevCart, { ...vinyl, quantity: 1 }];
       });
+      setTimeout(()=> setOpenCart(true), 750);
     }
 
 
