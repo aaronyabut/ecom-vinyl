@@ -1,0 +1,196 @@
+$accent-color: #02cda8;
+
+@mixin border($color) {
+  border-style: solid;
+  border-width: .15rem;
+  border-color: $color;
+}
+
+.notifyMeContainer {
+  display: flex;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 55;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &.showModal {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &.hideModal {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  // @include border(red);
+  .bg {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.561);
+    // background-color: rgba(198, 38, 38, 0.822);
+    transition: opacity 0.2s ease;
+    // transition: opacity 2s ease;
+    opacity: 0;
+    &.visible {
+      opacity: 1; // Fade in when container is shown
+      // background-color: rgba(38, 198, 43, 0.822);
+    }
+  }
+
+  .modal {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 567px;
+    height: 505px;
+    background-color: rgb(37, 37, 37);
+    padding: 30px;
+    row-gap: 20px;
+    transition: transform 0.5s ease, opacity 0.3s ease;
+    transform: translateY(-20%);
+    opacity: 0; // Start hidden
+    &.visible {
+      transform: translateY(0); // Slide to original position
+      opacity: 1; // Fade in
+    }
+    // @include border(yellow);
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Eurostile Extended', sans-serif;
+      width: 100%;
+      height: 162px;
+      background-image: url(https://cdn.shopify.com/extensions/234b30e0-28a0-4c77-887d-dd83798169f6/vinyl-app-39/assets/subscriber-form-image-1.png);
+      background-origin: padding-box;
+      background-position-x: 50%;
+      background-position-y: 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: scroll;
+      background-clip: border-box;
+      background-color: rgba(0, 0, 0, 0.6);
+      margin-bottom: 10px;
+      position: relative;
+      row-gap: 12px;
+      // @include border(blue);
+
+      .close {
+        position: absolute;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        right: 0%;
+        top: 0%;
+        transform: translate(50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #9d9d9d;
+        z-index: 2;
+        cursor: pointer;
+        .icon {
+          filter: invert(40%);
+          // @include border(blue);
+        }
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #00000099;
+        z-index:1;
+        // @include border(rgb(73, 206, 88));
+      }
+
+      .mainTitle {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        width: fit-content;
+        z-index:2;
+
+        // @include border(hotpink);
+
+      }
+      .secondaryTitle {
+        font-size: 22px;
+        margin-bottom: 10px;
+        z-index:2;
+        width: fit-content;
+        // @include border(hotpink);
+
+      }
+    }
+    .description {
+      color: rgb(212, 212, 212);
+      font-size: 16px;
+      // @include border(blue);
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      row-gap: 20px;
+      // @include border(blue);
+
+      .name {
+        padding: 10px 4px 10px 12px;
+        align-items: center;
+        border: none;
+        background-color: #2E2E2E;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 140%;
+        @include border(#2E2E2E);
+        // @include border(hotpink);
+        &:focus {
+          outline: none;
+          @include border($accent-color);
+        }
+      }
+      .email {
+        padding: 10px 4px 10px 12px;
+        align-items: center;
+        border: none;
+        background-color: #2E2E2E;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 140%;
+        @include border(#2E2E2E);
+        // @include border(hotpink);
+        &:focus {
+          outline: none;
+          @include border($accent-color);
+        }
+      }
+      .notifyButton {
+        width: fit-content;
+        font-family: 'Eurostile Extended', sans-serif;
+        cursor: pointer;
+        background-color: $accent-color;
+        padding: 10px 20px;
+        color: black;
+        font-size: 16px;
+
+        // @include border(hotpink);
+      }
+    }
+  }
+}
