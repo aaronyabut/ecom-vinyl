@@ -147,9 +147,6 @@ export default function Navbar () {
           </div>
         </div>
       </div>
-      {/* <div className={`${toCart ? styles.showCart : styles.hideCart}`}> */}
-      {/* <Cart toCart={toCart} setToCart={setToCart}/> */}
-      {/* </div> */}
     </div>
   )
 }

@@ -355,6 +355,7 @@ $secondary-font-color: rgb(168, 168, 168);
       margin-top: 10px;
       background-color: $bgColor;
       cursor: pointer;
+      transition: background-color .2s ease;
 
       // @include border(red);
 
@@ -565,7 +566,6 @@ $secondary-font-color: rgb(168, 168, 168);
         border-bottom: solid;
         border-bottom-color: rgba(56, 56, 56);
         border-width: .15rem;
-        // background-color: #00cca7;
       }
       .vinyl {
         display: flex;
@@ -573,14 +573,9 @@ $secondary-font-color: rgb(168, 168, 168);
         justify-content: space-between;
         padding: 12px;
         background-color: rgb(32, 32, 32);
-        border-left: solid;
-        border-right: solid;
-        border-top: solid;
-        border-left: solid;
+        border: solid;
         border-width: .15rem;
-        border-left-color: rgb(56, 56, 56);
-        border-right-color: rgb(56, 56, 56);
-        border-top-color: rgb(56, 56, 56);
+        border-color: rgb(56, 56, 56);
         border-bottom-color: rgba(56, 56, 56, 0);
         align-items: center;
 
@@ -602,18 +597,19 @@ $secondary-font-color: rgb(168, 168, 168);
             // @include border(rgb(0, 58, 128));
           }
           .titleLink {
-            width: 100%;
+            width: fit-content;
+            cursor: pointer;
             // @include border(rgb(65, 130, 209));
           }
           .titleWrapper {
             display: flex;
             flex-direction: column;
-            width: 100%;
+            width: fit-content;
             row-gap: 10px;
+            // @include border(rgb(9, 128, 0));
             // @include border(rgb(65, 130, 209));
 
             .songTitle {
-              cursor: pointer;
               font-size: 18px;
               width: fit-content;
               // @include border(rgb(117, 128, 0));
@@ -625,7 +621,6 @@ $secondary-font-color: rgb(168, 168, 168);
               flex-direction: row;
               column-gap: 10px;
               font-size: 16px;
-              cursor: pointer;
               width: fit-content;
               // @include border(rgb(245, 255, 131));
 

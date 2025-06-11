@@ -6,6 +6,7 @@ import Footer from './Components/Footer';
 import { Vinyl } from './page'; // Adjust path as needed
 import Cart from './Components/Cart';
 import styles from './page.module.scss'
+import NotifyMe from './Components/NotifyMe';
 
 // Define the context type
 interface CartContextType {
@@ -13,6 +14,8 @@ interface CartContextType {
   setShoppingCart: React.Dispatch<React.SetStateAction<Vinyl[]>>;
   openCart: boolean;
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
+  toNotify: boolean;
+  setToNotify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // Create the context
@@ -34,14 +37,16 @@ export default function ClientLayout({
 }) {
   const [shoppingCart, setShoppingCart] = useState<Vinyl[]>([]);
   const [openCart, setOpenCart] = useState<boolean>(false);
+  const [toNotify, setToNotify] = useState<boolean>(false);
 
   return (
     <div className={`${openCart && styles.noScroll}`}>
-      <CartContext.Provider value={{ shoppingCart, setShoppingCart, openCart, setOpenCart }}>
+      <CartContext.Provider value={{ shoppingCart, setShoppingCart, openCart, setOpenCart, toNotify, setToNotify }}>
         <Navbar />
         {children}
         <Footer />
         <Cart />
+        <NotifyMe />
       </CartContext.Provider>
     </div>
   );

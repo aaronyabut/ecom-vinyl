@@ -6,8 +6,6 @@ $accent-color: #00cca7;
   border-color: $color;
 }
 
-
-
 .cartContainer {
   position: fixed;
   top: 0;
@@ -28,7 +26,7 @@ $accent-color: #00cca7;
   }
 
   .bg {
-    background-color: rgba(0, 0, 0, 0.561); // Red-tinted background
+    background-color: rgba(0, 0, 0, 0.561);
     height: 100vh;
     width: 100vw;
     transition: opacity 0.3s ease; // Fade effect

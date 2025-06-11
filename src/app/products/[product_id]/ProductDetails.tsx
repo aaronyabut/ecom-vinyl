@@ -140,7 +140,8 @@ export default function ProductDetails({
   })
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
-  const { setShoppingCart, setOpenCart } = useShoppingCart();
+
+  const { setShoppingCart, setOpenCart, setToNotify } = useShoppingCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -185,6 +186,11 @@ export default function ProductDetails({
       setTimeout(()=> setOpenCart(true), 750);
     }
 
+  const notifyMe = () => {
+    console.log("notify me");
+    setToNotify((prev)=>!prev);
+  }
+
 
   const creditsArray:CreditsArrayType[] = [
     {
@@ -216,14 +222,8 @@ export default function ProductDetails({
       ...prev,
       [key]: !prev[key],
     }));
-    // console.log("tracklist", typeof tracklist)
-    // console.log("Toggled:", key);
-    // console.log("VALUE:", dropdown.tracklist);
   };
 
-  // console.log("companies",companies)
-  // console.log("artists",artists)
-  // console.log("songwriters",songwriters)
 
   return (
     <section className={styles.mainSection}>
@@ -256,7 +256,10 @@ export default function ProductDetails({
           <div className={styles.CTAContainer}>
             {
               vinyl.no_stock_label ?
-              <div className={styles.notifyMe}>
+              <div
+                className={styles.notifyMe}
+                onClick={()=>notifyMe()}
+              >
                 NOTIFY ME
               </div>
               :
@@ -665,6 +668,8 @@ export default function ProductDetails({
           </div>
         </div>
       </div>
+      {/* {toNotify ? <NotifyMe /> : null} */}
+      {/* <NotifyMe /> */}
     </section>
   );
 }
