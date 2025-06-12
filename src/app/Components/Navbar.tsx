@@ -14,6 +14,7 @@ const navLinks:string[] = [
   "Collections",
   "Vinyl",
   "Gift Cards",
+  "Win",
   "CDs",
 ]
 
@@ -81,8 +82,10 @@ export default function Navbar () {
           <div className={styles.pages}>
             {
               navLinks.map((page, i) => (
-                <div key={i} className={styles.page}>
-                  {page.toUpperCase()}
+                <div key={i} className={styles.pageWrapper}>
+                  <div className={styles.page}>
+                    {page.toUpperCase()}
+                  </div>
                   {page === "Vinyl" &&
                     <span>
                       <Image
@@ -91,9 +94,12 @@ export default function Navbar () {
                         height={16}
                         alt="Arrow icon"
                         className={styles.icon}
-                      />
+                        />
                     </span>
                   }
+                {page === "Win" &&
+                  <div className={styles.pulse}></div>
+                }
                 </div>
               ))
             }
