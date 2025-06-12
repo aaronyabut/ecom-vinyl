@@ -110,7 +110,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     toShow: initialTotalCount >= 24 ? true : false,
   })
   const [showReset, setShowReset] = useState<boolean>(false);
-  const { setShoppingCart, setOpenCart } = useShoppingCart();
+  const { setShoppingCart, setOpenCart, setToNotify } = useShoppingCart();
 
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 
@@ -562,7 +562,12 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
                       <div className={styles.btnContainer} />
                     </Link>
                     {vinyl.no_stock_label ? (
-                      <div className={styles.toCart}>NOTIFY ME</div>
+                      <div
+                        onClick={()=>setToNotify(true)}
+                        className={styles.toCart}
+                      >
+                        NOTIFY ME
+                      </div>
                     ) : (
                       <div
                         className={styles.toCart}

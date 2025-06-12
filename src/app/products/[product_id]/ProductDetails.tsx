@@ -186,12 +186,6 @@ export default function ProductDetails({
       setTimeout(()=> setOpenCart(true), 750);
     }
 
-  const notifyMe = () => {
-    console.log("notify me");
-    setToNotify((prev)=>!prev);
-  }
-
-
   const creditsArray:CreditsArrayType[] = [
     {
       label: "Main Artist",
@@ -258,7 +252,7 @@ export default function ProductDetails({
               vinyl.no_stock_label ?
               <div
                 className={styles.notifyMe}
-                onClick={()=>notifyMe()}
+                onClick={()=>setToNotify(true)}
               >
                 NOTIFY ME
               </div>
