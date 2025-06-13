@@ -8,7 +8,7 @@ import ArrowIcon from '../../../public/arrow-icon.svg'
 import DualRangeSlider from '../utils/DualRangeSlider';
 import Artists from '../filters/Artists';
 import Link from 'next/link';
-import { Vinyl } from '../page';
+import { Vinyl } from '../(default)/page';
 import { useShoppingCart } from '../ClientLayout';
 
 

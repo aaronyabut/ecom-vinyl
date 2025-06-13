@@ -1,7 +1,7 @@
 import axios from 'axios';
-import styles from './page.module.scss';
-import VinylFilter from './Components/VinylFilter';
-import BenefitsBanner from './Components/BenefitBanner';
+import styles from '../page.module.scss';
+import VinylFilter from '../Components/VinylFilter';
+import BenefitsBanner from '../Components/BenefitBanner';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

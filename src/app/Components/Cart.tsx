@@ -1,8 +1,8 @@
 'use client';
 import styles from './cart.module.scss';
-import XIcon from './../../../public/x-icon.svg';
-import PlusIcon from './../../../public/cart_svg/plus.svg';
-import MinusIcon from './../../../public/cart_svg/minus.svg';
+import XIcon from '@public/x-icon.svg';
+import PlusIcon from '@public/cart_svg/plus.svg';
+import MinusIcon from '@public/cart_svg/minus.svg';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useShoppingCart } from '../ClientLayout';

@@ -4,15 +4,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './page.module.scss';
-import WishlistIcon from '../../../../public/wishlist-heart.svg';
-import ShareIcon from '../../../../public/share.svg';
+import WishlistIcon from '@public/wishlist-heart.svg';
+import ShareIcon from '@public/share.svg';
 import { useState, useEffect } from 'react';
-import ArrowIcon from '../../../../public/arrow-icon.svg'
-import VerifiedIcon from '../../../../public/product_page_svg/verified.svg'
-import LightningIcon from '../../../../public/product_page_svg/lightning.svg'
-import SmileIcon from '../../../../public/product_page_svg/smile.svg'
+import ArrowIcon from '@public/arrow-icon.svg'
+import VerifiedIcon from '@public/product_page_svg/verified.svg'
+import LightningIcon from '@public/product_page_svg/lightning.svg'
+import SmileIcon from '@public/product_page_svg/smile.svg'
 import { Vinyl } from '../../page'
-import { useShoppingCart } from '../../ClientLayout';
+import { useShoppingCart } from '@/app/ClientLayout';
 
 
 // interface Vinyl {

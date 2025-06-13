@@ -3,7 +3,7 @@
 import { createContext, useContext, useState } from 'react';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
-import { Vinyl } from './page'; // Adjust path as needed
+import { Vinyl } from './(default)/page'; // Adjust path as needed
 import Cart from './Components/Cart';
 import styles from './page.module.scss'
 import NotifyMe from './Components/NotifyMe';

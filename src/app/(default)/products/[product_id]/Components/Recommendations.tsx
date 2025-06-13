@@ -2,12 +2,12 @@
 
 import { useRef } from 'react';
 import styles from '../page.module.scss';
-import { Vinyl } from '../../../page';
+import { Vinyl } from '@/app/(default)/page';
 import Image from 'next/image';
 import Link from 'next/link';
-import WishlistIcon from '../../../../../public/wishlist-heart.svg';
-import ArrowIcon from '../../../../../public/arrow-icon.svg';
-import { useShoppingCart } from '../../../ClientLayout';
+import WishlistIcon from '@public/wishlist-heart.svg';
+import ArrowIcon from '@public/arrow-icon.svg';
+import { useShoppingCart } from '@/app/ClientLayout';
 
 const recommendationsHeader = "YOU'LL DIG THESE...";
 

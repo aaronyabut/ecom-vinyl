@@ -1,7 +1,7 @@
 'use client';
 
 import styles from '../page.module.scss';
-import ArrowIcon from '../../../../../public/arrow-icon.svg';
+import ArrowIcon from '@public/arrow-icon.svg';
 import Image from 'next/image';
 import { useState } from 'react';
 
