@@ -4,7 +4,7 @@ import styles from './page.module.scss'
 export default function Checkout () {
   return (
     <div className={styles.checkoutContainer}>
-      <div className={styles.headerContainer}>
+      <div className={styles.navContainer}>
         <div className={styles.header}>
           <div className={styles.logo}>
             <Image
@@ -38,17 +38,36 @@ export default function Checkout () {
                   Or Pay With Credit Card Below
                 </div>
               </div>
-              <div>
-                <div>
-                  <div>Contact</div>
-                  <div>Log in</div>
+              <div className={styles.contactContainer}>
+                <div className={styles.headerContainer}>
+                  <h2 className={styles.header}>Contact</h2>
+                  <div className={styles.login}>Log in</div>
                 </div>
-                <div>
-                  <div>Email</div>
+                <div className={styles.email}>
+                  <div className={styles.inputContainer}>
+                    <input className={styles.inputText} type='text' placeholder="Email"/>
+                  </div>
                 </div>
-                <div>
-                  <div>Checkbox</div>
-                  <div>Subscribe to receive exclusive discounts & more</div>
+                <div className={styles.marketing}>
+                  <div className={styles.checkboxInput}>
+                    <input type="checkbox" id="checkbox" />
+                    <label htmlFor="checkbox" className={styles.icon}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 14 14"
+                        focusable="false"
+                        aria-hidden="true"
+                        className={styles.svg}
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m1.5 7.097 3.596 3.602c.104.105.156.157.216.175a.25.25 0 0 0 .16-.004c.059-.022.108-.077.206-.188L12.5 3"
+                        ></path>
+                      </svg>
+                    </label>
+                  </div>
+                  <div className={styles.subscribe}>Subscribe to receive exclusive discounts & more</div>
                 </div>
               </div>
               <div></div>
