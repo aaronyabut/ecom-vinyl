@@ -15,18 +15,49 @@ export default function Checkout () {
             />
           </div>
           <div className={styles.icon}>
-            {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}>
               <path d="m2.007 10.156.387-4.983a1 1 0 0 1 .997-.923h7.218a1 1 0 0 1 .997.923l.387 4.983c.11 1.403-1.16 2.594-2.764 2.594H4.771c-1.605 0-2.873-1.19-2.764-2.594"></path>
               <path d="M5 3.5c0-1.243.895-2.25 2-2.25S9 2.257 9 3.5V5c0 1.243-.895 2.25-2 2.25S5 6.243 5 5z"></path>
-            </svg> */}
+            </svg>
           </div>
         </div>
       </div>
       <div className={styles.bodyContainer}>
-        <div className={styles.body}>
-          <div className={styles.formContainer}>formContainer</div>
-          <div className={styles.items}>items</div>
-        </div>
+        {/* <div className={styles.body}> */}
+          <div className={styles.formContainer}>
+            <div className={styles.forms}>
+              <div className={styles.expressHeader}>Express checkout</div>
+              <div className={styles.expressPayments}>
+                <div>SHOP</div>
+                <div>PAYPAL</div>
+                <div>G PAY</div>
+                <div>VENMO</div>
+              </div>
+              <div className={styles.cardPaymentHeader}>
+                <div className={styles.header}>
+                  Or Pay With Credit Card Below
+                </div>
+              </div>
+              <div>
+                <div>
+                  <div>Contact</div>
+                  <div>Log in</div>
+                </div>
+                <div>
+                  <div>Email</div>
+                </div>
+                <div>
+                  <div>Checkbox</div>
+                  <div>Subscribe to receive exclusive discounts & more</div>
+                </div>
+              </div>
+              <div></div>
+            </div>
+          </div>
+          <div className={styles.itemsContainer}>
+            <div className={styles.items}>asd</div>
+          </div>
+        {/* </div> */}
       </div>
     </div>
   )
