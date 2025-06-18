@@ -3,6 +3,11 @@
   border-width: .15rem;
   border-color: $color;
 }
+@mixin flexRow ($justify-content) {
+  display: flex;
+  flex-direction: row;
+  justify-content: $justify-content;
+}
 
 .checkoutContainer {
   display: flex;
@@ -22,9 +27,9 @@
       width: 100%;
       max-width:1180px;
       padding: 21px 38px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      @include flexRow(space-between);
+      // justify-content: space-between;
+      // justify-content: ;
       // @include border(green);
       .logo {
         cursor: pointer;
@@ -71,9 +76,8 @@
             // @include border(MediumBlue);
           }
           .expressPayments {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            @include flexRow(space-between);
+            // justify-content: space-between;
             width: 100%;
             padding-top: 17px;
             // @include border(MediumBlue);
@@ -109,9 +113,8 @@
         row-gap: 14px;
         // @include border(HotPink);
         .headerContainer {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
+          @include flexRow(space-between);
+          // justify-content: space-between;
           // @include border(MediumPurple);
           .header {
             padding: 0px;
@@ -152,8 +155,7 @@
           }
         }
         .marketing {
-          display: flex;
-          flex-direction: row;
+          @include flexRow(normal);
           align-items: center;
           // @include border(MediumPurple);
           .checkboxInput {
@@ -205,18 +207,112 @@
           }
         }
     }
-      .itemsContainer {
-        background-color: #f5f5f5;
-        // @include border(hotpink);
-        .items {
-          max-width: 520px;
+    .deliveryContainer {
+      width: 100%;
+      @include border(red);
+      .deliveryHeader {
+        @include border(MediumPurple);
+      }
+      .country {
+        @include border(MediumPurple);
+      }
+      .nameWrapper {
+        @include flexRow(space-evenly);
+        @include border(MediumPurple);
+        .firstname {
           width: 100%;
-          height: 100%;
-          color: black;
-          padding: 38px;
-          @include border(MediumPurple);
+          @include border(MediumBlue);
+        }
+        .lastname {
+          width: 100%;
+          @include border(MediumBlue);
         }
       }
-    // }
+      .address {
+        @include border(MediumPurple);
+      }
+      .apartment {
+        @include border(MediumPurple);
+      }
+      .region {
+        @include flexRow(space-evenly);
+        @include border(MediumPurple);
+        .city {
+          width: 100%;
+          @include border(MediumBlue);
+        }
+        .state {
+          width: 100%;
+          @include border(MediumBlue);
+        }
+        .zip {
+          width: 100%;
+          @include border(MediumBlue);
+        }
+      }
+      .phone {
+        @include border(MediumPurple);
+      }
+      .alerts {
+        @include flexRow(start);
+        @include border(MediumPurple);
+        .checkbox {
+          @include border(MediumBlue);
+        }
+        .alertMessage {
+          @include border(MediumBlue);
+        }
+      }
+      .shippingHeader {
+        @include border(MediumPurple);
+      }
+      .shippingMessage {
+        @include border(MediumPurple);
+      }
+      .shippingOptions {
+        @include border(MediumPurple);
+        .usps {
+          @include flexRow(normal);
+          @include border(MediumBlue);
+          .radioButton {
+            @include border(Yellow);
+          }
+          .uspsTitle {
+            @include border(Yellow);
+          }
+          .price {
+            @include border(Yellow);
+          }
+        }
+        .expressShipping {
+          @include flexRow(normal);
+          @include border(MediumBlue);
+          .radioButton {
+            @include border(Yellow);
+          }
+          .expressTitle {
+            @include border(Yellow);
+          }
+          .price {
+            @include border(Yellow);
+          }
+        }
+      }
+      .unselectedShipping {
+        @include border(MediumPurple);
+      }
+    }
+    .itemsContainer {
+      background-color: #f5f5f5;
+      // @include border(hotpink);
+      .items {
+        max-width: 520px;
+        width: 100%;
+        height: 100%;
+        color: black;
+        padding: 38px;
+        @include border(MediumPurple);
+      }
+    }
   }
 }

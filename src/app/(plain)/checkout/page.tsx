@@ -25,7 +25,7 @@ export default function Checkout () {
       <div className={styles.bodyContainer}>
         {/* <div className={styles.body}> */}
           <div className={styles.formContainer}>
-            <div className={styles.forms}>
+            <form className={styles.forms}>
               <div className={styles.expressHeader}>Express checkout</div>
               <div className={styles.expressPayments}>
                 <div>SHOP</div>
@@ -60,8 +60,8 @@ export default function Checkout () {
                         className={styles.svg}
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="m1.5 7.097 3.596 3.602c.104.105.156.157.216.175a.25.25 0 0 0 .16-.004c.059-.022.108-.077.206-.188L12.5 3"
                         ></path>
                       </svg>
@@ -70,8 +70,45 @@ export default function Checkout () {
                   <div className={styles.subscribe}>Subscribe to receive exclusive discounts & more</div>
                 </div>
               </div>
-              <div></div>
-            </div>
+              <div className={styles.deliveryContainer}>
+                <div className={styles.deliveryHeader}>Delivery</div>
+                <div className={styles.country}>Country/Region</div>
+                <div className={styles.nameWrapper}>
+                  <div className={styles.firstname}>First name</div>
+                  <div className={styles.lastname}>Last name</div>
+                </div>
+                <div className={styles.address}>Address</div>
+                <div className={styles.apartment}>Apartment, suite, etc. (optional)</div>
+                <div className={styles.region}>
+                  <div className={styles.city}>City</div>
+                  <div className={styles.state}>State</div>
+                  <div className={styles.zip}>ZIP code</div>
+                </div>
+                <div className={styles.phone}>Phone (optional)</div>
+                <div className={styles.alerts}>
+                  <div className={styles.checkbox}>Checkbox</div>
+                  <div className={styles.alertMessage}>Text me with news and offers</div>
+                </div>
+                <div className={styles.shippingHeader}>Shipping method</div>
+                <div className={styles.shippingMessage}>Please double-check your address. You won’t be able to change it later.</div>
+                <div className={styles.shippingOptions}>
+                  <div className={styles.usps}>
+                    <div className={styles.radioButton}>Radio button</div>
+                    <div className={styles.uspsTitle}>USPS Media Mail Parcel</div>
+                    <div className={styles.price}>$5.99</div>
+                  </div>
+                  <div className={styles.expressShipping}>
+                    <div className={styles.radioButton}>Radio button</div>
+                    <div className={styles.expressTitle}>48-Hour Express Delivery</div>
+                    <div className={styles.price}>$25.99</div>
+                  </div>
+                </div>
+                <div className={styles.unselectedShipping}>Enter your shipping address to view available shipping methods.</div>
+              </div>
+              <div >
+                <div>Payment</div>
+              </div>
+            </form>
           </div>
           <div className={styles.itemsContainer}>
             <div className={styles.items}>asd</div>
