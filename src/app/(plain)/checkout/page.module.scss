@@ -8,6 +8,73 @@
   flex-direction: row;
   justify-content: $justify-content;
 }
+@mixin wrongInput {
+  .wrongEntryMessage {
+    margin-top: 10px;
+    color:rgb(234, 71, 118);
+    // @include border(green);
+  }
+}
+@mixin inputText {
+  background-color: rgba(255, 0, 0, 0);
+  width: 100%;
+  font-size: 14px;
+  border-radius: 8px;
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  // @include border(white);
+  // @include border(MediumBlue); // Default border (uncomment if desired)
+
+
+  // input[type="text"] {
+  .inputText {
+    padding: 13px 11px;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    // background-color: rgb(215, 126, 126);
+    border: none;
+    box-shadow: none;
+    outline: none;
+    color: black;
+    transition: padding 0.3s ease, border 0.3s ease;
+    @include border(white);
+    z-index: 47;
+    position: relative;
+    // @include border(rgb(255, 22, 22));
+
+
+    &:focus {
+      @include border(#1773B0);
+    }
+    &.wrongEntry {
+      @include border(rgb(234, 71, 118));
+    }
+  }
+
+  .inputUpdate {
+    padding: 22px 11px 6px;
+    transition: padding 0.3s ease
+    // @include border(rgb(49, 255, 22));
+  }
+  .inputLabel {
+    opacity: 0;
+    transform: translateY(40%);
+    position: absolute;
+    top: 7px;
+    left: 13px;
+    color: rgb(104, 104, 104);
+    // transition: top .2s ease;
+    // background-color: rgb(35, 56, 210);
+    z-index: 45;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .showLabel {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .checkoutContainer {
   display: flex;
@@ -136,23 +203,9 @@
         .email {
           // @include border(MediumPurple);
           .inputContainer {
-            background-color: rgb(255, 255, 255);
-            padding: 13px 11px;
-            border-radius: 8px;
-            width: 100%;
-            font-size: 14px;
-            // @include border(MediumBlue);
-            .inputText {
-              font-size: 14px;
-              width: 100%;
-              background-color: rgba(0, 0, 0, 0);
-              border: none;
-              box-shadow: none;
-              outline: none;
-              color: black;
-              // @include border(green);
-            }
+            @include inputText();
           }
+          @include wrongInput();
         }
         .marketing {
           @include flexRow(normal);
@@ -209,49 +262,63 @@
     }
     .deliveryContainer {
       width: 100%;
+      margin-top: 32px;
+      display: grid;
+      row-gap: 14px;
       @include border(red);
       .deliveryHeader {
-        @include border(MediumPurple);
+        // @include border(MediumPurple);
       }
       .country {
-        @include border(MediumPurple);
+        @include inputText();
+        // @include border(MediumPurple);
       }
       .nameWrapper {
         @include flexRow(space-evenly);
-        @include border(MediumPurple);
+        column-gap: 14px;
+        // @include border(MediumPurple);
         .firstname {
           width: 100%;
-          @include border(MediumBlue);
+          @include inputText();
+          // @include border(MediumBlue);
         }
         .lastname {
           width: 100%;
-          @include border(MediumBlue);
+          @include inputText();
+          // @include border(MediumBlue);
         }
       }
       .address {
-        @include border(MediumPurple);
+        @include inputText();
+        // @include border(MediumPurple);
       }
       .apartment {
-        @include border(MediumPurple);
+        @include inputText();
+        // @include border(MediumPurple);
       }
       .region {
         @include flexRow(space-evenly);
-        @include border(MediumPurple);
+        column-gap: 14px;
+        // @include border(MediumPurple);
         .city {
+          @include inputText();
           width: 100%;
-          @include border(MediumBlue);
+          // @include border(MediumBlue);
         }
         .state {
+          @include inputText();
           width: 100%;
-          @include border(MediumBlue);
+          // @include border(MediumBlue);
         }
         .zip {
+          @include inputText();
           width: 100%;
-          @include border(MediumBlue);
+          // @include border(MediumBlue);
         }
       }
       .phone {
-        @include border(MediumPurple);
+        @include inputText();
+        // @include border(MediumPurple);
       }
       .alerts {
         @include flexRow(start);

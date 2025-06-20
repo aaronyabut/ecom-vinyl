@@ -1,7 +1,48 @@
+'use client'
+
 import Image from 'next/image';
-import styles from './page.module.scss'
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect } from 'react';
+import styles from './page.module.scss';
+
+interface FormData {
+  email: string;
+}
 
 export default function Checkout () {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    clearErrors,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      email: '',
+    },
+  });
+
+  const formValues = watch(); // Watch all fields
+
+  useEffect (() => {
+    const checker = () => {
+      console.log(formValues.email)
+      console.log(errors.email)
+      clearErrors('email');
+      if (formValues.email && errors.email) {
+        clearErrors('email');
+      }
+
+    }
+    checker();
+  }, [formValues.email, errors.email, clearErrors])
+
+
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    // console.log(data);
+    alert(JSON.stringify(data));
+  };
   return (
     <div className={styles.checkoutContainer}>
       <div className={styles.navContainer}>
@@ -25,7 +66,7 @@ export default function Checkout () {
       <div className={styles.bodyContainer}>
         {/* <div className={styles.body}> */}
           <div className={styles.formContainer}>
-            <form className={styles.forms}>
+            <form className={styles.forms} onSubmit={handleSubmit(onSubmit)}>
               <div className={styles.expressHeader}>Express checkout</div>
               <div className={styles.expressPayments}>
                 <div>SHOP</div>
@@ -45,8 +86,25 @@ export default function Checkout () {
                 </div>
                 <div className={styles.email}>
                   <div className={styles.inputContainer}>
-                    <input className={styles.inputText} type='text' placeholder="Email"/>
+                    <label className={`${styles.inputLabel} ${formValues.email ? styles.showLabel : ""}`}>Email</label>
+                    <input className={`${styles.inputText} ${formValues.email !== "" ? styles.inputUpdate : ""} ${errors.email ? styles.wrongEntry : ""}`}
+                      type="text"
+                      placeholder="Email"
+                      {...register('email', {
+                        required: '',
+                        pattern: {
+                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                          message: 'Enter a valid email',
+                        },
+                      })}
+                    />
                   </div>
+                  {errors.email ?
+                  <div className={styles.wrongEntryMessage} >
+                    {errors.email.message}
+                  </div>
+                  : null
+                }
                 </div>
                 <div className={styles.marketing}>
                   <div className={styles.checkboxInput}>
@@ -71,20 +129,47 @@ export default function Checkout () {
                 </div>
               </div>
               <div className={styles.deliveryContainer}>
-                <div className={styles.deliveryHeader}>Delivery</div>
-                <div className={styles.country}>Country/Region</div>
+                <h2 className={styles.deliveryHeader}>Delivery</h2>
+                <div className={styles.country}>
+                <input className={styles.inputText} type='text'/>
+                <label>Country/Region</label>
+                </div>
                 <div className={styles.nameWrapper}>
-                  <div className={styles.firstname}>First name</div>
-                  <div className={styles.lastname}>Last name</div>
+                  <div className={styles.firstname}>
+                    <input className={styles.inputText} type='text'/>
+                    <label>First name</label>
+                  </div>
+                  <div className={styles.lastname}>
+                    <input className={styles.inputText} type='text'/>
+                    <label>Last name</label>
+                  </div>
                 </div>
-                <div className={styles.address}>Address</div>
-                <div className={styles.apartment}>Apartment, suite, etc. (optional)</div>
+                <div className={styles.address}>
+                  <input className={styles.inputText} type='text'/>
+                  <label>Address</label>
+                  </div>
+                <div className={styles.apartment}>
+                  <input className={styles.inputText} type='text'/>
+                  <label>Apartment, suite, etc. (optional)</label>
+                  </div>
                 <div className={styles.region}>
-                  <div className={styles.city}>City</div>
-                  <div className={styles.state}>State</div>
-                  <div className={styles.zip}>ZIP code</div>
+                  <div className={styles.city}>
+                    <input className={styles.inputText} type='text'/>
+                    <label>City</label>
+                    </div>
+                  <div className={styles.state}>
+                    <input className={styles.inputText} type='text'/>
+                    <label>State</label>
+                    </div>
+                  <div className={styles.zip}>
+                    <input className={styles.inputText} type='text'/>
+                    <label>ZIP code</label>
+                    </div>
                 </div>
-                <div className={styles.phone}>Phone (optional)</div>
+                <div className={styles.phone}>
+                  <input className={styles.inputText} type='text'/>
+                  <label>Phone (optional)</label>
+                  </div>
                 <div className={styles.alerts}>
                   <div className={styles.checkbox}>Checkbox</div>
                   <div className={styles.alertMessage}>Text me with news and offers</div>
@@ -108,6 +193,7 @@ export default function Checkout () {
               <div >
                 <div>Payment</div>
               </div>
+              <button type="submit">Submit</button>
             </form>
           </div>
           <div className={styles.itemsContainer}>
