@@ -1,4 +1,3 @@
-// app/(plain)/layout.tsx
 import type { Metadata } from 'next';
 import '../globals.scss';
 import PlainLayout from '../PlainLayout';

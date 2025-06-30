@@ -1,6 +1,5 @@
 'use client';
 
-// import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './page.module.scss';
@@ -13,27 +12,6 @@ import LightningIcon from '@public/product_page_svg/lightning.svg'
 import SmileIcon from '@public/product_page_svg/smile.svg'
 import { Vinyl } from '../../page'
 import { useShoppingCart } from '@/app/ClientLayout';
-
-
-// interface Vinyl {
-//   product_id: number;
-//   vinyl_img: string;
-//   product_href: string;
-//   vinyl_title: string;
-//   vinyl_artist: string;
-//   price: number;
-//   old_price: number | null;
-//   sale_label: string | null;
-//   low_stock_label: string | null;
-//   no_stock_label: string | null;
-//   genre: string;
-//   vinyl_description: string;
-//   vinyl_info: string;
-//   playlist_name: string;
-//   tracklist: string;
-//   companies: string;
-//   main_artists: string;
-// }
 
 interface ProductDetailsProps {
   vinyl: Vinyl,

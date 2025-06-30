@@ -79,12 +79,13 @@
 .checkoutContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  // height: 100vh;
+  height: 100%;
   width: 100vw;
   // align-items: center;
   // justify-content: center;
 
-  // @include border(red);
+  @include border(white);
   .navContainer {
     display: flex;
     justify-content: center;
@@ -118,6 +119,7 @@
   .bodyContainer {
     height: 100%;
     display: grid;
+    overflow-y: auto;
     grid-template-columns: minmax( min-content, calc(50% + calc( calc( 660px - 520px ) / 2 )) ) 1fr;
       .formContainer {
         justify-items: right;
@@ -126,7 +128,7 @@
         .forms {
           max-width: 660px;
           width: 100%;
-          height: 100%;
+          height: auto;
           padding: 38px;
           display: flex;
           flex-direction: column;

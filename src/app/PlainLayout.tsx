@@ -12,7 +12,6 @@ export default function PlainLayout({
   return (
     <div className={`${styles.noScroll}`}>
       {children}
-      PlainLayout
     </div>
   );
 }
