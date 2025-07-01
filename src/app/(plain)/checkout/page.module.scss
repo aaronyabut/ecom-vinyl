@@ -32,18 +32,16 @@
     border-radius: 8px;
     font-size: 14px;
     width: 100%;
+    height: 46px;
     background-color: rgba(0, 0, 0, 0);
-    // background-color: rgb(215, 126, 126);
     border: none;
     box-shadow: none;
     outline: none;
     color: black;
     transition: padding 0.3s ease, border 0.3s ease;
-    @include border(white);
     z-index: 47;
     position: relative;
-    // @include border(rgb(255, 22, 22));
-
+    @include border(white);
 
     &:focus {
       @include border(#1773B0);
@@ -202,6 +200,10 @@
             }
           }
         }
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
         .email {
           // @include border(MediumPurple);
           .inputContainer {
@@ -272,7 +274,10 @@
         // @include border(MediumPurple);
       }
       .country {
-        @include inputText();
+        .inputContainer {
+          @include inputText();
+        }
+        @include wrongInput();
         // @include border(MediumPurple);
       }
       .nameWrapper {
@@ -281,21 +286,33 @@
         // @include border(MediumPurple);
         .firstname {
           width: 100%;
-          @include inputText();
+          .inputContainer {
+            @include inputText();
+          }
+          @include wrongInput();
           // @include border(MediumBlue);
         }
         .lastname {
           width: 100%;
-          @include inputText();
+          .inputContainer {
+            @include inputText();
+          }
+          @include wrongInput();
           // @include border(MediumBlue);
         }
       }
       .address {
-        @include inputText();
+        .inputContainer {
+          @include inputText();
+        }
+        @include wrongInput();
         // @include border(MediumPurple);
       }
       .apartment {
-        @include inputText();
+        .inputContainer {
+          @include inputText();
+        }
+        @include wrongInput();
         // @include border(MediumPurple);
       }
       .region {
@@ -303,23 +320,34 @@
         column-gap: 14px;
         // @include border(MediumPurple);
         .city {
-          @include inputText();
+          .inputContainer {
+            @include inputText();
+          }
+          @include wrongInput();
           width: 100%;
           // @include border(MediumBlue);
         }
         .state {
-          @include inputText();
+          .inputContainer {
+            @include inputText();
+          }
+          @include wrongInput();
           width: 100%;
           // @include border(MediumBlue);
         }
         .zip {
-          @include inputText();
+          .inputContainer {
+            @include inputText();
+          }
+          @include wrongInput();
           width: 100%;
           // @include border(MediumBlue);
         }
       }
       .phone {
-        @include inputText();
+        .inputContainer {
+          @include inputText();
+        }
         // @include border(MediumPurple);
       }
       .alerts {

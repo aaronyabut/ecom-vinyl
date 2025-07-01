@@ -7,6 +7,15 @@ import styles from './page.module.scss';
 
 interface FormData {
   email: string;
+  country: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  apartment: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  phone: string;
 }
 
 export default function Checkout () {
@@ -19,6 +28,15 @@ export default function Checkout () {
   } = useForm<FormData>({
     defaultValues: {
       email: '',
+      country: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      apartment: '',
+      city: '',
+      state: '',
+      zipcode: '',
+      phone: '',
     },
   });
 
@@ -93,7 +111,7 @@ export default function Checkout () {
                     type="text"
                     placeholder="Email"
                     {...register('email', {
-                      required: '',
+                      required: 'Enter email',
                       pattern: {
                         value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                         message: 'Enter a valid email',
@@ -134,45 +152,195 @@ export default function Checkout () {
             <div className={styles.deliveryContainer}>
               <h2 className={styles.deliveryHeader}>Delivery</h2>
               <div className={styles.country}>
-              <input className={styles.inputText} type='text'/>
-              <label>Country/Region</label>
+                <div className={styles.inputContainer}>
+                  <label className={`${styles.inputLabel} ${formValues.country ? styles.showLabel : ""}`}>Country/Region</label>
+                  <input className={`${styles.inputText} ${formValues.country !== "" ? styles.inputUpdate : ""} ${errors.country ? styles.wrongEntry : ""}`}
+                    type='text'
+                    placeholder="Country/Region"
+                        {...register('country', {
+                          required: 'Enter a country',
+                          pattern: {
+                            value: /^[A-Za-z\s-]+(?:\([A-Za-z\s-]+\))?$/,
+                            message: 'Enter a valid country',
+                          },
+                        })}
+                  />
+                </div>
+                {
+                  errors.country ?
+                  <div className={styles.wrongEntryMessage} >
+                    {errors.country.message}
+                  </div>
+                  : null
+                }
               </div>
               <div className={styles.nameWrapper}>
                 <div className={styles.firstname}>
-                  <input className={styles.inputText} type='text'/>
-                  <label>First name</label>
+                  <div className={styles.inputContainer}>
+                    <label className={`${styles.inputLabel} ${formValues.firstName ? styles.showLabel : ""}`}>First name</label>
+                    <input className={`${styles.inputText} ${formValues.firstName !== "" ? styles.inputUpdate : ""} ${errors.firstName ? styles.wrongEntry : ""}`}
+                      type='text'
+                      placeholder="First name"
+                      {...register('firstName', {
+                        required: 'Enter a first name',
+                        pattern: {
+                          value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                          message: 'Enter a valid first name',
+                        },
+                      })}
+                      />
+                  </div>
+                  {
+                    errors.firstName ?
+                    <div className={styles.wrongEntryMessage} >
+                      {errors.firstName.message}
+                    </div>
+                    : null
+                  }
                 </div>
                 <div className={styles.lastname}>
-                  <input className={styles.inputText} type='text'/>
-                  <label>Last name</label>
+                  <div className={styles.inputContainer}>
+                    <label className={`${styles.inputLabel} ${formValues.lastName ? styles.showLabel : ""}`}>Last name</label>
+                    <input className={`${styles.inputText} ${formValues.lastName !== "" ? styles.inputUpdate : ""} ${errors.lastName ? styles.wrongEntry : ""}`}
+                      type='text'
+                      placeholder="Last name"
+                      {...register('lastName', {
+                        required: 'Enter a last name',
+                        pattern: {
+                          value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                          message: 'Enter a last name',
+                        },
+                      })}
+                      />
+                  </div>
+                  {
+                    errors.lastName ?
+                    <div className={styles.wrongEntryMessage} >
+                      {errors.lastName.message}
+                    </div>
+                    : null
+                  }
                 </div>
               </div>
               <div className={styles.address}>
-                <input className={styles.inputText} type='text'/>
-                <label>Address</label>
+                <div className={styles.inputContainer}>
+                  <label className={`${styles.inputLabel} ${formValues.address ? styles.showLabel : ""}`}>Address</label>
+                  <input className={`${styles.inputText} ${formValues.address !== "" ? styles.inputUpdate : ""} ${errors.address ? styles.wrongEntry : ""}`}
+                    type='text'
+                    placeholder="Address"
+                      {...register('address', {
+                        required: 'Enter an address',
+                        pattern: {
+                          value: /^\d+\s+[A-Za-z\s]+(?:[A-Za-z0-9#-.]+)?$/,
+                          message: 'Enter a address',
+                        },
+                      })}
+                  />
                 </div>
+                {
+                  errors.address ?
+                  <div className={styles.wrongEntryMessage} >
+                    {errors.address.message}
+                  </div>
+                  : null
+                }
+              </div>
               <div className={styles.apartment}>
-                <input className={styles.inputText} type='text'/>
-                <label>Apartment, suite, etc. (optional)</label>
+                <div className={styles.inputContainer}>
+                  <label className={`${styles.inputLabel} ${formValues.apartment ? styles.showLabel : ""}`}>Apartment, suite, etc. (optional)</label>
+                  <input className={`${styles.inputText} ${formValues.apartment !== "" ? styles.inputUpdate : ""} ${errors.apartment ? styles.wrongEntry : ""}`}
+                    type='text'
+                    placeholder="Apartment, suite, etc. (optional)"
+                      {...register('apartment')}
+                  />
                 </div>
+              </div>
               <div className={styles.region}>
                 <div className={styles.city}>
-                  <input className={styles.inputText} type='text'/>
-                  <label>City</label>
+                  <div className={styles.inputContainer}>
+                    <label className={`${styles.inputLabel} ${formValues.city ? styles.showLabel : ""}`}>City</label>
+                    <input className={`${styles.inputText} ${formValues.city !== "" ? styles.inputUpdate : ""} ${errors.city ? styles.wrongEntry : ""}`}
+                      type='text'
+                      placeholder="City"
+                      {...register('city', {
+                        required: 'Enter a city',
+                        pattern: {
+                          value: /^[A-Za-z\s-]+$/,
+                          message: 'Enter a valid city',
+                        },
+                      })}
+                    />
                   </div>
+                  {
+                    errors.city ?
+                    <div className={styles.wrongEntryMessage} >
+                      {errors.city.message}
+                    </div>
+                    : null
+                  }
+                </div>
                 <div className={styles.state}>
-                  <input className={styles.inputText} type='text'/>
-                  <label>State</label>
+                  <div className={styles.inputContainer}>
+                    <label className={`${styles.inputLabel} ${formValues.state ? styles.showLabel : ""}`}>State</label>
+                    <input className={`${styles.inputText} ${formValues.state !== "" ? styles.inputUpdate : ""} ${errors.state ? styles.wrongEntry : ""}`}
+                      type='text'
+                      placeholder="State"
+                      {...register('state', {
+                        required: 'Select a state / province',
+                        pattern: {
+                          value: /^[A-Z]{2}$/,
+                          message: 'Enter a valid state',
+                        },
+                      })}
+                    />
                   </div>
+                  {
+                    errors.state ?
+                    <div className={styles.wrongEntryMessage} >
+                      {errors.state.message}
+                    </div>
+                    : null
+                  }
+                </div>
                 <div className={styles.zip}>
-                  <input className={styles.inputText} type='text'/>
-                  <label>ZIP code</label>
+                  <div className={styles.inputContainer}>
+                    <label className={`${styles.inputLabel} ${formValues.zipcode ? styles.showLabel : ""}`}>ZIP code</label>
+                    <input className={`${styles.inputText} ${formValues.zipcode !== "" ? styles.inputUpdate : ""} ${errors.zipcode ? styles.wrongEntry : ""}`}
+                      type='text'
+                      placeholder="ZIP code"
+                      {...register('zipcode', {
+                        required: 'Enter a ZIP / postal code',
+                        pattern: {
+                          value: /^\d{5}(?:-\d{4})?$/,
+                          message: 'Enter a valid zip code',
+                        },
+                      })}
+                    />
                   </div>
+                  {
+                    errors.zipcode ?
+                    <div className={styles.wrongEntryMessage} >
+                      {errors.zipcode.message}
+                    </div>
+                    : null
+                  }
+                </div>
               </div>
               <div className={styles.phone}>
-                <input className={styles.inputText} type='text'/>
-                <label>Phone (optional)</label>
+                <div className={styles.inputContainer}>
+                  <label className={`${styles.inputLabel} ${formValues.phone ? styles.showLabel : ""}`}>Phone (optional)</label>
+                  <input className={`${styles.inputText} ${formValues.phone !== "" ? styles.inputUpdate : ""} ${errors.phone ? styles.wrongEntry : ""}`}
+                    type='text'
+                    placeholder="Phone (optional)"
+                      {...register('phone', {
+                        pattern: {
+                          value: /^\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
+                          message: 'Enter a valid phone number',
+                        },
+                      })}
+                  />
                 </div>
+              </div>
               <div className={styles.alerts}>
                 <div className={styles.checkbox}>Checkbox</div>
                 <div className={styles.alertMessage}>Text me with news and offers</div>
