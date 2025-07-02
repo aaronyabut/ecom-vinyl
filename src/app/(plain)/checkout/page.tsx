@@ -129,8 +129,8 @@ export default function Checkout () {
               </div>
               <div className={styles.marketing}>
                 <div className={styles.checkboxInput}>
-                  <input type="checkbox" id="checkbox" />
-                  <label htmlFor="checkbox" className={styles.icon}>
+                  <input type="checkbox" id="subscribeCheckbox" />
+                  <label htmlFor="subscribeCheckbox" className={styles.icon}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 14 14"
@@ -342,7 +342,25 @@ export default function Checkout () {
                 </div>
               </div>
               <div className={styles.alerts}>
-                <div className={styles.checkbox}>Checkbox</div>
+                {/* <div className={styles.checkbox}>Checkbox</div> */}
+                <div className={styles.checkboxInput}>
+                  <input type="checkbox" id="textCheckbox" />
+                  <label htmlFor="textCheckbox" className={styles.icon}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 14 14"
+                      focusable="false"
+                      aria-hidden="true"
+                      className={styles.svg}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m1.5 7.097 3.596 3.602c.104.105.156.157.216.175a.25.25 0 0 0 .16-.004c.059-.022.108-.077.206-.188L12.5 3"
+                      ></path>
+                    </svg>
+                  </label>
+                </div>
                 <div className={styles.alertMessage}>Text me with news and offers</div>
               </div>
               <div className={styles.shippingHeader}>Shipping method</div>
