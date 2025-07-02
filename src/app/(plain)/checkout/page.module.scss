@@ -271,7 +271,8 @@
       margin-top: 32px;
       display: grid;
       row-gap: 14px;
-      @include border(red);
+      // @include border(red);
+
       .deliveryHeader {
         // @include border(MediumPurple);
       }
@@ -368,42 +369,81 @@
         }
       }
       .shippingHeader {
-        @include border(MediumPurple);
+        // @include border(MediumPurple);
       }
       .shippingMessage {
-        @include border(MediumPurple);
+        // @include border(MediumPurple);
       }
       .shippingOptions {
-        @include border(MediumPurple);
+        background-color: white;
+        color: black;
+        border-radius: 8px;
+        // @include border(rgb(222, 222, 222));
+        // @include border(MediumPurple);
+
         .usps {
           @include flexRow(normal);
-          @include border(MediumBlue);
+          column-gap: 11px;
+          border-radius: 6px 6px 0 0;
+          padding: 14px;
+          @include border(rgb(222, 222, 222));
+          border-width: 1px;
+          border-bottom: 0px;
+
+
           .radioButton {
-            @include border(Yellow);
+            // @include border(Yellow);
           }
           .uspsTitle {
-            @include border(Yellow);
+            width: 100%;
+            // @include border(Yellow);
           }
           .price {
-            @include border(Yellow);
+            font-weight: 600;
+            // @include border(Yellow);
           }
         }
         .expressShipping {
           @include flexRow(normal);
-          @include border(MediumBlue);
+          column-gap: 11px;
+          border-radius: 0 0 6px 6px;
+          padding: 14px;
+          @include border(rgb(222, 222, 222));
+          border-width: 1px;
+          border-top: 0px;
+
+          // @include border(MediumBlue);
+
           .radioButton {
-            @include border(Yellow);
+            // @include border(Yellow);
           }
           .expressTitle {
-            @include border(Yellow);
+            width: 100%;
+            // @include border(Yellow);
           }
           .price {
-            @include border(Yellow);
+            font-weight: 600;
+            // @include border(Yellow);
           }
+        }
+        .chosenShipping {
+          background-color: rgb(242, 247, 255);
+          @include border(rgb(23,115,176));
+          border-width: 1px;
         }
       }
       .unselectedShipping {
-        @include border(MediumPurple);
+        background-color: rgb(34, 34, 34);
+        padding: 17px;
+        border-radius: 8px;
+
+        // @include border(MediumPurple);
+        .message {
+          font-size: 14px;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.66);
+          // @include border(MediumBlue);
+        }
       }
     }
     .itemsContainer {
