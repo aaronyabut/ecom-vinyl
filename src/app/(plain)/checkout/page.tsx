@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
-// import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
 
 interface FormData {
@@ -44,6 +44,25 @@ export default function Checkout () {
 
   const formValues = watch(); // Watch all fields
 
+  const [showShipping, setShowShipping] = useState(false)
+
+  useEffect (() => {
+      const checker = () => {
+
+        const address = !!formValues.address
+        const city = !!formValues.city
+        const state = !!formValues.state
+        const zipcode = !!formValues.zipcode
+
+        if (address && city && state && zipcode) {
+          setShowShipping(true);
+        } else {
+          setShowShipping(false);
+        }
+        console.log("showShipping:",showShipping)
+      }
+      checker();
+    }, [formValues.address,formValues.city,formValues.state,formValues.zipcode,showShipping])
   // useEffect (() => {
   //   const checker = () => {
   //     // console.log("formValues.email: ", formValues.email)
@@ -367,33 +386,36 @@ export default function Checkout () {
               </div>
               <h3 className={styles.shippingHeader}>Shipping method</h3>
               <div className={styles.shippingMessage}>Please double-check your address. You won’t be able to change it later.</div>
-              <div className={styles.shippingOptions}>
-                <div className={`${styles.usps} ${formValues.shippingOption==="usps" && styles.chosenShipping}`}>
-                  <div className={styles.uspsRadioButton}>
-                    <input
-                      type='radio'
-                      value='usps'
-                      {...register("shippingOption")}
-                    />
+              {showShipping ?
+                <div className={styles.shippingOptions}>
+                  <div className={`${styles.usps} ${formValues.shippingOption==="usps" && styles.chosenShipping}`}>
+                    <div className={styles.uspsRadioButton}>
+                      <input
+                        type='radio'
+                        value='usps'
+                        {...register("shippingOption")}
+                      />
+                    </div>
+                    <div className={styles.uspsTitle}>USPS Media Mail Parcel</div>
+                    <div className={styles.price}><strong>$5.99</strong></div>
                   </div>
-                  <div className={styles.uspsTitle}>USPS Media Mail Parcel</div>
-                  <div className={styles.price}><strong>$5.99</strong></div>
-                </div>
-                <div className={`${styles.expressShipping} ${formValues.shippingOption==="express" && styles.chosenShipping}`}>
-                  <div className={styles.shippingRadioButton}>
-                    <input
-                      type='radio'
-                      value='express'
-                      {...register("shippingOption")}
-                    />
+                  <div className={`${styles.expressShipping} ${formValues.shippingOption==="express" && styles.chosenShipping}`}>
+                    <div className={styles.shippingRadioButton}>
+                      <input
+                        type='radio'
+                        value='express'
+                        {...register("shippingOption")}
+                      />
+                    </div>
+                    <div className={styles.expressTitle}>48-Hour Express Delivery</div>
+                    <div className={styles.price}><strong>$25.99</strong></div>
                   </div>
-                  <div className={styles.expressTitle}>48-Hour Express Delivery</div>
-                  <div className={styles.price}><strong>$25.99</strong></div>
                 </div>
-              </div>
-              <div className={styles.unselectedShipping}>
-                <p className={styles.message}>Enter your shipping address to view available shipping methods.</p>
-              </div>
+                :
+                <div className={styles.unselectedShipping}>
+                  <p className={styles.message}>Enter your shipping address to view available shipping methods.</p>
+                </div>
+              }
             </div>
             <div>
               <div>Payment</div>
