@@ -369,22 +369,26 @@ export default function Checkout () {
               <div className={styles.shippingMessage}>Please double-check your address. You won’t be able to change it later.</div>
               <div className={styles.shippingOptions}>
                 <div className={`${styles.usps} ${formValues.shippingOption==="usps" && styles.chosenShipping}`}>
-                  <input
-                    type='radio'
-                    value='usps'
-                    {...register("shippingOption")}
-                  />
+                  <div className={styles.uspsRadioButton}>
+                    <input
+                      type='radio'
+                      value='usps'
+                      {...register("shippingOption")}
+                    />
+                  </div>
                   <div className={styles.uspsTitle}>USPS Media Mail Parcel</div>
-                  <div className={styles.price}>$5.99</div>
+                  <div className={styles.price}><strong>$5.99</strong></div>
                 </div>
                 <div className={`${styles.expressShipping} ${formValues.shippingOption==="express" && styles.chosenShipping}`}>
-                  <input
-                    type='radio'
-                    value='express'
-                    {...register("shippingOption")}
-                  />
+                  <div className={styles.shippingRadioButton}>
+                    <input
+                      type='radio'
+                      value='express'
+                      {...register("shippingOption")}
+                    />
+                  </div>
                   <div className={styles.expressTitle}>48-Hour Express Delivery</div>
-                  <div className={styles.price}>$25.99</div>
+                  <div className={styles.price}><strong>$25.99</strong></div>
                 </div>
               </div>
               <div className={styles.unselectedShipping}>

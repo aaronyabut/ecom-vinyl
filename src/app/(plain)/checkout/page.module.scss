@@ -391,9 +391,21 @@
           border-bottom: 0px;
 
 
-          .radioButton {
-            // @include border(Yellow);
+          .uspsRadioButton {
+            input[type="radio"] {
+              appearance: none;
+              width: 18px;
+              height: 18px;
+              border-radius: 50%;
+              @include border(rgb(222, 222, 222));
+              border-width: 1px;
+              transition: border-width .1s ease;
+              transition-timing-function: cubic-bezier(0.3, 0.5, 0.5, 1);
+
+              // @include border(MediumBlue);
+            }
           }
+
           .uspsTitle {
             width: 100%;
             // @include border(Yellow);
@@ -411,18 +423,34 @@
           @include border(rgb(222, 222, 222));
           border-width: 1px;
           border-top: 0px;
-
           // @include border(MediumBlue);
 
-          .radioButton {
-            // @include border(Yellow);
+          .shippingRadioButton {
+            input[type="radio"] {
+              appearance: none;
+              width: 18px;
+              height: 18px;
+              border-radius: 50%;
+              // border-style: solid;
+              @include border(rgb(222, 222, 222));
+              border-width: 1px;
+              transition: border-width .1s ease-in;
+
+              &:checked {
+                border-color: #1773B0;
+                border-width: 6px;
+              }
+
+
+            }
           }
+
           .expressTitle {
             width: 100%;
             // @include border(Yellow);
           }
           .price {
-            font-weight: 600;
+            font-weight: 400;
             // @include border(Yellow);
           }
         }
@@ -430,6 +458,22 @@
           background-color: rgb(242, 247, 255);
           @include border(rgb(23,115,176));
           border-width: 1px;
+
+          input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            @include border(rgb(23,115,176));
+            border-width: 1px;
+
+            &:checked {
+              border-color: #1773B0;
+              border-width: 6px;
+            }
+
+            // @include border(MediumBlue);
+          }
         }
       }
       .unselectedShipping {
