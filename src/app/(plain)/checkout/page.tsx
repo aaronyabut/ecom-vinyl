@@ -103,7 +103,7 @@ export default function Checkout () {
           </div>
         </div>
       </div>
-    <div className={styles.bodyContainer}>
+      <div className={styles.bodyContainer}>
         <div className={styles.formContainer}>
           <form className={styles.forms}
             onSubmit={handleSubmit(onSubmit)}
@@ -417,8 +417,9 @@ export default function Checkout () {
                 </div>
               }
             </div>
-            <div>
-              <div>Payment</div>
+            <div className={styles.paymentContainer}>
+              <h2 className={styles.header}>Payment</h2>
+              <div>All transaction are secure and encrypted.</div>
             </div>
             <button type="submit">Submit</button>
           </form>
