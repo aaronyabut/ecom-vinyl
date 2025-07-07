@@ -16,6 +16,67 @@
   }
 }
 
+@mixin radioInput {
+  input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    @include border(rgb(222, 222, 222));
+    border-width: 1px;
+    transition: border-width .1s ease;
+
+    &:checked {
+      border-color: #1773B0;
+      border-width: 6px;
+    }
+  }
+}
+
+@mixin radioSelection ($placement) {
+  @include flexRow(normal);
+  column-gap: 11px;
+  padding: 14px;
+  @include border(rgb(222, 222, 222));
+  border-width: 1px;
+
+  @if $placement == top {
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0px;
+  } @else if $placement == topnomiddle {
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0px;
+  } @else if $placement == middle {
+    // border-radius: 0 0 6px 6px ;
+    border-bottom: 0px;
+    // border-top: 0px;
+  } @else if $placement == bottom {
+    border-radius: 0 0 6px 6px ;
+    // border-top: 0px;
+  }
+
+  .radioButton {
+    @include radioInput();
+    // @include border(Yellow);
+  }
+
+  .title {
+    width: 100%;
+    // @include border(Yellow);
+  }
+  .price {
+    font-weight: 600;
+    // @include border(Yellow);
+  }
+}
+
+@mixin chosenRadio {
+  background-color: rgb(242, 247, 255);
+  @include border(rgb(23,115,176));
+  border-width: 1px;
+  @include radioInput();
+}
+
 @mixin checkbox {
   display: flex;
   align-items: center;
@@ -374,106 +435,21 @@
       .shippingMessage {
         // @include border(MediumPurple);
       }
+
       .shippingOptions {
         background-color: white;
         color: black;
         border-radius: 8px;
-        // @include border(rgb(222, 222, 222));
         // @include border(MediumPurple);
 
         .usps {
-          @include flexRow(normal);
-          column-gap: 11px;
-          border-radius: 6px 6px 0 0;
-          padding: 14px;
-          @include border(rgb(222, 222, 222));
-          border-width: 1px;
-          border-bottom: 0px;
-
-
-          .uspsRadioButton {
-            input[type="radio"] {
-              appearance: none;
-              width: 18px;
-              height: 18px;
-              border-radius: 50%;
-              @include border(rgb(222, 222, 222));
-              border-width: 1px;
-              transition: border-width .1s ease;
-              transition-timing-function: cubic-bezier(0.3, 0.5, 0.5, 1);
-
-              // @include border(MediumBlue);
-            }
-          }
-
-          .uspsTitle {
-            width: 100%;
-            // @include border(Yellow);
-          }
-          .price {
-            font-weight: 600;
-            // @include border(Yellow);
-          }
+          @include radioSelection($placement:topnomiddle);
         }
         .expressShipping {
-          @include flexRow(normal);
-          column-gap: 11px;
-          border-radius: 0 0 6px 6px;
-          padding: 14px;
-          @include border(rgb(222, 222, 222));
-          border-width: 1px;
-          border-top: 0px;
-          // @include border(MediumBlue);
-
-          .shippingRadioButton {
-            input[type="radio"] {
-              appearance: none;
-              width: 18px;
-              height: 18px;
-              border-radius: 50%;
-              // border-style: solid;
-              @include border(rgb(222, 222, 222));
-              border-width: 1px;
-              transition: border-width .1s ease-in;
-
-              &:checked {
-                border-color: #1773B0;
-                border-width: 6px;
-              }
-
-
-            }
-          }
-
-          .expressTitle {
-            width: 100%;
-            // @include border(Yellow);
-          }
-          .price {
-            font-weight: 400;
-            // @include border(Yellow);
-          }
+          @include radioSelection($placement:bottom);
         }
         .chosenShipping {
-          background-color: rgb(242, 247, 255);
-          @include border(rgb(23,115,176));
-          border-width: 1px;
-
-          input[type="radio"] {
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            @include border(rgb(23,115,176));
-            border-width: 1px;
-
-            &:checked {
-              border-color: #1773B0;
-              border-width: 6px;
-            }
-
-            // @include border(MediumBlue);
-          }
+          @include chosenRadio();
         }
       }
       .unselectedShipping {
@@ -494,7 +470,42 @@
       width: 100%;
       margin-top: 32px;
       // @include border(red);
-      .header {
+      .headerContainer {
+        row-gap: 5px;
+        display: grid;
+        .header {
+        // @include border(red);
+        }
+        .subHeader {
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.66);
+          // @include border(red);
+        }
+      }
+      .paymentOptionContainer {
+        background-color: white;
+        color: black;
+        border-radius: 8px;
+        // @include border(red);
+        .creditCard {
+          @include radioSelection($placement:top);
+          // @include border(blue);
+        }
+        .paypal {
+          @include radioSelection($placement:middle);
+          // @include border(blue);
+        }
+        .shopPay {
+          @include radioSelection($placement:middle);
+          // @include border(blue);
+        }
+        .afterPay {
+          @include radioSelection($placement:bottom);
+          // @include border(blue);
+        }
+        .chosenPayment {
+          @include chosenRadio();
+        }
 
       }
     }

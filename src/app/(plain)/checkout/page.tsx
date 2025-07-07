@@ -17,6 +17,7 @@ interface FormData {
   zipcode: string;
   phone: string;
   shippingOption: string;
+  paymentOption: string;
 }
 
 export default function Checkout () {
@@ -29,16 +30,17 @@ export default function Checkout () {
   } = useForm<FormData>({
     defaultValues: {
       email: '',
-      country: '',
+      country: 'TEST',
       firstName: '',
       lastName: '',
-      address: '',
+      address: 'TEST',
       apartment: '',
-      city: '',
-      state: '',
-      zipcode: '',
+      city: 'TEST',
+      state: 'TEST',
+      zipcode: 'TEST',
       phone: '',
       shippingOption: 'usps',
+      paymentOption:'',
     },
   });
 
@@ -63,18 +65,6 @@ export default function Checkout () {
       }
       checker();
     }, [formValues.address,formValues.city,formValues.state,formValues.zipcode,showShipping])
-  // useEffect (() => {
-  //   const checker = () => {
-  //     // console.log("formValues.email: ", formValues.email)
-  //     // console.log("errors.email: ", errors.email)
-  //     // clearErrors('email');
-  //     // if (formValues.email && errors.email) {
-  //     //   console.log('Clearing email error:', formValues.email);
-  //     //   clearErrors('email');
-  //     // }
-  //   }
-  //   checker();
-  // }, [formValues.email, errors.email, clearErrors])
 
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -389,25 +379,25 @@ export default function Checkout () {
               {showShipping ?
                 <div className={styles.shippingOptions}>
                   <div className={`${styles.usps} ${formValues.shippingOption==="usps" && styles.chosenShipping}`}>
-                    <div className={styles.uspsRadioButton}>
+                    <div className={styles.radioButton}>
                       <input
                         type='radio'
                         value='usps'
                         {...register("shippingOption")}
                       />
                     </div>
-                    <div className={styles.uspsTitle}>USPS Media Mail Parcel</div>
+                    <div className={styles.title}>USPS Media Mail Parcel</div>
                     <div className={styles.price}><strong>$5.99</strong></div>
                   </div>
                   <div className={`${styles.expressShipping} ${formValues.shippingOption==="express" && styles.chosenShipping}`}>
-                    <div className={styles.shippingRadioButton}>
+                    <div className={styles.radioButton}>
                       <input
                         type='radio'
                         value='express'
                         {...register("shippingOption")}
                       />
                     </div>
-                    <div className={styles.expressTitle}>48-Hour Express Delivery</div>
+                    <div className={styles.title}>48-Hour Express Delivery</div>
                     <div className={styles.price}><strong>$25.99</strong></div>
                   </div>
                 </div>
@@ -418,8 +408,56 @@ export default function Checkout () {
               }
             </div>
             <div className={styles.paymentContainer}>
-              <h2 className={styles.header}>Payment</h2>
-              <div>All transaction are secure and encrypted.</div>
+              <div className={styles.headerContainer}>
+                <h2 className={styles.header}>Payment</h2>
+                <p className={styles.subHeader}>All transaction are secure and encrypted.</p>
+              </div>
+              <div className={styles.paymentOptionContainer}>
+                <div className={`${styles.creditCard} ${formValues.paymentOption==="creditCard" && styles.chosenPayment}`}>
+                  <div className={styles.radioButton}>
+                    <input
+                      type='radio'
+                      value='creditCard'
+                      {...register("paymentOption")}
+                    />
+                  </div>
+                  <div className={styles.title}>Credit Card</div>
+                  <div>logo</div>
+                </div>
+                <div className={`${styles.paypal} ${formValues.paymentOption==="paypal" && styles.chosenPayment}`}>
+                  <div className={styles.radioButton}>
+                    <input
+                      type='radio'
+                      value='paypal'
+                      {...register("paymentOption")}
+                    />
+                  </div>
+                  <div className={styles.title}>PayPal</div>
+                  <div>logo</div>
+                </div>
+                <div className={`${styles.shopPay} ${formValues.paymentOption==="shopPay" && styles.chosenPayment}`}>
+                  <div className={styles.radioButton}>
+                    <input
+                      type='radio'
+                      value='shopPay'
+                      {...register("paymentOption")}
+                    />
+                  </div>
+                  <div className={styles.title}>Shop Pay</div>
+                  <div>logo</div>
+                </div>
+                <div className={`${styles.afterPay} ${formValues.paymentOption==="afterPay" && styles.chosenPayment}`}>
+                  <div className={styles.radioButton}>
+                    <input
+                      type='radio'
+                      value='afterPay'
+                      {...register("paymentOption")}
+                    />
+                  </div>
+                  <div className={styles.title}>After Pay</div>
+                  <div>logo</div>
+                </div>
+              </div>
             </div>
             <button type="submit">Submit</button>
           </form>
