@@ -49,9 +49,10 @@
   } @else if $placement == middle {
     border-bottom: 0px;
     // border-top: 0px;
+  } @else if $placement == middlebottom {
   } @else if $placement == bottom {
     border-radius: 0 0 6px 6px ;
-    // border-top: 0px;
+    border-top: 0px;
   }
 
   .radioButton {
@@ -191,6 +192,7 @@
     transition: max-height cubic-bezier(1, 0.075, 0.82, 0.165) ease;transition: max-height 0.5s cubic-bezier(1, 0.075, 0.82, 0.165);
     max-height: 5000px;
     border-width: 1px;
+    padding: 14px;
   }
 }
 
@@ -512,7 +514,7 @@
           // @include border(blue);
         }
         .shopPay {
-          @include radioSelection($placement:middle);
+          @include radioSelection($placement:middlebottom);
           // @include border(blue);
         }
         .afterPay {
@@ -532,25 +534,41 @@
           border-bottom: 0px;
           background-color: rgba(0, 0, 0, 0.043);
         }
+        @mixin dropdownThirdParty {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          row-gap: 21px;
+          .paymentSVG {
+            height: 5.785714285714286em;
+            color: rgb(112, 112, 112);
+          }
+          .paymentText {
+            width: 350px;
+            font-size: 14px;
+            text-align: center;
+          }
+        }
         .dropdownPaypal {
           @include dropDownLogic();
           // @include border(red);
-          height: 200px;
           @include border(rgb(222, 222, 222));
           border-top: 0px;
           border-bottom: 0px;
           background-color: rgba(0, 0, 0, 0.043);
+          @include dropdownThirdParty();
         }
 
         .dropdownAfterPay {
-          // @include border(rgb(222, 222, 222));
-          @include border(red);
+          @include border(rgb(222, 222, 222));
           border-width: 1px;
           @include dropDownLogic();
           border-top: 0px;
-          height: 200px;
           border-radius: 0 0 6px 6px ;
           background-color: rgba(0, 0, 0, 0.043);
+          // @include border(red);
+          @include dropdownThirdParty();
         }
 
       }
