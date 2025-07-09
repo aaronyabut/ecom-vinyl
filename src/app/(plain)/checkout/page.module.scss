@@ -47,7 +47,6 @@
     border-radius: 6px 6px 0 0;
     border-bottom: 0px;
   } @else if $placement == middle {
-    // border-radius: 0 0 6px 6px ;
     border-bottom: 0px;
     // border-top: 0px;
   } @else if $placement == bottom {
@@ -70,10 +69,14 @@
   }
 }
 
-@mixin chosenRadio {
+@mixin chosenRadio ($dropdown) {
   background-color: rgb(242, 247, 255);
   @include border(rgb(23,115,176));
   border-width: 1px;
+  @if $dropdown {
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 0%;
+  }
   @include radioInput();
 }
 
@@ -175,6 +178,19 @@
   .showLabel {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@mixin dropDownLogic {
+  transition: max-height cubic-bezier(0.075, 0.82, 0.165, 1) ease;transition: max-height 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  max-height: 0px;
+  overflow: hidden;
+  border-width: 0px;
+
+  &.open {
+    transition: max-height cubic-bezier(1, 0.075, 0.82, 0.165) ease;transition: max-height 0.5s cubic-bezier(1, 0.075, 0.82, 0.165);
+    max-height: 5000px;
+    border-width: 1px;
   }
 }
 
@@ -449,7 +465,7 @@
           @include radioSelection($placement:bottom);
         }
         .chosenShipping {
-          @include chosenRadio();
+          @include chosenRadio($dropdown:false);
         }
       }
       .unselectedShipping {
@@ -504,7 +520,37 @@
           // @include border(blue);
         }
         .chosenPayment {
-          @include chosenRadio();
+          @include chosenRadio($dropdown:true);
+        }
+        .dropdownCreditCard {
+          @include dropDownLogic();
+          // @include border(red);
+          height: 200px;
+          @include border(rgb(222, 222, 222));
+          border-width: 1px;
+          border-top: 0px;
+          border-bottom: 0px;
+          background-color: rgba(0, 0, 0, 0.043);
+        }
+        .dropdownPaypal {
+          @include dropDownLogic();
+          // @include border(red);
+          height: 200px;
+          @include border(rgb(222, 222, 222));
+          border-top: 0px;
+          border-bottom: 0px;
+          background-color: rgba(0, 0, 0, 0.043);
+        }
+
+        .dropdownAfterPay {
+          // @include border(rgb(222, 222, 222));
+          @include border(red);
+          border-width: 1px;
+          @include dropDownLogic();
+          border-top: 0px;
+          height: 200px;
+          border-radius: 0 0 6px 6px ;
+          background-color: rgba(0, 0, 0, 0.043);
         }
 
       }

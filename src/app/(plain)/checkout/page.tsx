@@ -49,23 +49,22 @@ export default function Checkout () {
   const [showShipping, setShowShipping] = useState(false)
 
   useEffect (() => {
-      const checker = () => {
+    const checker = () => {
 
-        const address = !!formValues.address
-        const city = !!formValues.city
-        const state = !!formValues.state
-        const zipcode = !!formValues.zipcode
+      const address = !!formValues.address
+      const city = !!formValues.city
+      const state = !!formValues.state
+      const zipcode = !!formValues.zipcode
 
-        if (address && city && state && zipcode) {
-          setShowShipping(true);
-        } else {
-          setShowShipping(false);
-        }
-        console.log("showShipping:",showShipping)
+      if (address && city && state && zipcode) {
+        setShowShipping(true);
+      } else {
+        setShowShipping(false);
       }
-      checker();
-    }, [formValues.address,formValues.city,formValues.state,formValues.zipcode,showShipping])
-
+      console.log("showShipping:",showShipping)
+    }
+    checker();
+  }, [formValues.address,formValues.city,formValues.state,formValues.zipcode,showShipping])
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // console.log(data);
@@ -424,6 +423,7 @@ export default function Checkout () {
                   <div className={styles.title}>Credit Card</div>
                   <div>logo</div>
                 </div>
+                <div className={`${styles.dropdownCreditCard} ${formValues.paymentOption==="creditCard" && styles.open}`}>OPEN Credit Card</div>
                 <div className={`${styles.paypal} ${formValues.paymentOption==="paypal" && styles.chosenPayment}`}>
                   <div className={styles.radioButton}>
                     <input
@@ -435,6 +435,7 @@ export default function Checkout () {
                   <div className={styles.title}>PayPal</div>
                   <div>logo</div>
                 </div>
+                <div className={`${styles.dropdownPaypal} ${formValues.paymentOption==="paypal" && styles.open}`}>OPEN Paypal</div>
                 <div className={`${styles.shopPay} ${formValues.paymentOption==="shopPay" && styles.chosenPayment}`}>
                   <div className={styles.radioButton}>
                     <input
@@ -455,8 +456,10 @@ export default function Checkout () {
                     />
                   </div>
                   <div className={styles.title}>After Pay</div>
+
                   <div>logo</div>
                 </div>
+                <div className={`${styles.dropdownAfterPay} ${formValues.paymentOption==="afterPay" && styles.open}`}>OPEN AfterPay</div>
               </div>
             </div>
             <button type="submit">Submit</button>
