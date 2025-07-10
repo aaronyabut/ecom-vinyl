@@ -48,7 +48,6 @@
     border-bottom: 0px;
   } @else if $placement == middle {
     border-bottom: 0px;
-    // border-top: 0px;
   } @else if $placement == middlebottom {
   } @else if $placement == bottom {
     border-radius: 0 0 6px 6px ;
@@ -100,6 +99,7 @@
     transition: visibility .1s ease;
     cursor: pointer;
     // @include border(rgb(98, 214, 92));
+
     .svg {
       fill: none;
       // @include border (rgb(33, 173, 21));
@@ -192,18 +192,14 @@
     transition: max-height cubic-bezier(1, 0.075, 0.82, 0.165) ease;transition: max-height 0.5s cubic-bezier(1, 0.075, 0.82, 0.165);
     max-height: 5000px;
     border-width: 1px;
-    padding: 14px;
   }
 }
 
 .checkoutContainer {
   display: flex;
   flex-direction: column;
-  // height: 100vh;
   height: 100%;
   width: 100vw;
-  // align-items: center;
-  // justify-content: center;
 
   @include border(white);
   .navContainer {
@@ -216,8 +212,6 @@
       max-width:1180px;
       padding: 21px 38px;
       @include flexRow(space-between);
-      // justify-content: space-between;
-      // justify-content: ;
       // @include border(green);
       .logo {
         cursor: pointer;
@@ -241,10 +235,12 @@
     display: grid;
     overflow-y: auto;
     grid-template-columns: minmax( min-content, calc(50% + calc( calc( 660px - 520px ) / 2 )) ) 1fr;
+
     .formContainer {
       justify-items: right;
       border-right: solid 1px rgb(63, 63, 63);
       // @include border(hotpink);
+
       .forms {
         max-width: 660px;
         width: 100%;
@@ -252,25 +248,25 @@
         padding: 38px;
         display: flex;
         flex-direction: column;
-        // justify-content: center;
         align-items: center;
         @include border(MediumPurple);
+
         .expressHeader {
           display: flex;
           justify-content: center;
           width: 100%;
           font-size: 14px;
           color: rgba(255, 255, 255, 0.66);
-
           // @include border(MediumBlue);
         }
+
         .expressPayments {
           @include flexRow(space-between);
-          // justify-content: space-between;
           width: 100%;
           padding-top: 17px;
           // @include border(MediumBlue);
         }
+
         .cardPaymentHeader {
           display: flex;
           justify-content: center;
@@ -533,21 +529,27 @@
           border-top: 0px;
           border-bottom: 0px;
           background-color: rgba(0, 0, 0, 0.043);
+          .container {
+            padding: 14px;
+          }
         }
         @mixin dropdownThirdParty {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-          row-gap: 21px;
-          .paymentSVG {
-            height: 5.785714285714286em;
-            color: rgb(112, 112, 112);
-          }
-          .paymentText {
-            width: 350px;
-            font-size: 14px;
-            text-align: center;
+          .container {
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            row-gap: 21px;
+              .paymentSVG {
+                height: 5.785714285714286em;
+                color: rgb(112, 112, 112);
+              }
+              .paymentText {
+                width: 350px;
+                font-size: 14px;
+                text-align: center;
+              }
           }
         }
         .dropdownPaypal {
@@ -569,6 +571,7 @@
           background-color: rgba(0, 0, 0, 0.043);
           // @include border(red);
           @include dropdownThirdParty();
+
         }
 
       }

@@ -423,7 +423,11 @@ export default function Checkout () {
                   <div className={styles.title}>Credit Card</div>
                   <div>logo</div>
                 </div>
-                <div className={`${styles.dropdownCreditCard} ${formValues.paymentOption==="creditCard" && styles.open}`}>OPEN Credit Card</div>
+                <div className={`${styles.dropdownCreditCard} ${formValues.paymentOption==="creditCard" && styles.open}`}>
+                  <div className={styles.container}>
+                    OPEN Credit Card
+                  </div>
+                </div>
                 <div className={`${styles.paypal} ${formValues.paymentOption==="paypal" && styles.chosenPayment}`}>
                   <div className={styles.radioButton}>
                     <input
@@ -436,8 +440,10 @@ export default function Checkout () {
                   <div>logo</div>
                 </div>
                 <div className={`${styles.dropdownPaypal} ${formValues.paymentOption==="paypal" && styles.open}`}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" className={styles.paymentSVG}><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path><circle cx="-227.8" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-222.2" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-216.6" cy="361.9" r="1.8" fill="currentColor"></circle><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-128.7 400.1H-92m-3.6-4.1 4 4.1-4 4.1"></path></svg>
-                <div className={styles.paymentText}>{`After clicking "Pay with PayPal", you will be redirected to PayPal to complete your purchase securely.`}</div>
+                  <div className={styles.container}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" className={styles.paymentSVG}><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path><circle cx="-227.8" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-222.2" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-216.6" cy="361.9" r="1.8" fill="currentColor"></circle><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-128.7 400.1H-92m-3.6-4.1 4 4.1-4 4.1"></path></svg>
+                    <div className={styles.paymentText}>{`After clicking "Pay with PayPal", you will be redirected to PayPal to complete your purchase securely.`}</div>
+                  </div>
                 </div>
                 <div className={`${styles.shopPay} ${formValues.paymentOption==="shopPay" && styles.chosenPayment}`}>
                   <div className={styles.radioButton}>
@@ -462,8 +468,10 @@ export default function Checkout () {
                   <div>logo</div>
                 </div>
                 <div className={`${styles.dropdownAfterPay} ${formValues.paymentOption==="afterPay" && styles.open}`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" className={styles.paymentSVG}><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path><circle cx="-227.8" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-222.2" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-216.6" cy="361.9" r="1.8" fill="currentColor"></circle><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-128.7 400.1H-92m-3.6-4.1 4 4.1-4 4.1"></path></svg>
-                  <div className={styles.paymentText}>After clicking “Pay now”, you will be redirected to Afterpay to complete your purchase securely.</div>
+                  <div className={styles.container}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" className={styles.paymentSVG}><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path><circle cx="-227.8" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-222.2" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-216.6" cy="361.9" r="1.8" fill="currentColor"></circle><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-128.7 400.1H-92m-3.6-4.1 4 4.1-4 4.1"></path></svg>
+                    <div className={styles.paymentText}>After clicking “Pay now”, you will be redirected to Afterpay to complete your purchase securely.</div>
+                  </div>
                 </div>
               </div>
             </div>
