@@ -124,62 +124,65 @@
   }
 }
 
-@mixin inputText {
-  background-color: rgba(255, 0, 0, 0);
-  width: 100%;
-  font-size: 14px;
-  border-radius: 8px;
-  position: relative;
-  background-color: rgb(255, 255, 255);
-  // @include border(white);
-  // @include border(MediumBlue); // Default border (uncomment if desired)
-
-
-  .inputText {
-    padding: 13px 11px;
-    border-radius: 8px;
-    font-size: 14px;
+@mixin inputText ($border-color: white){
+  .inputContainer {
+    background-color: rgba(255, 0, 0, 0);
     width: 100%;
-    height: 46px;
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-    box-shadow: none;
-    outline: none;
-    color: black;
-    transition: padding 0.3s ease, border 0.3s ease;
-    z-index: 47;
+    font-size: 14px;
+    border-radius: 8px;
     position: relative;
-    @include border(white);
+    background-color: rgb(255, 255, 255);
+    // @include border(white);
+    // @include border(MediumBlue); // Default border (uncomment if desired)
 
-    &:focus {
-      @include border(#1773B0);
-    }
-    &.wrongEntry {
-      @include border(rgb(234, 71, 118));
-    }
-  }
 
-  .inputUpdate {
-    padding: 22px 11px 6px;
-    transition: padding 0.3s ease
-    // @include border(rgb(49, 255, 22));
+    .inputText {
+      padding: 13px 11px;
+      border-radius: 8px;
+      font-size: 14px;
+      width: 100%;
+      height: 46px;
+      background-color: rgba(0, 0, 0, 0);
+      // border: none;
+      box-shadow: none;
+      outline: none;
+      color: black;
+      transition: padding 0.3s ease;
+      z-index: 47;
+      position: relative;
+      @include border($border-color);
+
+      &:focus {
+        @include border(#1773B0);
+      }
+      &.wrongEntry {
+        @include border(rgb(234, 71, 118));
+      }
+    }
+
+    .inputUpdate {
+      padding: 22px 11px 6px;
+      transition: padding 0.3s ease
+      // @include border(rgb(49, 255, 22));
+    }
+    .inputLabel {
+      opacity: 0;
+      transform: translateY(40%);
+      position: absolute;
+      top: 7px;
+      left: 13px;
+      color: rgb(104, 104, 104);
+      // transition: top .2s ease;
+      // background-color: rgb(35, 56, 210);
+      z-index: 45;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .showLabel {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  .inputLabel {
-    opacity: 0;
-    transform: translateY(40%);
-    position: absolute;
-    top: 7px;
-    left: 13px;
-    color: rgb(104, 104, 104);
-    // transition: top .2s ease;
-    // background-color: rgb(35, 56, 210);
-    z-index: 45;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-  .showLabel {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  @include wrongInput();
 }
 
 @mixin dropDownLogic {
@@ -319,11 +322,8 @@
         }
       }
       .email {
+        @include inputText();
         // @include border(MediumPurple);
-        .inputContainer {
-          @include inputText();
-        }
-        @include wrongInput();
       }
       .marketing {
         @include flexRow(normal);
@@ -352,10 +352,7 @@
         // @include border(MediumPurple);
       }
       .country {
-        .inputContainer {
-          @include inputText();
-        }
-        @include wrongInput();
+        @include inputText();
         // @include border(MediumPurple);
       }
       .nameWrapper {
@@ -364,33 +361,21 @@
         // @include border(MediumPurple);
         .firstname {
           width: 100%;
-          .inputContainer {
-            @include inputText();
-          }
-          @include wrongInput();
+          @include inputText();
           // @include border(MediumBlue);
         }
         .lastname {
           width: 100%;
-          .inputContainer {
-            @include inputText();
-          }
-          @include wrongInput();
+          @include inputText();
           // @include border(MediumBlue);
         }
       }
       .address {
-        .inputContainer {
-          @include inputText();
-        }
-        @include wrongInput();
+        @include inputText();
         // @include border(MediumPurple);
       }
       .apartment {
-        .inputContainer {
-          @include inputText();
-        }
-        @include wrongInput();
+        @include inputText();
         // @include border(MediumPurple);
       }
       .region {
@@ -398,34 +383,23 @@
         column-gap: 14px;
         // @include border(MediumPurple);
         .city {
-          .inputContainer {
-            @include inputText();
-          }
-          @include wrongInput();
+          @include inputText();
           width: 100%;
           // @include border(MediumBlue);
         }
         .state {
-          .inputContainer {
-            @include inputText();
-          }
-          @include wrongInput();
+          @include inputText();
           width: 100%;
           // @include border(MediumBlue);
         }
         .zip {
-          .inputContainer {
-            @include inputText();
-          }
-          @include wrongInput();
+          @include inputText();
           width: 100%;
           // @include border(MediumBlue);
         }
       }
       .phone {
-        .inputContainer {
-          @include inputText();
-        }
+        @include inputText();
         // @include border(MediumPurple);
       }
       .alerts {
@@ -527,7 +501,7 @@
         .dropdownCreditCard {
           @include dropDownLogic();
           // @include border(red);
-          height: 200px;
+          height: fit-content;
           @include border(rgb(222, 222, 222));
           border-width: 1px;
           border-top: 0px;
@@ -535,6 +509,15 @@
           background-color: rgba(0, 0, 0, 0.043);
           .container {
             padding: 14px;
+            .creditCardNumber {
+              @include inputText(rgb(227, 227, 227));
+              // .inputContainer {
+              //   .inputText {
+              //     border-color: darkgray;
+              //   }
+              // }
+              // @include border(MediumPurple);
+            }
           }
         }
         @mixin dropdownThirdParty {

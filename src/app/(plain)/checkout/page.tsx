@@ -18,6 +18,7 @@ interface FormData {
   phone: string;
   shippingOption: string;
   paymentOption: string;
+  creditCardNumber: string;
 }
 
 export default function Checkout () {
@@ -40,6 +41,7 @@ export default function Checkout () {
       phone: '',
       shippingOption: 'usps',
       paymentOption:'',
+      creditCardNumber: '',
     },
   });
 
@@ -423,7 +425,29 @@ export default function Checkout () {
                 </div>
                 <div className={`${styles.dropdownCreditCard} ${formValues.paymentOption==="creditCard" && styles.open}`}>
                   <div className={styles.container}>
-                    <div>Card number</div>
+                    <div className={styles.creditCardNumber}>
+                      <div className={styles.inputContainer}>
+                        <label className={`${styles.inputLabel} ${formValues.creditCardNumber ? styles.showLabel : ""}`}>Card number</label>
+                        <input className={`${styles.inputText} ${formValues.creditCardNumber !== "" ? styles.inputUpdate : ""} ${errors.creditCardNumber ? styles.wrongEntry : ""}`}
+                          type='text'
+                          placeholder="Card number"
+                          {...register('creditCardNumber', {
+                            required: 'Enter card number',
+                            pattern: {
+                              value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                              message: 'Enter a valid card number',
+                            },
+                          })}
+                          />
+                      </div>
+                      {
+                        errors.creditCardNumber ?
+                        <div className={styles.wrongEntryMessage} >
+                          {errors.creditCardNumber.message}
+                        </div>
+                        : null
+                      }
+                    </div>
                     <div>
                       <div>Expiration date</div>
                       <div>Security code</div>
