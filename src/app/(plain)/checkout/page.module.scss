@@ -3,10 +3,12 @@
   border-width: .15rem;
   border-color: $color;
 }
-@mixin flexRow ($justify-content) {
+@mixin flexRow ($justify-content, $column-gap:0px ) {
   display: flex;
   flex-direction: row;
   justify-content: $justify-content;
+  column-gap: $column-gap;
+  // column-gap: 14px;
 }
 @mixin wrongInput {
   .wrongEntryMessage {
@@ -508,16 +510,27 @@
           border-bottom: 0px;
           background-color: rgba(0, 0, 0, 0.043);
           .container {
+            display: grid;
             padding: 14px;
+            row-gap: 14px;
             .creditCardNumber {
               @include inputText(rgb(227, 227, 227));
-              // .inputContainer {
-              //   .inputText {
-              //     border-color: darkgray;
-              //   }
-              // }
               // @include border(MediumPurple);
             }
+            .cardInfoContainer {
+              @include flexRow(space-between, 14px);
+              // @include border(MediumPurple);
+              .expirationDate {
+                @include inputText(rgb(227, 227, 227));
+                width: 100%;
+              }
+              .securityCode {
+                @include inputText(rgb(227, 227, 227));
+                width: 100%;
+              }
+
+            }
+
           }
         }
         @mixin dropdownThirdParty {

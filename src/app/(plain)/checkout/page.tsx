@@ -19,6 +19,8 @@ interface FormData {
   shippingOption: string;
   paymentOption: string;
   creditCardNumber: string;
+  expirationDate:string;
+  securityCode: string;
 }
 
 export default function Checkout () {
@@ -42,6 +44,8 @@ export default function Checkout () {
       shippingOption: 'usps',
       paymentOption:'',
       creditCardNumber: '',
+      expirationDate: '',
+      securityCode: ''
     },
   });
 
@@ -448,9 +452,53 @@ export default function Checkout () {
                         : null
                       }
                     </div>
-                    <div>
-                      <div>Expiration date</div>
-                      <div>Security code</div>
+                    <div className={styles.cardInfoContainer}>
+                      <div className={styles.expirationDate}>
+                        <div className={styles.inputContainer}>
+                          <label className={`${styles.inputLabel} ${formValues.expirationDate ? styles.showLabel : ""}`}>Expiration date (MM /YY)</label>
+                          <input className={`${styles.inputText} ${formValues.expirationDate !== "" ? styles.inputUpdate : ""} ${errors.expirationDate ? styles.wrongEntry : ""}`}
+                            type='text'
+                            placeholder="Expiration date (MM /YY)"
+                            {...register('expirationDate', {
+                              required: 'Enter expiration date',
+                              pattern: {
+                                value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                                message: 'Enter a valid expiration date',
+                              },
+                            })}
+                            />
+                        </div>
+                        {
+                          errors.expirationDate ?
+                          <div className={styles.wrongEntryMessage} >
+                            {errors.expirationDate.message}
+                          </div>
+                          : null
+                        }
+                      </div>
+                      <div className={styles.securityCode}>
+                        <div className={styles.inputContainer}>
+                          <label className={`${styles.inputLabel} ${formValues.securityCode ? styles.showLabel : ""}`}>Security code</label>
+                          <input className={`${styles.inputText} ${formValues.securityCode !== "" ? styles.inputUpdate : ""} ${errors.securityCode ? styles.wrongEntry : ""}`}
+                            type='text'
+                            placeholder="Security code"
+                            {...register('securityCode', {
+                              required: 'Enter expiration date',
+                              pattern: {
+                                value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                                message: 'Enter a valid ecurity code',
+                              },
+                            })}
+                            />
+                        </div>
+                        {
+                          errors.securityCode ?
+                          <div className={styles.wrongEntryMessage} >
+                            {errors.securityCode.message}
+                          </div>
+                          : null
+                        }
+                      </div>
                     </div>
                     <div>Name on card</div>
                     <div>
