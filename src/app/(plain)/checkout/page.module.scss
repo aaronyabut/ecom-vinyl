@@ -483,24 +483,28 @@
     .paymentContainer {
       width: 100%;
       margin-top: 32px;
+      row-gap: 14px;
+      display: grid;
       // @include border(red);
+
       .headerContainer {
         row-gap: 5px;
         display: grid;
+        // @include border(yellow);
         .header {
-        // @include border(red);
+        // @include border(blue);
         }
         .subHeader {
           font-size: 14px;
           color: rgba(255, 255, 255, 0.66);
-          // @include border(red);
+          // @include border(blue);
         }
       }
       .paymentOptionContainer {
         background-color: white;
         color: black;
         border-radius: 8px;
-        // @include border(red);
+        // @include border(yellow);
         .creditCard {
           @include radioSelection($placement:top);
           // @include border(blue);
