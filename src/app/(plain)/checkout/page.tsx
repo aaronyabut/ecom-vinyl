@@ -7,6 +7,7 @@ import styles from './page.module.scss';
 
 interface FormData {
   email: string;
+  subscribe: boolean;
   country: string;
   firstName: string;
   lastName: string;
@@ -24,7 +25,7 @@ interface FormData {
   securityCode: string;
   nameOnCard: string;
   shippingSameAsBilling: boolean;
-  countryRegion: string;
+  billingCountryRegion: string;
   billingFirstName: string;
   billingLastName: string;
   billingAddress: string;
@@ -33,6 +34,8 @@ interface FormData {
   billingState: string;
   billingZipcode: string;
   billingPhone: string;
+  saveInfo: boolean;
+  rememberMeContact: string;
 }
 
 export default function Checkout () {
@@ -44,6 +47,7 @@ export default function Checkout () {
   } = useForm<FormData>({
     defaultValues: {
       email: '',
+      subscribe: false,
       country: 'TEST',
       firstName: '',
       lastName: '',
@@ -61,7 +65,7 @@ export default function Checkout () {
       securityCode: '',
       nameOnCard: '',
       shippingSameAsBilling: false,
-      countryRegion: '',
+      billingCountryRegion: '',
       billingFirstName: '',
       billingLastName: '',
       billingAddress: '',
@@ -70,6 +74,8 @@ export default function Checkout () {
       billingState: '',
       billingZipcode: '',
       billingPhone: '',
+      saveInfo: false,
+      rememberMeContact: '+1 ',
     },
   });
 
@@ -167,7 +173,11 @@ export default function Checkout () {
               </div>
               <div className={styles.marketing}>
                 <div className={styles.checkboxInput}>
-                  <input type="checkbox" id="subscribeCheckbox" />
+                  <input
+                    type="checkbox"
+                    id="subscribeCheckbox"
+                    {...register('subscribe')}
+                  />
                   <label htmlFor="subscribeCheckbox" className={styles.icon}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -576,13 +586,13 @@ export default function Checkout () {
                       <div className={styles.alertMessage}>Use shipping address as billing address</div>
                     </div>
                     <h3 className={styles.billingAddressHeader}>Billing address</h3>
-                    <div className={styles.countryRegion}>
+                    <div className={styles.billingCountryRegion}>
                       <div className={styles.inputContainer}>
-                        <label className={`${styles.inputLabel} ${formValues.countryRegion ? styles.showLabel : ""}`}>Country / Region</label>
-                        <input className={`${styles.inputText} ${formValues.countryRegion !== "" ? styles.inputUpdate : ""} ${errors.countryRegion ? styles.wrongEntry : ""}`}
+                        <label className={`${styles.inputLabel} ${formValues.billingCountryRegion ? styles.showLabel : ""}`}>Country / Region</label>
+                        <input className={`${styles.inputText} ${formValues.billingCountryRegion !== "" ? styles.inputUpdate : ""} ${errors.billingCountryRegion ? styles.wrongEntry : ""}`}
                           type='text'
                           placeholder="Country / Region"
-                          {...register('countryRegion', {
+                          {...register('billingCountryRegion', {
                             required: 'Enter expiration date',
                             pattern: {
                               value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
@@ -592,9 +602,9 @@ export default function Checkout () {
                           />
                       </div>
                       {
-                        errors.countryRegion ?
+                        errors.billingCountryRegion ?
                         <div className={styles.wrongEntryMessage} >
-                          {errors.countryRegion.message}
+                          {errors.billingCountryRegion.message}
                         </div>
                         : null
                       }
@@ -811,6 +821,64 @@ export default function Checkout () {
                   <div className={styles.container}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" className={styles.paymentSVG}><path fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="2" d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path><circle cx="-227.8" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-222.2" cy="361.9" r="1.8" fill="currentColor"></circle><circle cx="-216.6" cy="361.9" r="1.8" fill="currentColor"></circle><path fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="2" d="M-128.7 400.1H-92m-3.6-4.1 4 4.1-4 4.1"></path></svg>
                     <div className={styles.paymentText}>After clicking “Pay now”, you will be redirected to Afterpay to complete your purchase securely.</div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.rememberMeContainer}>
+                <h3 className={styles.rememberMeHeader}>Remember me</h3>
+                <div className={styles.rememberMeInputContainer}>
+                  <div className={styles.saveInfo}>
+                    <div className={`${styles.checkboxInput} ${formValues.saveInfo && styles.checked}`}>
+                      <input
+                        type="checkbox"
+                        id="saveInfoCheckbox"
+                        {...register('saveInfo')}
+                      />
+                      <label htmlFor="saveInfoCheckbox" className={styles.icon}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 14 14"
+                          focusable="false"
+                          aria-hidden="true"
+                          className={styles.svg}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m1.5 7.097 3.596 3.602c.104.105.156.157.216.175a.25.25 0 0 0 .16-.004c.059-.022.108-.077.206-.188L12.5 3"
+                          ></path>
+                        </svg>
+                      </label>
+                    </div>
+                    <div className={styles.subscribe}>Save my information for a faster checkout with a Shop account
+                    </div>
+                  </div>
+                  <div className={`${styles.dropdownRememberMe} ${formValues.saveInfo && styles.open}`}>
+                    <div className={styles.rememberMeContact}>
+                      <div className={styles.inputContainer}>
+                        <span className={styles.icon}>
+                        <svg fill="#707070" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,23a2,2,0,0,0,2-2V3a2,2,0,0,0-2-2H7A2,2,0,0,0,5,3V21a2,2,0,0,0,2,2ZM7,3H9.5L10,4h4l.5-1H17V21H7Zm6,16a1,1,0,1,1-1-1A1,1,0,0,1,13,19Z"></path></g></svg>
+                        </span>
+                        <label className={`${styles.inputLabel} ${styles.showLabel}`}>Mobile phone number</label>
+                        <input className={`${styles.inputText} ${styles.inputUpdate} ${errors.rememberMeContact ? styles.wrongEntry : ""}`}
+                          type='text'
+                          {...register('rememberMeContact', {
+                            required: 'The specified phone number does not match the expected pattern.',
+                            pattern: {
+                              value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                              message: 'The specified phone number does not match the expected pattern.',
+                            },
+                          })}
+                          />
+                      </div>
+                      {
+                        errors.rememberMeContact ?
+                        <div className={styles.wrongEntryMessage} >
+                          {errors.rememberMeContact.message}
+                        </div>
+                        : null
+                      }
+                    </div>
                   </div>
                 </div>
               </div>

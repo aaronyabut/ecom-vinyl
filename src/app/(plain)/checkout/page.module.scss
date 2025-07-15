@@ -136,8 +136,6 @@
     position: relative;
     background-color: rgb(255, 255, 255);
     // @include border(white);
-    // @include border(MediumBlue); // Default border (uncomment if desired)
-
 
     .inputText {
       padding: 13px 11px;
@@ -175,8 +173,6 @@
       top: 7px;
       left: 13px;
       color: rgb(104, 104, 104);
-      // transition: top .2s ease;
-      // background-color: rgb(35, 56, 210);
       z-index: 45;
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
@@ -558,7 +554,7 @@
             .billingAddressHeader {
               margin-top: 26px;
             }
-            .countryRegion {
+            .billingCountryRegion {
               @include inputText(rgb(227, 227, 227));
               width: 100%;
             }
@@ -652,6 +648,83 @@
 
         }
 
+      }
+    }
+    .rememberMeContainer {
+      // @include border(red);
+      .rememberMeHeader {
+        margin-top: 12px;
+        // @include border(blue);
+      }
+      .rememberMeInputContainer {
+        margin-block: 14px;
+        background-color: white;
+        @include border(rgb(222, 222, 222));
+        border-width: 1px;
+        border-radius: 6px;
+        // @include border(blue);
+        .saveInfo {
+          padding:14px;
+          @include flexRow(start);
+          // width: fit-content;
+          cursor: pointer;
+          align-items: center;
+          border-radius: 6px;
+          background-color: white;
+          color: black;
+          // @include border(MediumPurple);
+
+          .checkboxInput {
+            @include checkbox();
+            @include border(rgb(227, 227, 227));
+          }
+          .checked {
+            @include border(#1773B0);
+            background-color: #1773B0;
+          }
+          .alertMessage {
+            font-size: 14px;
+            font-weight: 400;
+          }
+        }
+        .dropdownRememberMe {
+          background-color: rgba(0, 0, 0, 0.043);
+          @include border(rgb(222, 222, 222));
+          border-radius: 0 0 6px 6px;
+          border-width: 1px;
+          border-left: 0;
+          border-right: 0;
+          border-bottom: 0;
+          @include dropDownLogic();
+          // @include border(green);
+          .rememberMeContact {
+            // margin: 14px;
+            // @include border(green);
+            padding: 14px;
+            @include inputText(rgb(227, 227, 227));
+            .inputContainer {
+              .icon {
+                // @include border(blue);
+                position: absolute;
+                height: 25px;
+                width: 25px;
+                top: 15px;
+                left: 10px;
+              }
+              .inputText {
+                // @include border(blue);
+                height: 55px;
+              }
+              .inputUpdate {
+                padding: 22px 41px 6px;
+              }
+              .inputLabel {
+                top: 10px;
+                left: 43px;
+              }
+            }
+          }
+        }
       }
     }
     .itemsContainer {
