@@ -87,9 +87,10 @@
   align-items: center;
   position: relative;
   margin-right: 10px;
-  // @include border(MediumBlue);
+  border-radius: 4px;
 
   .icon {
+    border-radius: 2px;
     visibility: hidden;
     position: absolute;
     left: 4px;
@@ -361,12 +362,12 @@
         @include flexRow(space-evenly);
         column-gap: 14px;
         // @include border(MediumPurple);
-        .firstname {
+        .firstName {
           width: 100%;
           @include inputText();
           // @include border(MediumBlue);
         }
-        .lastname {
+        .lastName {
           width: 100%;
           @include inputText();
           // @include border(MediumBlue);
@@ -530,7 +531,84 @@
               }
 
             }
+            .nameOnCard {
+              @include inputText(rgb(227, 227, 227));
+              width: 100%;
+            }
+            .billingAddressCheckbox {
+              @include flexRow(start);
+              width: fit-content;
+              cursor: pointer;
+              align-items: center;
+              // @include border(MediumPurple);
 
+              .checkboxInput {
+                @include checkbox();
+                @include border(rgb(227, 227, 227));
+              }
+              .checked {
+                @include border(#1773B0);
+                background-color: #1773B0;
+              }
+              .alertMessage {
+                font-size: 14px;
+                // font-weight: 600;
+              }
+            }
+            .billingAddressHeader {
+              margin-top: 26px;
+            }
+            .countryRegion {
+              @include inputText(rgb(227, 227, 227));
+              width: 100%;
+            }
+            .billingNameWrapper {
+              @include flexRow(space-evenly);
+              column-gap: 14px;
+              // @include border(MediumPurple);
+              .firstName {
+                width: 100%;
+                @include inputText(rgb(227, 227, 227));
+                // @include border(MediumBlue);
+              }
+              .lastName {
+                width: 100%;
+                @include inputText(rgb(227, 227, 227));
+                // @include border(MediumBlue);
+              }
+            }
+            .address {
+              @include inputText(rgb(227, 227, 227));
+              // @include border(MediumPurple);
+            }
+            .apartment {
+              @include inputText(rgb(227, 227, 227));
+              // @include border(MediumPurple);
+            }
+            .region {
+              @include flexRow(space-evenly);
+              column-gap: 14px;
+              // @include border(MediumPurple);
+              .city {
+                @include inputText(rgb(227, 227, 227));
+                width: 100%;
+                // @include border(MediumBlue);
+              }
+              .state {
+                @include inputText(rgb(227, 227, 227));
+                width: 100%;
+                // @include border(MediumBlue);
+              }
+              .zip {
+                @include inputText(rgb(227, 227, 227));
+                width: 100%;
+                // @include border(MediumBlue);
+              }
+            }
+            .phone {
+              @include inputText(rgb(227, 227, 227));
+              // @include border(MediumPurple);
+            }
           }
         }
         @mixin dropdownThirdParty {
