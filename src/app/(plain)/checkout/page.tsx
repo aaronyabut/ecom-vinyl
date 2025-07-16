@@ -47,7 +47,7 @@ export default function Checkout () {
   } = useForm<FormData>({
     defaultValues: {
       email: '',
-      subscribe: false,
+      subscribe: true,
       country: 'TEST',
       firstName: '',
       lastName: '',
@@ -59,7 +59,7 @@ export default function Checkout () {
       phone: '',
       textAlert: false,
       shippingOption: 'usps',
-      paymentOption:'',
+      paymentOption:'creditCard',
       creditCardNumber: '',
       expirationDate: '',
       securityCode: '',
@@ -850,14 +850,15 @@ export default function Checkout () {
                         </svg>
                       </label>
                     </div>
-                    <div className={styles.subscribe}>Save my information for a faster checkout with a Shop account
+                    <div className={styles.subscribe}>
+                      Save my information for a faster checkout {formValues.saveInfo && "with a Shop account"}
                     </div>
                   </div>
                   <div className={`${styles.dropdownRememberMe} ${formValues.saveInfo && styles.open}`}>
                     <div className={styles.rememberMeContact}>
                       <div className={styles.inputContainer}>
                         <span className={styles.icon}>
-                        <svg fill="#707070" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,23a2,2,0,0,0,2-2V3a2,2,0,0,0-2-2H7A2,2,0,0,0,5,3V21a2,2,0,0,0,2,2ZM7,3H9.5L10,4h4l.5-1H17V21H7Zm6,16a1,1,0,1,1-1-1A1,1,0,0,1,13,19Z"></path></g></svg>
+                        <svg fill="#707070" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,23a2,2,0,0,0,2-2V3a2,2,0,0,0-2-2H7A2,2,0,0,0,5,3V21a2,2,0,0,0,2,2ZM7,3H9.5L10,4h4l.5-1H17V21H7Zm6,16a1,1,0,1,1-1-1A1,1,0,0,1,13,19Z"></path></g></svg>
                         </span>
                         <label className={`${styles.inputLabel} ${styles.showLabel}`}>Mobile phone number</label>
                         <input className={`${styles.inputText} ${styles.inputUpdate} ${errors.rememberMeContact ? styles.wrongEntry : ""}`}
@@ -879,6 +880,17 @@ export default function Checkout () {
                         : null
                       }
                     </div>
+                  </div>
+                </div>
+                <div className={styles.secureEncryptedContainer}>
+                  <div className={styles.secureEncrypted}>
+                    <div className={styles.lockIcon}>
+                      <svg viewBox="-3 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288" stroke="rgba(255, 255, 255, 0.66)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+                    </div>
+                    <div className={styles.text}>Secure and encrypted</div>
+                  </div>
+                  <div className={styles.shopIcon}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 0 50 20" fill="rgba(255, 255, 255, 0.66)"><path  d="m9.095 6.766-2.33 1.186C6.233 7.035 5.5 6.565 4.48 6.565q-1.665 0-1.665 1.007c0 .716.821.873 2.663 1.275 1.842.403 3.931.985 3.931 3.29 0 2.238-1.73 3.58-4.593 3.58-2.308 0-4.02-.984-4.816-2.73l2.33-1.163c.488 1.077 1.331 1.633 2.486 1.633 1.198 0 1.797-.335 1.797-1.052 0-.716-.823-.872-2.668-1.275C2.101 10.727.02 10.145.02 7.84c0-2.17 1.709-3.536 4.46-3.536 2.153 0 3.773.873 4.615 2.462M11.05.5h2.884v5.102c.754-.828 1.842-1.298 3.085-1.298 2.485 0 4.26 1.925 4.26 4.655v6.646h-2.884V8.959c0-1.275-.932-2.216-2.22-2.216-1.287 0-2.24.962-2.24 2.216v6.646h-2.886zM23.166 5.11c.954-.671 2.33-1.14 3.795-1.14 3.906 0 6.746 2.663 6.746 6.311 0 3.401-2.441 5.774-5.837 5.774-2.907 0-4.992-1.97-4.992-4.61 0-1.79 1.067-3.111 2.574-3.626l1.22 2.082c-.82.38-1.13.94-1.13 1.633 0 1.14.955 1.947 2.33 1.947 1.687 0 3.018-1.343 3.018-3.155 0-2.127-1.664-3.737-3.927-3.737a4.5 4.5 0 0 0-2.508.738zM38.19 14.33v5.17h-2.885V4.417h2.818V5.78c.866-.94 2.086-1.477 3.462-1.477 3.04 0 5.415 2.484 5.415 5.707s-2.375 5.707-5.415 5.707c-1.354 0-2.53-.515-3.395-1.388m5.947-4.341c0-1.858-1.287-3.223-3.04-3.223-1.731 0-3.04 1.388-3.04 3.223s1.309 3.223 3.04 3.223c1.753 0 3.042-1.366 3.042-3.223z"></path></svg>
                   </div>
                 </div>
               </div>

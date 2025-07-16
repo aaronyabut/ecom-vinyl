@@ -706,10 +706,10 @@
               .icon {
                 // @include border(blue);
                 position: absolute;
-                height: 25px;
-                width: 25px;
-                top: 15px;
-                left: 10px;
+                height: 20px;
+                width: 20px;
+                top: 18px;
+                left: 13px;
               }
               .inputText {
                 // @include border(blue);
@@ -724,6 +724,32 @@
               }
             }
           }
+        }
+      }
+      .secureEncryptedContainer {
+        // @include border(red);
+        @include flexRow(space-between, -gap);
+        .secureEncrypted {
+          @include flexRow(space-between, 5px);
+          // align-items: center;
+          // justify-items: center;
+          // @include border(blue);
+          .lockIcon {
+            // @include border(MediumPurple);
+            height: 12px;
+            width: 12px;
+
+          }
+          .text {
+            // @include border(MediumPurple);
+            font-size: 12px;
+          }
+        }
+        .shopIcon {
+          // @include border(blue);
+          height: 22px;
+          width: 44px;
+
         }
       }
     }
