@@ -604,14 +604,19 @@
               }
               .alertMessage {
                 font-size: 14px;
-                // font-weight: 600;
               }
             }
-            .billingAddressHeader {
-              margin-top: 26px;
-            }
-            .billingAddressFormContainer {
-              @include billingAddressFormLayout();
+            .dropdownBilling {
+              @include dropDownLogic();
+              // @include border(green);
+              .billingAddressHeader {
+                margin-top: 13px;
+              }
+              .billingAddressFormContainer {
+                // @include border(green);
+                margin-top: 14px;
+                @include billingAddressFormLayout();
+              }
             }
           }
         }

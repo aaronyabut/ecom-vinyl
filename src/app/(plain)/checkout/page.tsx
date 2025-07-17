@@ -552,7 +552,7 @@ export default function Checkout () {
                               message: 'Enter your name exactly as it’s written on your card',
                             },
                           })}
-                          />
+                        />
                       </div>
                       {
                         errors.nameOnCard ?
@@ -587,196 +587,198 @@ export default function Checkout () {
                       </div>
                       <div className={styles.alertMessage}>Use shipping address as billing address</div>
                     </div>
-                    <h3 className={styles.billingAddressHeader}>Billing address</h3>
-                    <div className={styles.billingAddressFormContainer}>
-                      <div className={styles.billingCountryRegion}>
-                        <div className={styles.inputContainer}>
-                          <label className={`${styles.inputLabel} ${formValues.billingCountryRegion ? styles.showLabel : ""}`}>Country / Region</label>
-                          <input className={`${styles.inputText} ${formValues.billingCountryRegion !== "" ? styles.inputUpdate : ""} ${errors.billingCountryRegion ? styles.wrongEntry : ""}`}
-                            type='text'
-                            placeholder="Country / Region"
-                            {...register('billingCountryRegion', {
-                              required: 'Enter expiration date',
-                              pattern: {
-                                value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
-                                message: 'Enter a valid name',
-                              },
-                            })}
-                          />
-                        </div>
-                        {
-                          errors.billingCountryRegion ?
-                          <div className={styles.wrongEntryMessage} >
-                            {errors.billingCountryRegion.message}
-                          </div>
-                          : null
-                        }
-                      </div>
-                      <div className={styles.billingNameWrapper}>
-                        <div className={styles.firstName}>
+                    <div className={`${styles.dropdownBilling} ${formValues.shippingSameAsBilling===false && styles.open}`}>
+                      <h3 className={styles.billingAddressHeader}>Billing address</h3>
+                      <div className={styles.billingAddressFormContainer}>
+                        <div className={styles.billingCountryRegion}>
                           <div className={styles.inputContainer}>
-                            <label className={`${styles.inputLabel} ${formValues.billingFirstName ? styles.showLabel : ""}`}>First name</label>
-                            <input className={`${styles.inputText} ${formValues.billingFirstName !== "" ? styles.inputUpdate : ""} ${errors.billingFirstName ? styles.wrongEntry : ""}`}
+                            <label className={`${styles.inputLabel} ${formValues.billingCountryRegion ? styles.showLabel : ""}`}>Country / Region</label>
+                            <input className={`${styles.inputText} ${formValues.billingCountryRegion !== "" ? styles.inputUpdate : ""} ${errors.billingCountryRegion ? styles.wrongEntry : ""}`}
                               type='text'
-                              placeholder="First name"
-                              {...register('billingFirstName', {
-                                required: 'Enter a first name',
+                              placeholder="Country / Region"
+                              {...register('billingCountryRegion', {
+                                required: 'Enter expiration date',
                                 pattern: {
                                   value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
-                                  message: 'Enter a valid first name',
+                                  message: 'Enter a valid name',
                                 },
                               })}
+                            />
+                          </div>
+                          {
+                            errors.billingCountryRegion ?
+                            <div className={styles.wrongEntryMessage} >
+                              {errors.billingCountryRegion.message}
+                            </div>
+                            : null
+                          }
+                        </div>
+                        <div className={styles.billingNameWrapper}>
+                          <div className={styles.firstName}>
+                            <div className={styles.inputContainer}>
+                              <label className={`${styles.inputLabel} ${formValues.billingFirstName ? styles.showLabel : ""}`}>First name</label>
+                              <input className={`${styles.inputText} ${formValues.billingFirstName !== "" ? styles.inputUpdate : ""} ${errors.billingFirstName ? styles.wrongEntry : ""}`}
+                                type='text'
+                                placeholder="First name"
+                                {...register('billingFirstName', {
+                                  required: 'Enter a first name',
+                                  pattern: {
+                                    value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                                    message: 'Enter a valid first name',
+                                  },
+                                })}
+                                />
+                            </div>
+                            {
+                              errors.billingFirstName ?
+                              <div className={styles.wrongEntryMessage} >
+                                {errors.billingFirstName.message}
+                              </div>
+                              : null
+                            }
+                          </div>
+                          <div className={styles.lastName}>
+                            <div className={styles.inputContainer}>
+                              <label className={`${styles.inputLabel} ${formValues.billingLastName ? styles.showLabel : ""}`}>Last name</label>
+                              <input className={`${styles.inputText} ${formValues.billingLastName !== "" ? styles.inputUpdate : ""} ${errors.billingLastName ? styles.wrongEntry : ""}`}
+                                type='text'
+                                placeholder="Last name"
+                                {...register('billingLastName', {
+                                  required: 'Enter a last name',
+                                  pattern: {
+                                    value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                                    message: 'Enter a last name',
+                                  },
+                                })}
+                                />
+                            </div>
+                            {
+                              errors.billingLastName ?
+                              <div className={styles.wrongEntryMessage} >
+                                {errors.billingLastName.message}
+                              </div>
+                              : null
+                            }
+                          </div>
+                        </div>
+                        <div className={styles.address}>
+                          <div className={styles.inputContainer}>
+                            <label className={`${styles.inputLabel} ${formValues.billingAddress ? styles.showLabel : ""}`}>Address</label>
+                            <input className={`${styles.inputText} ${formValues.billingAddress !== "" ? styles.inputUpdate : ""} ${errors.billingAddress ? styles.wrongEntry : ""}`}
+                              type='text'
+                              placeholder="Address"
+                              {...register('billingAddress', {
+                                required: 'Enter an address',
+                                pattern: {
+                                  value: /^\d+\s+[A-Za-z\s]+(?:[A-Za-z0-9#-.]+)?$/,
+                                  message: 'Enter a address',
+                                },
+                              })}
+                            />
+                          </div>
+                          {
+                            errors.billingAddress ?
+                            <div className={styles.wrongEntryMessage} >
+                              {errors.billingAddress.message}
+                            </div>
+                            : null
+                          }
+                        </div>
+                        <div className={styles.apartment}>
+                          <div className={styles.inputContainer}>
+                            <label className={`${styles.inputLabel} ${formValues.billingApartment ? styles.showLabel : ""}`}>Apartment, suite, etc. (optional)</label>
+                            <input className={`${styles.inputText} ${formValues.billingApartment !== "" ? styles.inputUpdate : ""} ${errors.billingApartment ? styles.wrongEntry : ""}`}
+                              type='text'
+                              placeholder="Apartment, suite, etc. (optional)"
+                              {...register('billingApartment')}
+                            />
+                          </div>
+                        </div>
+                        <div className={styles.region}>
+                          <div className={styles.city}>
+                            <div className={styles.inputContainer}>
+                              <label className={`${styles.inputLabel} ${formValues.billingCity ? styles.showLabel : ""}`}>City</label>
+                              <input className={`${styles.inputText} ${formValues.billingCity !== "" ? styles.inputUpdate : ""} ${errors.billingCity ? styles.wrongEntry : ""}`}
+                                type='text'
+                                placeholder="City"
+                                {...register('billingCity', {
+                                  required: 'Enter a city',
+                                  pattern: {
+                                    value: /^[A-Za-z\s-]+$/,
+                                    message: 'Enter a valid city',
+                                  },
+                                })}
                               />
-                          </div>
-                          {
-                            errors.billingFirstName ?
-                            <div className={styles.wrongEntryMessage} >
-                              {errors.billingFirstName.message}
                             </div>
-                            : null
-                          }
-                        </div>
-                        <div className={styles.lastName}>
-                          <div className={styles.inputContainer}>
-                            <label className={`${styles.inputLabel} ${formValues.billingLastName ? styles.showLabel : ""}`}>Last name</label>
-                            <input className={`${styles.inputText} ${formValues.billingLastName !== "" ? styles.inputUpdate : ""} ${errors.billingLastName ? styles.wrongEntry : ""}`}
-                              type='text'
-                              placeholder="Last name"
-                              {...register('billingLastName', {
-                                required: 'Enter a last name',
-                                pattern: {
-                                  value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
-                                  message: 'Enter a last name',
-                                },
-                              })}
+                            {
+                              errors.billingCity ?
+                              <div className={styles.wrongEntryMessage} >
+                                {errors.billingCity.message}
+                              </div>
+                              : null
+                            }
+                          </div>
+                          <div className={styles.state}>
+                            <div className={styles.inputContainer}>
+                              <label className={`${styles.inputLabel} ${formValues.billingState ? styles.showLabel : ""}`}>State</label>
+                              <input className={`${styles.inputText} ${formValues.billingState !== "" ? styles.inputUpdate : ""} ${errors.billingState ? styles.wrongEntry : ""}`}
+                                type='text'
+                                placeholder="State"
+                                {...register('billingState', {
+                                  required: 'Select a state / province',
+                                  pattern: {
+                                    value: /^[A-Z]{2}$/,
+                                    message: 'Enter a valid state',
+                                  },
+                                })}
                               />
-                          </div>
-                          {
-                            errors.billingLastName ?
-                            <div className={styles.wrongEntryMessage} >
-                              {errors.billingLastName.message}
                             </div>
-                            : null
-                          }
-                        </div>
-                      </div>
-                      <div className={styles.address}>
-                        <div className={styles.inputContainer}>
-                          <label className={`${styles.inputLabel} ${formValues.billingAddress ? styles.showLabel : ""}`}>Address</label>
-                          <input className={`${styles.inputText} ${formValues.billingAddress !== "" ? styles.inputUpdate : ""} ${errors.billingAddress ? styles.wrongEntry : ""}`}
-                            type='text'
-                            placeholder="Address"
-                            {...register('billingAddress', {
-                              required: 'Enter an address',
-                              pattern: {
-                                value: /^\d+\s+[A-Za-z\s]+(?:[A-Za-z0-9#-.]+)?$/,
-                                message: 'Enter a address',
-                              },
-                            })}
-                          />
-                        </div>
-                        {
-                          errors.billingAddress ?
-                          <div className={styles.wrongEntryMessage} >
-                            {errors.billingAddress.message}
+                            {
+                              errors.billingState ?
+                              <div className={styles.wrongEntryMessage} >
+                                {errors.billingState.message}
+                              </div>
+                              : null
+                            }
                           </div>
-                          : null
-                        }
-                      </div>
-                      <div className={styles.apartment}>
-                        <div className={styles.inputContainer}>
-                          <label className={`${styles.inputLabel} ${formValues.billingApartment ? styles.showLabel : ""}`}>Apartment, suite, etc. (optional)</label>
-                          <input className={`${styles.inputText} ${formValues.billingApartment !== "" ? styles.inputUpdate : ""} ${errors.billingApartment ? styles.wrongEntry : ""}`}
-                            type='text'
-                            placeholder="Apartment, suite, etc. (optional)"
-                            {...register('billingApartment')}
-                          />
+                          <div className={styles.zip}>
+                            <div className={styles.inputContainer}>
+                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>ZIP code</label>
+                              <input className={`${styles.inputText} ${formValues.billingZipcode !== "" ? styles.inputUpdate : ""} ${errors.billingZipcode ? styles.wrongEntry : ""}`}
+                                type='text'
+                                placeholder="ZIP code"
+                                {...register('billingZipcode', {
+                                  required: 'Enter a ZIP / postal code',
+                                  pattern: {
+                                    value: /^\d{5}(?:-\d{4})?$/,
+                                    message: 'Enter a valid zip code',
+                                  },
+                                })}
+                              />
+                            </div>
+                            {
+                              errors.billingZipcode ?
+                              <div className={styles.wrongEntryMessage} >
+                                {errors.billingZipcode.message}
+                              </div>
+                              : null
+                            }
+                          </div>
                         </div>
-                      </div>
-                      <div className={styles.region}>
-                        <div className={styles.city}>
+                        <div className={styles.phone}>
                           <div className={styles.inputContainer}>
-                            <label className={`${styles.inputLabel} ${formValues.billingCity ? styles.showLabel : ""}`}>City</label>
-                            <input className={`${styles.inputText} ${formValues.billingCity !== "" ? styles.inputUpdate : ""} ${errors.billingCity ? styles.wrongEntry : ""}`}
+                            <label className={`${styles.inputLabel} ${formValues.billingPhone ? styles.showLabel : ""}`}>Phone (optional)</label>
+                            <input className={`${styles.inputText} ${formValues.billingPhone !== "" ? styles.inputUpdate : ""} ${errors.billingPhone ? styles.wrongEntry : ""}`}
                               type='text'
-                              placeholder="City"
-                              {...register('billingCity', {
-                                required: 'Enter a city',
+                              placeholder="Phone (optional)"
+                              {...register('billingPhone', {
                                 pattern: {
-                                  value: /^[A-Za-z\s-]+$/,
-                                  message: 'Enter a valid city',
+                                  value: /^\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
+                                  message: 'Enter a valid phone number',
                                 },
                               })}
                             />
                           </div>
-                          {
-                            errors.billingCity ?
-                            <div className={styles.wrongEntryMessage} >
-                              {errors.billingCity.message}
-                            </div>
-                            : null
-                          }
-                        </div>
-                        <div className={styles.state}>
-                          <div className={styles.inputContainer}>
-                            <label className={`${styles.inputLabel} ${formValues.billingState ? styles.showLabel : ""}`}>State</label>
-                            <input className={`${styles.inputText} ${formValues.billingState !== "" ? styles.inputUpdate : ""} ${errors.billingState ? styles.wrongEntry : ""}`}
-                              type='text'
-                              placeholder="State"
-                              {...register('billingState', {
-                                required: 'Select a state / province',
-                                pattern: {
-                                  value: /^[A-Z]{2}$/,
-                                  message: 'Enter a valid state',
-                                },
-                              })}
-                            />
-                          </div>
-                          {
-                            errors.billingState ?
-                            <div className={styles.wrongEntryMessage} >
-                              {errors.billingState.message}
-                            </div>
-                            : null
-                          }
-                        </div>
-                        <div className={styles.zip}>
-                          <div className={styles.inputContainer}>
-                            <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>ZIP code</label>
-                            <input className={`${styles.inputText} ${formValues.billingZipcode !== "" ? styles.inputUpdate : ""} ${errors.billingZipcode ? styles.wrongEntry : ""}`}
-                              type='text'
-                              placeholder="ZIP code"
-                              {...register('billingZipcode', {
-                                required: 'Enter a ZIP / postal code',
-                                pattern: {
-                                  value: /^\d{5}(?:-\d{4})?$/,
-                                  message: 'Enter a valid zip code',
-                                },
-                              })}
-                            />
-                          </div>
-                          {
-                            errors.billingZipcode ?
-                            <div className={styles.wrongEntryMessage} >
-                              {errors.billingZipcode.message}
-                            </div>
-                            : null
-                          }
-                        </div>
-                      </div>
-                      <div className={styles.phone}>
-                        <div className={styles.inputContainer}>
-                          <label className={`${styles.inputLabel} ${formValues.billingPhone ? styles.showLabel : ""}`}>Phone (optional)</label>
-                          <input className={`${styles.inputText} ${formValues.billingPhone !== "" ? styles.inputUpdate : ""} ${errors.billingPhone ? styles.wrongEntry : ""}`}
-                            type='text'
-                            placeholder="Phone (optional)"
-                            {...register('billingPhone', {
-                              pattern: {
-                                value: /^\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
-                                message: 'Enter a valid phone number',
-                              },
-                            })}
-                          />
                         </div>
                       </div>
                     </div>
