@@ -18,6 +18,7 @@ interface FormData {
   zipcode: string;
   phone: string;
   textAlert: boolean;
+  textMePhoneNumber: string;
   shippingOption: string;
   paymentOption: string;
   creditCardNumber: string;
@@ -59,6 +60,7 @@ export default function Checkout () {
       zipcode: 'TEST',
       phone: '',
       textAlert: false,
+      textMePhoneNumber: '',
       shippingOption: 'usps',
       paymentOption:'creditCard',
       creditCardNumber: '',
@@ -423,10 +425,11 @@ export default function Checkout () {
                   <span className={styles.icon}>
                   <svg fill="#707070" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,23a2,2,0,0,0,2-2V3a2,2,0,0,0-2-2H7A2,2,0,0,0,5,3V21a2,2,0,0,0,2,2ZM7,3H9.5L10,4h4l.5-1H17V21H7Zm6,16a1,1,0,1,1-1-1A1,1,0,0,1,13,19Z"></path></g></svg>
                   </span>
-                  <label className={`${styles.inputLabel} ${styles.showLabel}`}>Mobile phone number</label>
-                  <input className={`${styles.inputText} ${styles.inputUpdate} ${errors.rememberMeContact ? styles.wrongEntry : ""}`}
+                  <label className={`${styles.inputLabel} ${formValues.textMePhoneNumber !== "" ? styles.showLabel : ''}`}>Mobile phone number</label>
+                  <input className={`${styles.inputText} ${formValues.textMePhoneNumber !== "" ? styles.inputUpdate : ''} ${errors.textAlert ? styles.wrongEntry : ""}`}
                     type='text'
-                    {...register('rememberMeContact', {
+                    placeholder='Mobile phone number'
+                    {...register('textMePhoneNumber', {
                       required: 'The specified phone number does not match the expected pattern.',
                       pattern: {
                         value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
@@ -901,9 +904,10 @@ export default function Checkout () {
                           <span className={styles.icon}>
                           <svg fill="#707070" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,23a2,2,0,0,0,2-2V3a2,2,0,0,0-2-2H7A2,2,0,0,0,5,3V21a2,2,0,0,0,2,2ZM7,3H9.5L10,4h4l.5-1H17V21H7Zm6,16a1,1,0,1,1-1-1A1,1,0,0,1,13,19Z"></path></g></svg>
                           </span>
-                          <label className={`${styles.inputLabel} ${styles.showLabel}`}>Mobile phone number</label>
-                          <input className={`${styles.inputText} ${styles.inputUpdate} ${errors.rememberMeContact ? styles.wrongEntry : ""}`}
+                          <label className={`${styles.inputLabel} ${formValues.rememberMeContact ? styles.showLabel : ''}`}>Mobile phone number</label>
+                          <input className={`${styles.inputText} ${formValues.rememberMeContact !== "" ? styles.inputUpdate : ''} ${errors.rememberMeContact ? styles.wrongEntry : ""}`}
                             type='text'
+                            placeholder='Mobile phone number'
                             {...register('rememberMeContact', {
                               required: 'The specified phone number does not match the expected pattern.',
                               pattern: {
@@ -923,7 +927,6 @@ export default function Checkout () {
                       </div>
                     </div>
                   </div>
-
                   <div className={styles.secureEncryptedContainer}>
                     <div className={styles.secureEncrypted}>
                       <div className={styles.lockIcon}>

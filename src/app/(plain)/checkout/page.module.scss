@@ -307,7 +307,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        @include border(MediumPurple);
+        // @include border(MediumPurple);
 
         .expressHeader {
           display: flex;
@@ -489,6 +489,7 @@
           .inputText {
             // @include border(blue);
             height: 55px;
+            padding-left: 40px;
           }
           .inputUpdate {
             padding: 22px 41px 6px;
@@ -757,7 +758,9 @@
             padding: 14px;
             @include inputText(rgb(227, 227, 227));
             .inputContainer {
+              // padding-left: 43px;
               // @include border(blue);
+
               .icon {
                 // @include border(blue);
                 position: absolute;
@@ -769,6 +772,7 @@
               .inputText {
                 // @include border(blue);
                 height: 55px;
+                padding-left: 40px;
               }
               .inputUpdate {
                 padding: 22px 41px 6px;
@@ -877,7 +881,7 @@
         height: 100%;
         color: black;
         padding: 38px;
-        @include border(MediumPurple);
+        // @include border(MediumPurple);
       }
     }
   }
