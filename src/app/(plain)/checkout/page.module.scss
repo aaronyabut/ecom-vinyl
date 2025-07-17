@@ -472,6 +472,48 @@
           font-weight: 600;
         }
       }
+      .dropdownTextMe {
+        // @include border(MediumPurple);
+        @include inputText(rgb(227, 227, 227));
+        @include dropDownLogic();
+        .inputContainer {
+          // @include border(blue);
+          .icon {
+            // @include border(blue);
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            top: 18px;
+            left: 13px;
+          }
+          .inputText {
+            // @include border(blue);
+            height: 55px;
+          }
+          .inputUpdate {
+            padding: 22px 41px 6px;
+          }
+          .inputLabel {
+            top: 10px;
+            left: 43px;
+          }
+        }
+        .textMeDescription {
+          margin-top: 14px;
+          font-size: 12px;
+          color: darkgray;
+          line-height: 15px;
+          // @include border(red);
+          .privacy {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+          .termsOfService {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
       .shippingHeader {
         // @include border(MediumPurple);
       }
@@ -711,11 +753,11 @@
           @include dropDownLogic();
           // @include border(green);
           .rememberMeContact {
-            // margin: 14px;
             // @include border(green);
             padding: 14px;
             @include inputText(rgb(227, 227, 227));
             .inputContainer {
+              // @include border(blue);
               .icon {
                 // @include border(blue);
                 position: absolute;
@@ -801,17 +843,28 @@
         }
       }
     }
-    .submitButton {
+    @mixin payButton ($background-color,$font-size) {
       width: 100%;
       border-radius: 6px;
       border-color: none;
       border-width: 0;
       height: 52px;
-      background-color: rgb(2, 203, 164);
+      background-color: $background-color;
       color: rgb(255, 255, 255);
-      font-size: 14px;
-      font-weight: 600;
+      font-size: $font-size;
+      font-weight: 800;
       margin-top: 30px;
+      &:hover {
+        opacity: .90;
+        cursor: pointer;
+      }
+    }
+    .payWithPaypalButton {
+      @include payButton(rgb(0, 112, 186),20px)
+      // @include border(green);
+    }
+    .payNowButton {
+      @include payButton(rgb(2, 203, 164),16px)
       // @include border(green);
     }
     .itemsContainer {

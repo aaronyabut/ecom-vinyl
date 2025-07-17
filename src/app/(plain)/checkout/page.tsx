@@ -414,7 +414,41 @@ export default function Checkout () {
                     </svg>
                   </label>
                 </div>
-                <div className={styles.alertMessage}>Text me with news and offers</div>
+                <div className={styles.alertMessage}>
+                  Text me with news and offers
+                </div>
+              </div>
+              <div className={`${styles.dropdownTextMe} ${formValues.textAlert===true && styles.open}`}>
+                <div className={styles.inputContainer}>
+                  <span className={styles.icon}>
+                  <svg fill="#707070" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,23a2,2,0,0,0,2-2V3a2,2,0,0,0-2-2H7A2,2,0,0,0,5,3V21a2,2,0,0,0,2,2ZM7,3H9.5L10,4h4l.5-1H17V21H7Zm6,16a1,1,0,1,1-1-1A1,1,0,0,1,13,19Z"></path></g></svg>
+                  </span>
+                  <label className={`${styles.inputLabel} ${styles.showLabel}`}>Mobile phone number</label>
+                  <input className={`${styles.inputText} ${styles.inputUpdate} ${errors.rememberMeContact ? styles.wrongEntry : ""}`}
+                    type='text'
+                    {...register('rememberMeContact', {
+                      required: 'The specified phone number does not match the expected pattern.',
+                      pattern: {
+                        value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
+                        message: 'The specified phone number does not match the expected pattern.',
+                      },
+                    })}
+                    />
+                </div>
+                {
+                  errors.rememberMeContact ?
+                  <div className={styles.wrongEntryMessage} >
+                    {errors.rememberMeContact.message}
+                  </div>
+                  : null
+                }
+                <div className={styles.textMeDescription}>
+                  By signing up via text, you agree to receive recurring automated marketing messages, including cart reminders, at the phone number provided. Consent is not a condition of purchase. Reply STOP to unsubscribe. Reply HELP for help. Message frequency varies. Msg & data rates may apply. View our{" "}
+                  <span className={styles.privacy}>Privacy</span>
+                  {" "}and {" "}
+                  <span className={styles.termsOfService}>Terms of Service</span>
+                  .
+                </div>
               </div>
               <h3 className={styles.shippingHeader}>Shipping method</h3>
               <div className={styles.shippingMessage}>Please double-check your address. You won’t be able to change it later.</div>
@@ -1124,7 +1158,13 @@ export default function Checkout () {
                 </div>
               }
             </div>
-            <button type="submit" className={styles.submitButton}>Pay now</button>
+            {
+              formValues.paymentOption === 'paypal'
+              ?
+              <button type="submit" className={styles.payWithPaypalButton}>Pay with PayPal</button>
+              :
+              <button type="submit" className={styles.payNowButton}>Pay now</button>
+            }
           </form>
         </div>
         <div className={styles.itemsContainer}>
