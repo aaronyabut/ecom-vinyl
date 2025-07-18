@@ -48,16 +48,16 @@ export default function Checkout () {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      email: '',
+      email: 'TEST@TEST.com',
       subscribe: true,
       country: 'TEST',
-      firstName: '',
-      lastName: '',
-      address: 'TEST',
+      firstName: 'TEST',
+      lastName: 'TEST',
+      address: '123 TEST',
       apartment: '',
       city: 'TEST',
-      state: 'TEST',
-      zipcode: 'TEST',
+      state: 'TE',
+      zipcode: '12345',
       phone: '',
       textAlert: false,
       textMePhoneNumber: '',
@@ -85,7 +85,9 @@ export default function Checkout () {
 
   const formValues = watch(); // Watch all fields
 
-  const [showShipping, setShowShipping] = useState(false)
+  const [showShipping, setShowShipping] = useState(false);
+
+  const differentBilling = formValues.billingAddressOption==='differentBilling' && formValues.paymentOption !== 'creditCard';
 
   useEffect (() => {
     const checker = () => {
@@ -106,7 +108,10 @@ export default function Checkout () {
   }, [formValues.address,formValues.city,formValues.state,formValues.zipcode,showShipping])
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    alert(JSON.stringify(data));
+    // alert(JSON.stringify(data));
+    alert(formValues.paymentOption);
+    console.log(formValues.paymentOption);
+    console.log(JSON.stringify(data));
   };
 
   return (
@@ -132,15 +137,17 @@ export default function Checkout () {
       </div>
       <div className={styles.bodyContainer}>
         <div className={styles.formContainer}>
-          <form className={styles.forms}
+          <form
+            className={styles.forms}
             onSubmit={handleSubmit(onSubmit)}
-          >
+           >
             <div className={styles.expressHeader}>Express checkout</div>
             <div className={styles.expressPayments}>
               <div>SHOP</div>
               <div>PAYPAL</div>
               <div>G PAY</div>
               <div>VENMO</div>
+              <div>{formValues.paymentOption}</div>
             </div>
             <div className={styles.cardPaymentHeader}>
               <div className={styles.header}>
@@ -430,7 +437,7 @@ export default function Checkout () {
                     type='text'
                     placeholder='Mobile phone number'
                     {...register('textMePhoneNumber', {
-                      required: 'The specified phone number does not match the expected pattern.',
+                      required: formValues.textAlert ? 'The specified phone number does not match the expected pattern.' : false,
                       pattern: {
                         value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                         message: 'The specified phone number does not match the expected pattern.',
@@ -512,7 +519,7 @@ export default function Checkout () {
                           type='text'
                           placeholder="Card number"
                           {...register('creditCardNumber', {
-                            required: 'Enter card number',
+                            required: formValues.paymentOption==='creditCard' ? 'Enter card number' : false,
                             pattern: {
                               value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                               message: 'Enter a valid card number',
@@ -536,7 +543,7 @@ export default function Checkout () {
                             type='text'
                             placeholder="Expiration date (MM /YY)"
                             {...register('expirationDate', {
-                              required: 'Enter expiration date',
+                              required: formValues.paymentOption==='creditCard' ? 'Enter expiration date' : false,
                               pattern: {
                                 value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                                 message: 'Enter a valid expiration date',
@@ -559,7 +566,7 @@ export default function Checkout () {
                             type='text'
                             placeholder="Security code"
                             {...register('securityCode', {
-                              required: 'Enter expiration date',
+                              required: formValues.paymentOption==='creditCard' ? 'Enter security code' : false,
                               pattern: {
                                 value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                                 message: 'Enter a valid security code',
@@ -583,7 +590,7 @@ export default function Checkout () {
                           type='text'
                           placeholder="Name on card"
                           {...register('nameOnCard', {
-                            required: 'Enter expiration date',
+                            required: formValues.paymentOption==='creditCard' ? 'Enter name on card' : false,
                             pattern: {
                               value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                               message: 'Enter your name exactly as it’s written on your card',
@@ -634,10 +641,10 @@ export default function Checkout () {
                               type='text'
                               placeholder="Country / Region"
                               {...register('billingCountryRegion', {
-                                required: 'Enter expiration date',
+                                required: formValues.paymentOption==='creditCard' ? 'Enter Country / Region' : false,
                                 pattern: {
                                   value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
-                                  message: 'Enter a valid name',
+                                  message: 'Enter a country / region',
                                 },
                               })}
                             />
@@ -658,7 +665,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="First name"
                                 {...register('billingFirstName', {
-                                  required: 'Enter a first name',
+                                  required: formValues.paymentOption==='creditCard' ? 'Enter a first name' : false,
                                   pattern: {
                                     value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                                     message: 'Enter a valid first name',
@@ -681,7 +688,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="Last name"
                                 {...register('billingLastName', {
-                                  required: 'Enter a last name',
+                                  required: formValues.paymentOption==='creditCard' ? 'Enter a last name' : false,
                                   pattern: {
                                     value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                                     message: 'Enter a last name',
@@ -705,7 +712,7 @@ export default function Checkout () {
                               type='text'
                               placeholder="Address"
                               {...register('billingAddress', {
-                                required: 'Enter an address',
+                                required: formValues.paymentOption==='creditCard' ? 'Enter an address' : false,
                                 pattern: {
                                   value: /^\d+\s+[A-Za-z\s]+(?:[A-Za-z0-9#-.]+)?$/,
                                   message: 'Enter a address',
@@ -739,7 +746,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="City"
                                 {...register('billingCity', {
-                                  required: 'Enter a city',
+                                  required: formValues.paymentOption==='creditCard' ? 'Enter a city' : false,
                                   pattern: {
                                     value: /^[A-Za-z\s-]+$/,
                                     message: 'Enter a valid city',
@@ -762,7 +769,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="State"
                                 {...register('billingState', {
-                                  required: 'Select a state / province',
+                                  required: formValues.paymentOption==='creditCard' ? 'Select a state / province' : false,
                                   pattern: {
                                     value: /^[A-Z]{2}$/,
                                     message: 'Enter a valid state',
@@ -785,7 +792,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="ZIP code"
                                 {...register('billingZipcode', {
-                                  required: 'Enter a ZIP / postal code',
+                                  required: formValues.paymentOption==='creditCard' ? 'Enter a ZIP / postal code' : false,
                                   pattern: {
                                     value: /^\d{5}(?:-\d{4})?$/,
                                     message: 'Enter a valid zip code',
@@ -909,7 +916,7 @@ export default function Checkout () {
                             type='text'
                             placeholder='Mobile phone number'
                             {...register('rememberMeContact', {
-                              required: 'The specified phone number does not match the expected pattern.',
+                              required: formValues.saveInfo ? 'The specified phone number does not match the expected pattern.' : false,
                               pattern: {
                                 value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                                 message: 'The specified phone number does not match the expected pattern.',
@@ -972,7 +979,7 @@ export default function Checkout () {
                               type='text'
                               placeholder="Country / Region"
                               {...register('billingCountryRegion', {
-                                required: 'Enter expiration date',
+                                required: differentBilling ? 'Enter a country / region' : false,
                                 pattern: {
                                   value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                                   message: 'Enter a valid name',
@@ -996,7 +1003,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="First name"
                                 {...register('billingFirstName', {
-                                  required: 'Enter a first name',
+                                  required: differentBilling ? 'Enter a first name' : false,
                                   pattern: {
                                     value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                                     message: 'Enter a valid first name',
@@ -1019,7 +1026,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="Last name"
                                 {...register('billingLastName', {
-                                  required: 'Enter a last name',
+                                  required: differentBilling ? 'Enter a last name' : false,
                                   pattern: {
                                     value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                                     message: 'Enter a last name',
@@ -1043,7 +1050,7 @@ export default function Checkout () {
                               type='text'
                               placeholder="Address"
                               {...register('billingAddress', {
-                                required: 'Enter an address',
+                                required: differentBilling ? 'Enter an address' : false,
                                 pattern: {
                                   value: /^\d+\s+[A-Za-z\s]+(?:[A-Za-z0-9#-.]+)?$/,
                                   message: 'Enter a address',
@@ -1077,7 +1084,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="City"
                                 {...register('billingCity', {
-                                  required: 'Enter a city',
+                                  required: differentBilling ? 'Enter a city' : false,
                                   pattern: {
                                     value: /^[A-Za-z\s-]+$/,
                                     message: 'Enter a valid city',
@@ -1100,7 +1107,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="State"
                                 {...register('billingState', {
-                                  required: 'Select a state / province',
+                                  required: differentBilling ? 'Select a state / province' : false,
                                   pattern: {
                                     value: /^[A-Z]{2}$/,
                                     message: 'Enter a valid state',
@@ -1123,7 +1130,7 @@ export default function Checkout () {
                                 type='text'
                                 placeholder="ZIP code"
                                 {...register('billingZipcode', {
-                                  required: 'Enter a ZIP / postal code',
+                                  required: differentBilling ? 'Enter a ZIP / postal code' : false,
                                   pattern: {
                                     value: /^\d{5}(?:-\d{4})?$/,
                                     message: 'Enter a valid zip code',
@@ -1161,6 +1168,7 @@ export default function Checkout () {
                 </div>
               }
             </div>
+            differentBilling: {JSON.stringify(differentBilling)}
             {
               formValues.paymentOption === 'paypal'
               ?
