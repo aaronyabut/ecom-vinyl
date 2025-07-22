@@ -45,6 +45,7 @@ export default function Checkout () {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -107,6 +108,42 @@ export default function Checkout () {
     }
     checker();
   }, [formValues.address,formValues.city,formValues.state,formValues.zipcode,showShipping])
+
+  useEffect (() => {
+    const sameAsBilling = () => {
+      if (formValues.shippingSameAsBilling || formValues.billingAddressOption==="sameAsShipping") {
+        setTimeout(()=> {
+          setValue("billingCountryRegion", formValues.country);
+          setValue("billingFirstName", formValues.firstName);
+          setValue("billingLastName", formValues.lastName);
+          setValue("billingAddress", formValues.address);
+          setValue("billingApartment", formValues.apartment);
+          setValue("billingCity", formValues.city);
+          setValue("billingState", formValues.state);
+          setValue("billingZipcode", formValues.zipcode);
+          setValue("billingPhone", formValues.phone);
+        }, 1000);
+        // alert("true");
+      } else if ((!formValues.shippingSameAsBilling || formValues.billingAddressOption==="differentBilling")) {
+        setTimeout(()=> {
+          setValue("billingCountryRegion", "");
+          setValue("billingFirstName", "");
+          setValue("billingLastName", "");
+          setValue("billingAddress", "");
+          setValue("billingApartment", "");
+          setValue("billingCity", "");
+          setValue("billingState", "");
+          setValue("billingZipcode", "");
+          setValue("billingPhone", "");
+        }, 1000);
+        // alert("false");
+      }
+
+      // when credit card is chosen reset formValues.billingAddressOption
+      // when anything else but credit card is chosen reset formValues.shippingSameAsBilling
+    }
+    sameAsBilling();
+  }, [formValues.shippingSameAsBilling, formValues.billingAddressOption])
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // alert(JSON.stringify(data));
@@ -506,6 +543,7 @@ export default function Checkout () {
                       type='radio'
                       value='creditCard'
                       {...register("paymentOption")}
+                      onClick={()=>setValue("billingAddressOption", "differentBilling")}
                     />
                   </div>
                   <div className={styles.title}>Credit card</div>
@@ -607,7 +645,6 @@ export default function Checkout () {
                         : null
                       }
                     </div>
-                    formValues.shippingSameAsBilling: {JSON.stringify(formValues.shippingSameAsBilling)}
                     <div className={styles.billingAddressCheckbox}>
                       <div className={`${styles.checkboxInput} ${formValues.shippingSameAsBilling && styles.checked}`}>
                         <input
@@ -836,6 +873,7 @@ export default function Checkout () {
                       type='radio'
                       value='paypal'
                       {...register("paymentOption")}
+                      onClick={()=>setValue("shippingSameAsBilling", false)}
                     />
                   </div>
                   <div className={styles.title}>PayPal</div>
@@ -853,6 +891,7 @@ export default function Checkout () {
                       type='radio'
                       value='shopPay'
                       {...register("paymentOption")}
+                      onClick={()=>setValue("shippingSameAsBilling", false)}
                     />
                   </div>
                   <div className={styles.title}>Shop Pay</div>
@@ -864,6 +903,7 @@ export default function Checkout () {
                       type='radio'
                       value='afterPay'
                       {...register("paymentOption")}
+                      onClick={()=>setValue("shippingSameAsBilling", false)}
                     />
                   </div>
                   <div className={styles.title}>Afterpay</div>
@@ -878,7 +918,7 @@ export default function Checkout () {
               </div>
               {formValues.paymentOption === 'creditCard' ?
                 <div className={styles.rememberMeContainer}>
-                  <h3 className={styles.rememberMeHeader}>Remember me {JSON.stringify(formValues.saveInfo)}</h3>
+                  <h3 className={styles.rememberMeHeader}>Remember me</h3>
                   <div className={styles.rememberMeInputContainer}>
                     <div className={styles.saveInfo}>
                       <div className={`${styles.checkboxInput} ${formValues.saveInfo && styles.checked}`}>
@@ -1170,7 +1210,6 @@ export default function Checkout () {
                 </div>
               }
             </div>
-            differentBilling: {JSON.stringify(differentBilling)}
             {
               formValues.paymentOption === 'paypal'
               ?
