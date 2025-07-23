@@ -671,6 +671,10 @@
         .afterPay {
           @include radioSelection($placement:bottom);
           // @include border(blue);
+          .logos {
+
+            // @include border(blue);
+          }
         }
         .chosenPayment {
           @include chosenRadio($dropdown:true);

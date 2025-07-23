@@ -950,7 +950,14 @@ export default function Checkout () {
                     />
                   </div>
                   <div className={styles.title}>Afterpay</div>
-                  <div className={styles.logos}></div>
+                  {/* <div className={styles.logos}> */}
+                    <Image
+                      src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/afterpay.B5PfoQU9.svg"
+                      width={38}
+                      height={18}
+                      alt='Afterpay logo'
+                    />
+                  {/* </div> */}
                 </div>
                 <div className={`${styles.dropdownAfterPay} ${formValues.paymentOption==="afterPay" && styles.open}`}>
                   <div className={styles.container}>
