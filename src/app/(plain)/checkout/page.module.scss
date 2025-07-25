@@ -17,6 +17,16 @@
     // @include border(green);
   }
 }
+@mixin hyperlink {
+  color: #1773B0;
+  cursor: pointer;
+  text-decoration: underline;
+  // @include border(MediumBlue);
+  transition: color .2s ease;
+  &:hover {
+    color: #0f4569;
+  }
+}
 
 @mixin radioInput {
   input[type="radio"] {
@@ -303,7 +313,7 @@
         max-width: 660px;
         width: 580px;
         height: auto;
-        padding: 38px;
+        padding: 38px 38px 14px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -411,6 +421,11 @@
             // @include border(MediumBlue);
           }
         }
+        .border {
+          margin-top: 46px;
+          width: 100%;
+          border-bottom: solid 1px rgb(63, 63, 63);
+        };
       }
     }
     .contactContainer {
@@ -428,15 +443,9 @@
           height: fit-content;
           // @include border(MediumBlue);
         }
+
         .login {
-          color: #1773B0;
-          cursor: pointer;
-          text-decoration: underline;
-          // @include border(MediumBlue);
-          transition: color .2s ease;
-          &:hover {
-            color: #0f4569;
-          }
+          @include hyperlink();
         }
       }
       .email {
@@ -790,9 +799,24 @@
     }
 
     .companyPolicies {
-      @include border(red);
-      // width: 100%;
       width: 580px;
+      padding-inline: 38px;
+      margin-bottom: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      row-gap: 5px;
+      column-gap: 14px;
+      // @include border(red);
+
+      span {
+        // text-wrap: wrap;
+        @include hyperlink();
+        word-break: normal;
+        font-size: 14px;
+        // @include border(blue);
+      }
+
+      // flex-direction: row;
     }
 
     .rememberMeContainer {

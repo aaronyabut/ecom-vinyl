@@ -61,7 +61,7 @@ export default function Checkout () {
       zipcode: '12345',
       phone: '',
       textAlert: false,
-      textMePhoneNumber: '',
+      textMePhoneNumber: '+1 ',
       shippingOption: 'usps',
       paymentOption:'creditCard',
       creditCardNumber: '',
@@ -937,7 +937,7 @@ export default function Checkout () {
                       height={18}
                       alt='Shop Pay Icon'
                     />
-                    Shop Pay
+                    Pay in full or in installments
                   </div>
                 </div>
                 <div className={`${styles.afterPay} ${formValues.paymentOption==="afterPay" && styles.chosenPayment}`}>
@@ -1267,23 +1267,14 @@ export default function Checkout () {
               :
               <button type="submit" className={styles.payNowButton}>Pay now</button>
             }
+            <div className={styles.border}></div>
           </form>
           <div className={styles.companyPolicies}>
-            <div >
-              Refund policy
-            </div>
-            <div>
-              Shipping policy
-            </div>
-            <div>
-              Privacy policy
-            </div>
-            <div>
-              Terms of service
-            </div>
-            <div>
-              Contact information
-            </div>
+            <span>Refund policy</span>
+            <span>Shipping policy</span>
+            <span>Privacy policy</span>
+            <span>Terms of service</span>
+            <span>Contact information</span>
           </div>
         </div>
         <div className={styles.itemsContainer}>
