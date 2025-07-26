@@ -1,0 +1,81 @@
+@mixin border($color) {
+  border-style: solid;
+  border-width: .15rem;
+  border-color: $color;
+}
+
+@mixin flexRow ($justify-content, $column-gap:0px ) {
+  display: flex;
+  flex-direction: row;
+  justify-content: $justify-content;
+  column-gap: $column-gap;
+  // column-gap: 14px;
+}
+
+
+
+.itemsContainer {
+  height: 100%;
+  color: black;
+  @include border(red);
+  .innerContainer {
+    padding: 38px;
+    width: 480px;
+    @include border(black);
+    .itemList {
+      @include border(blue);
+    }
+    .discountCode {
+      @include border(blue);
+    }
+    .cartTotal {
+      @include border(blue);
+      .subtotalContainer {
+        @include flexRow(space-between, -gap);
+        @include border(yellow);
+        .subtotal {
+          @include border(MediumPurple);
+        }
+        .price {
+          @include border(MediumPurple);
+        }
+      }
+      .shippingContainer {
+        @include flexRow(space-between, -gap);
+        @include border(yellow);
+        .labelContainer {
+          @include flexRow(space-between, -gap);
+          .label {
+            @include border(hotpink);
+          }
+          .icon {
+            @include border(hotpink);
+          }
+        }
+        .shippingCost {
+          @include border(MediumPurple);
+        }
+        .blankAddress {
+          @include border(MediumPurple);
+        }
+      }
+      .totalContainer {
+        @include flexRow(space-between, -gap);
+        @include border(yellow);
+        .label {
+          @include border(MediumPurple);
+        }
+        .priceContainer {
+          @include flexRow(space-between, -gap);
+          @include border(MediumPurple);
+          .usdLabel {
+            @include border(hotpink);
+          }
+          .totalNumber {
+            @include border(hotpink);
+          }
+        }
+      }
+    }
+  }
+}

@@ -343,6 +343,10 @@
             justify-content: center;
             border-radius: 8px;
 
+            &:hover {
+              filter: contrast(150%);
+            }
+
             // @include border(MediumBlue);
             .shopPayIcon {
               width: 84px;
@@ -358,6 +362,9 @@
             align-items: center;
             justify-content: center;
             border-radius: 8px;
+            &:hover {
+              filter: contrast(85%);
+            }
 
             // @include border(MediumBlue);
             .pay {
@@ -376,6 +383,9 @@
             align-items: center;
             justify-content: center;
             border-radius: 8px;
+            &:hover {
+              filter: contrast(85%);
+            }
             // @include border(MediumBlue);
             .gpayIcon {
               width: 60px;
@@ -391,6 +401,9 @@
             align-items: center;
             justify-content: center;
             border-radius: 8px;
+            &:hover {
+              filter: contrast(85%);
+            }
             // @include border(MediumBlue);
             .venmoIcon {
               fill: white;

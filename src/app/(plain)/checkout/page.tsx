@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
+import Items from './Components/items';
+
 
 interface FormData {
   email: string;
@@ -1278,7 +1280,10 @@ export default function Checkout () {
           </div>
         </div>
         <div className={styles.itemsContainer}>
-          <div className={styles.items}>asd</div>
+          {/* <div className={styles.items}>asd</div> */}
+          <Items
+
+          />
         </div>
       </div>
     </div>
