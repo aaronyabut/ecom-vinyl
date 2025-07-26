@@ -3,13 +3,76 @@
   border-width: .15rem;
   border-color: $color;
 }
-
 @mixin flexRow ($justify-content, $column-gap:0px ) {
   display: flex;
   flex-direction: row;
   justify-content: $justify-content;
   column-gap: $column-gap;
   // column-gap: 14px;
+}
+@mixin wrongInput {
+  .wrongEntryMessage {
+    margin-top: 10px;
+    color:rgb(234, 71, 118);
+    // @include border(green);
+  }
+}
+@mixin inputText (){
+  .inputContainer {
+    background-color: rgba(255, 0, 0, 0);
+    width: 100%;
+    font-size: 14px;
+    border-radius: 8px;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    // @include border(white);
+
+    .inputText {
+      padding: 13px 11px;
+      border-radius: 8px;
+      font-size: 14px;
+      width: 100%;
+      height: 46px;
+      background-color: rgba(0, 0, 0, 0);
+      // border: none;
+      box-shadow: none;
+      outline: none;
+      color: black;
+      transition: padding 0.3s ease;
+      transition: border-color 0.3s ease;
+      z-index: 47;
+      position: relative;
+      @include border(rgb(227, 227, 227));
+
+      &:focus {
+        @include border(#1773B0);
+      }
+      &.wrongEntry {
+        @include border(rgb(234, 71, 118));
+      }
+    }
+
+    .inputUpdate {
+      padding: 22px 11px 6px;
+      transition: padding 0.3s ease
+      // @include border(rgb(49, 255, 22));
+    }
+    .inputLabel {
+      opacity: 0;
+      transform: translateY(40%);
+      position: absolute;
+      top: 7px;
+      left: 13px;
+      color: rgb(104, 104, 104);
+      z-index: 45;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .showLabel {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @include wrongInput();
 }
 
 
@@ -27,6 +90,22 @@
     }
     .discountCode {
       @include border(blue);
+      .form {
+        @include flexRow(space-between, 14px);
+        .input {
+          @include inputText();
+          width: 100%;
+        }
+        .apply {
+          color: darkgray;
+          font-weight: 600;
+          padding-inline: 15px;
+          background-color: rgb(241, 241, 241);
+          @include border(rgb(227, 227, 227));
+          border-radius: 8px;
+        }
+      }
+      .discountTags {}
     }
     .cartTotal {
       @include border(blue);

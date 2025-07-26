@@ -137,7 +137,7 @@
   }
 }
 
-@mixin inputText ($border-color: white){
+@mixin inputText ($border-color: rgb(227, 227, 227)){
   .inputContainer {
     background-color: rgba(255, 0, 0, 0);
     width: 100%;
@@ -159,11 +159,13 @@
       outline: none;
       color: black;
       transition: padding 0.3s ease;
+      transition: border-color 0.3s ease;
       z-index: 47;
       position: relative;
       @include border($border-color);
 
       &:focus {
+        transition: border-color 0.3s ease;
         @include border(#1773B0);
       }
       &.wrongEntry {
