@@ -5,13 +5,17 @@ import PlusIcon from '@public/cart_svg/plus.svg';
 import MinusIcon from '@public/cart_svg/minus.svg';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { useShoppingCart } from '../ClientLayout';
+import { useCart } from '@/app/ClientLayout';
+import { useShoppingCart } from '@/app/ShoppingCart';
+import Link from 'next/link';
 
 export default function Cart () {
   const [shipping, setShipping] = useState<number>(4.99);
   const [freeShipping, setFreeShipping] = useState<number>(60);
   const [subTotal, setSubTotal] = useState<number>(0);
-  const {shoppingCart, setShoppingCart, openCart, setOpenCart} = useShoppingCart();
+  // const {shoppingCart, setShoppingCart, openCart, setOpenCart} = useCart();
+  const { openCart, setOpenCart } = useCart();
+  const {shoppingCart, setShoppingCart } = useShoppingCart();
   const [cartCount, setCartCount] = useState<number>(0);
   const [shippingProtection, setShippingProtection] = useState<boolean>(true);
 
@@ -281,7 +285,11 @@ export default function Cart () {
               </div>
             </div>
           }
-          <div className={`${styles.checkout} ${shoppingCart.length && styles.active}`}>Proceed to Checkout</div>
+          <div className={`${styles.checkout} ${shoppingCart.length && styles.active}`}>
+            <Link href={`/checkout`}>
+              Proceed to Checkout
+            </Link>
+          </div>
           {
             shoppingCart.length ?
             <div className={styles.shippingAndTaxes}>Taxes calculated at checkout</div>

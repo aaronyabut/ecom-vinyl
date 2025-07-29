@@ -9,7 +9,8 @@ import DualRangeSlider from '../utils/DualRangeSlider';
 import Artists from '../filters/Artists';
 import Link from 'next/link';
 import { Vinyl } from '../(default)/page';
-import { useShoppingCart } from '../ClientLayout';
+import { useCart } from '@/app/ClientLayout';
+import { useShoppingCart } from '@/app/ShoppingCart';
 
 
 /*/[[Feature list]]
@@ -110,7 +111,9 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     toShow: initialTotalCount >= 24 ? true : false,
   })
   const [showReset, setShowReset] = useState<boolean>(false);
-  const { setShoppingCart, setOpenCart, setToNotify } = useShoppingCart();
+  // const { setShoppingCart, setOpenCart, setToNotify } = useCart();
+  const { setOpenCart, setToNotify } = useCart();
+  const { setShoppingCart } = useShoppingCart();
 
   // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
 

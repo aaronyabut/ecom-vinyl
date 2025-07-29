@@ -11,7 +11,8 @@ import VerifiedIcon from '@public/product_page_svg/verified.svg'
 import LightningIcon from '@public/product_page_svg/lightning.svg'
 import SmileIcon from '@public/product_page_svg/smile.svg'
 import { Vinyl } from '../../page'
-import { useShoppingCart } from '@/app/ClientLayout';
+import { useCart } from '@/app/ClientLayout';
+import { useShoppingCart } from '@/app/ShoppingCart';
 
 interface ProductDetailsProps {
   vinyl: Vinyl,
@@ -119,7 +120,9 @@ export default function ProductDetails({
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
 
-  const { setShoppingCart, setOpenCart, setToNotify } = useShoppingCart();
+  // const { setShoppingCart, setOpenCart, setToNotify } = useCart();
+  const { setOpenCart, setToNotify } = useCart();
+  const { setShoppingCart } = useShoppingCart();
 
   useEffect(() => {
     const handleScroll = () => {

@@ -7,7 +7,8 @@ import { useState, useEffect } from 'react';
 import Magnifier from '../../../public/magnifier.svg';
 import ArrowIcon from '../../../public/arrow-icon.svg';
 // import Cart from './Cart';
-import { useShoppingCart } from '../ClientLayout';
+import { useCart } from '../ClientLayout';
+import { useShoppingCart } from '@/app/ShoppingCart';
 
 
 const navLinks:string[] = [
@@ -24,7 +25,9 @@ export default function Navbar () {
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   // const [toCart, setToCart] = useState<boolean>(false);
   const [cartCount, setCartCount] = useState<number>(0);
-  const {shoppingCart, openCart, setOpenCart} = useShoppingCart();
+  // const {shoppingCart, openCart, setOpenCart} = useCart();
+  const { openCart, setOpenCart } = useCart();
+  const { shoppingCart } = useShoppingCart();
 
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
     setSelecting(e.target.value);

@@ -1,12 +1,12 @@
 import styles from './notify.module.scss';
 import XIcon from './../../../public/x-icon.svg'
 import Image from 'next/image';
-import { useShoppingCart } from '../ClientLayout';
+import { useCart } from '../ClientLayout';
 
 
 
 export default function NotifyMe () {
-  const { toNotify, setToNotify } = useShoppingCart();
+  const { toNotify, setToNotify } = useCart();
   return (
     <div className={`${styles.notifyMeContainer} ${toNotify ? styles.showModal : styles.hideModal} ${toNotify && styles.noScroll}`}>
       <div

@@ -1,11 +1,14 @@
 import styles from './items.module.scss'
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useShoppingCart } from '@/app/ShoppingCart';
 
 interface FormData {
   discountCode: string;
 }
 
 export default function Items () {
+  const { shoppingCart } = useShoppingCart();
+
   const {
     register,
     handleSubmit,
@@ -32,6 +35,7 @@ export default function Items () {
       <div className={styles.innerContainer}>
         <div className={styles.itemList}>
           Item list
+          {JSON.stringify(shoppingCart)}
         </div>
         <div className={styles.discountCode}>
           <form
