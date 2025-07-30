@@ -6,6 +6,14 @@ import { Vinyl } from './(default)/page';
 interface ShopppingCartContextType {
   shoppingCart: Vinyl[];
   setShoppingCart: React.Dispatch<React.SetStateAction<Vinyl[]>>;
+  subTotal: number;
+  setSubTotal: React.Dispatch<React.SetStateAction<number>>;
+  shippingProtection: boolean;
+  setShippingProtection: React.Dispatch<React.SetStateAction<boolean>>;
+  shipping: number;
+  setShipping: React.Dispatch<React.SetStateAction<number>>;
+  cartCount: number;
+  setCartCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ShopppingCartContext = createContext<ShopppingCartContextType | undefined>(undefined);
@@ -15,7 +23,7 @@ export const useShoppingCart = () => {
   if (!context) {
     throw new Error(`useShoppingCart must be used within a ShoppingCartProvider ${context}`);
   }
-  console.log('context', context)
+  // console.log('context', context)
   return context;
 };
 
@@ -25,10 +33,21 @@ export function ShoppingCart({
   children: React.ReactNode
 }) {
   const [shoppingCart, setShoppingCart] = useState<Vinyl[]>([]);
+  const [subTotal, setSubTotal] = useState<number>(0);
+  const [shippingProtection, setShippingProtection] = useState<boolean>(true);
+  const [shipping, setShipping] = useState<number>(4.99);
+  const [cartCount, setCartCount] = useState<number>(0);
 
   return (
     <div>
-      <ShopppingCartContext.Provider value={{shoppingCart, setShoppingCart}}>
+      <ShopppingCartContext.Provider
+        value={{
+          shoppingCart, setShoppingCart,
+          subTotal, setSubTotal,
+          shippingProtection, setShippingProtection,
+          shipping, setShipping,
+          cartCount, setCartCount,
+        }}>
         {children}
       </ShopppingCartContext.Provider>
     </div>

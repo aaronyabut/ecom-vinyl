@@ -84,9 +84,67 @@
   .innerContainer {
     padding: 38px;
     width: 480px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
     @include border(black);
     .itemList {
       @include border(blue);
+      display: flex;
+      flex-direction: column;
+      row-gap: 14px;
+      .item {
+        @include flexRow(space-between, -gap);
+        @include border(mediumpurple);
+        .imageContainer {
+          // @include border(hotpink);
+          position: relative;
+          .image {
+            @include border(rgb(214, 214, 214));
+            border-radius: 8px;
+          }
+          .quantity {
+            display: flex;
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            background-color:rgb(102, 102, 102);
+            border-radius: 36px;
+            width: 22px;
+            height: 22px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+        .artistTitle {
+          width: 281.922px;
+          padding-left: 14px;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          @include border(hotpink);
+        }
+        .priceContainer {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 58.0781px;
+          @include border(hotpink);
+          .price {
+            font-size: 14px;
+            @include border(green);
+          }
+          .discountedPrice {
+            font-size: 14px;
+
+            @include border(green);
+          }
+        }
+      }
     }
     .discountCode {
       @include border(blue);
@@ -108,6 +166,7 @@
       .discountTags {}
     }
     .cartTotal {
+      font-size: 14px;
       @include border(blue);
       .subtotalContainer {
         @include flexRow(space-between, -gap);
@@ -123,12 +182,23 @@
         @include flexRow(space-between, -gap);
         @include border(yellow);
         .labelContainer {
+          display: block;
+          align-items: center;
+          justify-content: center;
+          column-gap: 7px;
           @include flexRow(space-between, -gap);
           .label {
-            @include border(hotpink);
+            // @include border(hotpink);
           }
-          .icon {
-            @include border(hotpink);
+          .iconContainer {
+            // @include border(hotpink);
+
+            .icon {
+              height: 11px;
+              width: 11px;
+              cursor: pointer;
+              // @include border(hotpink);
+            }
           }
         }
         .shippingCost {
@@ -139,19 +209,28 @@
         }
       }
       .totalContainer {
+        margin-top: 21px;
+        font-size: 19px;
+        font-weight: 600;
         @include flexRow(space-between, -gap);
-        @include border(yellow);
+        // @include border(yellow);
         .label {
-          @include border(MediumPurple);
+          // @include border(MediumPurple);
         }
         .priceContainer {
-          @include flexRow(space-between, -gap);
-          @include border(MediumPurple);
+          @include flexRow(space-between, 7px);
+          justify-content: center;
+          align-items: center;
+          // @include border(MediumPurple);
           .usdLabel {
-            @include border(hotpink);
+            font-size: 12px;
+            font-weight: 400;
+            height: fit-content;
+            color: #666666;
+            // @include border(hotpink);
           }
           .totalNumber {
-            @include border(hotpink);
+            // @include border(hotpink);
           }
         }
       }

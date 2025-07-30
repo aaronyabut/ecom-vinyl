@@ -10,14 +10,15 @@ import { useShoppingCart } from '@/app/ShoppingCart';
 import Link from 'next/link';
 
 export default function Cart () {
-  const [shipping, setShipping] = useState<number>(4.99);
   const [freeShipping, setFreeShipping] = useState<number>(60);
-  const [subTotal, setSubTotal] = useState<number>(0);
-  // const {shoppingCart, setShoppingCart, openCart, setOpenCart} = useCart();
   const { openCart, setOpenCart } = useCart();
-  const {shoppingCart, setShoppingCart } = useShoppingCart();
-  const [cartCount, setCartCount] = useState<number>(0);
-  const [shippingProtection, setShippingProtection] = useState<boolean>(true);
+  const {
+    shoppingCart, setShoppingCart,
+    subTotal, setSubTotal,
+    shippingProtection, setShippingProtection,
+    shipping, setShipping,
+    cartCount, setCartCount
+  } = useShoppingCart();
 
 
   useEffect(()=> {
@@ -255,6 +256,7 @@ export default function Cart () {
                       <span>
                         {(subTotal + shipping).toFixed(2)}
                       </span>
+                      // refactor to be able to pass down to checkout page, useEffect implemented
                     }
                   </span>
                   :
@@ -274,7 +276,7 @@ export default function Cart () {
                 className={`${styles.shippingIcon} ${!shippingProtection && styles.checked}`}
               />
               <div className={styles.details}>
-                <div className={styles.header}>Shipping Protection $4.99</div>
+                <div className={styles.header}>Shipping Protection {cartCount>2 ? "$9.99" : "$4.99"}</div>
                 <div className={styles.info}>{shippingProtection ? "Select to protect your order from damage, loss or theft during transit." : "Your order is now protected against damage, loss or theft during transit."}</div>
               </div>
               <div
@@ -287,7 +289,7 @@ export default function Cart () {
           }
           <div className={`${styles.checkout} ${shoppingCart.length && styles.active}`}>
             <Link href={`/checkout`}>
-              Proceed to Checkout
+              Checkout securely now
             </Link>
           </div>
           {

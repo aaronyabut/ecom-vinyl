@@ -6,8 +6,7 @@ import styles from './navfooter.module.scss';
 import { useState, useEffect } from 'react';
 import Magnifier from '../../../public/magnifier.svg';
 import ArrowIcon from '../../../public/arrow-icon.svg';
-// import Cart from './Cart';
-import { useCart } from '../ClientLayout';
+import { useCart } from '@/app/ClientLayout';
 import { useShoppingCart } from '@/app/ShoppingCart';
 
 
