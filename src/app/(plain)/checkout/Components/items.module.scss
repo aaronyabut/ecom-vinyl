@@ -167,20 +167,21 @@
     }
     .cartTotal {
       font-size: 14px;
-      @include border(blue);
+      // @include border(blue);
       .subtotalContainer {
         @include flexRow(space-between, -gap);
-        @include border(yellow);
+        // @include border(yellow);
         .subtotal {
-          @include border(MediumPurple);
+          // @include border(MediumPurple);
         }
         .price {
-          @include border(MediumPurple);
+          // @include border(MediumPurple);
         }
       }
-      .shippingContainer {
+      @mixin shippingAndTax {
         @include flexRow(space-between, -gap);
-        @include border(yellow);
+        // @include border(yellow);
+        margin-top: 11px;
         .labelContainer {
           display: block;
           align-items: center;
@@ -192,7 +193,6 @@
           }
           .iconContainer {
             // @include border(hotpink);
-
             .icon {
               height: 11px;
               width: 11px;
@@ -201,12 +201,15 @@
             }
           }
         }
-        .shippingCost {
-          @include border(MediumPurple);
+        .price {
+          // @include border(MediumPurple);
         }
-        .blankAddress {
-          @include border(MediumPurple);
-        }
+      }
+      .shippingContainer {
+        @include shippingAndTax();
+      }
+      .taxContainer {
+        @include shippingAndTax();
       }
       .totalContainer {
         margin-top: 21px;

@@ -72,13 +72,14 @@ interface ShipType {
   showShipping: boolean;
 }
 
-
 export default function Items ({showShipping} : ShipType) {
   const {
     shoppingCart, subTotal,
     shipping, shippingProtection,
     cartCount
   } = useShoppingCart();
+  const taxPrice = Number((subTotal*0.105).toFixed(2))
+  const totalPrice = (subTotal+shipping+taxPrice).toFixed(2)
 
   const {
     register,
@@ -170,7 +171,7 @@ export default function Items ({showShipping} : ShipType) {
         <div className={styles.cartTotal}>
           <div className={styles.subtotalContainer}>
             <div className={styles.subtotal}>Subtotal · {cartCount} {cartCount > 1 ? "items": "item"}</div>
-            <div className={styles.price}>{subTotal}</div>
+            <div className={styles.price}>${subTotal}</div>
           </div>
           <div className={styles.shippingContainer}>
             <div className={styles.labelContainer}>
@@ -179,14 +180,25 @@ export default function Items ({showShipping} : ShipType) {
                 <svg className={styles.icon} fill="#666666" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M23.424,10.827c0,3.956-4.533,5.478-5.507,6.907c-0.729,1.063-0.485,2.557-2.495,2.557c-1.309,0-1.946-1.064-1.946-2.039 c0-3.623,5.323-4.442,5.323-7.425c0-1.643-1.096-2.616-2.921-2.616c-3.895,0-2.373,4.016-5.323,4.016 c-1.066,0-1.979-0.639-1.979-1.855c0-2.983,3.407-5.628,7.119-5.628C19.59,4.742,23.424,6.536,23.424,10.827z M15.545,22.268 c-1.369,0-2.496,1.125-2.496,2.496c0,1.369,1.127,2.494,2.496,2.494c1.367,0,2.494-1.125,2.494-2.494 C18.039,23.393,16.912,22.268,15.545,22.268z M32,16c0,8.822-7.178,16-16,16C7.178,32,0,24.822,0,16S7.178,0,16,0 C24.822,0,32,7.177,32,16z M29,16c0-7.168-5.832-13-13-13S3,8.832,3,16s5.832,13,13,13S29,23.168,29,16z"></path> </g> </g></svg>
               </div>
             </div>
-            {/* <div className={styles.shippingCost}>Shipping Cost</div> */}
-            <div className={styles.blankAddress}>{showShipping ? shipping : "Enter shipping address"}</div>
+            <div className={styles.price}>{showShipping ? `$${shipping}` : "Enter shipping address"}</div>
           </div>
+          {
+            showShipping &&
+            <div className={styles.taxContainer}>
+              <div className={styles.labelContainer}>
+                <div className={styles.label}>Estimated taxes</div>
+                <div className={styles.iconContainer}>
+                  <svg className={styles.icon} fill="#666666" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M23.424,10.827c0,3.956-4.533,5.478-5.507,6.907c-0.729,1.063-0.485,2.557-2.495,2.557c-1.309,0-1.946-1.064-1.946-2.039 c0-3.623,5.323-4.442,5.323-7.425c0-1.643-1.096-2.616-2.921-2.616c-3.895,0-2.373,4.016-5.323,4.016 c-1.066,0-1.979-0.639-1.979-1.855c0-2.983,3.407-5.628,7.119-5.628C19.59,4.742,23.424,6.536,23.424,10.827z M15.545,22.268 c-1.369,0-2.496,1.125-2.496,2.496c0,1.369,1.127,2.494,2.496,2.494c1.367,0,2.494-1.125,2.494-2.494 C18.039,23.393,16.912,22.268,15.545,22.268z M32,16c0,8.822-7.178,16-16,16C7.178,32,0,24.822,0,16S7.178,0,16,0 C24.822,0,32,7.177,32,16z M29,16c0-7.168-5.832-13-13-13S3,8.832,3,16s5.832,13,13,13S29,23.168,29,16z"></path> </g> </g></svg>
+                </div>
+              </div>
+              <div className={styles.price}>${taxPrice}</div>
+            </div>
+          }
           <div className={styles.totalContainer}>
-            <div className={styles.label}>Total {showShipping}</div>
+            <div className={styles.label}>Total</div>
             <div className={styles.priceContainer}>
               <div className={styles.usdLabel}>USD</div>
-              <div className={styles.totalNumber}>$ TOTAL NUM</div>
+              <div className={styles.totalNumber}>${totalPrice}</div>
             </div>
           </div>
         </div>
