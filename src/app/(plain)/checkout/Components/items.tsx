@@ -68,8 +68,12 @@ const sampleData:Vinyl[] = [
   }
 ]
 
+interface ShipType {
+  showShipping: boolean;
+}
 
-export default function Items () {
+
+export default function Items ({showShipping} : ShipType) {
   const {
     shoppingCart, subTotal,
     shipping, shippingProtection,
@@ -176,10 +180,10 @@ export default function Items () {
               </div>
             </div>
             {/* <div className={styles.shippingCost}>Shipping Cost</div> */}
-            <div className={styles.blankAddress}>Enter shipping address</div>
+            <div className={styles.blankAddress}>{showShipping ? shipping : "Enter shipping address"}</div>
           </div>
           <div className={styles.totalContainer}>
-            <div className={styles.label}>Total</div>
+            <div className={styles.label}>Total {showShipping}</div>
             <div className={styles.priceContainer}>
               <div className={styles.usdLabel}>USD</div>
               <div className={styles.totalNumber}>$ TOTAL NUM</div>

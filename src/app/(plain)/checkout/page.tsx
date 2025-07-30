@@ -1282,7 +1282,7 @@ export default function Checkout () {
         <div className={styles.itemsContainer}>
           {/* <div className={styles.items}>asd</div> */}
           <Items
-
+            showShipping={showShipping}
           />
         </div>
       </div>
