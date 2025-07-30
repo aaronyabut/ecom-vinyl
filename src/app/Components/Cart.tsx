@@ -4,20 +4,20 @@ import XIcon from '@public/x-icon.svg';
 import PlusIcon from '@public/cart_svg/plus.svg';
 import MinusIcon from '@public/cart_svg/minus.svg';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useCart } from '@/app/ClientLayout';
 import { useShoppingCart } from '@/app/ShoppingCart';
 import Link from 'next/link';
 
 export default function Cart () {
-  const [freeShipping, setFreeShipping] = useState<number>(60);
   const { openCart, setOpenCart } = useCart();
   const {
     shoppingCart, setShoppingCart,
     subTotal, setSubTotal,
     shippingProtection, setShippingProtection,
     shipping, setShipping,
-    cartCount, setCartCount
+    freeShipping, setFreeShipping,
+    cartCount, setCartCount,
   } = useShoppingCart();
 
 
@@ -36,8 +36,6 @@ export default function Cart () {
 
         setSubTotal(shoppingCart.length > 0 ? Math.round(sumSubtotal*100)/100 : 0)
 
-        setShipping(shoppingCart.length > 1 ? 5.99 : 4.99);
-
         setFreeShipping(Math.round((60-sumSubtotal)*100)/100);
 
       } catch (error) {
@@ -45,7 +43,22 @@ export default function Cart () {
       }
     }
     shoppingCartUpdates()
-  }, [shoppingCart.map(item => item.quantity).join(",")])
+  }, [shoppingCart.map(item => item.quantity).join(",")]);
+
+  useEffect(()=> {
+    async function shippingUpdates ()  {
+      try {
+        if (freeShipping <= 0) {
+          setShipping(0);
+        } else if (freeShipping > 0){
+          setShipping(shoppingCart.length > 1 ? 5.99 : 4.99);
+        }
+      } catch (error) {
+        console.error('Error within shipping updates:', error);
+      }
+    }
+    shippingUpdates();
+  }, [freeShipping]);
 
   return (
     <div className={`${styles.cartContainer} ${openCart ? styles.showCart : styles.hideCart} ${openCart && styles.noScroll}`}>
@@ -234,7 +247,7 @@ export default function Cart () {
               <div className={styles.subTotal}>
                 <span>Estimate shipping costs</span>
                 {
-                  subTotal > 60 ?
+                  freeShipping <= 0 ?
                   <span>FREE</span>
                   :
                   <span>${shipping}</span>

@@ -125,7 +125,6 @@ export default function Checkout () {
           setValue("billingZipcode", formValues.zipcode);
           setValue("billingPhone", formValues.phone);
         }, 1000);
-        // alert("true");
       } else if ((!formValues.shippingSameAsBilling || formValues.billingAddressOption==="differentBilling")) {
         setTimeout(()=> {
           setValue("billingCountryRegion", "");
@@ -138,7 +137,6 @@ export default function Checkout () {
           setValue("billingZipcode", "");
           setValue("billingPhone", "");
         }, 1000);
-        // alert("false");
       }
 
       // when credit card is chosen reset formValues.billingAddressOption
@@ -510,7 +508,8 @@ export default function Checkout () {
               </div>
               <h3 className={styles.shippingHeader}>Shipping method</h3>
               <div className={styles.shippingMessage}>Please double-check your address. You won’t be able to change it later.</div>
-              {showShipping ?
+              {
+                showShipping ?
                 <div className={styles.shippingOptions}>
                   <div className={`${styles.usps} ${formValues.shippingOption==="usps" && styles.chosenShipping}`}>
                     <div className={styles.radioButton}>
@@ -952,14 +951,12 @@ export default function Checkout () {
                     />
                   </div>
                   <div className={styles.title}>Afterpay</div>
-                  {/* <div className={styles.logos}> */}
-                    <Image
-                      src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/afterpay.B5PfoQU9.svg"
-                      width={38}
-                      height={18}
-                      alt='Afterpay logo'
-                    />
-                  {/* </div> */}
+                  <Image
+                    src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/afterpay.B5PfoQU9.svg"
+                    width={38}
+                    height={18}
+                    alt='Afterpay logo'
+                  />
                 </div>
                 <div className={`${styles.dropdownAfterPay} ${formValues.paymentOption==="afterPay" && styles.open}`}>
                   <div className={styles.container}>
@@ -968,7 +965,8 @@ export default function Checkout () {
                   </div>
                 </div>
               </div>
-              {formValues.paymentOption === 'creditCard' ?
+              {
+                formValues.paymentOption === 'creditCard' ?
                 <div className={styles.rememberMeContainer}>
                   <h3 className={styles.rememberMeHeader}>Remember me</h3>
                   <div className={styles.rememberMeInputContainer}>
@@ -1040,7 +1038,7 @@ export default function Checkout () {
                     </div>
                   </div>
                 </div>
-              :
+                :
                 <div className={styles.billingAddressContainer}>
                   <h3 className={styles.billingAddressHeader}>Billing address</h3>
                   <div className={styles.billingAddressOptions}>

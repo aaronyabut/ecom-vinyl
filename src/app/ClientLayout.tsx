@@ -9,8 +9,6 @@ import NotifyMe from './Components/NotifyMe';
 
 // Define the context type
 interface CartContextType {
-  // shoppingCart: Vinyl[];
-  // setShoppingCart: React.Dispatch<React.SetStateAction<Vinyl[]>>;
   openCart: boolean;
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
   toNotify: boolean;
@@ -26,7 +24,7 @@ export const useCart = () => {
   if (!context) {
     throw new Error(`useCart must be used within a CartProvider ${context}`);
   }
-  console.log('context', context)
+  // console.log('context', context)
   return context;
 };
 
@@ -35,13 +33,11 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const [shoppingCart, setShoppingCart] = useState<Vinyl[]>([]);
   const [openCart, setOpenCart] = useState<boolean>(false);
   const [toNotify, setToNotify] = useState<boolean>(false);
 
   return (
     <div className={`${openCart && styles.noScroll}`}>
-      {/* <CartContext.Provider value={{ shoppingCart, setShoppingCart, openCart, setOpenCart, toNotify, setToNotify }}> */}
       <CartContext.Provider value={{ openCart, setOpenCart, toNotify, setToNotify }}>
         <Navbar />
         {children}

@@ -80,22 +80,22 @@
 .itemsContainer {
   height: 100%;
   color: black;
-  @include border(red);
+  // @include border(red);
   .innerContainer {
     padding: 38px;
     width: 480px;
     display: flex;
     flex-direction: column;
     row-gap: 14px;
-    @include border(black);
+    // @include border(black);
     .itemList {
-      @include border(blue);
+      // @include border(blue);
       display: flex;
       flex-direction: column;
       row-gap: 14px;
       .item {
         @include flexRow(space-between, -gap);
-        @include border(mediumpurple);
+        // @include border(mediumpurple);
         .imageContainer {
           // @include border(hotpink);
           position: relative;
@@ -125,7 +125,7 @@
           font-size: 14px;
           display: flex;
           align-items: center;
-          @include border(hotpink);
+          // @include border(hotpink);
         }
         .priceContainer {
           display: flex;
@@ -133,10 +133,10 @@
           align-items: center;
           justify-content: center;
           width: 58.0781px;
-          @include border(hotpink);
+          // @include border(hotpink);
           .price {
             font-size: 14px;
-            @include border(green);
+            // @include border(green);
           }
           .discountedPrice {
             font-size: 14px;
@@ -147,7 +147,7 @@
       }
     }
     .discountCode {
-      @include border(blue);
+      // @include border(blue);
       .form {
         @include flexRow(space-between, 14px);
         .input {
