@@ -16,6 +16,8 @@ interface ShopppingCartContextType {
   setCartCount: React.Dispatch<React.SetStateAction<number>>;
   freeShipping: number;
   setFreeShipping: React.Dispatch<React.SetStateAction<number>>;
+  shippingProtectionCost: number;
+  setShippingProtectionCost: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ShopppingCartContext = createContext<ShopppingCartContextType | undefined>(undefined);
@@ -40,6 +42,7 @@ export function ShoppingCart({
   const [shipping, setShipping] = useState<number>(4.99);
   const [cartCount, setCartCount] = useState<number>(0);
   const [freeShipping, setFreeShipping] = useState<number>(60);
+  const [shippingProtectionCost, setShippingProtectionCost] = useState<number>(4.99);
 
   return (
     <div>
@@ -48,6 +51,7 @@ export function ShoppingCart({
           shoppingCart, setShoppingCart,
           subTotal, setSubTotal,
           shippingProtection, setShippingProtection,
+          shippingProtectionCost, setShippingProtectionCost,
           shipping, setShipping,
           cartCount, setCartCount,
           freeShipping, setFreeShipping,

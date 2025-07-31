@@ -7,21 +7,21 @@ import Image from 'next/image';
 interface FormData {
   discountCode: string;
 }
-interface DiscountCodeType {
-  code: string;
-  discount: number;
-}
+// interface DiscountCodeType {
+//   code: string;
+//   discount: number;
+// }
 
-const discountCodes:DiscountCodeType[]  = [
-  {
-    code: "vinylchucks",
-    discount: .10
-  },
-  {
-    code: "vinylchucks",
-    discount: .10
-  },
-]
+// const discountCodes:DiscountCodeType[]  = [
+//   {
+//     code: "vinylchucks",
+//     discount: .10
+//   },
+//   {
+//     code: "vinylchucks",
+//     discount: .10
+//   },
+// ]
 
 const sampleData:Vinyl[] = [
   {
@@ -74,9 +74,12 @@ interface ShipType {
 
 export default function Items ({showShipping} : ShipType) {
   const {
-    shoppingCart, subTotal,
-    shipping, shippingProtection,
-    freeShipping, cartCount,
+    // shoppingCart,
+    subTotal,
+    shipping,
+    // shippingProtection,
+    // freeShipping,
+    cartCount,
   } = useShoppingCart();
 
   const taxPrice = (subTotal*0.105).toFixed(2);
@@ -86,7 +89,6 @@ export default function Items ({showShipping} : ShipType) {
     register,
     handleSubmit,
     watch,
-    // setValue,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -214,3 +216,22 @@ export default function Items ({showShipping} : ShipType) {
     </div>
   )
 }
+/*
+input / output
+
+1-2   :: 4.99
+3-4   :: 9.99
+5     :: 14.99
+6-7   :: 19.99
+8-9   :: 24.99
+10    :: 29.99
+11-12 :: 34.99
+13-14 :: 39.99
+15    :: 44.99
+16-17 :: 49.99
+18-19 :: 54.99
+20    :: 59.99
+21-22 :: 64.99
+
+
+*/
