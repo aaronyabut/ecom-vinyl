@@ -1,4 +1,7 @@
+'use client'
+
 import styles from './items.module.scss'
+// import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useShoppingCart } from '@/app/ShoppingCart';
 import { Vinyl } from '../../../(default)/page'
@@ -65,25 +68,28 @@ const sampleData:Vinyl[] = [
     "main_artists":"[['https://i.scdn.co/image/ab6761610000e5eb31f6ab67e6025de876475814?d=200x200', 'The Jimi Hendrix Experience', 'Main Artist']]",
     "songwriters":"[['https://i.scdn.co/image/ab6772690000c46cd7064356b04a156664a37c4f?d=200x200', 'Bob Dylan', 'Composer, Lyricist'], ['https://i.scdn.co/image/7a6c8d12f7a03fbe4a380886bce75484303c0aa6?d=200x200', 'Earl King', 'Composer'], ['https://i.scdn.co/image/ab6761610000e5eb31f6ab67e6025de876475814?d=200x200', 'Jimi Hendrix', 'Composer, Lyricist'], ['https://i.scdn.co/image/5ee4cfde781ae7fdeaf048bbb46583d5584c9a31?d=200x200', 'Noel Redding', 'Composer']]",
     "quantity":1
-  }
+  },
 ]
-
 interface ShipType {
   showShipping: boolean;
 }
 
+// CANT CHANGE STATE FOR SHIP PROTECT, add manually after map with conditional
+
 export default function Items ({showShipping} : ShipType) {
   const {
-    // shoppingCart,
+    shoppingCart,
     subTotal,
     shipping,
-    // shippingProtection,
-    // freeShipping,
+    shippingProtection,
+    shippingProtectionCost,
     cartCount,
   } = useShoppingCart();
 
-  const taxPrice = (subTotal*0.105).toFixed(2);
-  const totalPrice = (subTotal+shipping+Number(taxPrice)).toFixed(2);
+  const subtotalPrice = shippingProtection ? (subTotal+shippingProtectionCost) : subTotal;
+  const taxPrice = shippingProtection ? ((subTotal+shippingProtectionCost)*0.105).toFixed(2) : (subTotal*0.105).toFixed(2);
+  const totalPrice = (subtotalPrice+shipping+Number(taxPrice)).toFixed(2);
+  const cartNumItems = shippingProtection ? cartCount+1 : cartCount;
 
   const {
     register,
@@ -107,8 +113,8 @@ export default function Items ({showShipping} : ShipType) {
       <div className={styles.innerContainer}>
         <div className={styles.itemList}>
           {
-            // shoppingCart.map((item, i) => {
-              sampleData.map((item, i) => {
+            shoppingCart.map((item, i) => {
+              // sampleData.map((item, i) => {
               return (
                 <div key={i} className={styles.item}>
                   <div className={styles.imageContainer}>
@@ -122,20 +128,46 @@ export default function Items ({showShipping} : ShipType) {
                     <div className={styles.quantity}>{item.quantity}</div>
                   </div>
                   <div className={styles.artistTitle}>
-                    <div>{item.vinyl_artist} - {item.vinyl_title}</div>
+                    {
+                      item.product_id === -1 ?
+                      <div>{item.vinyl_title}</div>
+                      :
+                      <div>{item.vinyl_artist} - {item.vinyl_title}</div>
+                    }
                   </div>
                   <div className={styles.priceContainer}>
                     <div className={styles.price}>
                        ${(Math.round((item.quantity*item.price)*100)/100).toFixed(2)}
                     </div>
-                    {/* <div className={styles.discountedPrice}>
-                       $ 9.99
-                    </div> */}
                   </div>
                 </div>
               )
             })
           }
+          {
+            shippingProtection &&
+            <div className={styles.item}>
+              <div className={styles.imageContainer}>
+                <Image
+                  src={"https://cdn.shopify.com/s/files/1/0704/2026/7313/files/10020953850161_85quality_monster-protect-1_64x64.webp?v=1734325743"}
+                  height={64}
+                  width={64}
+                  alt="Album image"
+                  className={styles.image}
+                />
+                <div className={styles.quantity}>1</div>
+              </div>
+              <div className={styles.artistTitle}>
+                Shipping protection
+              </div>
+              <div className={styles.priceContainer}>
+                <div className={styles.price}>
+                    ${Number(shippingProtectionCost)}
+                </div>
+              </div>
+            </div>
+          }
+          <></>
         </div>
         <div className={styles.discountCode}>
           <form
@@ -173,8 +205,8 @@ export default function Items ({showShipping} : ShipType) {
         </div>
         <div className={styles.cartTotal}>
           <div className={styles.subtotalContainer}>
-            <div className={styles.subtotal}>Subtotal · {cartCount} {cartCount > 1 ? "items": "item"}</div>
-            <div className={styles.price}>${subTotal}</div>
+            <div className={styles.subtotal}>Subtotal · {cartNumItems} {cartNumItems > 1 ? "items": "item"}</div>
+            <div className={styles.price}>${subtotalPrice}</div>
           </div>
           <div className={styles.shippingContainer}>
             <div className={styles.labelContainer}>
@@ -219,19 +251,19 @@ export default function Items ({showShipping} : ShipType) {
 /*
 input / output
 
-1-2   :: 4.99
-3-4   :: 9.99
-5     :: 14.99
-6-7   :: 19.99
-8-9   :: 24.99
-10    :: 29.99
-11-12 :: 34.99
-13-14 :: 39.99
-15    :: 44.99
-16-17 :: 49.99
-18-19 :: 54.99
-20    :: 59.99
-21-22 :: 64.99
+1,2------------4.99
+3,4------------9.99
+5--------------14.99
+6,7------------19.99
+8,9------------24.99
+10-------------29.99
+11,12----------34.99
+13,14----------39.99
+15-------------44.99
+16,17----------49.99
+18,19----------54.99
+20-------------59.99
+21,22----------64.99
 
 
 */

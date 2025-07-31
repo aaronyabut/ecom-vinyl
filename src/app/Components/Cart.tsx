@@ -22,41 +22,11 @@ export default function Cart () {
     cartCount, setCartCount,
   } = useShoppingCart();
 
-
-  // function calculateShippingProtection(quantity:number) {
-  //   let cost = 4.99;
-  //   const increment = 5.00;
-  //   let current = "odd";
-  //   let next = "even";
-  //   if (quantity===0) return cost;
-  //   if (quantity=== 1 || quantity===2) return cost;
-
-  //   for (let i=2; i<=quantity; i++) {
-  //     if (i%5===0) {
-  //       cost+=increment
-  //       if (current==="even" && next==="odd") {
-  //         current="odd";
-  //         next="even";
-  //       } else if (current==="odd" && next==="even") {
-  //         current="even";
-  //         next="odd";
-  //       }
-  //     } else if (current==="even" && i%2===0) {
-  //       cost+=increment
-  //     } else if (current==="odd" && i%2===1) {
-  //       cost+=increment
-  //     }
-  //   };
-  //   return cost.toFixed(2);
-  // }
-
   useEffect(()=> {
     async function shoppingCartUpdates () {
       try {
         const sumSubtotal = shoppingCart.reduce((sum, vinyl) => Number(sum) + (Number(vinyl.price) * Number(vinyl.quantity)), 0)
         const sumQuantity = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.quantity || 0), 0);
-
-        // const formula = 4.99 + 5 * (Math.floor((sumQuantity + 1)/2) + Math.floor(sumQuantity/5)- 1);
         const formula = calculateShippingProtection(sumQuantity);
 
         setShippingProtectionCost(Number(formula));
@@ -320,26 +290,22 @@ export default function Cart () {
                 height={30}
                 width={30}
                 alt='shipping icon'
-                className={`${styles.shippingIcon} ${!shippingProtection && styles.checked}`}
+                className={`${styles.shippingIcon} ${shippingProtection && styles.checked}`}
               />
               <div className={styles.details}>
-                <div className={styles.header}>Shipping Protection {shippingProtectionCost}
-                  {/* {cartCount>2 ? "$9.99" : "$4.99"} */}
-                </div>
+                <div className={styles.header}>Shipping Protection {shippingProtectionCost}</div>
                 <div className={styles.info}>{shippingProtection ? "Select to protect your order from damage, loss or theft during transit." : "Your order is now protected against damage, loss or theft during transit."}</div>
               </div>
               <div
                 onClick={()=>setShippingProtection((prev:boolean) => !prev)}
-                className={`${styles.toggleWrapper} ${shippingProtection ? styles.uncheckedToggle : styles.checkedToggle}`}
+                className={`${styles.toggleWrapper} ${!shippingProtection ? styles.uncheckedToggle : styles.checkedToggle}`}
               >
-                <span className={`${styles.slider} ${!shippingProtection && styles.checked}`}></span>
+                <span className={`${styles.slider} ${shippingProtection && styles.checked}`}></span>
               </div>
             </div>
           }
           <div className={`${styles.checkout} ${shoppingCart.length && styles.active}`}>
-            <Link href={`/checkout`}>
-              Checkout securely now
-            </Link>
+            <Link href={`/checkout`}>Checkout securely now</Link>
           </div>
           {
             shoppingCart.length ?

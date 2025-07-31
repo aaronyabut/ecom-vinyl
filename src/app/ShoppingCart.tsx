@@ -38,7 +38,7 @@ export function ShoppingCart({
 }) {
   const [shoppingCart, setShoppingCart] = useState<Vinyl[]>([]);
   const [subTotal, setSubTotal] = useState<number>(0);
-  const [shippingProtection, setShippingProtection] = useState<boolean>(true);
+  const [shippingProtection, setShippingProtection] = useState<boolean>(false);
   const [shipping, setShipping] = useState<number>(4.99);
   const [cartCount, setCartCount] = useState<number>(0);
   const [freeShipping, setFreeShipping] = useState<number>(60);
