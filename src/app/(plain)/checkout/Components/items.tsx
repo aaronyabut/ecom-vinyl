@@ -1,80 +1,38 @@
 'use client'
 
 import styles from './items.module.scss'
-// import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useShoppingCart } from '@/app/ShoppingCart';
-import { Vinyl } from '../../../(default)/page'
+import { useState, useEffect } from 'react';
+// import { Vinyl } from '../../../(default)/page'
 import Image from 'next/image';
 
 interface FormData {
   discountCode: string;
+  currentCode: string;
 }
-// interface DiscountCodeType {
-//   code: string;
-//   discount: number;
-// }
 
-// const discountCodes:DiscountCodeType[]  = [
-//   {
-//     code: "vinylchucks",
-//     discount: .10
-//   },
-//   {
-//     code: "vinylchucks",
-//     discount: .10
-//   },
-// ]
+interface DiscountCodeType {
+  code: string;
+  discount: number;
+}
 
-const sampleData:Vinyl[] = [
+const discountCodes:DiscountCodeType[]  = [
   {
-    "product_id":1,
-    "vinyl_img":"https://cdn.shopify.com/s/files/1/0704/2026/7313/files/9095824376113_85quality_led-zeppelin-led-zeppelin-iv-clear-vinyl-atl75-vinyl-lp.webp?v=1734325732",
-    "product_href":"https://vinyl.com/products/led-zeppelin-led-zeppelin-iv-clear-vinyl-atl75",
-    "vinyl_title":"Led Zeppelin IV (ATL75 Edition) [Clear]",
-    "vinyl_artist":"Led Zeppelin",
-    "price":29.99,
-    "old_price":null,
-    "sale_label":null,
-    "low_stock_label":null,
-    "no_stock_label":null,
-    "genre":"blues",
-    "vinyl_description":"Led Zeppelin's \"Led Zeppelin IV\" isn't just an album; it's a rock 'n' roll rite of passage. Now available on stunning crystal clear 180-gram vinyl as part of the Atlantic 75 campaign, this special edition captures the essence of a cultural thunderstorm. Released in 1971, this masterpiece solidified Led Zeppelin's place in rock history with its powerful blend of hard rock, folk, and blues. From the iconic guitar riff of \"Stairway to Heaven\" that's been blasted from every teenager's basement to the hard-hitting drum beats of \"Rock and Roll,\" this album is a sonic elixir that made air guitar a legitimate art form and Jimmy Page a wizard of the strings. With influences ranging from Tolkien's mystical realms to blues legends, \"Led Zeppelin IV\" features timeless classics like \"Black Dog\" and \"When the Levee Breaks,\" showcasing the band's unparalleled musicianship and innovative sound. Add this must-have clear vinyl edition to your collection and relive the magic of one of rock's greatest albums.",
-    "vinyl_info":"[['UPC', '603497837076'], ['Color', 'Clear'], ['Format', 'Vinyl 1LP'], ['Weight', '180g / 0.4lb'], ['Release date', '26th Oct 2023'], ['First released', '10th Aug 1971']]",
-    "playlist_name":"Led Zeppelin IV",
-    "tracklist":"[['1', 'Black Dog', '04:56'], ['2', 'Rock And Roll', '03:40'], ['3', 'The Battle Of Evermore', '05:51'], ['4', 'Stairway To Heaven', '08:02'], ['5', 'Misty Mountain Hop', '04:38'], ['6', 'Four Sticks', '04:45'], ['7', 'Going To California', '03:32'], ['8', 'When The Levee Breaks', '07:10']]",
-    "companies":"[['https://cdn.shopify.com/s/files/1/0704/2026/7313/files/company-fallback-2.png?v=1696923241', 'IIP-DDS', 'Distributor'], ['https://cdn.shopify.com/s/files/1/0704/2026/7313/files/company-fallback-2.png?v=1696923241', 'Revolver Records', 'Label']]",
-    "main_artists":"[['https://i.scdn.co/image/207803ce008388d3427a685254f9de6a8f61dc2e?d=200x200', 'Led Zeppelin', 'Main Artist']]",
-    "songwriters":"[['https://i.scdn.co/image/eb8fd85635cd147585f78d4e3e8b9a5e212269e3?d=200x200', 'Jimmy Page', 'Composer, Lyricist'], ['null?d=200x200', 'John Bonham', 'Composer, Lyricist'], ['https://i.scdn.co/image/ab67616d0000b273fb81426965e9bddd8affa07e?d=200x200', 'John Paul Jones', 'Composer, Lyricist'], ['https://i.scdn.co/image/ab67616d0000b273a0816a5391132bebca12bce1?d=200x200', 'Memphis Minnie', 'Composer, Lyricist'], ['https://i.scdn.co/image/6a29772fd3afae9ec890a860c500fa55267d8870?d=200x200', 'Robert Plant', 'Composer, Lyricist']]",
-    "quantity":2
+    code: "vinylchucks",
+    discount: .10
   },
   {
-    "product_id":8,
-    "vinyl_img":"https://cdn.shopify.com/s/files/1/0704/2026/7313/files/8258511634737_85quality_Jimi_Hendrix_-_Electric_Ladyland_2LP.webp?v=1734326029",
-    "product_href":"https://vinyl.com/products/jimi-hendrix-electric-ladyland",
-    "vinyl_title":"Electric Ladyland [2LP]",
-    "vinyl_artist":"Jimi Hendrix",
-    "price":31.98,
-    "old_price":null,
-    "sale_label":null,
-    "low_stock_label":null,
-    "no_stock_label":null,
-    "genre":"blues",
-    "vinyl_description":"Dive into the revolutionary sounds of Jimi Hendrix with Electric Ladyland, his third and final studio album, now available on double 180-gram vinyl. Released in 1968, this album is an iconic milestone in rock history, pushing the boundaries of the genre and solidifying Hendrix's status as a guitar virtuoso. Featuring sixteen tracks, including the legendary \"Voodoo Child (Slight Return),\" \"Have You Ever Been (To Electric Ladyland),\" and Hendrix's renowned cover of Bob Dylan's \"All Along the Watchtower,\" Electric Ladyland is a masterclass in blending psychedelic rock, blues, funk, and experimental sounds. This double LP edition is digitally remastered, ensuring a pristine listening experience that captures the raw energy, soulful melodies, and famous guitar solos that define the album. Housed in a gatefold sleeve with a color booklet, this release not only delivers on sound quality but also offers a visual tribute to Hendrix's artistry. Electric Ladyland remains a timeless piece of music history, making this vinyl pressing an essential addition to any collection.",
-    "vinyl_info":"[['UPC', '886976239817'], ['Color', 'Black'], ['Format', 'Vinyl 2LP'], ['Weight', '180g / 0.4lb'], ['First released', '31st Dec 2009']]",
-    "playlist_name":"Electric Ladyland",
-    "tracklist":"[['1', '...And the Gods Made Love', '01:21'], ['2', 'Have You Ever Been (To Electric Ladyland)', '02:11'], ['3', 'Crosstown Traffic', '02:19'], ['4', 'Voodoo Chile', '15:00'], ['5', 'Little Miss Strange', '02:52'], ['6', 'Long Hot Summer Night', '03:28'], ['7', 'Come On (Let the Good Times Roll)', '04:09'], ['8', 'Gypsy Eyes', '03:44'], ['9', 'Burning of the Midnight Lamp', '03:39'], ['10', 'Rainy Day, Dream Away', '03:43'], ['11', '1983...(A Merman I Should Turn to Be)', '13:39'], ['12', 'Moon, Turn the Tides...Gently Gently Away', '01:02'], ['13', 'Still Raining, Still Dreaming', '04:25'], ['14', 'House Burning Down', '04:33'], ['15', 'All Along the Watchtower', '04:01'], ['16', 'Voodoo Child (Slight Return)', '05:13']]",
-    "companies":"[['https://artwork.jaxsta.com/995/476d1bde-6ffe-4c78-a3ca-cbcd2cb6be91.png?d=1000x1000', 'Legacy Recordings', 'Label'], ['https://artwork.jaxsta.com/750/5a50b1be-7473-4e51-ae4b-bb8d9ac13407.jpg?d=1000x1000', 'Sony Music Entertainment', 'Distributor']]",
-    "main_artists":"[['https://i.scdn.co/image/ab6761610000e5eb31f6ab67e6025de876475814?d=200x200', 'The Jimi Hendrix Experience', 'Main Artist']]",
-    "songwriters":"[['https://i.scdn.co/image/ab6772690000c46cd7064356b04a156664a37c4f?d=200x200', 'Bob Dylan', 'Composer, Lyricist'], ['https://i.scdn.co/image/7a6c8d12f7a03fbe4a380886bce75484303c0aa6?d=200x200', 'Earl King', 'Composer'], ['https://i.scdn.co/image/ab6761610000e5eb31f6ab67e6025de876475814?d=200x200', 'Jimi Hendrix', 'Composer, Lyricist'], ['https://i.scdn.co/image/5ee4cfde781ae7fdeaf048bbb46583d5584c9a31?d=200x200', 'Noel Redding', 'Composer']]",
-    "quantity":1
+    code: "thegroove",
+    discount: .10
   },
 ]
+
 interface ShipType {
   showShipping: boolean;
 }
 
-// CANT CHANGE STATE FOR SHIP PROTECT, add manually after map with conditional
+// CANT CHANGE STATE FOR SHIP PROTECT
 
 export default function Items ({showShipping} : ShipType) {
   const {
@@ -86,26 +44,55 @@ export default function Items ({showShipping} : ShipType) {
     cartCount,
   } = useShoppingCart();
 
-  const subtotalPrice = shippingProtection ? (subTotal+shippingProtectionCost) : subTotal;
-  const taxPrice = shippingProtection ? ((subTotal+shippingProtectionCost)*0.105).toFixed(2) : (subTotal*0.105).toFixed(2);
+  const [subtotalPrice, setSubtotalPrice] = useState(shippingProtection ? Math.floor(((Math.floor(subTotal*100)/100)+(Math.floor(shippingProtectionCost*100)/100))*100)/100 : Math.floor(subTotal*100)/100);
+  const [totalSaved, setTotalSaved] = useState(0);
+
+  // let subtotalPrice = shippingProtection ? (subTotal+shippingProtectionCost) : subTotal;
+  const taxPrice = shippingProtection ? (subtotalPrice*0.105).toFixed(2) : (subTotal*0.105).toFixed(2);
   const totalPrice = (subtotalPrice+shipping+Number(taxPrice)).toFixed(2);
-  const cartNumItems = shippingProtection ? cartCount+1 : cartCount;
+  const cartTotalItems = shippingProtection ? cartCount+1 : cartCount;
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    setValue,
+    // formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       discountCode: '',
+      currentCode: '',
     },
   });
 
   const formValues = watch();
 
+  useEffect (()=> {
+    const discountAdjust = () => {
+      if (!formValues.currentCode) {
+        setSubtotalPrice(
+          shippingProtection ? Math.floor(((Math.floor(subTotal*100)/100)+(Math.floor(shippingProtectionCost*100)/100))*100)/100 : Math.floor(subTotal*100)/100
+        );
+      }
+    }
+    const totalSavings = () => {
+      // setTotalSaved(subTotal - (subTotal*.10) )
+      setTotalSaved(Math.floor((subTotal*.10)*100)/100)
+    }
+    discountAdjust();
+    totalSavings();
+  }, [formValues.currentCode])
+
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    alert(JSON.stringify(data));
+    // alert(JSON.stringify(data));
+    const exists = discountCodes.find((item) => item.code === data.discountCode.toLowerCase())
+
+    if (exists) {
+      const subtotalCalc = shippingProtection ? ((subTotal-(subTotal*exists.discount))+shippingProtectionCost).toFixed(2) : (subTotal-(subTotal*exists.discount)).toFixed(2)
+      setSubtotalPrice(Number(subtotalCalc));
+      // setDiscountPercentage(exists.discount)
+      setValue('currentCode', data.discountCode)
+    }
   };
 
   return (
@@ -114,7 +101,11 @@ export default function Items ({showShipping} : ShipType) {
         <div className={styles.itemList}>
           {
             shoppingCart.map((item, i) => {
-              // sampleData.map((item, i) => {
+              const totalSingleItemCost = Math.floor((item.price*item.quantity)*100)/100;
+              const totalSingleItemCostWithDiscount = Math.floor((totalSingleItemCost - Math.floor((totalSingleItemCost*.10)*100)/100)*100)/100;
+              // const savedAmount = Math.floor((totalSingleItemCost-totalSingleItemCostWithDiscount)*100)/100;
+              const savedAmount = totalSingleItemCost-totalSingleItemCostWithDiscount;
+              // const totalSingleItemCost = item.price*item.quantity;
               return (
                 <div key={i} className={styles.item}>
                   <div className={styles.imageContainer}>
@@ -127,18 +118,46 @@ export default function Items ({showShipping} : ShipType) {
                     />
                     <div className={styles.quantity}>{item.quantity}</div>
                   </div>
-                  <div className={styles.artistTitle}>
+                  <div className={styles.artistTitleContainer}>
+                    <div className={styles.artistTitle}>
+                      {
+                        item.product_id === -1 ?
+                        <div>{item.vinyl_title}</div>
+                        :
+                        <div>{item.vinyl_artist} - {item.vinyl_title}</div>
+                      }
+                    </div>
                     {
-                      item.product_id === -1 ?
-                      <div>{item.vinyl_title}</div>
-                      :
-                      <div>{item.vinyl_artist} - {item.vinyl_title}</div>
+                      formValues.currentCode &&
+                      <div className={styles.itemInfo}>
+                        <span className={styles.svgTagContainer}>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgTag}><g stroke-linejoin="round" clip-path="url(#a)"><path stroke-linecap="round" d="M10.5 1.5H7.93a2.5 2.5 0 0 0-1.8.766L1.52 7.052a1.5 1.5 0 0 0 .02 2.101l3.48 3.48a1.25 1.25 0 0 0 1.75.016l5.116-4.926a2 2 0 0 0 .613-1.441V3.5a2 2 0 0 0-2-2"></path><circle cx="9.5" cy="4.5" r="0.563" stroke-linecap="round"></circle><path d="M9.49 4.49h.02v.02h-.02z"></path></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h14v14H0z"></path></clipPath></defs></svg>
+                        </span>
+                        <span className={styles.discountLabel}>
+                          {formValues.currentCode.toUpperCase()}
+                        </span>
+                        <span className={styles.savedAmount}>
+                          {`(-$${savedAmount.toFixed(2)})`}
+                        </span>
+                      </div>
                     }
                   </div>
                   <div className={styles.priceContainer}>
-                    <div className={styles.price}>
-                       ${(Math.round((item.quantity*item.price)*100)/100).toFixed(2)}
-                    </div>
+                    {
+                      formValues.currentCode ?
+                      <div className={styles.priceContainer}>
+                        <div className={styles.oldPrice}>
+                          ${totalSingleItemCost.toFixed(2)}
+                        </div>
+                        <div className={styles.newPrice}>
+                          ${totalSingleItemCostWithDiscount.toFixed(2)}
+                        </div>
+                      </div>
+                      :
+                      <div className={styles.price}>
+                        ${totalSingleItemCost.toFixed(2)}
+                      </div>
+                    }
                   </div>
                 </div>
               )
@@ -157,8 +176,13 @@ export default function Items ({showShipping} : ShipType) {
                 />
                 <div className={styles.quantity}>1</div>
               </div>
-              <div className={styles.artistTitle}>
-                Shipping protection
+              <div className={styles.artistTitleContainer}>
+                <div className={styles.artistTitle}>
+                  Shipping protection
+                </div>
+                <div className={styles.itemInfo}>
+                  {Number(shippingProtectionCost)}
+                </div>
               </div>
               <div className={styles.priceContainer}>
                 <div className={styles.price}>
@@ -167,7 +191,7 @@ export default function Items ({showShipping} : ShipType) {
               </div>
             </div>
           }
-          <></>
+<></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></>
         </div>
         <div className={styles.discountCode}>
           <form
@@ -177,7 +201,8 @@ export default function Items ({showShipping} : ShipType) {
             <div className={styles.input}>
               <div className={styles.inputContainer}>
                 <label className={`${styles.inputLabel} ${formValues.discountCode ? styles.showLabel : ""}`}>Discount code or gift card</label>
-                <input className={`${styles.inputText} ${formValues.discountCode !== "" ? styles.inputUpdate : ""} ${errors.discountCode ? styles.wrongEntry : ""}`}
+                <input className={`${styles.inputText} ${formValues.discountCode !== "" ? styles.inputUpdate : ""}`}
+                  // ${errors.discountCode ? styles.wrongEntry : ""}
                   type='text'
                   placeholder="Discount code or gift card"
                   {...register('discountCode', {
@@ -189,23 +214,39 @@ export default function Items ({showShipping} : ShipType) {
                   })}
                   />
               </div>
-              {
+              {/* {
                 errors.discountCode ?
                 <div className={styles.wrongEntryMessage} >
                   {errors.discountCode.message}
                 </div>
                 : null
-              }
+              } */}
             </div>
-            <button type='submit' className={styles.apply}>
+            <button type='submit' className={`${formValues.discountCode ? styles.active : styles.inactive}`}>
               Apply
             </button>
           </form>
-          <div className={styles.discountTags}>Discount tags</div>
+          {
+            formValues.currentCode &&
+            <div className={styles.discountTagContainer}>
+              <div className={styles.svgTagContainer}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgTag}><g stroke-linejoin="round" clip-path="url(#a)"><path stroke-linecap="round" d="M10.5 1.5H7.93a2.5 2.5 0 0 0-1.8.766L1.52 7.052a1.5 1.5 0 0 0 .02 2.101l3.48 3.48a1.25 1.25 0 0 0 1.75.016l5.116-4.926a2 2 0 0 0 .613-1.441V3.5a2 2 0 0 0-2-2"></path><circle cx="9.5" cy="4.5" r="0.563" stroke-linecap="round"></circle><path d="M9.49 4.49h.02v.02h-.02z"></path></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h14v14H0z"></path></clipPath></defs></svg>
+              </div>
+              <div className={styles.currentCode}>
+                {formValues.currentCode.toUpperCase()}
+              </div>
+              <div
+                className={styles.svgCloseContainer}
+                onClick={()=>setValue("currentCode","")}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgClose}><path stroke-linecap="round" d="M2.5 2.5 7 7m4.5 4.5L7 7m0 0 4.5-4.5M7 7l-4.5 4.5"></path></svg>
+              </div>
+            </div>
+          }
         </div>
         <div className={styles.cartTotal}>
           <div className={styles.subtotalContainer}>
-            <div className={styles.subtotal}>Subtotal · {cartNumItems} {cartNumItems > 1 ? "items": "item"}</div>
+            <div className={styles.subtotal}>Subtotal · {cartTotalItems} {cartTotalItems > 1 ? "items": "item"}</div>
             <div className={styles.price}>${subtotalPrice}</div>
           </div>
           <div className={styles.shippingContainer}>
@@ -243,6 +284,20 @@ export default function Items ({showShipping} : ShipType) {
               <div className={styles.totalNumber}>${totalPrice}</div>
             </div>
           </div>
+          {
+            formValues.currentCode &&
+            <div className={styles.totalSavingsContainer}>
+              <div className={styles.svgIcon}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.25v2.844a2.5 2.5 0 0 1-.708 1.743L7.75 12.25m1-10.5H6.699a2 2 0 0 0-1.414.586L1.737 5.883a1.75 1.75 0 0 0 0 2.475l2.332 2.331a1.5 1.5 0 0 0 2.121 0l3.724-3.724a2 2 0 0 0 .586-1.414V3.5a1.75 1.75 0 0 0-1.75-1.75"></path><circle cx="7.75" cy="4.5" r="0.563" stroke-linecap="round" stroke-linejoin="round"></circle><path stroke-linejoin="round" d="M7.74 4.49h.02v.02h-.02z"></path></svg>
+              </div>
+              <div className={styles.totalSavingsLabel}>
+                TOTAL SAVINGS
+              </div>
+              <div className={styles.totalSavings}>
+                ${totalSaved}
+              </div>
+            </div>
+          }
         </div>
       </div>
     </div>

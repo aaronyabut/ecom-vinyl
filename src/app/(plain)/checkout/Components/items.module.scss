@@ -119,13 +119,54 @@
             justify-content: center;
           }
         }
-        .artistTitle {
-          width: 281.922px;
-          padding-left: 14px;
-          font-size: 14px;
+        .artistTitleContainer {
           display: flex;
+          flex-direction: column;
           align-items: center;
+          justify-content: center;
           // @include border(hotpink);
+          .artistTitle {
+            width: 281.922px;
+            padding-left: 14px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            // @include border(green);
+          }
+          .itemInfo {
+            width: 281.922px;
+            padding-left: 14px;
+            display: flex;
+            align-items: center;
+            color: rgb(102, 102, 102);
+            line-height: 21px;
+            column-gap: 5px;
+            font-size: 12px;
+            // @include border(green);
+            .svgTagContainer {
+              display: flex;
+              align-items: center;
+              height: 14px;
+              width: 14px;
+              color: rgb(83, 83, 83);
+              // @include border(rgb(37, 36, 36));
+
+              .svgTag {
+                color: rgb(102, 102, 102);
+                fill: none;
+                max-height: 100%;
+                stroke: rgb(102, 102, 102);
+                // @include border(red);
+              }
+            }
+            .discountLabel {
+              // font-size: 12px;
+            }
+            .savedAmount {
+              // font-size: 12px;
+
+            }
+          }
         }
         .priceContainer {
           display: flex;
@@ -143,18 +184,51 @@
 
             @include border(green);
           }
+          .priceContainer {
+            display: flex;
+            flex-direction: column;
+            row-gap: 3px;
+            .oldPrice {
+              color: rgb(102, 102, 102);
+              text-decoration: line-through;
+              font-size: 12px;
+              // @include border(green);
+            }
+            .newPrice {
+              font-size: 14px;
+              // @include border(green);
+            }
+          }
         }
       }
     }
     .discountCode {
       // @include border(blue);
+      display: flex;
+      flex-direction: column;
+      row-gap: 14px;
       .form {
         @include flexRow(space-between, 14px);
         .input {
           @include inputText();
           width: 100%;
         }
-        .apply {
+        .active {
+          color: white;
+          font-weight: 600;
+          padding-inline: 15px;
+          background-color: rgb(2, 203, 164);
+          @include border(rgb(2, 203, 164));
+          border-radius: 8px;
+          transition: background-color .3s ease, border-color .3s ease;
+          &:hover {
+            transition: background-color .3s ease, border-color .3s ease;
+            background-color: rgb(0, 165, 132);
+            @include border(rgb(0, 165, 132));
+            cursor: pointer;
+          }
+        }
+        .inactive {
           color: darkgray;
           font-weight: 600;
           padding-inline: 15px;
@@ -163,7 +237,52 @@
           border-radius: 8px;
         }
       }
-      .discountTags {}
+      .discountTagContainer {
+        @include flexRow(-content, 6px);
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        padding: 9px 7px;
+        background-color: rgb(237, 237, 237);
+        border-radius: 8px;
+        // @include border(red);
+
+        .svgTagContainer {
+          height: 18px;
+          width: 18px;
+          color: rgb(83, 83, 83);
+          // @include border(rgb(37, 36, 36));
+
+          .svgTag {
+            color: rgb(102, 102, 102);
+            fill: none;
+            max-height: 100%;
+            stroke: rgb(102, 102, 102);
+            // @include border(red);
+          }
+        }
+        .currentCode {
+          line-height: 16px;
+          height: 18px;
+          font-size: 14px;
+          text-align: center;
+          // @include border(rgb(37, 36, 36));
+        }
+        .svgCloseContainer {
+          height: 18px;
+          width: 18px;
+          appearance: none;
+          // @include border(rgb(37, 36, 36));
+          .svgClose {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            fill: none;
+            stroke: rgb(102, 102, 102);
+            // stroke-width: 2px;
+          }
+        }
+      }
     }
     .cartTotal {
       font-size: 14px;
@@ -235,6 +354,27 @@
           .totalNumber {
             // @include border(hotpink);
           }
+        }
+      }
+      .totalSavingsContainer {
+        font-size: 14px;
+        font-weight: 600;
+        @include flexRow(-content, 5px);
+        margin-top: 7px;
+        .svgIcon {
+          width: 18px;
+          // @include border(hotpink);
+          .svg {
+            fill: none;
+            stroke: rgb(0, 0, 0);
+          }
+        }
+        .totalSavingsLabel {
+          // @include border(hotpink);
+        }
+        .totalSavings {
+
+          // @include border(hotpink);
         }
       }
     }
