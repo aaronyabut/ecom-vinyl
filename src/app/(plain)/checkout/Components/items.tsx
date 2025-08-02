@@ -164,7 +164,7 @@ export default function Items ({showShipping} : ShipType) {
                           {formValues.currentCode.toUpperCase()}
                         </span>
                         <span className={styles.savedAmount}>
-                          {`(-$${eachItemSavings[i]})`}
+                          {`(-$${eachItemSavings[i].toFixed(2)})`}
                         </span>
                       </div>
                     }
@@ -177,7 +177,7 @@ export default function Items ({showShipping} : ShipType) {
                           ${totalSingleItemCost.toFixed(2)}
                         </div>
                         <div className={styles.newPrice}>
-                          ${eachItemCostAfterSavings[i]}
+                          ${eachItemCostAfterSavings[i].toFixed(2)}
                           {/* ${totalSingleItemCostWithDiscount.toFixed(2)} */}
                         </div>
                       </div>
@@ -320,7 +320,7 @@ export default function Items ({showShipping} : ShipType) {
                 TOTAL SAVINGS
               </div>
               <div className={styles.totalSavings}>
-                ${totalSaved}
+                ${totalSaved.toFixed(2)}
               </div>
             </div>
           }
