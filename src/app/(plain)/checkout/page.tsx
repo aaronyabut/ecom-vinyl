@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
 import Items from './Components/items';
+import { useShoppingCart } from '@/app/ShoppingCart';
 
 
 interface FormData {
@@ -42,7 +43,17 @@ interface FormData {
   billingAddressOption:string;
 }
 
+{/*
+      *[DONE] Ensure shipping value updates cart subtotal of checkout page
+      ***[DONE] This should affect the tax
+      *[DONE] Ensure cart page does not take in the shipping preferences in the checkout page
+      *[DONE] Ensure FREE is only shown when above spending limit
+      *[DONE] Update styling to make sure curves are at top
+*/}
+
 export default function Checkout () {
+  const { shipping, setShipping, freeShipping } = useShoppingCart();
+
   const {
     register,
     handleSubmit,
@@ -64,7 +75,7 @@ export default function Checkout () {
       phone: '',
       textAlert: false,
       textMePhoneNumber: '+1 ',
-      shippingOption: 'usps',
+      shippingOption: shipping ? 'usps' : 'free',
       paymentOption:'creditCard',
       creditCardNumber: '',
       expirationDate: '',
@@ -511,12 +522,28 @@ export default function Checkout () {
               {
                 showShipping ?
                 <div className={styles.shippingOptions}>
-                  <div className={`${styles.usps} ${formValues.shippingOption==="usps" && styles.chosenShipping}`}>
+                  {
+                    freeShipping<=0 &&
+                    <div className={`${styles.free} ${formValues.shippingOption==="free" && styles.chosenShipping}`}>
+                      <div className={styles.radioButton}>
+                        <input
+                          type='radio'
+                          value='free'
+                          {...register("shippingOption")}
+                          onClick={()=>setShipping(0)}
+                        />
+                      </div>
+                      <div className={styles.title}>FREE Shipping</div>
+                      <div className={styles.price}><strong>FREE</strong></div>
+                    </div>
+                  }
+                  <div className={`${freeShipping>0 ? styles.usps : styles.uspsFreeShipping} ${formValues.shippingOption==="usps" && styles.chosenShipping}`}>
                     <div className={styles.radioButton}>
                       <input
                         type='radio'
                         value='usps'
                         {...register("shippingOption")}
+                        onClick={()=>setShipping(4.99)}
                       />
                     </div>
                     <div className={styles.title}>USPS Media Mail Parcel</div>
@@ -528,6 +555,7 @@ export default function Checkout () {
                         type='radio'
                         value='express'
                         {...register("shippingOption")}
+                        onClick={()=>setShipping(25.99)}
                       />
                     </div>
                     <div className={styles.title}>48-Hour Express Delivery</div>

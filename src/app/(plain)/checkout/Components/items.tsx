@@ -4,11 +4,10 @@ import styles from './items.module.scss'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useShoppingCart } from '@/app/ShoppingCart';
 import { useState, useEffect } from 'react';
-// import { Vinyl } from '../../../(default)/page'
 import Image from 'next/image';
 
 interface FormData {
-  discountCode: string;
+  discountCodeInput: string;
   currentCode: string;
 }
 
@@ -20,11 +19,15 @@ interface DiscountCodeType {
 const discountCodes:DiscountCodeType[]  = [
   {
     code: "vinylchucks",
-    discount: .10
+    discount: .10,
   },
   {
     code: "thegroove",
-    discount: .10
+    discount: .10,
+  },
+  {
+    code: "sweet",
+    discount: .50,
   },
 ]
 
@@ -32,7 +35,6 @@ interface ShipType {
   showShipping: boolean;
 }
 
-// CANT CHANGE STATE FOR SHIP PROTECT
 
 export default function Items ({showShipping} : ShipType) {
   const {
@@ -46,9 +48,11 @@ export default function Items ({showShipping} : ShipType) {
 
   const [subtotalPrice, setSubtotalPrice] = useState(shippingProtection ? Math.floor(((Math.floor(subTotal*100)/100)+(Math.floor(shippingProtectionCost*100)/100))*100)/100 : Math.floor(subTotal*100)/100);
   const [totalSaved, setTotalSaved] = useState(0);
+  const [eachItemSavings, setEachItemSavings] = useState(shoppingCart.map(()=> 0));
+  const [eachItemCostAfterSavings, setEachItemCostAfterSavings] = useState(shoppingCart.map(()=> 0));
 
-  // let subtotalPrice = shippingProtection ? (subTotal+shippingProtectionCost) : subTotal;
-  const taxPrice = shippingProtection ? (subtotalPrice*0.105).toFixed(2) : (subTotal*0.105).toFixed(2);
+  const [taxPrice, setTaxPrice] = useState(shippingProtection ? ((subtotalPrice+shipping)*0.105).toFixed(2) : ((subTotal+shipping)*0.105).toFixed(2));
+
   const totalPrice = (subtotalPrice+shipping+Number(taxPrice)).toFixed(2);
   const cartTotalItems = shippingProtection ? cartCount+1 : cartCount;
 
@@ -60,7 +64,7 @@ export default function Items ({showShipping} : ShipType) {
     // formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      discountCode: '',
+      discountCodeInput: '',
       currentCode: '',
     },
   });
@@ -68,6 +72,18 @@ export default function Items ({showShipping} : ShipType) {
   const formValues = watch();
 
   useEffect (()=> {
+    const taxAdjust = () => {
+      setTaxPrice(
+        shippingProtection ?
+        ((subtotalPrice+shipping)*0.105).toFixed(2) :
+        ((subTotal+shipping)*0.105).toFixed(2));
+    }
+    taxAdjust();
+  }, [shipping])
+
+  useEffect (()=> {
+    const currentCode = discountCodes.find((item)=> item.code === formValues.currentCode)
+
     const discountAdjust = () => {
       if (!formValues.currentCode) {
         setSubtotalPrice(
@@ -76,22 +92,37 @@ export default function Items ({showShipping} : ShipType) {
       }
     }
     const totalSavings = () => {
-      // setTotalSaved(subTotal - (subTotal*.10) )
-      setTotalSaved(Math.floor((subTotal*.10)*100)/100)
+      // const currentCode = discountCodes.find((item)=> item.code === formValues.currentCode)
+      setTotalSaved(Number(((subTotal * (currentCode?.discount ?? 0)).toFixed(2))));
     }
+    const eachItemSaved = () => {
+      setEachItemSavings(
+        shoppingCart.map((item) =>
+          Number(((item.price * item.quantity) * (currentCode?.discount ?? 0)).toFixed(2))
+        )
+      );
+      setEachItemCostAfterSavings(
+        shoppingCart.map((item) =>
+          Number(((item.price * item.quantity) * (1-(currentCode?.discount ?? 0))).toFixed(2))
+        )
+      )
+      alert('hi');
+    };
+
+    eachItemSaved();
     discountAdjust();
     totalSavings();
   }, [formValues.currentCode])
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // alert(JSON.stringify(data));
-    const exists = discountCodes.find((item) => item.code === data.discountCode.toLowerCase())
+    const exists = discountCodes.find((item) => item.code === data.discountCodeInput.toLowerCase())
 
     if (exists) {
       const subtotalCalc = shippingProtection ? ((subTotal-(subTotal*exists.discount))+shippingProtectionCost).toFixed(2) : (subTotal-(subTotal*exists.discount)).toFixed(2)
       setSubtotalPrice(Number(subtotalCalc));
       // setDiscountPercentage(exists.discount)
-      setValue('currentCode', data.discountCode)
+      setValue('currentCode', data.discountCodeInput)
     }
   };
 
@@ -102,10 +133,6 @@ export default function Items ({showShipping} : ShipType) {
           {
             shoppingCart.map((item, i) => {
               const totalSingleItemCost = Math.floor((item.price*item.quantity)*100)/100;
-              const totalSingleItemCostWithDiscount = Math.floor((totalSingleItemCost - Math.floor((totalSingleItemCost*.10)*100)/100)*100)/100;
-              // const savedAmount = Math.floor((totalSingleItemCost-totalSingleItemCostWithDiscount)*100)/100;
-              const savedAmount = totalSingleItemCost-totalSingleItemCostWithDiscount;
-              // const totalSingleItemCost = item.price*item.quantity;
               return (
                 <div key={i} className={styles.item}>
                   <div className={styles.imageContainer}>
@@ -131,13 +158,13 @@ export default function Items ({showShipping} : ShipType) {
                       formValues.currentCode &&
                       <div className={styles.itemInfo}>
                         <span className={styles.svgTagContainer}>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgTag}><g stroke-linejoin="round" clip-path="url(#a)"><path stroke-linecap="round" d="M10.5 1.5H7.93a2.5 2.5 0 0 0-1.8.766L1.52 7.052a1.5 1.5 0 0 0 .02 2.101l3.48 3.48a1.25 1.25 0 0 0 1.75.016l5.116-4.926a2 2 0 0 0 .613-1.441V3.5a2 2 0 0 0-2-2"></path><circle cx="9.5" cy="4.5" r="0.563" stroke-linecap="round"></circle><path d="M9.49 4.49h.02v.02h-.02z"></path></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h14v14H0z"></path></clipPath></defs></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgTag}><g strokeLinejoin="round" clipPath="url(#a)"><path strokeLinecap="round" d="M10.5 1.5H7.93a2.5 2.5 0 0 0-1.8.766L1.52 7.052a1.5 1.5 0 0 0 .02 2.101l3.48 3.48a1.25 1.25 0 0 0 1.75.016l5.116-4.926a2 2 0 0 0 .613-1.441V3.5a2 2 0 0 0-2-2"></path><circle cx="9.5" cy="4.5" r="0.563" strokeLinecap="round"></circle><path d="M9.49 4.49h.02v.02h-.02z"></path></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h14v14H0z"></path></clipPath></defs></svg>
                         </span>
                         <span className={styles.discountLabel}>
                           {formValues.currentCode.toUpperCase()}
                         </span>
                         <span className={styles.savedAmount}>
-                          {`(-$${savedAmount.toFixed(2)})`}
+                          {`(-$${eachItemSavings[i]})`}
                         </span>
                       </div>
                     }
@@ -150,7 +177,8 @@ export default function Items ({showShipping} : ShipType) {
                           ${totalSingleItemCost.toFixed(2)}
                         </div>
                         <div className={styles.newPrice}>
-                          ${totalSingleItemCostWithDiscount.toFixed(2)}
+                          ${eachItemCostAfterSavings[i]}
+                          {/* ${totalSingleItemCostWithDiscount.toFixed(2)} */}
                         </div>
                       </div>
                       :
@@ -191,7 +219,6 @@ export default function Items ({showShipping} : ShipType) {
               </div>
             </div>
           }
-<></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></><></>
         </div>
         <div className={styles.discountCode}>
           <form
@@ -200,13 +227,12 @@ export default function Items ({showShipping} : ShipType) {
           >
             <div className={styles.input}>
               <div className={styles.inputContainer}>
-                <label className={`${styles.inputLabel} ${formValues.discountCode ? styles.showLabel : ""}`}>Discount code or gift card</label>
-                <input className={`${styles.inputText} ${formValues.discountCode !== "" ? styles.inputUpdate : ""}`}
+                <label className={`${styles.inputLabel} ${formValues.discountCodeInput ? styles.showLabel : ""}`}>Discount code or gift card</label>
+                <input className={`${styles.inputText} ${formValues.discountCodeInput !== "" ? styles.inputUpdate : ""}`}
                   // ${errors.discountCode ? styles.wrongEntry : ""}
                   type='text'
                   placeholder="Discount code or gift card"
-                  {...register('discountCode', {
-                    required: 'Enter a first name',
+                  {...register('discountCodeInput', {
                     pattern: {
                       value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
                       message: 'Enter a valid discoount code',
@@ -222,7 +248,7 @@ export default function Items ({showShipping} : ShipType) {
                 : null
               } */}
             </div>
-            <button type='submit' className={`${formValues.discountCode ? styles.active : styles.inactive}`}>
+            <button type='submit' className={`${formValues.discountCodeInput ? styles.active : styles.inactive}`}>
               Apply
             </button>
           </form>
@@ -230,7 +256,7 @@ export default function Items ({showShipping} : ShipType) {
             formValues.currentCode &&
             <div className={styles.discountTagContainer}>
               <div className={styles.svgTagContainer}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgTag}><g stroke-linejoin="round" clip-path="url(#a)"><path stroke-linecap="round" d="M10.5 1.5H7.93a2.5 2.5 0 0 0-1.8.766L1.52 7.052a1.5 1.5 0 0 0 .02 2.101l3.48 3.48a1.25 1.25 0 0 0 1.75.016l5.116-4.926a2 2 0 0 0 .613-1.441V3.5a2 2 0 0 0-2-2"></path><circle cx="9.5" cy="4.5" r="0.563" stroke-linecap="round"></circle><path d="M9.49 4.49h.02v.02h-.02z"></path></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h14v14H0z"></path></clipPath></defs></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgTag}><g strokeLinejoin="round" clipPath="url(#a)"><path strokeLinecap="round" d="M10.5 1.5H7.93a2.5 2.5 0 0 0-1.8.766L1.52 7.052a1.5 1.5 0 0 0 .02 2.101l3.48 3.48a1.25 1.25 0 0 0 1.75.016l5.116-4.926a2 2 0 0 0 .613-1.441V3.5a2 2 0 0 0-2-2"></path><circle cx="9.5" cy="4.5" r="0.563" strokeLinecap="round"></circle><path d="M9.49 4.49h.02v.02h-.02z"></path></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h14v14H0z"></path></clipPath></defs></svg>
               </div>
               <div className={styles.currentCode}>
                 {formValues.currentCode.toUpperCase()}
@@ -239,7 +265,7 @@ export default function Items ({showShipping} : ShipType) {
                 className={styles.svgCloseContainer}
                 onClick={()=>setValue("currentCode","")}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgClose}><path stroke-linecap="round" d="M2.5 2.5 7 7m4.5 4.5L7 7m0 0 4.5-4.5M7 7l-4.5 4.5"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svgClose}><path strokeLinecap="round" d="M2.5 2.5 7 7m4.5 4.5L7 7m0 0 4.5-4.5M7 7l-4.5 4.5"></path></svg>
               </div>
             </div>
           }
@@ -288,7 +314,7 @@ export default function Items ({showShipping} : ShipType) {
             formValues.currentCode &&
             <div className={styles.totalSavingsContainer}>
               <div className={styles.svgIcon}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.25v2.844a2.5 2.5 0 0 1-.708 1.743L7.75 12.25m1-10.5H6.699a2 2 0 0 0-1.414.586L1.737 5.883a1.75 1.75 0 0 0 0 2.475l2.332 2.331a1.5 1.5 0 0 0 2.121 0l3.724-3.724a2 2 0 0 0 .586-1.414V3.5a1.75 1.75 0 0 0-1.75-1.75"></path><circle cx="7.75" cy="4.5" r="0.563" stroke-linecap="round" stroke-linejoin="round"></circle><path stroke-linejoin="round" d="M7.74 4.49h.02v.02h-.02z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12.75 3.25v2.844a2.5 2.5 0 0 1-.708 1.743L7.75 12.25m1-10.5H6.699a2 2 0 0 0-1.414.586L1.737 5.883a1.75 1.75 0 0 0 0 2.475l2.332 2.331a1.5 1.5 0 0 0 2.121 0l3.724-3.724a2 2 0 0 0 .586-1.414V3.5a1.75 1.75 0 0 0-1.75-1.75"></path><circle cx="7.75" cy="4.5" r="0.563" strokeLinecap="round" strokeLinejoin="round"></circle><path strokeLinejoin="round" d="M7.74 4.49h.02v.02h-.02z"></path></svg>
               </div>
               <div className={styles.totalSavingsLabel}>
                 TOTAL SAVINGS

@@ -254,7 +254,7 @@ export default function Cart () {
                   freeShipping <= 0 ?
                   <span>FREE</span>
                   :
-                  <span>${shipping}</span>
+                  <span>$4.99</span>
                 }
               </div>
             }

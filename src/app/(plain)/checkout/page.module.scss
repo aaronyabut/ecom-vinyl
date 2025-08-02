@@ -615,6 +615,12 @@
         border-radius: 8px;
         // @include border(MediumPurple);
 
+        .free {
+          @include radioSelection($placement:top);
+        }
+        .uspsFreeShipping {
+          @include radioSelection($placement:middlebottom);
+        }
         .usps {
           @include radioSelection($placement:topnomiddle);
         }
