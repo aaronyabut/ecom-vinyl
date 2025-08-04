@@ -214,7 +214,7 @@ export default function Items ({showShipping} : ShipType) {
               </div>
               <div className={styles.priceContainer}>
                 <div className={styles.price}>
-                    ${Number(shippingProtectionCost)}
+                  ${Number(shippingProtectionCost)}
                 </div>
               </div>
             </div>

@@ -7,6 +7,75 @@ import styles from './page.module.scss';
 import Items from './Components/items';
 import { useShoppingCart } from '@/app/ShoppingCart';
 
+interface US_StatesTypes {
+  label: string;
+  value: string;
+}
+
+const US_States:US_StatesTypes[] = [
+  { label: "Alabama", value: "AL" },
+  { label: "Alaska", value: "AK" },
+  { label: "American Samoa", value: "AS" },
+  { label: "Arizona", value: "AZ" },
+  { label: "Arkansas", value: "AR" },
+  { label: "California", value: "CA" },
+  { label: "Colorado", value: "CO" },
+  { label: "Connecticut", value: "CT" },
+  { label: "Delaware", value: "DE" },
+  { label: "Micronesia", value: "FM" },
+  { label: "Florida", value: "FL" },
+  { label: "Georgia", value: "GA" },
+  { label: "Guam", value: "GU" },
+  { label: "Hawaii", value: "HI" },
+  { label: "Idaho", value: "ID" },
+  { label: "Illinois", value: "IL" },
+  { label: "Indiana", value: "IN" },
+  { label: "Iowa", value: "IA" },
+  { label: "Kansas", value: "KS" },
+  { label: "Kentucky", value: "KY" },
+  { label: "Louisiana", value: "LA" },
+  { label: "Maine", value: "ME" },
+  { label: "Marshall Islands", value: "MH" },
+  { label: "Maryland", value: "MD" },
+  { label: "Massachusetts", value: "MA" },
+  { label: "Michigan", value: "MI" },
+  { label: "Minnesota", value: "MN" },
+  { label: "Mississippi", value: "MS" },
+  { label: "Missouri", value: "MO" },
+  { label: "Montana", value: "MT" },
+  { label: "Nebraska", value: "NE" },
+  { label: "Nevada", value: "NV" },
+  { label: "New Hampshire", value: "NH" },
+  { label: "New Jersey", value: "NJ" },
+  { label: "New Mexico", value: "NM" },
+  { label: "New York", value: "NY" },
+  { label: "North Carolina", value: "NC" },
+  { label: "North Dakota", value: "ND" },
+  { label: "Northern Mariana Islands", value: "MP" },
+  { label: "Ohio", value: "OH" },
+  { label: "Oklahoma", value: "OK" },
+  { label: "Oregon", value: "OR" },
+  { label: "Palau", value: "PW" },
+  { label: "Pennsylvania", value: "PA" },
+  { label: "Puerto Rico", value: "PR" },
+  { label: "Rhode Island", value: "RI" },
+  { label: "South Carolina", value: "SC" },
+  { label: "South Dakota", value: "SD" },
+  { label: "Tennessee", value: "TN" },
+  { label: "Texas", value: "TX" },
+  { label: "Utah", value: "UT" },
+  { label: "Vermont", value: "VT" },
+  { label: "Virginia", value: "VA" },
+  { label: "Washington", value: "WA" },
+  { label: "Washington DC", value: "DC" },
+  { label: "West Virginia", value: "WV" },
+  { label: "Wisconsin", value: "WI" },
+  { label: "Wyoming", value: "WY" },
+  { label: "U.S. Virgin Islands", value: "VI" },
+  { label: "Armed Forces Americas", value: "AA" },
+  { label: "Armed Forces Europe", value: "AE" },
+  { label: "Armed Forces Pacific", value: "AP" }
+]
 
 interface FormData {
   email: string;
@@ -70,7 +139,7 @@ export default function Checkout () {
       address: '123 TEST',
       apartment: '',
       city: 'TEST',
-      state: 'TE',
+      state: '',
       zipcode: '12345',
       phone: '',
       textAlert: false,
@@ -396,27 +465,20 @@ export default function Checkout () {
                   }
                 </div>
                 <div className={styles.state}>
-                  <div className={styles.inputContainer}>
-                    <label className={`${styles.inputLabel} ${formValues.state ? styles.showLabel : ""}`}>State</label>
-                    <input className={`${styles.inputText} ${formValues.state !== "" ? styles.inputUpdate : ""} ${errors.state ? styles.wrongEntry : ""}`}
-                      type='text'
-                      placeholder="State"
-                      {...register('state', {
-                        required: 'Select a state / province',
-                        pattern: {
-                          value: /^[A-Z]{2}$/,
-                          message: 'Enter a valid state',
-                        },
-                      })}
-                    />
+                  <label className={`${styles.label} ${formValues.state && styles.selected}`}>
+                    State
+                  </label>
+                  <select {...register("state")} className={styles.select}>
+                    <option hidden value="">&nbsp;</option>
+                    {US_States.map((state:US_StatesTypes, i:number) => {
+                      return (
+                        <option value={state.value} key={i}>{state.label}</option>
+                      )
+                    })}
+                  </select>
+                  <div className={styles.svgContainer}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
                   </div>
-                  {
-                    errors.state ?
-                    <div className={styles.wrongEntryMessage} >
-                      {errors.state.message}
-                    </div>
-                    : null
-                  }
                 </div>
                 <div className={styles.zip}>
                   <div className={styles.inputContainer}>
@@ -865,7 +927,21 @@ export default function Checkout () {
                             }
                           </div>
                           <div className={styles.state}>
-                            <div className={styles.inputContainer}>
+                            <label className={`${styles.label} ${formValues.billingState && styles.selected}`}>
+                              State
+                            </label>
+                            <select {...register("billingState")} className={styles.select}>
+                              <option hidden value="">&nbsp;</option>
+                              {US_States.map((state:US_StatesTypes, i:number) => {
+                                return (
+                                  <option value={state.value} key={i}>{state.label}</option>
+                                )
+                              })}
+                            </select>
+                            <div className={styles.svgContainer}>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
+                            </div>
+                            {/* <div className={styles.inputContainer}>
                               <label className={`${styles.inputLabel} ${formValues.billingState ? styles.showLabel : ""}`}>State</label>
                               <input className={`${styles.inputText} ${formValues.billingState !== "" ? styles.inputUpdate : ""} ${errors.billingState ? styles.wrongEntry : ""}`}
                                 type='text'
@@ -885,7 +961,7 @@ export default function Checkout () {
                                 {errors.billingState.message}
                               </div>
                               : null
-                            }
+                            } */}
                           </div>
                           <div className={styles.zip}>
                             <div className={styles.inputContainer}>
@@ -1221,27 +1297,20 @@ export default function Checkout () {
                             }
                           </div>
                           <div className={styles.state}>
-                            <div className={styles.inputContainer}>
-                              <label className={`${styles.inputLabel} ${formValues.billingState ? styles.showLabel : ""}`}>State</label>
-                              <input className={`${styles.inputText} ${formValues.billingState !== "" ? styles.inputUpdate : ""} ${errors.billingState ? styles.wrongEntry : ""}`}
-                                type='text'
-                                placeholder="State"
-                                {...register('billingState', {
-                                  required: differentBilling ? 'Select a state / province' : false,
-                                  pattern: {
-                                    value: /^[A-Z]{2}$/,
-                                    message: 'Enter a valid state',
-                                  },
-                                })}
-                              />
+                            <label className={`${styles.label} ${formValues.billingState && styles.selected}`}>
+                              State
+                            </label>
+                            <select {...register("billingState")} className={styles.select}>
+                              <option hidden value="">&nbsp;</option>
+                              {US_States.map((state:US_StatesTypes, i:number) => {
+                                return (
+                                  <option value={state.value} key={i}>{state.label}</option>
+                                )
+                              })}
+                            </select>
+                            <div className={styles.svgContainer}>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
                             </div>
-                            {
-                              errors.billingState ?
-                              <div className={styles.wrongEntryMessage} >
-                                {errors.billingState.message}
-                              </div>
-                              : null
-                            }
                           </div>
                           <div className={styles.zip}>
                             <div className={styles.inputContainer}>

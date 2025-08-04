@@ -159,15 +159,15 @@
                 // @include border(red);
               }
             }
-            .discountLabel {
+            // .discountLabel {
               // font-size: 12px;
-            }
-            .savedAmount {
+            // }
+            // .savedAmount {
               // font-size: 12px;
-
-            }
+            // }
           }
         }
+
         .priceContainer {
           display: flex;
           flex-direction: column;
@@ -290,12 +290,12 @@
       .subtotalContainer {
         @include flexRow(space-between, -gap);
         // @include border(yellow);
-        .subtotal {
+        // .subtotal {
           // @include border(MediumPurple);
-        }
-        .price {
+        // }
+        // .price {
           // @include border(MediumPurple);
-        }
+        // }
       }
       @mixin shippingAndTax {
         @include flexRow(space-between, -gap);
@@ -307,9 +307,9 @@
           justify-content: center;
           column-gap: 7px;
           @include flexRow(space-between, -gap);
-          .label {
+          // .label {
             // @include border(hotpink);
-          }
+          // }
           .iconContainer {
             // @include border(hotpink);
             .icon {
@@ -320,9 +320,9 @@
             }
           }
         }
-        .price {
+        // .price {
           // @include border(MediumPurple);
-        }
+        // }
       }
       .shippingContainer {
         @include shippingAndTax();
@@ -336,9 +336,9 @@
         font-weight: 600;
         @include flexRow(space-between, -gap);
         // @include border(yellow);
-        .label {
+        // .label {
           // @include border(MediumPurple);
-        }
+        // }
         .priceContainer {
           @include flexRow(space-between, 7px);
           justify-content: center;
@@ -351,9 +351,9 @@
             color: #666666;
             // @include border(hotpink);
           }
-          .totalNumber {
+          // .totalNumber {
             // @include border(hotpink);
-          }
+          // }
         }
       }
       .totalSavingsContainer {
@@ -369,13 +369,12 @@
             stroke: rgb(0, 0, 0);
           }
         }
-        .totalSavingsLabel {
+        // .totalSavingsLabel {
           // @include border(hotpink);
-        }
-        .totalSavings {
-
+        // }
+        // .totalSavings {
           // @include border(hotpink);
-        }
+        // }
       }
     }
   }

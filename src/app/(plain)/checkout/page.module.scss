@@ -196,6 +196,54 @@
   @include wrongInput();
 }
 
+@mixin inputSelect {
+  width: 100%;
+  font-size: 14px;
+  position: relative;
+  .label {
+    font-size: 14px;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0);
+    color:rgb(104, 104, 104);
+    top: 14.5px;
+    left: 13px;
+    pointer-events: none;
+    &.selected {
+      top: 7.25px;
+    }
+    // @include border(MediumBlue);
+  }
+  .select{
+    color:black;
+    background-color: rgb(255, 255, 255);
+    appearance: none;
+    border-radius: 8px;
+    height: 46px;
+    width: 100%;
+    padding:  22px 11px 6px;
+    @include border(rgb(227, 227, 227));
+    transition: border-color 0.3s ease;
+    &:focus {
+      transition: border-color 0.3s ease;
+      @include border(#1773B0);
+      outline: none;
+    }
+  }
+  .svgContainer {
+    position: absolute;
+    width: 11px;
+    top: 17px;
+    right: 17px;
+    pointer-events: none;
+    // @include border(MediumBlue);
+    .svg {
+      fill: none;
+      stroke: rgb(112, 112, 112);
+      stroke-width: 2.15px;
+    }
+  }
+}
+
 @mixin dropDownLogic {
   transition: max-height cubic-bezier(0.075, 0.82, 0.165, 1) ease;transition: max-height 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   max-height: 0px;
@@ -249,8 +297,7 @@
       // @include border(MediumBlue);
     }
     .state {
-      @include inputText(rgb(227, 227, 227));
-      width: 100%;
+      @include inputSelect();
       // @include border(MediumBlue);
     }
     .zip {
@@ -490,9 +537,10 @@
       row-gap: 14px;
       // @include border(red);
 
-      .deliveryHeader {
+      // .deliveryHeader {
         // @include border(MediumPurple);
-      }
+      // }
+
       .country {
         @include inputText();
         // @include border(MediumPurple);
@@ -529,10 +577,9 @@
           width: 100%;
           // @include border(MediumBlue);
         }
+
         .state {
-          @include inputText();
-          width: 100%;
-          // @include border(MediumBlue);
+          @include inputSelect();
         }
         .zip {
           @include inputText();
@@ -602,12 +649,12 @@
           }
         }
       }
-      .shippingHeader {
+      // .shippingHeader {
         // @include border(MediumPurple);
-      }
-      .shippingMessage {
+      // }
+      // .shippingMessage {
         // @include border(MediumPurple);
-      }
+      // }
 
       .shippingOptions {
         background-color: white;
@@ -656,9 +703,9 @@
         row-gap: 5px;
         display: grid;
         // @include border(yellow);
-        .header {
+        // .header {
         // @include border(blue);
-        }
+        // }
         .subHeader {
           font-size: 14px;
           color: rgba(255, 255, 255, 0.66);
@@ -701,10 +748,9 @@
         .afterPay {
           @include radioSelection($placement:bottom);
           // @include border(blue);
-          .logos {
-
+          // .logos {
             // @include border(blue);
-          }
+          // }
         }
         .chosenPayment {
           @include chosenRadio($dropdown:true);
@@ -949,9 +995,9 @@
       row-gap: 5px;
       display: grid;
 
-      .billingAddressHeader {
+      // .billingAddressHeader {
         // @include border(blue);
-      }
+      // }
       .billingAddressOptions {
         background-color: white;
         color: black;
@@ -998,17 +1044,17 @@
       }
     }
     .payWithPaypalButton {
-      @include payButton(rgb(0, 112, 186),20px)
+      @include payButton(rgb(0, 112, 186),20px);
       // @include border(green);
     }
     .payNowButton {
-      @include payButton(rgb(2, 203, 164),16px)
+      @include payButton(rgb(2, 203, 164),16px);
       // @include border(green);
     }
     .itemsContainer {
       background-color: #f5f5f5;
-
       // @include border(hotpink);
+
       .items {
         max-width: 520px;
         width: 100%;
