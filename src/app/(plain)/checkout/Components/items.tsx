@@ -106,7 +106,7 @@ export default function Items ({showShipping} : ShipType) {
           Number(((item.price * item.quantity) * (1-(currentCode?.discount ?? 0))).toFixed(2))
         )
       )
-      alert('hi');
+      // alert('hi');
     };
 
     eachItemSaved();

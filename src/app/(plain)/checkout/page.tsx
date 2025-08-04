@@ -84,6 +84,33 @@ const US_States:FormValueTypes[] = [
   { label: "Armed Forces Pacific", value: "AP" }
 ]
 
+const CA_Province:FormValueTypes[] = [
+  { label: "Alberta", value: "AB" },
+  { label: "British Columbia", value: "BC" },
+  { label: "Manitoba", value: "MB" },
+  { label: "New Brunswick", value: "NB" },
+  { label: "Newfoundland and Labrador", value: "NL" },
+  { label: "Northwest Territories", value: "NT" },
+  { label: "Nova Scotia", value: "NS" },
+  { label: "Nunavut", value: "NU" },
+  { label: "Ontario", value: "ON" },
+  { label: "Prince Edward Island", value: "PE" },
+  { label: "Quebec", value: "QC" },
+  { label: "Saskatchewan", value: "SK" },
+  { label: "Yukon", value: "YT" }
+]
+
+const AU_States:FormValueTypes[] = [
+  { label: "Australian Capital Territory", value: "ACT" },
+  { label: "New South Wales", value: "NSW" },
+  { label: "Northern Territory", value: "NT" },
+  { label: "Queensland", value: "QLD" },
+  { label: "South Australia", value: "SA" },
+  { label: "Tasmania", value: "TAS" },
+  { label: "Victoria", value: "VIC" },
+  { label: "Western Australia", value: "WA" }
+]
+
 interface FormData {
   email: string;
   subscribe: boolean;
@@ -140,7 +167,7 @@ export default function Checkout () {
     defaultValues: {
       email: 'TEST@TEST.com',
       subscribe: true,
-      country: '',
+      country: 'US',
       firstName: 'TEST',
       lastName: 'TEST',
       address: '123 TEST',
@@ -158,7 +185,7 @@ export default function Checkout () {
       securityCode: '',
       nameOnCard: '',
       shippingSameAsBilling: false,
-      billingCountryRegion: '',
+      billingCountryRegion: 'US',
       billingFirstName: '',
       billingLastName: '',
       billingAddress: '',
@@ -176,9 +203,59 @@ export default function Checkout () {
   const formValues = watch(); // Watch all fields
 
   const [showShipping, setShowShipping] = useState(false);
+  const [deliveryState, setDeliveryState] = useState(US_States);
+  const [deliveryStateLabel, setDeliveryStateLabel] = useState("State");
+  const [deliveryPostLabel, setDeliveryPostLabel] = useState("ZIP Code");
+
+  const [billingState, setBillingState] = useState(US_States);
+  const [billingStateLabel, setBillingStateLabel] = useState("State");
+  const [billingPostLabel, setBillingPostLabel] = useState("ZIP Code");
 
   const creditCardBilling = formValues.paymentOption==='creditCard' && formValues.shippingSameAsBilling===false;
   const differentBilling = formValues.billingAddressOption==='differentBilling' && formValues.paymentOption !== 'creditCard';
+
+
+  useEffect(() => {
+    const billingStateUpdate = () => {
+      if (formValues.billingCountryRegion === 'AU') {
+        setBillingState(AU_States);
+        setBillingStateLabel("State/territory")
+        setBillingPostLabel("Postcode")
+      } else if (formValues.billingCountryRegion === 'CA') {
+        setBillingState(CA_Province);
+        setBillingStateLabel("Province")
+        setBillingPostLabel("Postal code")
+      } else if (formValues.billingCountryRegion === 'GB') {
+        setBillingPostLabel("Postcode")
+      } else if (formValues.billingCountryRegion === 'US') {
+        setBillingState(US_States);
+        setBillingStateLabel("State")
+        setBillingPostLabel("ZIP Code")
+      }
+    }
+    billingStateUpdate();
+  }, [formValues.billingCountryRegion])
+
+  useEffect(() => {
+    const deliveryStateUpdate = () => {
+      if (formValues.country === 'AU') {
+        setDeliveryState(AU_States);
+        setDeliveryStateLabel("State/territory")
+        setDeliveryPostLabel("Postcode")
+      } else if (formValues.country === 'CA') {
+        setDeliveryState(CA_Province);
+        setDeliveryStateLabel("Province")
+        setDeliveryPostLabel("Postal code")
+      } else if (formValues.country === 'GB') {
+        setDeliveryPostLabel("Postcode")
+      } else if (formValues.country === 'US') {
+        setDeliveryState(US_States);
+        setDeliveryStateLabel("State")
+        setDeliveryPostLabel("ZIP Code")
+      }
+    }
+    deliveryStateUpdate();
+  }, [formValues.country])
 
   useEffect (() => {
     const checker = () => {
@@ -214,7 +291,7 @@ export default function Checkout () {
         }, 1000);
       } else if ((!formValues.shippingSameAsBilling || formValues.billingAddressOption==="differentBilling")) {
         setTimeout(()=> {
-          setValue("billingCountryRegion", "");
+          setValue("billingCountryRegion", "US");
           setValue("billingFirstName", "");
           setValue("billingLastName", "");
           setValue("billingAddress", "");
@@ -230,11 +307,11 @@ export default function Checkout () {
       // when anything else but credit card is chosen reset formValues.shippingSameAsBilling
     }
     sameAsBilling();
-  }, [formValues.shippingSameAsBilling, formValues.billingAddressOption])
+  }, [formValues.shippingSameAsBilling, formValues.billingAddressOption, formValues.paymentOption])
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // alert(JSON.stringify(data));
-    alert(formValues.paymentOption);
+    // alert(formValues.paymentOption);
     console.log(formValues.paymentOption);
     console.log(JSON.stringify(data));
   };
@@ -464,28 +541,31 @@ export default function Checkout () {
                     : null
                   }
                 </div>
-                <div className={styles.state}>
-                  <label className={`${styles.label} ${formValues.state && styles.selected}`}>
-                    State
-                  </label>
-                  <select {...register("state")} className={styles.select}>
-                    <option hidden value="">&nbsp;</option>
-                    {US_States.map((state:FormValueTypes, i:number) => {
-                      return (
-                        <option value={state.value} key={i}>{state.label}</option>
-                      )
-                    })}
-                  </select>
-                  <div className={styles.svgContainer}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
+                {
+                  formValues.country !== "GB" &&
+                  <div className={styles.state}>
+                    <label className={`${styles.label} ${formValues.state && styles.selected}`}>
+                      {deliveryStateLabel}
+                    </label>
+                    <select {...register("state")} className={styles.select}>
+                      <option hidden value="">&nbsp;</option>
+                      {deliveryState.map((state:FormValueTypes, i:number) => {
+                        return (
+                          <option value={state.value} key={i}>{state.label}</option>
+                        )
+                      })}
+                    </select>
+                    <div className={styles.svgContainer}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
+                    </div>
                   </div>
-                </div>
+                }
                 <div className={styles.zip}>
                   <div className={styles.inputContainer}>
-                    <label className={`${styles.inputLabel} ${formValues.zipcode ? styles.showLabel : ""}`}>ZIP code</label>
+                    <label className={`${styles.inputLabel} ${formValues.zipcode ? styles.showLabel : ""}`}>{deliveryPostLabel}</label>
                     <input className={`${styles.inputText} ${formValues.zipcode !== "" ? styles.inputUpdate : ""} ${errors.zipcode ? styles.wrongEntry : ""}`}
                       type='text'
-                      placeholder="ZIP code"
+                      placeholder={deliveryPostLabel}
                       {...register('zipcode', {
                         required: 'Enter a ZIP / postal code',
                         pattern: {
@@ -919,28 +999,31 @@ export default function Checkout () {
                               : null
                             }
                           </div>
-                          <div className={styles.state}>
-                            <label className={`${styles.label} ${formValues.billingState && styles.selected}`}>
-                              State
-                            </label>
-                            <select {...register("billingState")} className={styles.select}>
-                              <option hidden value="">&nbsp;</option>
-                              {US_States.map((state:FormValueTypes, i:number) => {
-                                return (
-                                  <option value={state.value} key={i}>{state.label}</option>
-                                )
-                              })}
-                            </select>
-                            <div className={styles.svgContainer}>
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
+                          {
+                            formValues.billingCountryRegion !== "GB" &&
+                            <div className={styles.state}>
+                              <label className={`${styles.label} ${formValues.billingState && styles.selected}`}>
+                                {billingStateLabel}
+                              </label>
+                              <select {...register("billingState")} className={styles.select}>
+                                <option hidden value="">&nbsp;</option>
+                                {billingState.map((state:FormValueTypes, i:number) => {
+                                  return (
+                                    <option value={state.value} key={i}>{state.label}</option>
+                                  )
+                                })}
+                              </select>
+                              <div className={styles.svgContainer}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
+                              </div>
                             </div>
-                          </div>
+                          }
                           <div className={styles.zip}>
                             <div className={styles.inputContainer}>
-                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>ZIP code</label>
+                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>{billingPostLabel}</label>
                               <input className={`${styles.inputText} ${formValues.billingZipcode !== "" ? styles.inputUpdate : ""} ${errors.billingZipcode ? styles.wrongEntry : ""}`}
                                 type='text'
-                                placeholder="ZIP code"
+                                placeholder={billingPostLabel}
                                 {...register('billingZipcode', {
                                   required: creditCardBilling ? 'Enter a ZIP / postal code' : false,
                                   pattern: {
@@ -1142,40 +1225,19 @@ export default function Checkout () {
                       <div className={styles.billingAddressFormContainer}>
                         <div className={styles.billingCountryRegion}>
                           <label className={`${styles.label} ${formValues.billingCountryRegion && styles.selected}`}>
-                              Country/Region
-                            </label>
-                            <select {...register("billingCountryRegion")} className={styles.select}>
-                              <option hidden value="">&nbsp;</option>
-                              {Countries_Regions.map((country:FormValueTypes, i:number) => {
-                                return (
-                                  <option value={country.value} key={i}>{country.label}</option>
-                                )
-                              })}
-                            </select>
-                            <div className={styles.svgContainer}>
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
-                            </div>
-                          {/* <div className={styles.inputContainer}>
-                            <label className={`${styles.inputLabel} ${formValues.billingCountryRegion ? styles.showLabel : ""}`}>Country / Region</label>
-                            <input className={`${styles.inputText} ${formValues.billingCountryRegion !== "" ? styles.inputUpdate : ""} ${errors.billingCountryRegion ? styles.wrongEntry : ""}`}
-                              type='text'
-                              placeholder="Country / Region"
-                              {...register('billingCountryRegion', {
-                                required: differentBilling ? 'Enter a country / region' : false,
-                                pattern: {
-                                  value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
-                                  message: 'Enter a valid name',
-                                },
-                              })}
-                            />
+                            Country/Region
+                          </label>
+                          <select {...register("billingCountryRegion")} className={styles.select}>
+                            <option hidden value="">&nbsp;</option>
+                            {Countries_Regions.map((country:FormValueTypes, i:number) => {
+                              return (
+                                <option value={country.value} key={i}>{country.label}</option>
+                              )
+                            })}
+                          </select>
+                          <div className={styles.svgContainer}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
                           </div>
-                          {
-                            errors.billingCountryRegion ?
-                            <div className={styles.wrongEntryMessage} >
-                              {errors.billingCountryRegion.message}
-                            </div>
-                            : null
-                          } */}
                         </div>
                         <div className={styles.billingNameWrapper}>
                           <div className={styles.firstName}>
@@ -1282,28 +1344,31 @@ export default function Checkout () {
                               : null
                             }
                           </div>
-                          <div className={styles.state}>
-                            <label className={`${styles.label} ${formValues.billingState && styles.selected}`}>
-                              State
-                            </label>
-                            <select {...register("billingState")} className={styles.select}>
-                              <option hidden value="">&nbsp;</option>
-                              {US_States.map((state:US_StatesTypes, i:number) => {
-                                return (
-                                  <option value={state.value} key={i}>{state.label}</option>
-                                )
-                              })}
-                            </select>
-                            <div className={styles.svgContainer}>
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
+                          {
+                            formValues.billingCountryRegion !== "GB" &&
+                            <div className={styles.state}>
+                              <label className={`${styles.label} ${formValues.billingState && styles.selected}`}>
+                                {billingStateLabel}
+                              </label>
+                              <select {...register("billingState")} className={styles.select}>
+                                <option hidden value="">&nbsp;</option>
+                                {billingState.map((state:FormValueTypes, i:number) => {
+                                  return (
+                                    <option value={state.value} key={i}>{state.label}</option>
+                                  )
+                                })}
+                              </select>
+                              <div className={styles.svgContainer}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
+                              </div>
                             </div>
-                          </div>
+                          }
                           <div className={styles.zip}>
                             <div className={styles.inputContainer}>
-                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>ZIP code</label>
+                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>{billingPostLabel}</label>
                               <input className={`${styles.inputText} ${formValues.billingZipcode !== "" ? styles.inputUpdate : ""} ${errors.billingZipcode ? styles.wrongEntry : ""}`}
                                 type='text'
-                                placeholder="ZIP code"
+                                placeholder={billingPostLabel}
                                 {...register('billingZipcode', {
                                   required: differentBilling ? 'Enter a ZIP / postal code' : false,
                                   pattern: {
