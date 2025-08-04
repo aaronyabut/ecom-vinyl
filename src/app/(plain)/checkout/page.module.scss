@@ -261,8 +261,9 @@
   display: grid;
   row-gap: 15px;
   .billingCountryRegion {
-    @include inputText(rgb(227, 227, 227));
-    width: 100%;
+    // @include inputText(rgb(227, 227, 227));
+    @include inputSelect();
+    // width: 100%;
   }
   .billingNameWrapper {
     @include flexRow(space-evenly);
@@ -542,7 +543,8 @@
       // }
 
       .country {
-        @include inputText();
+        // @include inputText();
+        @include inputSelect();
         // @include border(MediumPurple);
       }
       .nameWrapper {

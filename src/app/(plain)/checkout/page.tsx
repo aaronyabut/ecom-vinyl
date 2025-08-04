@@ -7,12 +7,19 @@ import styles from './page.module.scss';
 import Items from './Components/items';
 import { useShoppingCart } from '@/app/ShoppingCart';
 
-interface US_StatesTypes {
+interface FormValueTypes {
   label: string;
   value: string;
 }
 
-const US_States:US_StatesTypes[] = [
+const Countries_Regions: FormValueTypes[] =[
+  { label: "Australia", value: "AU" },
+  { label: "Canada", value: "CA" },
+  { label: "United Kingdom", value: "GB" },
+  { label: "United States", value: "US" }
+]
+
+const US_States:FormValueTypes[] = [
   { label: "Alabama", value: "AL" },
   { label: "Alaska", value: "AK" },
   { label: "American Samoa", value: "AS" },
@@ -133,7 +140,7 @@ export default function Checkout () {
     defaultValues: {
       email: 'TEST@TEST.com',
       subscribe: true,
-      country: 'TEST',
+      country: '',
       firstName: 'TEST',
       lastName: 'TEST',
       address: '123 TEST',
@@ -337,27 +344,20 @@ export default function Checkout () {
             <div className={styles.deliveryContainer}>
               <h2 className={styles.deliveryHeader}>Delivery</h2>
               <div className={styles.country}>
-                <div className={styles.inputContainer}>
-                  <label className={`${styles.inputLabel} ${formValues.country ? styles.showLabel : ""}`}>Country/Region</label>
-                  <input className={`${styles.inputText} ${formValues.country !== "" ? styles.inputUpdate : ""} ${errors.country ? styles.wrongEntry : ""}`}
-                    type='text'
-                    placeholder="Country/Region"
-                    {...register('country', {
-                      required: 'Enter a country',
-                      pattern: {
-                        value: /^[A-Za-z\s-]+(?:\([A-Za-z\s-]+\))?$/,
-                        message: 'Enter a valid country',
-                      },
-                    })}
-                  />
+                <label className={`${styles.label} ${formValues.country && styles.selected}`}>
+                  Country/Region
+                </label>
+                <select {...register("country")} className={styles.select}>
+                  <option hidden value="">&nbsp;</option>
+                  {Countries_Regions.map((country:FormValueTypes, i:number) => {
+                    return (
+                      <option value={country.value} key={i}>{country.label}</option>
+                    )
+                  })}
+                </select>
+                <div className={styles.svgContainer}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
                 </div>
-                {
-                  errors.country ?
-                  <div className={styles.wrongEntryMessage} >
-                    {errors.country.message}
-                  </div>
-                  : null
-                }
               </div>
               <div className={styles.nameWrapper}>
                 <div className={styles.firstName}>
@@ -470,7 +470,7 @@ export default function Checkout () {
                   </label>
                   <select {...register("state")} className={styles.select}>
                     <option hidden value="">&nbsp;</option>
-                    {US_States.map((state:US_StatesTypes, i:number) => {
+                    {US_States.map((state:FormValueTypes, i:number) => {
                       return (
                         <option value={state.value} key={i}>{state.label}</option>
                       )
@@ -799,27 +799,20 @@ export default function Checkout () {
                       <h3 className={styles.billingAddressHeader}>Billing address</h3>
                       <div className={styles.billingAddressFormContainer}>
                         <div className={styles.billingCountryRegion}>
-                          <div className={styles.inputContainer}>
-                            <label className={`${styles.inputLabel} ${formValues.billingCountryRegion ? styles.showLabel : ""}`}>Country / Region</label>
-                            <input className={`${styles.inputText} ${formValues.billingCountryRegion !== "" ? styles.inputUpdate : ""} ${errors.billingCountryRegion ? styles.wrongEntry : ""}`}
-                              type='text'
-                              placeholder="Country / Region"
-                              {...register('billingCountryRegion', {
-                                required: creditCardBilling ? 'Enter Country / Region' : false,
-                                pattern: {
-                                  value: /^[A-Za-z]+(?:[-' ][A-Za-z]+)?$/,
-                                  message: 'Enter a country / region',
-                                },
-                              })}
-                            />
+                          <label className={`${styles.label} ${formValues.billingCountryRegion && styles.selected}`}>
+                            Country/Region
+                          </label>
+                          <select {...register("billingCountryRegion")} className={styles.select}>
+                            <option hidden value="">&nbsp;</option>
+                            {Countries_Regions.map((country:FormValueTypes, i:number) => {
+                              return (
+                                <option value={country.value} key={i}>{country.label}</option>
+                              )
+                            })}
+                          </select>
+                          <div className={styles.svgContainer}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
                           </div>
-                          {
-                            errors.billingCountryRegion ?
-                            <div className={styles.wrongEntryMessage} >
-                              {errors.billingCountryRegion.message}
-                            </div>
-                            : null
-                          }
                         </div>
                         <div className={styles.billingNameWrapper}>
                           <div className={styles.firstName}>
@@ -932,7 +925,7 @@ export default function Checkout () {
                             </label>
                             <select {...register("billingState")} className={styles.select}>
                               <option hidden value="">&nbsp;</option>
-                              {US_States.map((state:US_StatesTypes, i:number) => {
+                              {US_States.map((state:FormValueTypes, i:number) => {
                                 return (
                                   <option value={state.value} key={i}>{state.label}</option>
                                 )
@@ -941,27 +934,6 @@ export default function Checkout () {
                             <div className={styles.svgContainer}>
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
                             </div>
-                            {/* <div className={styles.inputContainer}>
-                              <label className={`${styles.inputLabel} ${formValues.billingState ? styles.showLabel : ""}`}>State</label>
-                              <input className={`${styles.inputText} ${formValues.billingState !== "" ? styles.inputUpdate : ""} ${errors.billingState ? styles.wrongEntry : ""}`}
-                                type='text'
-                                placeholder="State"
-                                {...register('billingState', {
-                                  required: creditCardBilling ? 'Select a state / province' : false,
-                                  pattern: {
-                                    value: /^[A-Z]{2}$/,
-                                    message: 'Enter a valid state',
-                                  },
-                                })}
-                              />
-                            </div>
-                            {
-                              errors.billingState ?
-                              <div className={styles.wrongEntryMessage} >
-                                {errors.billingState.message}
-                              </div>
-                              : null
-                            } */}
                           </div>
                           <div className={styles.zip}>
                             <div className={styles.inputContainer}>
@@ -1169,7 +1141,21 @@ export default function Checkout () {
                     <div className={`${styles.dropdownDifferentBilling} ${formValues.billingAddressOption==="differentBilling" && styles.open}`}>
                       <div className={styles.billingAddressFormContainer}>
                         <div className={styles.billingCountryRegion}>
-                          <div className={styles.inputContainer}>
+                          <label className={`${styles.label} ${formValues.billingCountryRegion && styles.selected}`}>
+                              Country/Region
+                            </label>
+                            <select {...register("billingCountryRegion")} className={styles.select}>
+                              <option hidden value="">&nbsp;</option>
+                              {Countries_Regions.map((country:FormValueTypes, i:number) => {
+                                return (
+                                  <option value={country.value} key={i}>{country.label}</option>
+                                )
+                              })}
+                            </select>
+                            <div className={styles.svgContainer}>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path></svg>
+                            </div>
+                          {/* <div className={styles.inputContainer}>
                             <label className={`${styles.inputLabel} ${formValues.billingCountryRegion ? styles.showLabel : ""}`}>Country / Region</label>
                             <input className={`${styles.inputText} ${formValues.billingCountryRegion !== "" ? styles.inputUpdate : ""} ${errors.billingCountryRegion ? styles.wrongEntry : ""}`}
                               type='text'
@@ -1189,7 +1175,7 @@ export default function Checkout () {
                               {errors.billingCountryRegion.message}
                             </div>
                             : null
-                          }
+                          } */}
                         </div>
                         <div className={styles.billingNameWrapper}>
                           <div className={styles.firstName}>
