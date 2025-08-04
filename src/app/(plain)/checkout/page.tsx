@@ -203,13 +203,18 @@ export default function Checkout () {
   const formValues = watch(); // Watch all fields
 
   const [showShipping, setShowShipping] = useState(false);
-  const [deliveryState, setDeliveryState] = useState(US_States);
-  const [deliveryStateLabel, setDeliveryStateLabel] = useState("State");
-  const [deliveryPostLabel, setDeliveryPostLabel] = useState("ZIP Code");
 
-  const [billingState, setBillingState] = useState(US_States);
-  const [billingStateLabel, setBillingStateLabel] = useState("State");
-  const [billingPostLabel, setBillingPostLabel] = useState("ZIP Code");
+  const [deliveryFormStates, setDeliveryFormStates] = useState({
+    statesProvince: US_States,
+    statesProvinceLabel: "State",
+    postLabel: "ZIP Code",
+  })
+
+  const [billingFormStates, setBillingFormStates] = useState({
+    statesProvince: US_States,
+    statesProvinceLabel: "State",
+    postLabel: "ZIP Code",
+  })
 
   const creditCardBilling = formValues.paymentOption==='creditCard' && formValues.shippingSameAsBilling===false;
   const differentBilling = formValues.billingAddressOption==='differentBilling' && formValues.paymentOption !== 'creditCard';
@@ -218,19 +223,33 @@ export default function Checkout () {
   useEffect(() => {
     const billingStateUpdate = () => {
       if (formValues.billingCountryRegion === 'AU') {
-        setBillingState(AU_States);
-        setBillingStateLabel("State/territory")
-        setBillingPostLabel("Postcode")
+        setBillingFormStates(prev => ({
+          ...prev,
+          statesProvince:AU_States,
+          statesProvinceLabel:"State/territory",
+          postLabel:"Postcode",
+        }))
       } else if (formValues.billingCountryRegion === 'CA') {
-        setBillingState(CA_Province);
-        setBillingStateLabel("Province")
-        setBillingPostLabel("Postal code")
+        setBillingFormStates(prev => ({
+          ...prev,
+          statesProvince:CA_Province,
+          statesProvinceLabel:"Province",
+          postLabel:"Postal code",
+        }))
       } else if (formValues.billingCountryRegion === 'GB') {
-        setBillingPostLabel("Postcode")
+        setBillingFormStates(prev => ({
+          ...prev,
+          statesProvince:[],
+          statesProvinceLabel:"",
+          postLabel:"Postcode",
+        }))
       } else if (formValues.billingCountryRegion === 'US') {
-        setBillingState(US_States);
-        setBillingStateLabel("State")
-        setBillingPostLabel("ZIP Code")
+        setBillingFormStates(prev => ({
+          ...prev,
+          statesProvince:US_States,
+          statesProvinceLabel:"State",
+          postLabel:"ZIP Code",
+        }))
       }
     }
     billingStateUpdate();
@@ -239,19 +258,33 @@ export default function Checkout () {
   useEffect(() => {
     const deliveryStateUpdate = () => {
       if (formValues.country === 'AU') {
-        setDeliveryState(AU_States);
-        setDeliveryStateLabel("State/territory")
-        setDeliveryPostLabel("Postcode")
+        setDeliveryFormStates(prev => ({
+          ...prev,
+          statesProvince:AU_States,
+          statesProvinceLabel:"State/territory",
+          postLabel:"Postcode",
+        }))
       } else if (formValues.country === 'CA') {
-        setDeliveryState(CA_Province);
-        setDeliveryStateLabel("Province")
-        setDeliveryPostLabel("Postal code")
+        setDeliveryFormStates(prev => ({
+          ...prev,
+          statesProvince:CA_Province,
+          statesProvinceLabel:"Province",
+          postLabel:"Postal code",
+        }))
       } else if (formValues.country === 'GB') {
-        setDeliveryPostLabel("Postcode")
+        setDeliveryFormStates(prev => ({
+          ...prev,
+          statesProvince:[],
+          statesProvinceLabel:"",
+          postLabel:"Postcode",
+        }))
       } else if (formValues.country === 'US') {
-        setDeliveryState(US_States);
-        setDeliveryStateLabel("State")
-        setDeliveryPostLabel("ZIP Code")
+        setDeliveryFormStates(prev => ({
+          ...prev,
+          statesProvince:US_States,
+          statesProvinceLabel:"State",
+          postLabel:"ZIP Code",
+        }))
       }
     }
     deliveryStateUpdate();
@@ -545,11 +578,11 @@ export default function Checkout () {
                   formValues.country !== "GB" &&
                   <div className={styles.state}>
                     <label className={`${styles.label} ${formValues.state && styles.selected}`}>
-                      {deliveryStateLabel}
+                      {deliveryFormStates.statesProvinceLabel}
                     </label>
                     <select {...register("state")} className={styles.select}>
                       <option hidden value="">&nbsp;</option>
-                      {deliveryState.map((state:FormValueTypes, i:number) => {
+                      {deliveryFormStates.statesProvince.map((state:FormValueTypes, i:number) => {
                         return (
                           <option value={state.value} key={i}>{state.label}</option>
                         )
@@ -562,10 +595,10 @@ export default function Checkout () {
                 }
                 <div className={styles.zip}>
                   <div className={styles.inputContainer}>
-                    <label className={`${styles.inputLabel} ${formValues.zipcode ? styles.showLabel : ""}`}>{deliveryPostLabel}</label>
+                    <label className={`${styles.inputLabel} ${formValues.zipcode ? styles.showLabel : ""}`}>{deliveryFormStates.postLabel}</label>
                     <input className={`${styles.inputText} ${formValues.zipcode !== "" ? styles.inputUpdate : ""} ${errors.zipcode ? styles.wrongEntry : ""}`}
                       type='text'
-                      placeholder={deliveryPostLabel}
+                      placeholder={deliveryFormStates.postLabel}
                       {...register('zipcode', {
                         required: 'Enter a ZIP / postal code',
                         pattern: {
@@ -1003,11 +1036,11 @@ export default function Checkout () {
                             formValues.billingCountryRegion !== "GB" &&
                             <div className={styles.state}>
                               <label className={`${styles.label} ${formValues.billingState && styles.selected}`}>
-                                {billingStateLabel}
+                                {billingFormStates.statesProvinceLabel}
                               </label>
                               <select {...register("billingState")} className={styles.select}>
                                 <option hidden value="">&nbsp;</option>
-                                {billingState.map((state:FormValueTypes, i:number) => {
+                                {billingFormStates.statesProvince.map((state:FormValueTypes, i:number) => {
                                   return (
                                     <option value={state.value} key={i}>{state.label}</option>
                                   )
@@ -1020,10 +1053,10 @@ export default function Checkout () {
                           }
                           <div className={styles.zip}>
                             <div className={styles.inputContainer}>
-                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>{billingPostLabel}</label>
+                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>{billingFormStates.postLabel}</label>
                               <input className={`${styles.inputText} ${formValues.billingZipcode !== "" ? styles.inputUpdate : ""} ${errors.billingZipcode ? styles.wrongEntry : ""}`}
                                 type='text'
-                                placeholder={billingPostLabel}
+                                placeholder={billingFormStates.postLabel}
                                 {...register('billingZipcode', {
                                   required: creditCardBilling ? 'Enter a ZIP / postal code' : false,
                                   pattern: {
@@ -1348,11 +1381,11 @@ export default function Checkout () {
                             formValues.billingCountryRegion !== "GB" &&
                             <div className={styles.state}>
                               <label className={`${styles.label} ${formValues.billingState && styles.selected}`}>
-                                {billingStateLabel}
+                                {billingFormStates.statesProvinceLabel}
                               </label>
                               <select {...register("billingState")} className={styles.select}>
                                 <option hidden value="">&nbsp;</option>
-                                {billingState.map((state:FormValueTypes, i:number) => {
+                                {billingFormStates.statesProvince.map((state:FormValueTypes, i:number) => {
                                   return (
                                     <option value={state.value} key={i}>{state.label}</option>
                                   )
@@ -1365,10 +1398,10 @@ export default function Checkout () {
                           }
                           <div className={styles.zip}>
                             <div className={styles.inputContainer}>
-                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>{billingPostLabel}</label>
+                              <label className={`${styles.inputLabel} ${formValues.billingZipcode ? styles.showLabel : ""}`}>{billingFormStates.postLabel}</label>
                               <input className={`${styles.inputText} ${formValues.billingZipcode !== "" ? styles.inputUpdate : ""} ${errors.billingZipcode ? styles.wrongEntry : ""}`}
                                 type='text'
-                                placeholder={billingPostLabel}
+                                placeholder={billingFormStates.postLabel}
                                 {...register('billingZipcode', {
                                   required: differentBilling ? 'Enter a ZIP / postal code' : false,
                                   pattern: {
