@@ -318,8 +318,7 @@
   flex-direction: column;
   height: 100%;
   width: 100vw;
-
-  @include border(white);
+  // @include border(white);
   .navContainer {
     display: flex;
     justify-content: center;
