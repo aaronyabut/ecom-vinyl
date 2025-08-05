@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import styles from './page.module.scss';
@@ -335,13 +336,15 @@ export default function Checkout () {
       <div className={styles.navContainer}>
         <div className={styles.header}>
           <div className={styles.logo}>
-            <Image
-              src="https://cdn.shopify.com/s/files/1/0704/2026/7313/files/Vinyl_1_x320.png?v=1692630836"
-              height={40}
-              width={168}
-              alt="Vinyl logo"
-              priority
-            />
+            <Link href={`/`}>
+              <Image
+                src="https://cdn.shopify.com/s/files/1/0704/2026/7313/files/Vinyl_1_x320.png?v=1692630836"
+                height={40}
+                width={168}
+                alt="Vinyl logo"
+                priority
+              />
+            </Link>
           </div>
           <div className={styles.icon}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" className={styles.svg}>
