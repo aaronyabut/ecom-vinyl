@@ -131,13 +131,15 @@ export default function Cart () {
             shoppingCart.map((vinyl,i) => {
               return (
                 <div key={i} className={styles.vinyl}>
-                  <Image
-                    width={120}
-                    height={120}
-                    src={vinyl.vinyl_img}
-                    alt='Vinyl image'
-                    className={styles.vinylImage}
-                  />
+                  <Link href={`/products/${vinyl.product_id}`} target="_blank">
+                    <Image
+                      width={120}
+                      height={120}
+                      src={vinyl.vinyl_img}
+                      alt='Vinyl image'
+                      className={styles.vinylImage}
+                    />
+                  </Link>
                   <div className={styles.vinylInfoWrapper}>
                     <div className={styles.vinylInfo}>
                       <div className={styles.vinylDetails}>
@@ -145,7 +147,9 @@ export default function Cart () {
                           VINYL
                         </div>
                         <div className={styles.vinylTitle}>
-                          {vinyl.vinyl_title}
+                          <Link href={`/products/${vinyl.product_id}`} target="_blank">
+                            {vinyl.vinyl_title}
+                          </Link>
                         </div>
                         <div className={styles.vinylArtist}>
                           {vinyl.vinyl_artist}

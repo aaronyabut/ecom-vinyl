@@ -188,9 +188,11 @@ $accent-color: #00cca7;
         justify-content: space-between;
         // @include border(orange);
 
-        // .vinylImage {
-          // @include border(hotpink);
-        // }
+        .vinylImage {
+          cursor: pointer;
+          @include border(rgb(239, 239, 239));
+          border-width: 1px;
+        }
 
         .vinylInfoWrapper {
           display: flex;
@@ -222,6 +224,10 @@ $accent-color: #00cca7;
                 font-size: 16px;
                 font-weight: 700;
                 line-height: 22px;
+                &:hover {
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
 
                 // @include border(pink);
               }

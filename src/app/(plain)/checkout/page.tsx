@@ -173,6 +173,8 @@ interface FormData {
     *[DONE] Ensure cart page does not take in the shipping preferences in the checkout page
     *[DONE] Ensure FREE is only shown when above spending limit
     *[DONE] Update styling to make sure curves are at top
+    * Check to see if billing's same as shipping
+    * Fix interface and country/states/provinces
 */}
 
 export default function Checkout () {
