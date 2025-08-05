@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import styles from './page.module.scss';
 import Items from './Components/items';
 import { useShoppingCart } from '@/app/ShoppingCart';
@@ -10,6 +10,11 @@ import { useShoppingCart } from '@/app/ShoppingCart';
 interface FormValueTypes {
   label: string;
   value: string;
+}
+interface FormState {
+  statesProvince: FormValueTypes[];
+  statesProvinceLabel: string;
+  postLabel: string;
 }
 
 const Countries_Regions: FormValueTypes[] =[
@@ -110,6 +115,21 @@ const AU_States:FormValueTypes[] = [
   { label: "Victoria", value: "VIC" },
   { label: "Western Australia", value: "WA" }
 ]
+
+
+const stateUpdate = (
+  setState: Dispatch<SetStateAction<FormState>>,
+  statesProvinceValue: FormValueTypes[],
+  statesProvinceLabelValue: string,
+  postLabelValue: string
+) => {
+  return setState((prev) => ({
+    ...prev,
+    statesProvince: statesProvinceValue,
+    statesProvinceLabel: statesProvinceLabelValue,
+    postLabel: postLabelValue,
+  }))
+}
 
 interface FormData {
   email: string;
@@ -220,36 +240,17 @@ export default function Checkout () {
   const differentBilling = formValues.billingAddressOption==='differentBilling' && formValues.paymentOption !== 'creditCard';
 
 
+
   useEffect(() => {
     const billingStateUpdate = () => {
       if (formValues.billingCountryRegion === 'AU') {
-        setBillingFormStates(prev => ({
-          ...prev,
-          statesProvince:AU_States,
-          statesProvinceLabel:"State/territory",
-          postLabel:"Postcode",
-        }))
+        stateUpdate(setBillingFormStates, AU_States, "State/territory", "Postcode");
       } else if (formValues.billingCountryRegion === 'CA') {
-        setBillingFormStates(prev => ({
-          ...prev,
-          statesProvince:CA_Province,
-          statesProvinceLabel:"Province",
-          postLabel:"Postal code",
-        }))
+        stateUpdate(setBillingFormStates, CA_Province, "Province", "Postal code");
       } else if (formValues.billingCountryRegion === 'GB') {
-        setBillingFormStates(prev => ({
-          ...prev,
-          statesProvince:[],
-          statesProvinceLabel:"",
-          postLabel:"Postcode",
-        }))
+        stateUpdate(setBillingFormStates, [], "", "Postcode");
       } else if (formValues.billingCountryRegion === 'US') {
-        setBillingFormStates(prev => ({
-          ...prev,
-          statesProvince:US_States,
-          statesProvinceLabel:"State",
-          postLabel:"ZIP Code",
-        }))
+        stateUpdate(setBillingFormStates, US_States, "State", "ZIP Code");
       }
     }
     billingStateUpdate();
@@ -258,33 +259,13 @@ export default function Checkout () {
   useEffect(() => {
     const deliveryStateUpdate = () => {
       if (formValues.country === 'AU') {
-        setDeliveryFormStates(prev => ({
-          ...prev,
-          statesProvince:AU_States,
-          statesProvinceLabel:"State/territory",
-          postLabel:"Postcode",
-        }))
+        stateUpdate(setDeliveryFormStates, AU_States, "State/territory", "Postcode");
       } else if (formValues.country === 'CA') {
-        setDeliveryFormStates(prev => ({
-          ...prev,
-          statesProvince:CA_Province,
-          statesProvinceLabel:"Province",
-          postLabel:"Postal code",
-        }))
+        stateUpdate(setDeliveryFormStates, CA_Province, "Province", "Postal code");
       } else if (formValues.country === 'GB') {
-        setDeliveryFormStates(prev => ({
-          ...prev,
-          statesProvince:[],
-          statesProvinceLabel:"",
-          postLabel:"Postcode",
-        }))
+        stateUpdate(setDeliveryFormStates, [], "", "Postcode");
       } else if (formValues.country === 'US') {
-        setDeliveryFormStates(prev => ({
-          ...prev,
-          statesProvince:US_States,
-          statesProvinceLabel:"State",
-          postLabel:"ZIP Code",
-        }))
+        stateUpdate(setDeliveryFormStates, US_States, "State", "ZIP Code");
       }
     }
     deliveryStateUpdate();
