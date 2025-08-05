@@ -298,7 +298,7 @@ export default function Cart () {
               </div>
               <div
                 onClick={()=>setShippingProtection((prev:boolean) => !prev)}
-                className={`${styles.toggleWrapper} ${!shippingProtection ? styles.uncheckedToggle : styles.checkedToggle}`}
+                className={`${styles.toggleWrapper} ${shippingProtection ? styles.checkedToggle : styles.uncheckedToggle}`}
               >
                 <span className={`${styles.slider} ${shippingProtection && styles.checked}`}></span>
               </div>
@@ -307,12 +307,9 @@ export default function Cart () {
           <div className={`${styles.checkout} ${shoppingCart.length && styles.active}`}>
             <Link href={`/checkout`}>Checkout securely now</Link>
           </div>
-          {
-            shoppingCart.length ?
-            <div className={styles.shippingAndTaxes}>Taxes calculated at checkout</div>
-            :
-            <div className={styles.shippingAndTaxes}>Shipping & taxes calculated at checkout</div>
-          }
+          <div className={styles.shippingAndTaxes}>
+            {shoppingCart.length ? "Taxes calculated at checkout" : "Shipping & taxes calculated at checkout"}
+          </div>
         </div>
       </div>
     </div>

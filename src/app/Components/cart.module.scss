@@ -399,6 +399,7 @@ $accent-color: #00cca7;
         justify-content: center;
         align-items: center;
         // background-color: #02CBA4;
+        pointer-events: none;
         background-color: $accent-color;
         padding: 11px 14px;
         font-size: 18px;
@@ -410,6 +411,7 @@ $accent-color: #00cca7;
           opacity: 1;
           background-color: $accent-color;
           // @include border(blue);
+          pointer-events: auto;
           cursor: pointer;
 
         }
