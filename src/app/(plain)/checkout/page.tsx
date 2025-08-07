@@ -3,169 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
 import Items from './Components/items';
 import { useShoppingCart } from '@/app/ShoppingCart';
-
-interface FormValueTypes {
-  label: string;
-  value: string;
-}
-interface FormState {
-  statesProvince: FormValueTypes[];
-  statesProvinceLabel: string;
-  postLabel: string;
-}
-
-const Countries_Regions: FormValueTypes[] =[
-  { label: "Australia", value: "AU" },
-  { label: "Canada", value: "CA" },
-  { label: "United Kingdom", value: "GB" },
-  { label: "United States", value: "US" }
-]
-
-const US_States:FormValueTypes[] = [
-  { label: "Alabama", value: "AL" },
-  { label: "Alaska", value: "AK" },
-  { label: "American Samoa", value: "AS" },
-  { label: "Arizona", value: "AZ" },
-  { label: "Arkansas", value: "AR" },
-  { label: "California", value: "CA" },
-  { label: "Colorado", value: "CO" },
-  { label: "Connecticut", value: "CT" },
-  { label: "Delaware", value: "DE" },
-  { label: "Micronesia", value: "FM" },
-  { label: "Florida", value: "FL" },
-  { label: "Georgia", value: "GA" },
-  { label: "Guam", value: "GU" },
-  { label: "Hawaii", value: "HI" },
-  { label: "Idaho", value: "ID" },
-  { label: "Illinois", value: "IL" },
-  { label: "Indiana", value: "IN" },
-  { label: "Iowa", value: "IA" },
-  { label: "Kansas", value: "KS" },
-  { label: "Kentucky", value: "KY" },
-  { label: "Louisiana", value: "LA" },
-  { label: "Maine", value: "ME" },
-  { label: "Marshall Islands", value: "MH" },
-  { label: "Maryland", value: "MD" },
-  { label: "Massachusetts", value: "MA" },
-  { label: "Michigan", value: "MI" },
-  { label: "Minnesota", value: "MN" },
-  { label: "Mississippi", value: "MS" },
-  { label: "Missouri", value: "MO" },
-  { label: "Montana", value: "MT" },
-  { label: "Nebraska", value: "NE" },
-  { label: "Nevada", value: "NV" },
-  { label: "New Hampshire", value: "NH" },
-  { label: "New Jersey", value: "NJ" },
-  { label: "New Mexico", value: "NM" },
-  { label: "New York", value: "NY" },
-  { label: "North Carolina", value: "NC" },
-  { label: "North Dakota", value: "ND" },
-  { label: "Northern Mariana Islands", value: "MP" },
-  { label: "Ohio", value: "OH" },
-  { label: "Oklahoma", value: "OK" },
-  { label: "Oregon", value: "OR" },
-  { label: "Palau", value: "PW" },
-  { label: "Pennsylvania", value: "PA" },
-  { label: "Puerto Rico", value: "PR" },
-  { label: "Rhode Island", value: "RI" },
-  { label: "South Carolina", value: "SC" },
-  { label: "South Dakota", value: "SD" },
-  { label: "Tennessee", value: "TN" },
-  { label: "Texas", value: "TX" },
-  { label: "Utah", value: "UT" },
-  { label: "Vermont", value: "VT" },
-  { label: "Virginia", value: "VA" },
-  { label: "Washington", value: "WA" },
-  { label: "Washington DC", value: "DC" },
-  { label: "West Virginia", value: "WV" },
-  { label: "Wisconsin", value: "WI" },
-  { label: "Wyoming", value: "WY" },
-  { label: "U.S. Virgin Islands", value: "VI" },
-  { label: "Armed Forces Americas", value: "AA" },
-  { label: "Armed Forces Europe", value: "AE" },
-  { label: "Armed Forces Pacific", value: "AP" }
-]
-
-const CA_Province:FormValueTypes[] = [
-  { label: "Alberta", value: "AB" },
-  { label: "British Columbia", value: "BC" },
-  { label: "Manitoba", value: "MB" },
-  { label: "New Brunswick", value: "NB" },
-  { label: "Newfoundland and Labrador", value: "NL" },
-  { label: "Northwest Territories", value: "NT" },
-  { label: "Nova Scotia", value: "NS" },
-  { label: "Nunavut", value: "NU" },
-  { label: "Ontario", value: "ON" },
-  { label: "Prince Edward Island", value: "PE" },
-  { label: "Quebec", value: "QC" },
-  { label: "Saskatchewan", value: "SK" },
-  { label: "Yukon", value: "YT" }
-]
-
-const AU_States:FormValueTypes[] = [
-  { label: "Australian Capital Territory", value: "ACT" },
-  { label: "New South Wales", value: "NSW" },
-  { label: "Northern Territory", value: "NT" },
-  { label: "Queensland", value: "QLD" },
-  { label: "South Australia", value: "SA" },
-  { label: "Tasmania", value: "TAS" },
-  { label: "Victoria", value: "VIC" },
-  { label: "Western Australia", value: "WA" }
-]
-
-
-const stateUpdate = (
-  setState: Dispatch<SetStateAction<FormState>>,
-  statesProvinceValue: FormValueTypes[],
-  statesProvinceLabelValue: string,
-  postLabelValue: string
-) => {
-  return setState((prev) => ({
-    ...prev,
-    statesProvince: statesProvinceValue,
-    statesProvinceLabel: statesProvinceLabelValue,
-    postLabel: postLabelValue,
-  }))
-}
-
-interface FormData {
-  email: string;
-  subscribe: boolean;
-  country: string;
-  firstName: string;
-  lastName: string;
-  address: string;
-  apartment: string;
-  city: string;
-  state: string;
-  zipcode: string;
-  phone: string;
-  textAlert: boolean;
-  textMePhoneNumber: string;
-  shippingOption: string;
-  paymentOption: string;
-  creditCardNumber: string;
-  expirationDate:string;
-  securityCode: string;
-  nameOnCard: string;
-  shippingSameAsBilling: boolean;
-  billingCountryRegion: string;
-  billingFirstName: string;
-  billingLastName: string;
-  billingAddress: string;
-  billingApartment: string;
-  billingCity: string;
-  billingState: string;
-  billingZipcode: string;
-  billingPhone: string;
-  saveInfo: boolean;
-  rememberMeContact: string;
-  billingAddressOption:string;
-}
+import { FormData, FormValueTypes, Countries_Regions, US_States, CA_Province, AU_States, stateUpdate } from './formTypes';
 
 {/*
     *[DONE] Ensure shipping value updates cart subtotal of checkout page
@@ -173,8 +15,8 @@ interface FormData {
     *[DONE] Ensure cart page does not take in the shipping preferences in the checkout page
     *[DONE] Ensure FREE is only shown when above spending limit
     *[DONE] Update styling to make sure curves are at top
+    *[DONE] Fix interface and country/states/provinces
     * Check to see if billing's same as shipping
-    * Fix interface and country/states/provinces
 */}
 
 export default function Checkout () {
@@ -200,7 +42,7 @@ export default function Checkout () {
       zipcode: '',
       phone: '',
       textAlert: false,
-      textMePhoneNumber: '+1 ',
+      textMePhoneNumber: '',
       shippingOption: shipping ? 'usps' : 'free',
       paymentOption:'creditCard',
       creditCardNumber: '',
@@ -242,7 +84,36 @@ export default function Checkout () {
   const creditCardBilling = formValues.paymentOption==='creditCard' && formValues.shippingSameAsBilling===false;
   const differentBilling = formValues.billingAddressOption==='differentBilling' && formValues.paymentOption !== 'creditCard';
 
+  useEffect(()=> {
+    const expirationDateUpdate = () => {
+      let value = formValues.expirationDate; // Remove non-digits
 
+      if (value.length === 1 && value !== '1' && value !== '0') {
+        value = `0${value}`; // Add leading zero for 2-9
+      }
+
+      if (value.length >= 2) {
+        const month = value.slice(0, 2);
+
+        if (parseInt(month) >= 1 && parseInt(month) <= 12) {
+          if (value.length === 2) {
+            value = `${month} / `; // Add / after month
+          } else if (value.length === 4) {
+            value = value.slice(0,1); // removes / when backspacing
+          } else if (value.length > 7) {
+            value = value.slice(0,7); //prevents adding more
+          }
+          setValue("expirationDate", value);
+
+        } else {
+          setValue("expirationDate", month); // Keep only valid month digits
+        }
+      } else {
+        setValue("expirationDate", value); // Allow raw digits for backspacing
+      }
+    };
+    expirationDateUpdate();
+  }, [formValues.expirationDate])
 
   useEffect(() => {
     const billingStateUpdate = () => {
@@ -329,7 +200,8 @@ export default function Checkout () {
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // alert(JSON.stringify(data));
     // alert(formValues.paymentOption);
-    console.log(formValues.paymentOption);
+    // alert("asd");
+    // console.log(formValues.paymentOption);
     console.log(JSON.stringify(data));
   };
 
@@ -1416,13 +1288,12 @@ export default function Checkout () {
                 </div>
               }
             </div>
-            {
-              formValues.paymentOption === 'paypal'
-              ?
+            {/* {
+              formValues.paymentOption === 'paypal' ?
               <button type="submit" className={styles.payWithPaypalButton}>Pay with PayPal</button>
               :
-              <button type="submit" className={styles.payNowButton}>Pay now</button>
-            }
+            } */}
+            <button type="submit" className={styles.payNowButton}>Pay now</button>
             <div className={styles.border}></div>
           </form>
           <div className={styles.companyPolicies}>

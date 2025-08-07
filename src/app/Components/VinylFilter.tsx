@@ -25,7 +25,7 @@ import { useShoppingCart } from '@/app/ShoppingCart';
 /*/
 
 /*/[[TODO]]
- * Most recently released filter, use ending of vinyl_imag       [???]
+ *
 /*/
 
 interface getVinylsTypes {
@@ -316,7 +316,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         console.error('Error fetching more vinyls:', error);
       }
     }
-    fetchMoreVinyl()
+    fetchMoreVinyl();
   }, [showMore.offsetValue])
 
   // Sets up the min and max price in the filter
@@ -359,7 +359,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
         console.error('Error fetching filtered vinyls:', error);
       }
     }
-    fetchMinMax()
+    fetchMinMax();
   }, [genre, sale, stock, artistFilter.selected]);
 
   // Fetches artist name when filter for certain artists

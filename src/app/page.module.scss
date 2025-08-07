@@ -302,7 +302,7 @@ $inner-dropdown: rgb(45,45,45);
 
   .genreStyling {
     @include dropDownStyling($mid-comp:false);
-    @include contained()
+    @include contained();
   }
 
   .genreList {

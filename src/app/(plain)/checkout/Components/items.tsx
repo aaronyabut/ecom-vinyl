@@ -119,6 +119,7 @@ export default function Items ({showShipping} : ShipType) {
     const exists = discountCodes.find((item) => item.code === data.discountCodeInput.toLowerCase())
 
     if (exists) {
+      alert(`asd: ${JSON.stringify(data)}`);
       const subtotalCalc = shippingProtection ? ((subTotal-(subTotal*exists.discount))+shippingProtectionCost).toFixed(2) : (subTotal-(subTotal*exists.discount)).toFixed(2)
       setSubtotalPrice(Number(subtotalCalc));
       // setDiscountPercentage(exists.discount)
