@@ -84,12 +84,61 @@ export default function Checkout () {
   const creditCardBilling = formValues.paymentOption==='creditCard' && formValues.shippingSameAsBilling===false;
   const differentBilling = formValues.billingAddressOption==='differentBilling' && formValues.paymentOption !== 'creditCard';
 
-  useEffect(()=> {
-    const expirationDateUpdate = () => {
-      let value = formValues.expirationDate; // Remove non-digits
+  useEffect(() => {
+    const updateTextNumber = () => {
+      const value = formValues.textMePhoneNumber;
+      const numbers = value.replace(/\D/g, '')
+      const nonNumbers = value.replace(/\d/g, '')
 
-      if (value.length === 1 && value !== '1' && value !== '0') {
+      if (numbers.slice(0,1)==="1") {
+        if (numbers.length === 2) {
+          setValue("textMePhoneNumber", `${numbers.slice(0,1)} ${numbers.slice(1,2)}`)
+        } else if (numbers.length === 1) {
+          setValue("textMePhoneNumber", `${numbers.slice(0,1)}`)
+        } else if (numbers.length === 3 && (value.length === 5)) {
+          setValue("textMePhoneNumber", `${numbers.slice(0,1)} ${numbers.slice(1,3)}`) // Removes parantheses
+        } else if (numbers.length === 4 && (value.length === 5)) {
+          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)})`) // Add parantheses
+        } else if (numbers.length === 4 && value.length === 8) {
+          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)})`) // Removes space when backspacing
+        } else if (numbers.length === 5 && value.length === 8) {
+          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,5)}`) // Adds space when typing
+        } else if (numbers.length === 7 && value.length === 12) {
+          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,7)}`) // Removes - when backspacing
+        } else if (numbers.length === 8 && value.length === 12) {
+          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,7)}-${numbers.slice(7,8)}`) // Adds - when typing
+        } else if (numbers.length > 11 && value.length > 16) {
+          setValue("textMePhoneNumber", value.slice(0,16))
+        }
+      } else {
+        if (numbers.length <= 2 && nonNumbers.length > 0) {
+          setValue("textMePhoneNumber", `${numbers}`)
+        } else if (numbers.length === 3 && value.length === 3) {
+          setValue("textMePhoneNumber", `(${numbers})`)
+        } else if (numbers.length === 3 && value.length > 4) {
+          setValue("textMePhoneNumber", `(${numbers})`)
+        } else if (numbers.length===4) {
+          setValue("textMePhoneNumber", `(${numbers.slice(0,3)}) ${numbers.slice(3,4)}`)
+        } else if (numbers.length===6) {
+          setValue("textMePhoneNumber", `(${numbers.slice(0,3)}) ${numbers.slice(3,6)}`)
+        } else if (numbers.length===7) {
+          setValue("textMePhoneNumber", `(${numbers.slice(0,3)}) ${numbers.slice(3,6)}-${numbers.slice(6,7)}`)
+        } else if (numbers.length > 10 && value.length > 14) {
+          setValue("textMePhoneNumber", value.slice(0,14))
+        }
+      }
+    }
+    updateTextNumber();
+  }, [formValues.textMePhoneNumber])
+
+  useEffect(() => {
+    const expirationDateUpdate = () => {
+      let value = formValues.expirationDate;
+
+      if (value.length === 1 && value !== '1' && value !== '0' && parseInt(value) >= 0 ) {
         value = `0${value}`; // Add leading zero for 2-9
+      } else if (value.length === 1 && isNaN(parseInt(value))) {
+        value = value.slice(0,0);
       }
 
       if (value.length >= 2) {
