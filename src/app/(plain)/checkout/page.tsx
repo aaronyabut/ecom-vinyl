@@ -21,7 +21,10 @@ import {
     *[DONE] Ensure FREE is only shown when above spending limit
     *[DONE] Update styling to make sure curves are at top
     *[DONE] Fix interface and country/states/provinces
-    * Check to see if billing's same as shipping
+    *[DONE] Check to see if billing's same as shipping
+    *[DONE] create helper func
+    * update regex for epxiration date and phonenumber
+    * rec carousel on product page add to cart dropdown when added
 */}
 
 export default function Checkout () {
@@ -503,7 +506,7 @@ export default function Checkout () {
                     placeholder="Phone (optional)"
                       {...register('phone', {
                         pattern: {
-                          value: /^\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
+                          value: /^(1\s)?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
                           message: 'Enter a valid phone number',
                         },
                       })}
@@ -549,7 +552,7 @@ export default function Checkout () {
                     {...register('textMePhoneNumber', {
                       required: formValues.textAlert ? 'Enter a phone number' : false,
                       pattern: {
-                        value: /^\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
+                        value: /^(1\s)?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
                         message: 'The specified phone number does not match the expected pattern.',
                       },
                     })}
@@ -693,14 +696,14 @@ export default function Checkout () {
                     <div className={styles.cardInfoContainer}>
                       <div className={styles.expirationDate}>
                         <div className={styles.inputContainer}>
-                          <label className={`${styles.inputLabel} ${formValues.expirationDate ? styles.showLabel : ""}`}>Expiration date (MM /YY)</label>
+                          <label className={`${styles.inputLabel} ${formValues.expirationDate ? styles.showLabel : ""}`}>Expiration date (MM / YY)</label>
                           <input className={`${styles.inputText} ${formValues.expirationDate !== "" ? styles.inputUpdate : ""} ${errors.expirationDate ? styles.wrongEntry : ""}`}
                             type='text'
-                            placeholder="Expiration date (MM /YY)"
+                            placeholder="Expiration date (MM / YY)"
                             {...register('expirationDate', {
                               required: formValues.paymentOption==='creditCard' ? 'Enter expiration date' : false,
                               pattern: {
-                                value: /^(0[1-9]|1[0-2])\/([0-9]{2})$/,
+                                value: /^(0[1-9]|1[0-2])\s*\/\s*([0-9]{2})$/,
                                 message: 'Enter a valid expiration date',
                               },
                             })}
@@ -961,7 +964,7 @@ export default function Checkout () {
                               placeholder="Phone (optional)"
                               {...register('billingPhone', {
                                 pattern: {
-                                  value: /^\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
+                                  value: /^(1\s)?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
                                   message: 'Enter a valid phone number',
                                 },
                               })}
@@ -1069,7 +1072,7 @@ export default function Checkout () {
                             {...register('rememberMePhone', {
                               required: formValues.saveInfo ? 'Enter phone number' : false,
                               pattern: {
-                                value: /^\+?[1-9]\d{1,14}$/,
+                                value: /^(1\s)?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
                                 message: 'The specified phone number does not match the expected pattern.',
                               },
                             })}
@@ -1295,7 +1298,7 @@ export default function Checkout () {
                               placeholder="Phone (optional)"
                               {...register('billingPhone', {
                                 pattern: {
-                                  value: /^\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
+                                  value: /^(1\s)?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
                                   message: 'Enter a valid phone number',
                                 },
                               })}
