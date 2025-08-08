@@ -7,7 +7,12 @@ import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
 import Items from './Components/items';
 import { useShoppingCart } from '@/app/ShoppingCart';
-import { FormData, FormValueTypes, Countries_Regions, US_States, CA_Province, AU_States, stateUpdate } from './formTypes';
+import {
+  FormData, FormValueTypes,
+  Countries_Regions, US_States,
+  CA_Province, AU_States,
+  stateUpdate, phoneNumberFormat
+} from './formTypes';
 
 {/*
     *[DONE] Ensure shipping value updates cart subtotal of checkout page
@@ -60,7 +65,7 @@ export default function Checkout () {
       billingZipcode: '',
       billingPhone: '',
       saveInfo: false,
-      rememberMeContact: '',
+      rememberMePhone: '',
       billingAddressOption: 'differentBilling'
     },
   });
@@ -84,52 +89,18 @@ export default function Checkout () {
   const creditCardBilling = formValues.paymentOption==='creditCard' && formValues.shippingSameAsBilling===false;
   const differentBilling = formValues.billingAddressOption==='differentBilling' && formValues.paymentOption !== 'creditCard';
 
+  // create helper func
+  // rec carousel on product page add to cart dropdown when added
+  // update regex for epxiration date and phonenumber
   useEffect(() => {
-    const updateTextNumber = () => {
-      const value = formValues.textMePhoneNumber;
-      const numbers = value.replace(/\D/g, '')
-      const nonNumbers = value.replace(/\d/g, '')
-
-      if (numbers.slice(0,1)==="1") {
-        if (numbers.length === 2) {
-          setValue("textMePhoneNumber", `${numbers.slice(0,1)} ${numbers.slice(1,2)}`)
-        } else if (numbers.length === 1) {
-          setValue("textMePhoneNumber", `${numbers.slice(0,1)}`)
-        } else if (numbers.length === 3 && (value.length === 5)) {
-          setValue("textMePhoneNumber", `${numbers.slice(0,1)} ${numbers.slice(1,3)}`) // Removes parantheses
-        } else if (numbers.length === 4 && (value.length === 5)) {
-          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)})`) // Add parantheses
-        } else if (numbers.length === 4 && value.length === 8) {
-          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)})`) // Removes space when backspacing
-        } else if (numbers.length === 5 && value.length === 8) {
-          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,5)}`) // Adds space when typing
-        } else if (numbers.length === 7 && value.length === 12) {
-          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,7)}`) // Removes - when backspacing
-        } else if (numbers.length === 8 && value.length === 12) {
-          setValue("textMePhoneNumber", `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,7)}-${numbers.slice(7,8)}`) // Adds - when typing
-        } else if (numbers.length > 11 && value.length > 16) {
-          setValue("textMePhoneNumber", value.slice(0,16))
-        }
-      } else {
-        if (numbers.length <= 2 && nonNumbers.length > 0) {
-          setValue("textMePhoneNumber", `${numbers}`)
-        } else if (numbers.length === 3 && value.length === 3) {
-          setValue("textMePhoneNumber", `(${numbers})`)
-        } else if (numbers.length === 3 && value.length > 4) {
-          setValue("textMePhoneNumber", `(${numbers})`)
-        } else if (numbers.length===4) {
-          setValue("textMePhoneNumber", `(${numbers.slice(0,3)}) ${numbers.slice(3,4)}`)
-        } else if (numbers.length===6) {
-          setValue("textMePhoneNumber", `(${numbers.slice(0,3)}) ${numbers.slice(3,6)}`)
-        } else if (numbers.length===7) {
-          setValue("textMePhoneNumber", `(${numbers.slice(0,3)}) ${numbers.slice(3,6)}-${numbers.slice(6,7)}`)
-        } else if (numbers.length > 10 && value.length > 14) {
-          setValue("textMePhoneNumber", value.slice(0,14))
-        }
-      }
+    const updatePhoneNumber = () => {
+      phoneNumberFormat(setValue, "textMePhoneNumber", formValues.textMePhoneNumber);
+      phoneNumberFormat(setValue, "phone", formValues.phone);
+      phoneNumberFormat(setValue, "billingPhone", formValues.billingPhone);
+      phoneNumberFormat(setValue, "rememberMePhone", formValues.rememberMePhone);
     }
-    updateTextNumber();
-  }, [formValues.textMePhoneNumber])
+    updatePhoneNumber();
+  }, [formValues.textMePhoneNumber, formValues.phone, formValues.billingPhone, formValues.rememberMePhone, setValue])
 
   useEffect(() => {
     const expirationDateUpdate = () => {
@@ -585,9 +556,9 @@ export default function Checkout () {
                     />
                 </div>
                 {
-                  errors.rememberMeContact ?
+                  errors.textMePhoneNumber ?
                   <div className={styles.wrongEntryMessage} >
-                    {errors.rememberMeContact.message}
+                    {errors.textMePhoneNumber.message}
                   </div>
                   : null
                 }
@@ -1087,15 +1058,15 @@ export default function Checkout () {
                       </div>
                     </div>
                     <div className={`${styles.dropdownRememberMe} ${formValues.saveInfo && styles.open}`}>
-                      <div className={styles.rememberMeContact}>
+                      <div className={styles.rememberMePhone}>
                         <div className={styles.inputContainer}>
                           <span className={styles.icon}>
                           <svg fill="#707070" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M17,23a2,2,0,0,0,2-2V3a2,2,0,0,0-2-2H7A2,2,0,0,0,5,3V21a2,2,0,0,0,2,2ZM7,3H9.5L10,4h4l.5-1H17V21H7Zm6,16a1,1,0,1,1-1-1A1,1,0,0,1,13,19Z"></path></g></svg></span>
-                          <label className={`${styles.inputLabel} ${formValues.rememberMeContact ? styles.showLabel : ''}`}>Mobile phone number</label>
-                          <input className={`${styles.inputText} ${formValues.rememberMeContact !== "" ? styles.inputUpdate : ''} ${errors.rememberMeContact ? styles.wrongEntry : ""}`}
+                          <label className={`${styles.inputLabel} ${formValues.rememberMePhone ? styles.showLabel : ''}`}>Mobile phone number</label>
+                          <input className={`${styles.inputText} ${formValues.rememberMePhone !== "" ? styles.inputUpdate : ''} ${errors.rememberMePhone ? styles.wrongEntry : ""}`}
                             type='text'
                             placeholder='Mobile phone number'
-                            {...register('rememberMeContact', {
+                            {...register('rememberMePhone', {
                               required: formValues.saveInfo ? 'Enter phone number' : false,
                               pattern: {
                                 value: /^\+?[1-9]\d{1,14}$/,
@@ -1105,9 +1076,9 @@ export default function Checkout () {
                           />
                         </div>
                         {
-                          errors.rememberMeContact && formValues.rememberMeContact ?
+                          errors.rememberMePhone && formValues.rememberMePhone ?
                           <div className={styles.wrongEntryMessage} >
-                            {errors.rememberMeContact.message}
+                            {errors.rememberMePhone.message}
                           </div>
                           : null
                         }

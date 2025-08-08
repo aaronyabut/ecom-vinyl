@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { UseFormSetValue } from 'react-hook-form';
 
 export interface FormData {
   email: string;
@@ -31,7 +32,7 @@ export interface FormData {
   billingZipcode: string;
   billingPhone: string;
   saveInfo: boolean;
-  rememberMeContact: string;
+  rememberMePhone: string;
   billingAddressOption:string;
 }
 export interface FormValueTypes {
@@ -156,4 +157,51 @@ export const stateUpdate = (
     statesProvinceLabel: statesProvinceLabelValue,
     postLabel: postLabelValue,
   }))
+}
+
+export const phoneNumberFormat = (
+  setState: UseFormSetValue<FormData>,
+  defaultValue: keyof FormData,
+  value: string
+) => {
+  const numbers = value.replace(/\D/g, '')
+  const nonNumbers = value.replace(/\d/g, '')
+
+  if (numbers.slice(0,1)==="1") {
+    if (numbers.length === 2) {
+      setState(defaultValue, `${numbers.slice(0,1)} ${numbers.slice(1,2)}`)
+    } else if (numbers.length === 1) {
+      setState(defaultValue, `${numbers.slice(0,1)}`)
+    } else if (numbers.length === 3 && (value.length === 5)) {
+      setState(defaultValue, `${numbers.slice(0,1)} ${numbers.slice(1,3)}`) // Removes parantheses
+    } else if (numbers.length === 4 && (value.length === 5)) {
+      setState(defaultValue, `${numbers.slice(0,1)} (${numbers.slice(1,4)})`) // Add parantheses
+    } else if (numbers.length === 4 && value.length === 8) {
+      setState(defaultValue, `${numbers.slice(0,1)} (${numbers.slice(1,4)})`) // Removes space when backspacing
+    } else if (numbers.length === 5 && value.length === 8) {
+      setState(defaultValue, `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,5)}`) // Adds space when typing
+    } else if (numbers.length === 7 && value.length === 12) {
+      setState(defaultValue, `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,7)}`) // Removes - when backspacing
+    } else if (numbers.length === 8 && value.length === 12) {
+      setState(defaultValue, `${numbers.slice(0,1)} (${numbers.slice(1,4)}) ${numbers.slice(4,7)}-${numbers.slice(7,8)}`) // Adds - when typing
+    } else if (numbers.length > 11 && value.length > 16) {
+      setState(defaultValue, value.slice(0,16))
+    }
+  } else {
+    if (numbers.length <= 2 && nonNumbers.length > 0) {
+      setState(defaultValue, `${numbers}`)
+    } else if (numbers.length === 3 && value.length === 3) {
+      setState(defaultValue, `(${numbers})`)
+    } else if (numbers.length === 3 && value.length > 4) {
+      setState(defaultValue, `(${numbers})`)
+    } else if (numbers.length===4) {
+      setState(defaultValue, `(${numbers.slice(0,3)}) ${numbers.slice(3,4)}`)
+    } else if (numbers.length===6) {
+      setState(defaultValue, `(${numbers.slice(0,3)}) ${numbers.slice(3,6)}`)
+    } else if (numbers.length===7) {
+      setState(defaultValue, `(${numbers.slice(0,3)}) ${numbers.slice(3,6)}-${numbers.slice(6,7)}`)
+    } else if (numbers.length > 10 && value.length > 14) {
+      setState(defaultValue, value.slice(0,14))
+    }
+  }
 }
