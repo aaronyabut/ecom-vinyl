@@ -7,8 +7,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import WishlistIcon from '@public/wishlist-heart.svg';
 import ArrowIcon from '@public/arrow-icon.svg';
-// import { useCart } from '@/app/ClientLayout';
 import { useShoppingCart } from '@/app/ShoppingCart';
+import { useCart } from '@/app/ClientLayout';
 
 const recommendationsHeader = "YOU'LL DIG THESE...";
 
@@ -19,8 +19,8 @@ interface RecommendationsProps {
 export default function Recommendations({ recommendedVinyls }: RecommendationsProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const isScrolling = useRef(false); // Prevent recursive scroll events
-  // const { setShoppingCart } = useCart();
   const { setShoppingCart } = useShoppingCart();
+  const { setOpenCart } = useCart();
 
   const addingToCart = (vinyl:Vinyl) => {
     setShoppingCart((prevCart) => {
@@ -36,6 +36,7 @@ export default function Recommendations({ recommendedVinyls }: RecommendationsPr
       // Add new item with quantity 1
       return [...prevCart, { ...vinyl, quantity: 1 }];
     });
+    setTimeout(()=> setOpenCart(true), 750);
   }
 
   // Handle arrow button clicks and scroll

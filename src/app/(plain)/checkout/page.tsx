@@ -23,8 +23,8 @@ import {
     *[DONE] Fix interface and country/states/provinces
     *[DONE] Check to see if billing's same as shipping
     *[DONE] create helper func
-    * update regex for epxiration date and phonenumber
-    * rec carousel on product page add to cart dropdown when added
+    *[DONE] update regex for epxiration date and phonenumber
+    * Rec carousel on product page add to cart dropdown when added
 */}
 
 export default function Checkout () {
