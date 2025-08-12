@@ -59,11 +59,11 @@ interface ProductBenefitsType {
 function getDateRange() {
   const today = new Date();
 
-  //3 days from now
+  // 3 days from now
   const startDate = new Date(today);
   startDate.setDate(today.getDate() + 3);
 
-  //7 days from now
+  // 7 days from now
   const endDate = new Date(today);
   endDate.setDate(today.getDate() + 7);
 
@@ -231,17 +231,11 @@ export default function ProductDetails({
           <div className={styles.CTAContainer}>
             {
               vinyl.no_stock_label ?
-              <div
-                className={styles.notifyMe}
-                onClick={()=>setToNotify(true)}
-              >
+              <div className={styles.notifyMe} onClick={()=>setToNotify(true)}>
                 NOTIFY ME
               </div>
               :
-              <div
-                className={styles.addToCart}
-                onClick={()=>addingToCart(vinyl)}
-              >
+              <div className={styles.addToCart} onClick={()=>addingToCart(vinyl)}>
                 ADD TO CART
               </div>
             }
@@ -280,7 +274,7 @@ export default function ProductDetails({
               ))
             }
           </div>
-
+          {/* Divider */}
           <div className={styles.divider} />
 
           {/* Wishlist */}
@@ -302,9 +296,7 @@ export default function ProductDetails({
           {/* Description */}
           {
             vinyl.vinyl_description ?
-            <div
-              className={styles.description}
-              >
+            <div className={styles.description}>
               <p>{dropdown.description ? vinyl.vinyl_description : vinyl.vinyl_description.slice(0, 250)+"..."}</p>
               <div
                 className={styles.readMore}
@@ -401,11 +393,10 @@ export default function ProductDetails({
             </div>
             : null
           }
-
+          {/* Divider */}
           <div className={styles.divider} />
 
           {/* Pairings */}
-
           {
             pairings.length ?
             <div className={styles.pairingsContainer}>
@@ -423,7 +414,8 @@ export default function ProductDetails({
                 />
               </div>
               <div className={`${styles.pairingsDropdownContainer} ${dropdown.pairings && styles.open}`}>
-                {pairings.map((obj:Vinyl,i:number) => {
+                {
+                  pairings.map((obj:Vinyl,i:number) => {
                   return (
                     <div key={i} className={styles.vinyl}>
                       <div className={styles.info}>
@@ -444,7 +436,8 @@ export default function ProductDetails({
                                 {obj.vinyl_title}
                               </div>
                               <div className={styles.priceWrapper}>
-                                {obj.old_price &&
+                                {
+                                  obj.old_price &&
                                   <span className={styles.oldPrice}>
                                     ${obj.old_price}
                                   </span>
@@ -459,11 +452,7 @@ export default function ProductDetails({
                           </div>
                         </Link>
                       </div>
-
-                      <div
-                        className={styles.toCart}
-                        onClick={()=> addingToCart(obj)}
-                      >
+                      <div className={styles.toCart} onClick={()=> addingToCart(obj)}>
                         ADD TO CART
                       </div>
                     </div>
@@ -623,22 +612,21 @@ export default function ProductDetails({
         </div>
         <div className={styles.pricingWrapper}>
           <div className={styles.pricing}>
-            {vinyl.old_price&&
+            {
+              vinyl.old_price &&
               <div className={styles.oldPrice}>
                 {vinyl.price && `$${vinyl.old_price}`}
               </div>
             }
             <div className={styles.price}>${vinyl.price}</div>
-            {vinyl.old_price &&
+            {
+              vinyl.old_price &&
               <div className={styles.salePrice}>
                 {vinyl.price && Math.round((vinyl.price/vinyl.old_price)*10) + "% OFF"}
               </div>
             }
           </div>
-          <div
-            className={styles.cart}
-            onClick={()=>addingToCart(vinyl)}
-          >
+          <div className={styles.cart} onClick={()=>addingToCart(vinyl)}>
             ADD TO CART
           </div>
         </div>

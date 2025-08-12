@@ -24,7 +24,7 @@ import {
     *[DONE] Check to see if billing's same as shipping
     *[DONE] create helper func
     *[DONE] update regex for epxiration date and phonenumber
-    * Rec carousel on product page add to cart dropdown when added
+    *[DONE] Rec carousel on product page add to cart dropdown when added
 */}
 
 export default function Checkout () {
@@ -92,9 +92,6 @@ export default function Checkout () {
   const creditCardBilling = formValues.paymentOption==='creditCard' && formValues.shippingSameAsBilling===false;
   const differentBilling = formValues.billingAddressOption==='differentBilling' && formValues.paymentOption !== 'creditCard';
 
-  // create helper func
-  // rec carousel on product page add to cart dropdown when added
-  // update regex for epxiration date and phonenumber
   useEffect(() => {
     const updatePhoneNumber = () => {
       phoneNumberFormat(setValue, "textMePhoneNumber", formValues.textMePhoneNumber);
@@ -222,9 +219,6 @@ export default function Checkout () {
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // alert(JSON.stringify(data));
-    // alert(formValues.paymentOption);
-    // alert("asd");
-    // console.log(formValues.paymentOption);
     console.log(JSON.stringify(data));
   };
 
@@ -1311,12 +1305,12 @@ export default function Checkout () {
                 </div>
               }
             </div>
-            {/* {
+            {
               formValues.paymentOption === 'paypal' ?
               <button type="submit" className={styles.payWithPaypalButton}>Pay with PayPal</button>
               :
-            } */}
-            <button type="submit" className={styles.payNowButton}>Pay now</button>
+              <button type="submit" className={styles.payNowButton}>Pay now</button>
+            }
             <div className={styles.border}></div>
           </form>
           <div className={styles.companyPolicies}>
@@ -1328,10 +1322,7 @@ export default function Checkout () {
           </div>
         </div>
         <div className={styles.itemsContainer}>
-          {/* <div className={styles.items}>asd</div> */}
-          <Items
-            showShipping={showShipping}
-          />
+          <Items showShipping={showShipping}/>
         </div>
       </div>
     </div>

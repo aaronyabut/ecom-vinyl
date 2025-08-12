@@ -51,7 +51,6 @@ interface ShowMoreState {
   toShow: boolean;
 }
 
-// const genres: string[] = ['Blues', 'Rock', 'Country', 'Jazz', 'RnB / Soul', 'Pop'];
 const genres: string[] = ['Blues', 'Christmas', 'Country', 'Dance/EDM', 'Gospel', 'Jazz', 'Pop', 'Reggae', 'R&B/Soul', 'Rock'];
 
 const sorts: Sorting[] = [
@@ -111,17 +110,8 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
     toShow: initialTotalCount >= 24 ? true : false,
   })
   const [showReset, setShowReset] = useState<boolean>(false);
-  // const { setShoppingCart, setOpenCart, setToNotify } = useCart();
   const { setOpenCart, setToNotify } = useCart();
   const { setShoppingCart } = useShoppingCart();
-
-  // const [isPriceRangeAdjusted, setIsPriceRangeAdjusted] = useState<boolean>(false);
-
-  // const checkCurrent = "sort ";
-  // const handleCheckCurrent = () => {
-    // console.log(selectedSort);
-    // console.log(vinyls);
-  // };
 
   const addingToCart = (vinyl:Vinyl) => {
     setShoppingCart((prevCart) => {

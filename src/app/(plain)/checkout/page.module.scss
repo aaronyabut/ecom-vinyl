@@ -154,7 +154,6 @@
       width: 100%;
       height: 46px;
       background-color: rgba(0, 0, 0, 0);
-      // border: none;
       box-shadow: none;
       outline: none;
       color: black;
@@ -537,12 +536,7 @@
       row-gap: 14px;
       // @include border(red);
 
-      // .deliveryHeader {
-        // @include border(MediumPurple);
-      // }
-
       .country {
-        // @include inputText();
         @include inputSelect();
         // @include border(MediumPurple);
       }
@@ -550,22 +544,13 @@
         @include flexRow(space-evenly);
         column-gap: 14px;
         // @include border(MediumPurple);
-        .firstName {
-          width: 100%;
-          @include inputText();
-          // @include border(MediumBlue);
-        }
-        .lastName {
+        .firstName, .lastName {
           width: 100%;
           @include inputText();
           // @include border(MediumBlue);
         }
       }
-      .address {
-        @include inputText();
-        // @include border(MediumPurple);
-      }
-      .apartment {
+      .address, .apartment, .phone  {
         @include inputText();
         // @include border(MediumPurple);
       }
@@ -573,24 +558,12 @@
         @include flexRow(space-evenly);
         column-gap: 14px;
         // @include border(MediumPurple);
-        .city {
+        .city, .state, .zip {
           @include inputText();
+          @include inputSelect(); // for state
           width: 100%;
           // @include border(MediumBlue);
         }
-
-        .state {
-          @include inputSelect();
-        }
-        .zip {
-          @include inputText();
-          width: 100%;
-          // @include border(MediumBlue);
-        }
-      }
-      .phone {
-        @include inputText();
-        // @include border(MediumPurple);
       }
       .alerts {
         @include flexRow(start);
@@ -614,12 +587,12 @@
         .inputContainer {
           // @include border(blue);
           .icon {
-            // @include border(blue);
             position: absolute;
             height: 20px;
             width: 20px;
             top: 18px;
             left: 13px;
+            // @include border(blue);
           }
           .inputText {
             // @include border(blue);
@@ -650,12 +623,6 @@
           }
         }
       }
-      // .shippingHeader {
-        // @include border(MediumPurple);
-      // }
-      // .shippingMessage {
-        // @include border(MediumPurple);
-      // }
 
       .shippingOptions {
         background-color: white;
@@ -683,8 +650,8 @@
         background-color: rgb(34, 34, 34);
         padding: 17px;
         border-radius: 8px;
-
         // @include border(MediumPurple);
+
         .message {
           font-size: 14px;
           text-align: center;
@@ -704,9 +671,7 @@
         row-gap: 5px;
         display: grid;
         // @include border(yellow);
-        // .header {
-        // @include border(blue);
-        // }
+
         .subHeader {
           font-size: 14px;
           color: rgba(255, 255, 255, 0.66);
@@ -724,7 +689,6 @@
             display: flex;
             flex-direction: row;
             column-gap: 5px;
-            // width: 175px;
             // @include border(blue);
           }
           // @include border(blue);
@@ -748,18 +712,14 @@
         }
         .afterPay {
           @include radioSelection($placement:bottom);
-          // @include border(blue);
-          // .logos {
-            // @include border(blue);
-          // }
         }
         .chosenPayment {
           @include chosenRadio($dropdown:true);
         }
         .dropdownCreditCard {
           @include dropDownLogic();
-          // @include border(red);
           height: fit-content;
+          // @include border(red);
           @include border(rgb(222, 222, 222));
           border-width: 1px;
           border-top: 0px;
@@ -816,9 +776,9 @@
                 margin-top: 13px;
               }
               .billingAddressFormContainer {
-                // @include border(green);
                 margin-top: 14px;
                 @include billingAddressFormLayout();
+                // @include border(green);
               }
             }
           }
@@ -862,7 +822,6 @@
           @include dropdownThirdParty();
           // @include border(red);
         }
-
       }
     }
 
@@ -877,14 +836,11 @@
       // @include border(red);
 
       span {
-        // text-wrap: wrap;
         @include hyperlink();
         word-break: normal;
         font-size: 14px;
         // @include border(blue);
       }
-
-      // flex-direction: row;
     }
 
     .rememberMeContainer {
@@ -903,7 +859,6 @@
         .saveInfo {
           padding:14px;
           @include flexRow(start);
-          // width: fit-content;
           cursor: pointer;
           align-items: center;
           border-radius: 6px;
@@ -935,25 +890,24 @@
           @include dropDownLogic();
           // @include border(green);
           .rememberMePhone {
-            // @include border(green);
             padding: 14px;
             @include inputText(rgb(227, 227, 227));
+            // @include border(green);
             .inputContainer {
-              // padding-left: 43px;
               // @include border(blue);
 
               .icon {
-                // @include border(blue);
                 position: absolute;
                 height: 20px;
                 width: 20px;
                 top: 18px;
                 left: 13px;
+                // @include border(blue);
               }
               .inputText {
-                // @include border(blue);
                 height: 55px;
                 padding-left: 40px;
+                // @include border(blue);
               }
               .inputUpdate {
                 padding: 22px 41px 6px;
@@ -973,32 +927,27 @@
           @include flexRow(space-between, 5px);
           // @include border(blue);
           .lockIcon {
-            // @include border(MediumPurple);
             height: 12px;
             width: 12px;
-
+            // @include border(MediumPurple);
           }
           .text {
-            // @include border(MediumPurple);
             font-size: 12px;
+            // @include border(MediumPurple);
           }
         }
         .shopIcon {
-          // @include border(blue);
           height: 22px;
           width: 44px;
-
+          // @include border(blue);
         }
       }
     }
     .billingAddressContainer {
-      // @include border(red);
       row-gap: 5px;
       display: grid;
+      // @include border(red);
 
-      // .billingAddressHeader {
-        // @include border(blue);
-      // }
       .billingAddressOptions {
         background-color: white;
         color: black;

@@ -22,9 +22,7 @@ export default function Navbar () {
   const [selecting, setSelecting] = useState<string>("")
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
-  // const [toCart, setToCart] = useState<boolean>(false);
   const [cartCount, setCartCount] = useState<number>(0);
-  // const {shoppingCart, openCart, setOpenCart} = useCart();
   const { openCart, setOpenCart } = useCart();
   const { shoppingCart } = useShoppingCart();
 
@@ -60,8 +58,6 @@ export default function Navbar () {
   useEffect(() => {
     const updateCartCount = () => {
       const sumQuantity = shoppingCart.reduce((sum, vinyl) => Number(sum) + Number(vinyl.quantity || 0), 0);
-      // console.log("CHECKING", sumQuantity);
-      // console.log("sumQuantity", sumQuantity);
       setCartCount(sumQuantity);
     };
     updateCartCount();
@@ -132,9 +128,7 @@ export default function Navbar () {
               alt="Account icon"
               className={styles.icon}
             />
-            <span>
-              Account
-            </span>
+            <span>Account</span>
           </div>
           <div className={styles.cart} onClick={()=> handleToggle()}>
             <Image
