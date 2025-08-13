@@ -1,7 +1,7 @@
-import styles from './notify.module.scss';
-import XIcon from './../../../public/x-icon.svg'
+import styles from './styles/notify.module.scss';
+import XIcon from '@public/x-icon.svg'
 import Image from 'next/image';
-import { useCart } from '../ClientLayout';
+import { useCart } from './ClientLayout';
 
 
 

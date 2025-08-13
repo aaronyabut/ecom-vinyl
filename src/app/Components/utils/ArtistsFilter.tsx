@@ -1,7 +1,7 @@
-import styles from '../page.module.scss'
+import styles from '@/app/page.module.scss'
 import Image from 'next/image';
 import { useState, useCallback } from 'react';
-import xIcon from '../../../public/x-icon.svg'
+import xIcon from '@public/x-icon.svg'
 import debounce from 'lodash/debounce';
 
 interface ArtistState {
@@ -21,7 +21,7 @@ interface ArtistsProps {
 }
 
 
-export default function Artists ({
+export default function ArtistsFilter ({
   toggleDropdown,
   isOpenArtist,
   setIsOpenArtist,

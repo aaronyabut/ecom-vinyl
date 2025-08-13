@@ -1,10 +1,10 @@
-import styles from './navfooter.module.scss'
+import styles from './styles/navfooter.module.scss'
 import Image from 'next/image'
-import XLogo from '../../../public/socials/x-logo.svg'
-import Facebook from '../../../public/socials/facebook-logo.svg'
-import Tiktok from '../../../public/socials/tiktok-logo.svg'
-import YouTube from '../../../public/socials/youtube-logo.svg'
-import Instagram from '../../../public/socials/instagram-logo.svg'
+import XLogo from '@public/socials/x-logo.svg'
+import Facebook from '@public/socials/facebook-logo.svg'
+import Tiktok from '@public/socials/tiktok-logo.svg'
+import YouTube from '@public/socials/youtube-logo.svg'
+import Instagram from '@public/socials/instagram-logo.svg'
 
 const pages:string[] = [
   'About Us',

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import styles from './page.module.scss';
-import ProductDetails from './ProductDetails';
+import ProductDetails from './Components/ProductDetails';
 import FAQ from './Components/FAQ';
 import Recommendations from './Components/Recommendations';
 import { Vinyl } from '../../page';

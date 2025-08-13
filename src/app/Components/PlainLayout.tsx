@@ -1,7 +1,6 @@
 'use client';
 
-import styles from './page.module.scss';
-
+import styles from '@/app/page.module.scss';
 
 export default function PlainLayout({
   children,

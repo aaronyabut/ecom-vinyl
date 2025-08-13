@@ -12,7 +12,7 @@ import {
   Countries_Regions, US_States,
   CA_Province, AU_States,
   stateUpdate, phoneNumberFormat
-} from './formTypes';
+} from './Components/formTypes';
 
 {/*
     *[DONE] Ensure shipping value updates cart subtotal of checkout page

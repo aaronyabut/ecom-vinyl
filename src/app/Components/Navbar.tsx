@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './navfooter.module.scss';
+import styles from './styles/navfooter.module.scss'
 import { useState, useEffect } from 'react';
-import Magnifier from '../../../public/magnifier.svg';
-import ArrowIcon from '../../../public/arrow-icon.svg';
-import { useCart } from '@/app/ClientLayout';
+import Magnifier from '@public/magnifier.svg';
+import ArrowIcon from '@public/arrow-icon.svg';
+import { useCart } from '@/app/Components/ClientLayout';
 import { useShoppingCart } from '@/app/ShoppingCart';
 
 

@@ -1,11 +1,11 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import Navbar from './Components/Navbar';
-import Footer from './Components/Footer';
-import Cart from './Components/Cart';
-import styles from './page.module.scss'
-import NotifyMe from './Components/NotifyMe';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import Cart from './Cart';
+import NotifyMe from './NotifyMe';
+import styles from '@/app/page.module.scss';
 
 // Define the context type
 interface CartContextType {

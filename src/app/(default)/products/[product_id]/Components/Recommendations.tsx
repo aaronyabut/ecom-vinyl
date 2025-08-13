@@ -8,7 +8,7 @@ import Link from 'next/link';
 import WishlistIcon from '@public/wishlist-heart.svg';
 import ArrowIcon from '@public/arrow-icon.svg';
 import { useShoppingCart } from '@/app/ShoppingCart';
-import { useCart } from '@/app/ClientLayout';
+import { useCart } from '@/app/Components/ClientLayout';
 
 const recommendationsHeader = "YOU'LL DIG THESE...";
 

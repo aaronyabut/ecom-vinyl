@@ -5,11 +5,11 @@ import styles from '../page.module.scss';
 import Image from 'next/image';
 import WishlistIcon from '../../../public/wishlist-heart.svg';
 import ArrowIcon from '../../../public/arrow-icon.svg'
-import DualRangeSlider from '../utils/DualRangeSlider';
-import Artists from '../filters/Artists';
+import DualRangeSlider from '@/app/Components/utils/DualRangeSlider';
+import ArtistsFilter from '@/app/Components/utils/ArtistsFilter';
 import Link from 'next/link';
 import { Vinyl } from '../(default)/page';
-import { useCart } from '@/app/ClientLayout';
+import { useCart } from '@/app/Components/ClientLayout';
 import { useShoppingCart } from '@/app/ShoppingCart';
 
 
@@ -455,7 +455,7 @@ export default function VinylFilter({ initialVinyls,initialMin,initialMax,initia
               );
             })}
           </div>
-          <Artists
+          <ArtistsFilter
             toggleDropdown={toggleDropdown}
             isOpenArtist={isOpenArtist}
             setIsOpenArtist={setIsOpenArtist}

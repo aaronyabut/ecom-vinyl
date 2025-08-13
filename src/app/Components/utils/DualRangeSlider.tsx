@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import styles from './DualRangeSlider.module.scss';
+import styles from '../styles/DualRangeSlider.module.scss';
 
 interface DualRangeSliderProps {
   setSelectedMin:React.Dispatch<React.SetStateAction<number>>,

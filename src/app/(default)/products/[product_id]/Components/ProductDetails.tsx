@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './page.module.scss';
+import styles from '../page.module.scss';
 import WishlistIcon from '@public/wishlist-heart.svg';
 import ShareIcon from '@public/share.svg';
 import { useState, useEffect } from 'react';
@@ -10,8 +10,8 @@ import ArrowIcon from '@public/arrow-icon.svg'
 import VerifiedIcon from '@public/product_page_svg/verified.svg'
 import LightningIcon from '@public/product_page_svg/lightning.svg'
 import SmileIcon from '@public/product_page_svg/smile.svg'
-import { Vinyl } from '../../page'
-import { useCart } from '@/app/ClientLayout';
+import { Vinyl } from '@/app/(default)/page'
+import { useCart } from '@/app/Components/ClientLayout';
 import { useShoppingCart } from '@/app/ShoppingCart';
 
 interface ProductDetailsProps {

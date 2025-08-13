@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import '../globals.scss';
-import PlainLayout from '../PlainLayout';
+import PlainLayout from '../Components/PlainLayout';
 
 
 export const metadata: Metadata = {

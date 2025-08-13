@@ -1,8 +1,6 @@
-// app/(default)/layout.tsx
 import type { Metadata } from 'next';
 import '../globals.scss';
-import ClientLayout from '../ClientLayout';
-
+import ClientLayout from '../Components/ClientLayout';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
